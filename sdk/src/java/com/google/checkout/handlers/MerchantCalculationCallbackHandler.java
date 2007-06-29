@@ -18,14 +18,12 @@ package com.google.checkout.handlers;
 
 import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantConstants;
-import com.google.checkout.handlers.AbstractNotificationProcessor;
 import com.google.checkout.merchantcalculation.AnonymousAddress;
 import com.google.checkout.merchantcalculation.CouponResult;
 import com.google.checkout.merchantcalculation.MerchantCalculationCallback;
-import com.google.checkout.merchantcalculation.MerchantCalculationCallbackProcessor;
-import com.google.checkout.merchantcalculation.MerchantCalculationCallbackProcessorImpl;
 import com.google.checkout.merchantcalculation.MerchantCalculationResults;
 import com.google.checkout.merchantcalculation.MerchantCodeString;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -43,9 +41,6 @@ public class MerchantCalculationCallbackHandler extends
       throws CheckoutException {
     
     try {
-      MerchantCalculationCallbackProcessor cp = 
-          new MerchantCalculationCallbackProcessorImpl(mc);
-      
       MerchantCalculationCallback callback = 
           new MerchantCalculationCallback(notificationMsg);
       
