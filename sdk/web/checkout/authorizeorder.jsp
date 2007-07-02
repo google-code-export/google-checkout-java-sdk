@@ -17,10 +17,9 @@
     
 <%@ page import="java.util.Date" %>
 <%@ page import="com.google.checkout.GoogleOrder" %>
-<%@ page import="com.google.checkout.MerchantConstants" %>
 <%@ page import="com.google.checkout.orderprocessing.AuthorizeOrderRequest" %>
 <%@ page import="com.google.checkout.CheckoutResponse" %>
-<%@ page import="com.google.checkout.MerchantConstantsFactory" %>
+<%@ page import="com.google.checkout.MerchantInfo" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
@@ -37,7 +36,7 @@
 <%
     String button = request.getParameter("button");
 
-    MerchantConstants mc = MerchantConstantsFactory.getMerchantConstants();
+    MerchantInfo mi = (MerchantInfo) getServletContext().getAttribute("merchant-info");
 
     AuthorizeOrderRequest authorizeRequest;
 	String orderNumber = request.getParameter("orderNumber") == null ? "" : request.getParameter("orderNumber");
@@ -46,13 +45,13 @@
 	String responseXml = null;
 	
   if (button == null || button.equals("")) {
-	  authorizeRequest = new AuthorizeOrderRequest(mc);
+	  authorizeRequest = new AuthorizeOrderRequest(mi);
 	  session.setAttribute("authorizeRequest", authorizeRequest);
 	  prettyXml = authorizeRequest.getXmlPretty();
 	  responseXml = "";
   }
   else if (button.equals("NewRequest")) {
-	  authorizeRequest = new AuthorizeOrderRequest(mc);
+	  authorizeRequest = new AuthorizeOrderRequest(mi);
 	  session.setAttribute("authorizeRequest", authorizeRequest);
 	  prettyXml = authorizeRequest.getXmlPretty();
 	  responseXml = "";
@@ -74,7 +73,7 @@
 	  prettyXml = authorizeRequest.getXmlPretty();
 	  responseXml = res.getXmlPretty();
 
-	  GoogleOrder order = GoogleOrder.findOrCreate(mc.getMerchantId(), orderNumber);
+	  GoogleOrder order = GoogleOrder.findOrCreate(mi.getMerchantId(), orderNumber);
 	  order.addOutgoingMessage(new Date(), "authorize-order", prettyXml, responseXml);  
   }
 %>
@@ -83,7 +82,7 @@
     <form action="authorizeorder.jsp" method="POST">
       <input type="hidden" name="button" value=""/>      
       <strong>MerchantId: </strong>    
-      <%=mc.getMerchantId()%>
+      <%=mi.getMerchantId()%>
       <br/>
       <br/>      
       <table>  

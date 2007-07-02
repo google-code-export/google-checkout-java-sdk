@@ -27,7 +27,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.google.checkout.AbstractCheckoutRequest;
-import com.google.checkout.MerchantConstants;
+import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.Constants;
 import com.google.checkout.util.Utils;
 
@@ -49,15 +49,15 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
   Element checkoutFlowSupport;
   
   /**
-   * Constructor which takes an instance of MerchantConstants.
+   * Constructor which takes an instance of mi.
    *
-   * @param merchantConstants The MerchantConstants.
+   * @param mi The mi.
    *
-   * @see MerchantConstants
+   * @see mi
    */
-  public CheckoutShoppingCartRequest(MerchantConstants merchantConstants) {
+  public CheckoutShoppingCartRequest(MerchantInfo mi) {
     
-    super(merchantConstants);
+    super(mi);
     document = Utils.newEmptyDocument();
     root = (Element) document.createElementNS(Constants.checkoutNamespace,
         "checkout-shopping-cart");
@@ -78,20 +78,20 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
   }
   
   /**
-   * Constructor which takes an instance of MerchantConstants and the cart
+   * Constructor which takes an instance of mi and the cart
    * expiration.
    *
-   * @param merchantConstants
-   *            The MerchantConstants.
+   * @param mi
+   *            The mi.
    * @param expirationMinutesFromNow
    *            The number of minutes before the cart should expire.
    *
-   * @see MerchantConstants
+   * @see mi
    */
-  public CheckoutShoppingCartRequest(MerchantConstants merchantConstants,
+  public CheckoutShoppingCartRequest(MerchantInfo mi,
       int expirationMinutesFromNow) {
     
-    this(merchantConstants);
+    this(mi);
     this.setExpirationMinutesFromNow(expirationMinutesFromNow);
   }
   
@@ -126,7 +126,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
     
     Element price = Utils.createNewElementAndSet(document, newShip,
         "price", cost);
-    price.setAttribute("currency", merchantConstants.getCurrencyCode());
+    price.setAttribute("currency", mi.getCurrencyCode());
     
     if (restrictions != null) {
       Utils.importElements(document, newShip,
@@ -282,7 +282,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
         description);
     Element ePrice = Utils.createNewElementAndSet(document, item,
         "unit-price", price);
-    ePrice.setAttribute("currency", merchantConstants.getCurrencyCode());
+    ePrice.setAttribute("currency", mi.getCurrencyCode());
     Utils.createNewElementAndSet(document, item, "quantity", quantity);
     if (merchantItemID != null) {
       Utils.createNewElementAndSet(document, item, "merchant-item-id",
@@ -352,7 +352,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
     
     Element price = Utils.createNewElementAndSet(document, newShip,
         "price", defaultCost);
-    price.setAttribute("currency", merchantConstants.getCurrencyCode());
+    price.setAttribute("currency", mi.getCurrencyCode());
     
     if (restrictions != null) {
       Utils.importElements(document, newShip,
@@ -383,7 +383,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
     
     Element price = Utils.createNewElementAndSet(document, newShip,
         "price", cost);
-    price.setAttribute("currency", merchantConstants.getCurrencyCode());
+    price.setAttribute("currency", mi.getCurrencyCode());
   }
   
   /**
@@ -1063,7 +1063,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
          * @see com.google.checkout.CheckoutRequest#getPostUrl()
          */
   public String getPostUrl() {
-    return merchantConstants.getMerchantCheckoutUrl();
+    return mi.getMerchantCheckoutUrl();
   }
   
   /**

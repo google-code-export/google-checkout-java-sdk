@@ -15,9 +15,9 @@
  ******************************************************************************/
 
 package com.google.checkout.web;
+import com.google.checkout.EnvironmentType;
 import com.google.checkout.handlers.MessageHandler;
-import com.google.checkout.MerchantConstants;
-import com.google.checkout.MerchantConstantsFactory;
+import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.Utils;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -42,47 +42,62 @@ import org.w3c.dom.NodeList;
  */
 public class CheckoutMessageHandlerServlet extends javax.servlet.http.HttpServlet {
   
-    private static final String DEFAULT_HANDLER_TYPE = "notification-handler";
-    
+  private static final String DEFAULT_HANDLER_TYPE = "notification-handler";
+  
   /** Overrides servlet method to load notification processor configuration from web.xml */
   public void init(ServletConfig config) throws ServletException {
+    String handlerType = config.getInitParameter("handler-type");
+    if (handlerType == null) {
+      handlerType = DEFAULT_HANDLER_TYPE;
+    }
+
     ServletContext context = config.getServletContext();
     String fileName = context.getInitParameter("checkout-config-file");
     InputStream is = context.getResourceAsStream(fileName);
-    String handlerType = config.getInitParameter("handler-type");
-    if (handlerType == null) {
-        handlerType = DEFAULT_HANDLER_TYPE;
-    }
     if (is == null) { // try default path
       fileName = "/WEB-INF/checkout-config.xml";
       is = context.getResourceAsStream(fileName);
     }
-    if (is != null) {
-      readAndConfigure(is, handlerType);
+    if (is == null) {
+      throw new IllegalArgumentException("web.xml must have <checkout-config-file> init parameter!");
     }
+    Document doc = Utils.newDocumentFromInputStream(is);
+    readAndConfigureHandlers(doc, handlerType);
+  }
+  
+  private InputStream getCheckoutConfigFileAsStream(ServletContext context) {
+    String fileName = context.getInitParameter("checkout-config-file");
+    InputStream is = context.getResourceAsStream(fileName);
+    if (is == null) { // try default path
+      fileName = "/WEB-INF/checkout-config.xml";
+      is = context.getResourceAsStream(fileName);
+    }
+    if (is == null) {
+      throw new IllegalArgumentException("web.xml must have <checkout-config-file> init parameter!");
+    }
+    return is;
   }
   
   public void doGet(HttpServletRequest request, HttpServletResponse response)
   throws ServletException, IOException {
-    response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED, 
+    response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED,
         "This REST Web service accepts request only through the HTTP POST method. Your request was denied because it was sent through HTTP GET!");
   }
   
   public void doPost(HttpServletRequest request, HttpServletResponse response)
   throws ServletException, IOException {
     
-    MerchantConstants mc = MerchantConstantsFactory.getMerchantConstants();
-    
     try {
       String auth = request.getHeader("Authorization");
-      if (auth == null || !auth.equals("Basic " + mc.getHttpAuth())) {
+      MerchantInfo mi = (MerchantInfo) getServletContext().getAttribute(KeyConstants.MERCHANT_INFO_KEY);
+      if (auth == null || !auth.equals("Basic " + mi.getHttpAuth())) {
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
             "Authentication Failed.");
         return;
       }
       
       String notification = getNotificationBody(request.getInputStream());
-      String ret = dispatch(notification);
+      String ret = dispatch(mi, notification);
       
       PrintWriter out = response.getWriter();
       out.print(ret);
@@ -96,11 +111,10 @@ public class CheckoutMessageHandlerServlet extends javax.servlet.http.HttpServle
   
   
   /** Overrides base class method to load the configuration from web.xml deployment descriptor */
-  protected String dispatch(String message) throws Exception {
+  protected String dispatch(MerchantInfo mi, String message) throws Exception {
     MessageHandler mh = getMessageHandler(message);
     if (mh != null) {
-      return mh.process(MerchantConstantsFactory.getMerchantConstants(),
-          message);
+      return mh.process(mi, message);
     }
     return null;
   }
@@ -114,8 +128,7 @@ public class CheckoutMessageHandlerServlet extends javax.servlet.http.HttpServle
     }
     return null;
   }
-  private void readAndConfigure(InputStream is, String handlerType) {
-    Document doc = Utils.newDocumentFromInputStream(is);
+  private void readAndConfigureHandlers(Document doc, String handlerType) {
     NodeList elements = doc.getElementsByTagName(handlerType);
     for (int i = 0; i < elements.getLength(); ++i) {
       try {
@@ -138,6 +151,7 @@ public class CheckoutMessageHandlerServlet extends javax.servlet.http.HttpServle
       }
     }
   }
+  
   private String getNotificationBody(InputStream inputStream)
   throws IOException {
     

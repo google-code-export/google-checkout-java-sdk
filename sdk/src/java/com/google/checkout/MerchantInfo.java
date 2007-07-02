@@ -15,91 +15,83 @@
  ******************************************************************************/
 package com.google.checkout;
 
-import com.google.checkout.MerchantConstantsFactory;
-import com.google.checkout.MerchantConstants;
+import com.google.checkout.util.Base64Coder;
+
 /**
+ * This class encapsulates the various merchant specific settings. An instance
+ * of this class will be required by most of the other classes in order to
+ * properly parameterise the API requests.
  *
+ * @author simonjsmith
  * @author inder
  */
-public class MerchantInfo {
+public class MerchantInfo implements java.io.Serializable {
   
-  /** Creates a new instance of MerchantInfo */
-  public MerchantInfo() {
-    this(MerchantConstantsFactory.getMerchantConstants());
-  }
+  private final String merchantId;
   
-  private MerchantInfo(MerchantConstants mc) {
-    this.mc = mc;
+  private final String merchantKey;
+  
+  private final String env;
+  
+  private final String currencyCode;
+  
+  private final String checkoutUrl;
+  
+  private final String merchantCheckoutUrl;
+  
+  private final String requestUrl;
+  
+   /*
+    * @param merchantId The Merchant Id.
+    * @param merchantKey The Merchant Key.
+    * @param env The Environment Type.
+    * @param currencyCode The Currency Code.
+    * @param checkoutUrl The Checkout Url
+    * @param merchantCheckoutUrl The Merchant Checkout Url
+    * @param requestUrl The Request Url
+    */
+  public MerchantInfo(String merchantId, String merchantKey, String env,
+      String currencyCode, String checkoutUrl,
+      String merchantCheckoutUrl, String requestUrl) {
+    this.merchantId = merchantId;
+    this.merchantKey = merchantKey;
+    this.env = env;
+    this.currencyCode = currencyCode;
+    this.checkoutUrl = checkoutUrl;
+    this.merchantCheckoutUrl = merchantCheckoutUrl;
+    this.requestUrl = requestUrl;
   }
   
   public String getCurrencyCode() {
-    return mc.getCurrencyCode();
+    return currencyCode;
   }
   
-  /**
-   * Return the Environment Type value.
-   *
-   * @return The Environment Type.
-   *
-   * @see EnvironmentType
-   */
   public String getEnv() {
-    return mc.getEnv();
+    return env;
   }
   
-  /**
-   * Return the Merchant Id.
-   *
-   * @return The Merchant Id.
-   */
   public String getMerchantId() {
-    return mc.getMerchantId();
+    return merchantId;
   }
   
-  /**
-   * Return the Merchant Key.
-   *
-   * @return The Merchant Key.
-   */
   public String getMerchantKey() {
-    return mc.getMerchantKey();
+    return merchantKey;
   }
   
-  /**
-   * Return the Checkout URL.
-   *
-   * @return The Checkout URL.
-   */
   public String getCheckoutUrl() {
-    return mc.getCheckoutUrl();
+    return checkoutUrl;
   }
   
-  /**
-   * Return the Request URL.
-   *
-   * @return The Request URL.
-   */
   public String getRequestUrl() {
-    return mc.getRequestUrl();
+    return requestUrl;
   }
   
-  /**
-   * Return the HTTP Auth value.
-   *
-   * @return The HTTP Auth value.
-   */
   public String getHttpAuth() {
-    return mc.getHttpAuth();
+    return Base64Coder.encode(new StringBuffer(getMerchantId()).append(":")
+        .append(getMerchantKey()).toString());
   }
   
-  /**
-   * Return the Merchant Checkout URL.
-   *
-   * @return The Checkout URL.
-   */
   public String getMerchantCheckoutUrl() {
-    return mc.getMerchantCheckoutUrl();
+    return merchantCheckoutUrl;
   }
-  
-  private MerchantConstants mc;
 }
