@@ -1,33 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="sdk" default="default" basedir=".">
-	<description>Builds, tests, and runs the project sdk.</description>
-	<import file="nbproject/build-impl.xml" />
-
-	<property name="release.version" value="0.6" />
-
-	<target name="dist" depends="init">
-		<property name="sdkdist.dir" value="${build.dir}/checkout-sdk-${release.version}" />
-		<mkdir dir="${sdkdist.dir}" />
-		<copy file="${dist.dir}/checkout-sdk.jar" todir="${sdkdist.dir}" />
-		<mkdir dir="${sdkdist.dir}/lib" />
-		<copy file="lib/com_google_checkout_example_settings.properties" todir="${sdkdist.dir}/lib" />
-		<copy file="lib/index.html" todir="${sdkdist.dir}" />
-		<copy todir="${sdkdist.dir}/docs/javadocs">
-			<fileset dir="${build.dir}/javadocs" />
-		</copy>
-		<copy todir="${sdkdist.dir}/src">
-			<fileset dir=".">
-				<include name="src/**" />
-				<include name=".settings" />
-				<include name=".project" />
-				<include name=".classpath" />
-				<include name="nbproject" />
-				<exclude name="**/build/**" />
-				<exclude name="**/dist/**" />
-				<exclude name="**/nbproject/private/**" />
-				<exclude name="**/nbproject/genfiles.properties" />
-			</fileset>
-		</copy>
-		<zip zipfile="${dist.dir}/checkout-sdk-${release.version}.zip" basedir="${sdkdist.dir}" />
-	</target>
+  <description>Builds, tests, and runs the project sdk.</description>
+  <import file="nbproject/build-impl.xml" />
+  
+  <property name="release.version" value="0.6" />
+  
+  <target name="zip" depends="init,dist,javadoc">
+    <property name="zipdist.dir" value="${build.dir}/tmpdist" />
+    <property name="sdkdist.dir" value="${zipdist.dir}/checkout-sdk-${release.version}" />
+    <mkdir dir="${sdkdist.dir}" />
+    <jar basedir="${build.classes.dir}" zipfile="${sdkdist.dir}/checkout-sdk.jar"/>
+    <mkdir dir="${sdkdist.dir}/lib" />
+    <copy file="src/java/com_google_checkout_example_settings.properties" todir="${sdkdist.dir}/lib" />
+    <copy file="docs/index.html" todir="${sdkdist.dir}" />
+    <copy todir="${sdkdist.dir}">
+      <fileset dir=".">
+        <include name="web/**"/>
+      </fileset>      
+    </copy>
+    <copy todir="${sdkdist.dir}/docs/javadoc">
+      <fileset dir="${dist.dir}/javadoc" />
+    </copy>
+    <copy todir="${sdkdist.dir}/project">
+      <fileset dir=".">
+        <include name="src/**" />
+        <include name=".settings" />
+        <include name=".project" />
+        <include name=".classpath" />
+        <include name="nbproject" />
+        <exclude name="**/build/**" />
+        <exclude name="**/dist/**" />
+        <exclude name="**/nbproject/private/**" />
+        <exclude name="**/nbproject/genfiles.properties" />
+      </fileset>
+    </copy>
+    <zip zipfile="${dist.dir}/checkout-sdk-${release.version}.zip" basedir="${zipdist.dir}" />
+  </target>
 </project>
