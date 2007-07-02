@@ -5,15 +5,16 @@ import junit.framework.TestCase;
 public class StringUtilTest extends TestCase {
 
   public void testReplaceMultipleStringsStringString() {
-    fail("Not yet implemented");
+    assertEquals("abcdef", StringUtil.replaceMultipleStrings("abc{0}", "def"));
   }
 
   public void testReplaceMultipleStringsStringStringString() {
-    fail("Not yet implemented");
+    assertEquals("abcdefghi", StringUtil.replaceMultipleStrings("abc{0}{1}", "def", "ghi"));
   }
 
   public void testReplaceMultipleStringsStringStringArray() {
-    fail("Not yet implemented");
+    String[] replaceStr = {"def", "ghi"};
+    assertEquals("abcdefghi", StringUtil.replaceMultipleStrings("abc{0}{1}", replaceStr));
   }
 
   public void testReplaceXMLReservedChars() {
