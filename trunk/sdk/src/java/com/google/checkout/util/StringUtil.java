@@ -60,7 +60,7 @@ public final class StringUtil {
       Matcher matcher = pattern.matcher(output);
       output = matcher.replaceAll(replaceStr);
     }
-    System.out.println(output);
+    //System.out.println(output);
 
     return output;
   }

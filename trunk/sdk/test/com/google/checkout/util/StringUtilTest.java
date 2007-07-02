@@ -23,7 +23,6 @@ public class StringUtilTest extends TestCase {
   }
 
   public void testRemoveChar() {
-    fail("Not yet implemented");
+    assertEquals("abdef", StringUtil.removeChar("abcdef", 'c'));
   }
-
 }
