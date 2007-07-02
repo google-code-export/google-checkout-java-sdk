@@ -17,7 +17,7 @@
 package com.google.checkout.handlers;
 
 import com.google.checkout.CheckoutException;
-import com.google.checkout.MerchantConstants;
+import com.google.checkout.MerchantInfo;
 import com.google.checkout.merchantcalculation.AnonymousAddress;
 import com.google.checkout.merchantcalculation.CouponResult;
 import com.google.checkout.merchantcalculation.MerchantCalculationCallback;
@@ -37,7 +37,7 @@ import java.util.Iterator;
 public class MerchantCalculationCallbackHandler extends
     AbstractNotificationProcessor implements MessageHandler {
   
-  public String process(MerchantConstants mc, String notificationMsg)
+  public String process(MerchantInfo mi, String notificationMsg)
       throws CheckoutException {
     
     try {
@@ -65,13 +65,13 @@ public class MerchantCalculationCallbackHandler extends
           while (merchantCodes.hasNext()) {
             code = (MerchantCodeString) merchantCodes.next();
             CouponResult coupon = new CouponResult(false, 0.0f,
-                mc.getCurrencyCode(),
+                mi.getCurrencyCode(),
                 code.getCode(), "Not supported in this example.");
             codeResults.add(coupon);
           }
           
           results.addResult(shipping, address.getId(), true, 0.0d, 0.0d,
-              mc.getCurrencyCode(), codeResults);
+              mi.getCurrencyCode(), codeResults);
         }
       }
       return results.getXml();

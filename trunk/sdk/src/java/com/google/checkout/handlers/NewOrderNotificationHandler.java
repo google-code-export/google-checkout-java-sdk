@@ -17,9 +17,8 @@
 package com.google.checkout.handlers;
 
 import com.google.checkout.CheckoutException;
-import com.google.checkout.MerchantConstants;
 import com.google.checkout.GoogleOrder;
-import com.google.checkout.handlers.AbstractNotificationProcessor;
+import com.google.checkout.MerchantInfo;
 import com.google.checkout.notification.NewOrderNotification;
 
 /**
@@ -31,13 +30,13 @@ import com.google.checkout.notification.NewOrderNotification;
 public class NewOrderNotificationHandler extends
     AbstractNotificationProcessor implements MessageHandler {
   
-  public String process(MerchantConstants mc, String notificationMsg)
+  public String process(MerchantInfo mi, String notificationMsg)
   throws CheckoutException {
     try {
       NewOrderNotification notification =
           new NewOrderNotification(notificationMsg);
       String ack = getAckString();
-      GoogleOrder order = GoogleOrder.findOrCreate(mc.getMerchantId(),
+      GoogleOrder order = GoogleOrder.findOrCreate(mi.getMerchantId(),
           notification.getGoogleOrderNo());
       
       order.setLastFulStatus(notification.getFulfillmentOrderState()

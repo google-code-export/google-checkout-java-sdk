@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (C) 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -14,15 +14,13 @@
  * the License.
  ******************************************************************************/
 
-package com.google.checkout.handlers;
-
-import com.google.checkout.CheckoutException;
-import com.google.checkout.MerchantInfo;
+package com.google.checkout.web;
 
 /**
- *
- * @author Inderjeet Singh (inder@google.com)
+ * Various constants used for keys for session, request and context attributes
+ * @author inder
  */
-public interface MessageHandler {
-  public String process(MerchantInfo mi, String message) throws CheckoutException;  
+public interface KeyConstants {
+
+  public static final String MERCHANT_INFO_KEY = "merchant-info";
 }

@@ -38,6 +38,7 @@
       <param-name>handler-type</param-name>
       <param-value>notification-handler</param-value>
     </init-param>
+    <load-on-startup>0</load-on-startup>
   </servlet>
 
   <servlet>
@@ -53,6 +54,7 @@
       <param-name>handler-type</param-name>
       <param-value>callback-handler</param-value>
     </init-param>
+    <load-on-startup>0</load-on-startup>
   </servlet>
 
   <servlet-mapping>
@@ -72,6 +74,12 @@
     <param-value>/WEB-INF/checkout-config.xml</param-value>
   </context-param>
 
+  <listener>
+    <description>
+      Servlet context listener that configures some needed context attributes
+    </description>
+    <listener-class>com.google.checkout.web.ConfigurationListener</listener-class>
+  </listener>
   <!-- End: Configuration for Google checkout message processing -->
 
 </web-app>
