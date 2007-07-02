@@ -1,6 +1,6 @@
-#Fri Jun 29 10:28:50 GMT-08:00 2007
+#Mon Jul 02 11:13:34 GMT-08:00 2007
 eclipse.preferences.version=1
-formatter_profile=_Google Format
+formatter_profile=_Checkout SDK Format
 formatter_settings_version=11
 instance/org.eclipse.core.net/org.eclipse.core.net.hasMigrated=true
 org.eclipse.jdt.ui.ignorelowercasenames=true
