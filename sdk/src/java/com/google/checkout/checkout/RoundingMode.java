@@ -62,8 +62,8 @@ public class RoundingMode {
   /**
    * An instance of the RoundingMode class with mode: UNNECESSARY.
    */
-  public static final RoundingMode UNNECESSARY = new RoundingMode(
-      "UNNECESSARY");
+  public static final RoundingMode UNNECESSARY = 
+    new RoundingMode("UNNECESSARY");
   
   private String value;
   

@@ -24,23 +24,23 @@ package com.google.checkout.checkout;
  */
 public class RoundingRule {
 
-	/**
-	 * An instance of the RoundingMode class with rule: PER_LINE.
-	 */
-	public static final RoundingRule PER_LINE = new RoundingRule("PER_LINE");
+  /**
+   * An instance of the RoundingMode class with rule: PER_LINE.
+   */
+  public static final RoundingRule PER_LINE = new RoundingRule("PER_LINE");
 
-	/**
-	 * An instance of the RoundingMode class with rule: TOTAL.
-	 */
-	public static final RoundingRule TOTAL = new RoundingRule("TOTAL");
+  /**
+   * An instance of the RoundingMode class with rule: TOTAL.
+   */
+  public static final RoundingRule TOTAL = new RoundingRule("TOTAL");
 
-	private String value;
+  private String value;
 
-	private RoundingRule(String value) {
-		this.value = value;
-	}
+  private RoundingRule(String value) {
+    this.value = value;
+  }
 
-	public String toString() {
-		return value;
-	}
+  public String toString() {
+    return value;
+  }
 }

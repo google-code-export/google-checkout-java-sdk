@@ -25,7 +25,7 @@ import com.google.checkout.notification.RefundAmountNotification;
  * TODO
  *
  * @author simonjsmith
- * @author Inderjeet Singh (inder@google.com)
+ * @author inder
  */
 public class RefundAmountNotificationHandler extends
     AbstractNotificationProcessor implements
