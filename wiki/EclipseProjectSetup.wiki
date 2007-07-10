@@ -19,5 +19,8 @@ First download and install Eclipse Europa Java EE Developer edition. Then start 
   # For Url, use https://google-checkout-java-sdk.googlecode.com/svn/trunk/, and press "Finish"
   # Use your gmail user-name, and googlecode.com password. Note that the googlecode.com password is different from your gmail password and is auto-generated. You can view your googlecode.com password at: http://code.google.com/p/google-checkout-java-sdk/source
   # Navigate down in the tree rooted at https://google-checkout-java-sdk.googlecode.com/svn/trunk/. Right click on sdk, and select "Checkout...". Accept default values. 
+  # Download and install Tomcat 6.0
   # Switch to "Java EE" or "Java" perspectives to start development on this project. 
+  # Right-click on the root node, google-checkout-java-sdk, and select properties. 
+  # Select "Targeted Runtimes" and create a new runtime for Apache | Apache Tomcat 6.0. 
   # Congratulations, you now have the Checkout SDK project setup with Eclipse. 
