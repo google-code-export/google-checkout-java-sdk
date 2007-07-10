@@ -29,44 +29,43 @@ import com.google.checkout.util.Utils;
  */
 public abstract class MerchantCodes {
 
-	protected Document document;
+  protected Document document;
 
-	protected Element element;
+  protected Element element;
 
-	/**
-	 * Retrieves the value of the &lt;applied-amount&gt; element.
-	 * 
-	 * @return The applied amount.
-	 */
-	public float getAppliedAmount() {
-		return Utils.getElementFloatValue(document, element, "applied-amount");
-	}
+  /**
+   * Retrieves the value of the &lt;applied-amount&gt; element.
+   * 
+   * @return The applied amount.
+   */
+  public float getAppliedAmount() {
+    return Utils.getElementFloatValue(document, element, "applied-amount");
+  }
 
-	/**
-	 * Retrieves the value of the &lt;calculated-amount&gt; element.
-	 * 
-	 * @return The calculated amount.
-	 */
-	public float getCalculatedAmount() {
-		return Utils.getElementFloatValue(document, element,
-				"calculated-amount");
-	}
+  /**
+   * Retrieves the value of the &lt;calculated-amount&gt; element.
+   * 
+   * @return The calculated amount.
+   */
+  public float getCalculatedAmount() {
+    return Utils.getElementFloatValue(document, element, "calculated-amount");
+  }
 
-	/**
-	 * Retrieves the value of the &lt;code&gt; element.
-	 * 
-	 * @return The code.
-	 */
-	public String getCode() {
-		return Utils.getElementStringValue(document, element, "code");
-	}
+  /**
+   * Retrieves the value of the &lt;code&gt; element.
+   * 
+   * @return The code.
+   */
+  public String getCode() {
+    return Utils.getElementStringValue(document, element, "code");
+  }
 
-	/**
-	 * Retrieves the value of the &lt;message&gt; element.
-	 * 
-	 * @return The message.
-	 */
-	public String getMessage() {
-		return Utils.getElementStringValue(document, element, "message");
-	}
+  /**
+   * Retrieves the value of the &lt;message&gt; element.
+   * 
+   * @return The message.
+   */
+  public String getMessage() {
+    return Utils.getElementStringValue(document, element, "message");
+  }
 }

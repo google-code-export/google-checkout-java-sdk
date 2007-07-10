@@ -30,9 +30,9 @@ import com.google.checkout.util.Utils;
  */
 public class SendBuyerMessageRequest extends AbstractCheckoutRequest {
 
-  private Document document;
+  private final Document document;
 
-  private Element root;
+  private final Element root;
 
   public SendBuyerMessageRequest(MerchantInfo mi) {
     super(mi);

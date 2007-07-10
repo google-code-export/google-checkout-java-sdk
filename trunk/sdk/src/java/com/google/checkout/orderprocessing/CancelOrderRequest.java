@@ -28,16 +28,16 @@ import com.google.checkout.util.Utils;
  * This class contains methods that construct &lt;cancel-order&gt; API requests.
  */
 public class CancelOrderRequest extends AbstractCheckoutRequest {
-  private Document document;
+  private final Document document;
 
-  private Element root;
+  private final Element root;
 
   public CancelOrderRequest(MerchantInfo mi) {
     super(mi);
 
     document = Utils.newEmptyDocument();
-    root = document.createElementNS(Constants.checkoutNamespace,
-        "cancel-order");
+    root =
+        document.createElementNS(Constants.checkoutNamespace, "cancel-order");
     root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
         Constants.checkoutNamespace);
     document.appendChild(root);
@@ -50,7 +50,8 @@ public class CancelOrderRequest extends AbstractCheckoutRequest {
    * @param googleOrderNo The Google Order Number.
    * @param reason The Reason String.
    */
-  public CancelOrderRequest(MerchantInfo mi, String googleOrderNo, String reason) {
+  public CancelOrderRequest(MerchantInfo mi, String googleOrderNo, 
+      String reason) {
     this(mi);
     this.setGoogleOrderNo(googleOrderNo);
     this.setReason(reason);
@@ -106,7 +107,6 @@ public class CancelOrderRequest extends AbstractCheckoutRequest {
    * @see com.google.checkout.CheckoutRequest#getXmlPretty()
    */
   public String getXmlPretty() {
-
     return Utils.documentToStringPretty(document);
   }
 
@@ -126,7 +126,6 @@ public class CancelOrderRequest extends AbstractCheckoutRequest {
    * @return The cancel order comment String.
    */
   public String getComment() {
-
     return Utils.getElementStringValue(document, root, "comment");
   }
 
@@ -137,7 +136,6 @@ public class CancelOrderRequest extends AbstractCheckoutRequest {
    * @return The Google Order Number.
    */
   public String getGoogleOrderNo() {
-
     return root.getAttribute("google-order-number");
   }
 
@@ -148,7 +146,6 @@ public class CancelOrderRequest extends AbstractCheckoutRequest {
    * @return The cancel order reason String.
    */
   public String getReason() {
-
     return Utils.getElementStringValue(document, root, "reason");
   }
 
@@ -159,7 +156,6 @@ public class CancelOrderRequest extends AbstractCheckoutRequest {
    * @param comment The cancel order comment String.
    */
   public void setComment(String comment) {
-
     if (!isWithinCancelStringLimits("", comment)) {
       comment = "";
       System.err.println(Constants.cancelErrorString);
@@ -175,7 +171,6 @@ public class CancelOrderRequest extends AbstractCheckoutRequest {
    * @param googleOrderNo The Google Order Number.
    */
   public void setGoogleOrderNo(String googleOrderNo) {
-
     root.setAttribute("google-order-number", googleOrderNo);
   }
 
@@ -186,7 +181,6 @@ public class CancelOrderRequest extends AbstractCheckoutRequest {
    * @param reason The cancel order reason String.
    */
   public void setReason(String reason) {
-
     if (!isWithinCancelStringLimits(reason, "")) {
       reason = "";
       System.err.println(Constants.cancelErrorString);

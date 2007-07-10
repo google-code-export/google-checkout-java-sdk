@@ -30,16 +30,16 @@ import com.google.checkout.util.Utils;
  */
 public class DeliverOrderRequest extends AbstractCheckoutRequest {
 
-  private Document document;
+  private final Document document;
 
-  private Element root;
+  private final Element root;
 
   public DeliverOrderRequest(MerchantInfo mi) {
     super(mi);
 
     document = Utils.newEmptyDocument();
-    root = document.createElementNS(Constants.checkoutNamespace,
-        "deliver-order");
+    root =
+        document.createElementNS(Constants.checkoutNamespace, "deliver-order");
     root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
         Constants.checkoutNamespace);
     document.appendChild(root);
@@ -93,8 +93,8 @@ public class DeliverOrderRequest extends AbstractCheckoutRequest {
    * @return The carrier String.
    */
   public String getCarrier() {
-    Element trackingDataTag = Utils.findContainerElseCreate(document, root,
-        "tracking-data");
+    Element trackingDataTag =
+        Utils.findContainerElseCreate(document, root, "tracking-data");
     return Utils.getElementStringValue(document, trackingDataTag, "carrier");
   }
 
@@ -105,7 +105,6 @@ public class DeliverOrderRequest extends AbstractCheckoutRequest {
    * @return The Google Order Number.
    */
   public String getGoogleOrderNo() {
-
     return root.getAttribute("google-order-number");
   }
 
@@ -116,8 +115,8 @@ public class DeliverOrderRequest extends AbstractCheckoutRequest {
    * @return The tracking number.
    */
   public String getTrackingNo() {
-    Element trackingDataTag = Utils.findContainerElseCreate(document, root,
-        "tracking-data");
+    Element trackingDataTag =
+        Utils.findContainerElseCreate(document, root, "tracking-data");
     return Utils.getElementStringValue(document, trackingDataTag,
         "tracking-number");
   }
@@ -139,8 +138,8 @@ public class DeliverOrderRequest extends AbstractCheckoutRequest {
    */
   public void setCarrier(String carrier) {
 
-    Element trackingDataTag = Utils.findContainerElseCreate(document, root,
-        "tracking-data");
+    Element trackingDataTag =
+        Utils.findContainerElseCreate(document, root, "tracking-data");
     Utils.findElementAndSetElseCreateAndSet(document, trackingDataTag,
         "carrier", carrier);
   }
@@ -176,8 +175,8 @@ public class DeliverOrderRequest extends AbstractCheckoutRequest {
    */
   public void setTrackingNo(String trackingNo) {
 
-    Element trackingDataTag = Utils.findContainerElseCreate(document, root,
-        "tracking-data");
+    Element trackingDataTag =
+        Utils.findContainerElseCreate(document, root, "tracking-data");
     Utils.findElementAndSetElseCreateAndSet(document, trackingDataTag,
         "tracking-number", trackingNo);
   }

@@ -21,31 +21,30 @@ package com.google.checkout.util;
  * @version 1.0
  */
 public abstract class Tuple {
-	private Object firstElement;
+  private Object firstElement;
 
-	private Object secondElement;
+  private Object secondElement;
 
-	Tuple(Object fElement, Object sElement) {
-		firstElement = fElement;
-		secondElement = sElement;
-	}
+  Tuple(Object fElement, Object sElement) {
+    firstElement = fElement;
+    secondElement = sElement;
+  }
 
-	public Object getFirstElement() {
-		return firstElement;
-	}
+  public Object getFirstElement() {
+    return firstElement;
+  }
 
-	public Object getSecondElement() {
-		return secondElement;
-	}
+  public Object getSecondElement() {
+    return secondElement;
+  }
 
-	public void setFirstElement(Object fElement) {
-		firstElement = fElement;
-		return;
-	}
+  public void setFirstElement(Object fElement) {
+    firstElement = fElement;
+    return;
+  }
 
-	public void setSecondElement(Object sElement) {
-		secondElement = sElement;
-		return;
-	}
-
+  public void setSecondElement(Object sElement) {
+    secondElement = sElement;
+    return;
+  }
 }

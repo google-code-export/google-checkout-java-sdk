@@ -30,73 +30,72 @@ import com.google.checkout.util.Utils;
  */
 public class AuthorizationAmountNotification extends CheckoutNotification {
 
-	/**
-	 * A constructor which takes the request as a String.
-	 * 
-	 * @param requestString
-	 */
-	public AuthorizationAmountNotification(String requestString) {
-		document = Utils.newDocumentFromString(requestString);
-		root = document.getDocumentElement();
-	}
+  /**
+   * A constructor which takes the request as a String.
+   * 
+   * @param requestString
+   */
+  public AuthorizationAmountNotification(String requestString) {
+    document = Utils.newDocumentFromString(requestString);
+    root = document.getDocumentElement();
+  }
 
-	/**
-	 * A constructor which takes the request as an InputStream.
-	 * 
-	 * @param inputStream
-	 */
-	public AuthorizationAmountNotification(InputStream inputStream) {
-		document = Utils.newDocumentFromInputStream(inputStream);
-		root = document.getDocumentElement();
-	}
+  /**
+   * A constructor which takes the request as an InputStream.
+   * 
+   * @param inputStream
+   */
+  public AuthorizationAmountNotification(InputStream inputStream) {
+    document = Utils.newDocumentFromInputStream(inputStream);
+    root = document.getDocumentElement();
+  }
 
-	/**
-	 * Retrieves the value of the &lt;avs-response&gt; tag.
-	 * 
-	 * @return The AVS response code.
-	 */
-	public String getAvsResponse() {
-		return Utils.getElementStringValue(document, root, "avs-response");
-	}
+  /**
+   * Retrieves the value of the &lt;avs-response&gt; tag.
+   * 
+   * @return The AVS response code.
+   */
+  public String getAvsResponse() {
+    return Utils.getElementStringValue(document, root, "avs-response");
+  }
 
-	/**
-	 * Retrieves the value of the &lt;cvn-response&gt; tag.
-	 * 
-	 * @return The CVN response code.
-	 */
-	public String getCvnResponse() {
-		return Utils.getElementStringValue(document, root, "cvn-response");
-	}
+  /**
+   * Retrieves the value of the &lt;cvn-response&gt; tag.
+   * 
+   * @return The CVN response code.
+   */
+  public String getCvnResponse() {
+    return Utils.getElementStringValue(document, root, "cvn-response");
+  }
 
-	/**
-	 * Retrieves the value of the &lt;authorization-amount&gt; tag.
-	 * 
-	 * @return The authorization amount.
-	 */
-	public float getAuthorizationAmount() {
-		return Utils.getElementFloatValue(document, root,
-				"authorization-amount");
-	}
+  /**
+   * Retrieves the value of the &lt;authorization-amount&gt; tag.
+   * 
+   * @return The authorization amount.
+   */
+  public float getAuthorizationAmount() {
+    return Utils.getElementFloatValue(document, root, "authorization-amount");
+  }
 
-	/**
-	 * Retrieves the currency code.
-	 * 
-	 * @return The currency code.
-	 */
-	public String getCurrentyCode() {
-		return Utils.findElementOrContainer(document, root,
-				"authorization-amount").getAttribute("currency");
-	}
+  /**
+   * Retrieves the currency code.
+   * 
+   * @return The currency code.
+   */
+  public String getCurrentyCode() {
+    return Utils.findElementOrContainer(document, root, "authorization-amount")
+        .getAttribute("currency");
+  }
 
-	/**
-	 * Retrieves the value of the &lt;authorization-expiration-date&gt; tag.
-	 * 
-	 * @return The authorization expiration date.
-	 */
-	public Date getAuthorizationExpirationDate() {
+  /**
+   * Retrieves the value of the &lt;authorization-expiration-date&gt; tag.
+   * 
+   * @return The authorization expiration date.
+   */
+  public Date getAuthorizationExpirationDate() {
 
-		return Utils.getElementDateValue(document, root,
-				"authorization-expiration-date");
-	}
+    return Utils.getElementDateValue(document, root,
+        "authorization-expiration-date");
+  }
 
 }

@@ -30,15 +30,15 @@ import com.google.checkout.util.Utils;
  */
 public class ProcessOrderRequest extends AbstractCheckoutRequest {
 
-  private Document document;
+  private final Document document;
 
-  private Element root;
+  private final Element root;
 
   public ProcessOrderRequest(MerchantInfo mi) {
     super(mi);
     document = Utils.newEmptyDocument();
-    root = document.createElementNS(Constants.checkoutNamespace,
-        "process-order");
+    root = 
+      document.createElementNS(Constants.checkoutNamespace, "process-order");
     root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
         Constants.checkoutNamespace);
     document.appendChild(root);

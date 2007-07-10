@@ -44,13 +44,13 @@ public final class StringUtil {
   // For maximum compatibility with Java 1.4
   public final static String replaceMultipleStrings(String input,
       String[] arrReplaceStr) {
-    //System.out.println(input);
-    //System.out.println(arrReplaceStr[0]);
+    // System.out.println(input);
+    // System.out.println(arrReplaceStr[0]);
 
     String output = input;
     for (int i = 0; i < arrReplaceStr.length; i++) {
-      String patternStr = new StringBuffer("\\{").append(i).append("\\}")
-          .toString();
+      String patternStr =
+          new StringBuffer("\\{").append(i).append("\\}").toString();
       String replaceStr = arrReplaceStr[i];
 
       // Compile regular expression
@@ -60,7 +60,7 @@ public final class StringUtil {
       Matcher matcher = pattern.matcher(output);
       output = matcher.replaceAll(replaceStr);
     }
-    //System.out.println(output);
+    // System.out.println(output);
 
     return output;
   }
@@ -69,7 +69,7 @@ public final class StringUtil {
     str = str.replaceAll(Constants.ampStr, Constants.ampReplaceStr);
     str = str.replaceAll(Constants.lessThanStr, Constants.lessThanReplaceStr);
     str = str.replaceAll(Constants.greaterThanStr,
-        Constants.greaterThanReplaceStr);
+            Constants.greaterThanReplaceStr);
     return str;
   }
 

@@ -151,8 +151,8 @@ public class Utils {
   public static Element createNewElementAndSetAndAttribute(Document document,
       Element parent, String childElement, String childValue,
       String attributeName, String attributeValue) {
-    Element child = createNewElementAndSet(document, parent, childElement,
-        childValue);
+    Element child =
+        createNewElementAndSet(document, parent, childElement, childValue);
     child.setAttribute(attributeName, attributeValue);
     return child;
   }
@@ -286,8 +286,9 @@ public class Utils {
       Document document, Element parent, String element, String value,
       String attributeName, String attributeValue) {
 
-    Element e = findContainerWithAttributeValueElseCreate(document, parent,
-        element, attributeName, attributeValue);
+    Element e =
+        findContainerWithAttributeValueElseCreate(document, parent, element,
+            attributeName, attributeValue);
     e.appendChild(document.createTextNode(value));
 
     return e;
@@ -312,8 +313,9 @@ public class Utils {
       Document document, Element parent, String element, String value,
       String attributeName, String attributeValue) {
 
-    Element e = findElementElseCreateAndAttribute(document, parent, element,
-        attributeName, attributeValue);
+    Element e =
+        findElementElseCreateAndAttribute(document, parent, element,
+            attributeName, attributeValue);
     if (e != null) e.appendChild(document.createTextNode(value));
 
     return e;
@@ -335,8 +337,8 @@ public class Utils {
   public static String documentToStringPretty(Document document) {
 
     try {
-      StreamSource stylesource = new StreamSource(Utils.class
-          .getResourceAsStream("indent.xsl"));
+      StreamSource stylesource =
+          new StreamSource(Utils.class.getResourceAsStream("indent.xsl"));
 
       TransformerFactory tf = TransformerFactory.newInstance();
       Transformer trans = tf.newTransformer(stylesource);
@@ -396,8 +398,8 @@ public class Utils {
     return ret;
   }
 
-  private static SimpleDateFormat sdf = new SimpleDateFormat(
-      "yyyy-MM-dd'T'HH:mm:ss");
+  private static SimpleDateFormat sdf =
+      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
   public static Date parseDate(String date) {
     try {

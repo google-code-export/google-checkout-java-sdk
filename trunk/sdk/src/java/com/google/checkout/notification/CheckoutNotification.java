@@ -31,62 +31,61 @@ import com.google.checkout.util.Utils;
  */
 public abstract class CheckoutNotification {
 
-	protected Document document;
+  protected Document document;
 
-	protected Element root;
+  protected Element root;
 
-	/**
-	 * Return the Google Order Number for this notification.
-	 * 
-	 * @return The Google Order Number.
-	 */
-	public String getGoogleOrderNo() {
-		return Utils.getElementStringValue(document, root,
-				"google-order-number");
-	}
+  /**
+   * Return the Google Order Number for this notification.
+   * 
+   * @return The Google Order Number.
+   */
+  public String getGoogleOrderNo() {
+    return Utils.getElementStringValue(document, root, "google-order-number");
+  }
 
-	/**
-	 * Retrieves the value of the &lt;timestamp&gt; tag.
-	 * 
-	 * @return The timestamp.
-	 */
-	public Date getTimestamp() {
-		return Utils.getElementDateValue(document, root, "timestamp");
-	}
+  /**
+   * Retrieves the value of the &lt;timestamp&gt; tag.
+   * 
+   * @return The timestamp.
+   */
+  public Date getTimestamp() {
+    return Utils.getElementDateValue(document, root, "timestamp");
+  }
 
-	/**
-	 * Retrieves the value of the serial-number attribute.
-	 * 
-	 * @return The serial number.
-	 */
-	public String getSerialNumber() {
-		return root.getAttribute("serial-number");
-	}
+  /**
+   * Retrieves the value of the serial-number attribute.
+   * 
+   * @return The serial number.
+   */
+  public String getSerialNumber() {
+    return root.getAttribute("serial-number");
+  }
 
-	/**
-	 * Return the XML request String.
-	 * 
-	 * @return The XML request String.
-	 */
-	public String getXml() {
-		return Utils.documentToString(document);
-	}
+  /**
+   * Return the XML request String.
+   * 
+   * @return The XML request String.
+   */
+  public String getXml() {
+    return Utils.documentToString(document);
+  }
 
-	/**
-	 * Return the nicely formatted XML request String.
-	 * 
-	 * @return The nicely formatted XML request String.
-	 */
-	public String getXmlPretty() {
-		return Utils.documentToStringPretty(document);
-	}
+  /**
+   * Return the nicely formatted XML request String.
+   * 
+   * @return The nicely formatted XML request String.
+   */
+  public String getXmlPretty() {
+    return Utils.documentToStringPretty(document);
+  }
 
-	/**
-	 * Return the name of the root node of the notification.
-	 * 
-	 * @return The root node name.
-	 */
-	public String getRootNodeName() {
-		return document.getDocumentElement().getNodeName();
-	}
+  /**
+   * Return the name of the root node of the notification.
+   * 
+   * @return The root node name.
+   */
+  public String getRootNodeName() {
+    return document.getDocumentElement().getNodeName();
+  }
 }
