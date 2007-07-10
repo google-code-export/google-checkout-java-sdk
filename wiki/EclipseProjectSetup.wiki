@@ -16,4 +16,7 @@ First off, start eclipse, and create a new workspace. Then follow these steps to
 = Creating Checkout SDK in Eclipse =
   # Start Eclipse, and select "SVN repository Exploring" perspective in Window | Open Perspective | Other
   # Right click in the "SVN Repository" tab, and select New | Repository Location
-  # 
+  # For Url, use https://google-checkout-java-sdk.googlecode.com/svn/trunk/, and press "Finish"
+  # Use your gmail user-name, and googlecode.com password. Note that the googlecode.com password is different from your gmail password and is auto-generated. You can view your googlecode.com password at: http://code.google.com/p/google-checkout-java-sdk/source
+  # Navigate down in the tree rooted at https://google-checkout-java-sdk.googlecode.com/svn/trunk/. Right click on sdk, and select "Checkout...". Accept default values. 
+  # Congratulations, you now have the Checkout SDK project setup with Eclipse. 
