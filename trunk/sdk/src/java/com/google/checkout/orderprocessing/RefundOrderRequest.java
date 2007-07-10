@@ -35,7 +35,7 @@ public class RefundOrderRequest extends AbstractCheckoutRequest {
   public RefundOrderRequest(MerchantInfo mi) {
     super(mi);
     document = Utils.newEmptyDocument();
-    root = (Element) document.createElementNS(Constants.checkoutNamespace,
+    root = document.createElementNS(Constants.checkoutNamespace, 
         "refund-order");
     root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
         Constants.checkoutNamespace);

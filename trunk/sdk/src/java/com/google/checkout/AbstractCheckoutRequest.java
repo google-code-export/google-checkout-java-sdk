@@ -92,14 +92,13 @@ public abstract class AbstractCheckoutRequest {
       output.flush();
       output.close();
       
-      int responseCode = ((HttpURLConnection) connection)
-      .getResponseCode();
+      int responseCode = connection.getResponseCode();
       InputStream inputStream;
       
       if (responseCode == HttpURLConnection.HTTP_OK) {
-        inputStream = ((HttpURLConnection) connection).getInputStream();
+        inputStream = connection.getInputStream();
       } else {
-        inputStream = ((HttpURLConnection) connection).getErrorStream();
+        inputStream = connection.getErrorStream();
       }
       
       return new CheckoutResponse(inputStream);

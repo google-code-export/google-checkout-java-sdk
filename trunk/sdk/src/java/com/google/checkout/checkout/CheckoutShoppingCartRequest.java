@@ -55,17 +55,16 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
     
     super(mi);
     document = Utils.newEmptyDocument();
-    root = (Element) document.createElementNS(Constants.checkoutNamespace,
+    root = document.createElementNS(Constants.checkoutNamespace,
         "checkout-shopping-cart");
     root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
         Constants.checkoutNamespace);
     document.appendChild(root);
     
-    shoppingCart = (Element) document.createElement("shopping-cart");
-    checkoutFlowSupport = (Element) document
-        .createElement("checkout-flow-support");
+    shoppingCart = document.createElement("shopping-cart");
+    checkoutFlowSupport = document.createElement("checkout-flow-support");
     
-    Element merchantCheckoutFlowSupport = (Element) document
+    Element merchantCheckoutFlowSupport = document
         .createElement("merchant-checkout-flow-support");
     
     root.appendChild(shoppingCart);

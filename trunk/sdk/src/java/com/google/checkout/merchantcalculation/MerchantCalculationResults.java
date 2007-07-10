@@ -43,12 +43,12 @@ public class MerchantCalculationResults {
 	public MerchantCalculationResults() {
 
 		document = Utils.newEmptyDocument();
-		root = (Element) document.createElementNS(Constants.checkoutNamespace,
+		root = document.createElementNS(Constants.checkoutNamespace,
 				"merchant-calculation-results");
 		root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
 				Constants.checkoutNamespace);
 		document.appendChild(root);
-		results = (Element) document.createElement("results");
+		results = document.createElement("results");
 		root.appendChild(results);
 	}
 

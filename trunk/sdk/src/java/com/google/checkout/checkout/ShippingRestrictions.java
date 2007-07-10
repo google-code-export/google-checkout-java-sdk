@@ -39,7 +39,7 @@ public class ShippingRestrictions {
 	public ShippingRestrictions() {
 
 		document = Utils.newEmptyDocument();
-		root = (Element) document.createElement("shipping-restrictions");
+		root = document.createElement("shipping-restrictions");
 		document.appendChild(root);
 	}
 
