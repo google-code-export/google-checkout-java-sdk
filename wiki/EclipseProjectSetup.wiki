@@ -1,25 +1,19 @@
 #summary Instructions for setting up Eclipse project for checkout SDK
 
-= Introduction =
+= Adding Subversion Support in Eclipse =
 
-Here are the steps to use eclipse: 
-  # Start eclipse, and create a new workspace
-  # Download and install Subversion plugin from http://subclipse.tigris.org/
-    ## Open Help | Software Updates |Find and Install
-    ## Select "Search for new features to install"
-    ## Click on "New Remote Site"
-  ## Choose Name as subclipse, and URL as: http://subclipse.tigris.org/update_1.2.x
-  ## Click on Finish
-  ## Select the checkbox for "Subclipse Plugin" and press "Next"
-  ## Accept the license terms and press "Next" and then "Finish" to install subclipse. 
-  ## Accept any prompts for installation, and eclipse restart. 
-  ## Congratulations! You now have subversion support available in Eclipse. 
+First off, start eclipse, and create a new workspace. Then follow these steps to download and install Subversion plugin: 
+  # Open Help | Software Updates |Find and Install
+  # Select "Search for new features to install"
+  # Click on "New Remote Site"
+  # Choose Name as subclipse, and URL as: http://subclipse.tigris.org/update_1.2.x
+  # Click on Finish
+  # Select the checkbox for "Subclipse Plugin" and press "Next"
+  # Accept the license terms and press "Next" and then "Finish" to install subclipse. 
+  # Accept any prompts for installation, and eclipse restart. 
+  # Congratulations! You now have subversion support available in Eclipse. 
 
-
-
-= Details =
-
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+= Creating Checkout SDK in Eclipse =
+  # Start Eclipse, and select "SVN repository Exploring" perspective in Window | Open Perspective | Other
+  # Right click in the "SVN Repository" tab, and select New | Repository Location
+  # 
