@@ -74,10 +74,8 @@ public class CheckoutMessageHandlerServlet extends
 
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
-    response
-        .sendError(
-            HttpServletResponse.SC_METHOD_NOT_ALLOWED,
-            "This REST Web service accepts request only through the HTTP POST "
+    response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED,
+        "This REST Web service accepts request only through the HTTP POST "
             + "method. Your request was denied because it was sent through "
             + "HTTP GET!");
   }
@@ -87,8 +85,9 @@ public class CheckoutMessageHandlerServlet extends
 
     try {
       String auth = request.getHeader("Authorization");
-      MerchantInfo mi = (MerchantInfo) getServletContext().getAttribute(
-          KeyConstants.MERCHANT_INFO_KEY);
+      MerchantInfo mi =
+          (MerchantInfo) getServletContext().getAttribute(
+              KeyConstants.MERCHANT_INFO_KEY);
       if (auth == null || !auth.equals("Basic " + mi.getHttpAuth())) {
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
             "Authentication Failed.");
@@ -136,10 +135,10 @@ public class CheckoutMessageHandlerServlet extends
     for (int i = 0; i < elements.getLength(); ++i) {
       try {
         Element element = (Element) elements.item(i);
-        String className = Utils.getElementStringValue(doc, element,
-            "handler-class").trim();
-        String target = Utils.getElementStringValue(doc, element,
-            "message-type").trim();
+        String className =
+            Utils.getElementStringValue(doc, element, "handler-class").trim();
+        String target =
+            Utils.getElementStringValue(doc, element, "message-type").trim();
         Class c = Class.forName(className);
         Object obj = c.newInstance();
         mhTable.put(target, obj);
@@ -160,8 +159,8 @@ public class CheckoutMessageHandlerServlet extends
   private String getNotificationBody(InputStream inputStream)
       throws IOException {
 
-    BufferedReader reader = new BufferedReader(new InputStreamReader(
-        inputStream));
+    BufferedReader reader =
+        new BufferedReader(new InputStreamReader(inputStream));
     StringBuffer xml = new StringBuffer();
     String line;
 
@@ -173,5 +172,5 @@ public class CheckoutMessageHandlerServlet extends
     return xml.toString();
   }
 
-  private HashMap mhTable = new HashMap();
+  private final HashMap mhTable = new HashMap();
 }

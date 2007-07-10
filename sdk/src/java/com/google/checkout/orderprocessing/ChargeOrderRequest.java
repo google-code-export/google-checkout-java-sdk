@@ -29,16 +29,16 @@ import com.google.checkout.util.Utils;
  */
 public class ChargeOrderRequest extends AbstractCheckoutRequest {
 
-  private Document document;
+  private final Document document;
 
-  private Element root;
+  private final Element root;
 
   public ChargeOrderRequest(MerchantInfo mi) {
     super(mi);
 
     document = Utils.newEmptyDocument();
-    root = document.createElementNS(Constants.checkoutNamespace,
-        "charge-order");
+    root =
+        document.createElementNS(Constants.checkoutNamespace, "charge-order");
     root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
         Constants.checkoutNamespace);
     document.appendChild(root);

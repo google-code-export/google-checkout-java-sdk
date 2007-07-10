@@ -28,89 +28,89 @@ import com.google.checkout.util.Utils;
  */
 public class Address {
 
-	private Document document;
+  private final Document document;
 
-	private Element element;
+  private final Element element;
 
-	public Address(Document document, Element element) {
-		this.document = document;
-		this.element = element;
-	}
+  public Address(Document document, Element element) {
+    this.document = document;
+    this.element = element;
+  }
 
-	/**
-	 * @return the address1
-	 */
-	public String getAddress1() {
-		return Utils.getElementStringValue(document, element, "address1");
-	}
+  /**
+   * @return the address1
+   */
+  public String getAddress1() {
+    return Utils.getElementStringValue(document, element, "address1");
+  }
 
-	/**
-	 * @return the address2
-	 */
-	public String getAddress2() {
-		return Utils.getElementStringValue(document, element, "address2");
-	}
+  /**
+   * @return the address2
+   */
+  public String getAddress2() {
+    return Utils.getElementStringValue(document, element, "address2");
+  }
 
-	/**
-	 * @return the city
-	 */
-	public String getCity() {
-		return Utils.getElementStringValue(document, element, "city");
-	}
+  /**
+   * @return the city
+   */
+  public String getCity() {
+    return Utils.getElementStringValue(document, element, "city");
+  }
 
-	/**
-	 * @return the companyName
-	 */
-	public String getCompanyName() {
-		return Utils.getElementStringValue(document, element, "company-name");
-	}
+  /**
+   * @return the companyName
+   */
+  public String getCompanyName() {
+    return Utils.getElementStringValue(document, element, "company-name");
+  }
 
-	/**
-	 * @return the contactName
-	 */
-	public String getContactName() {
-		return Utils.getElementStringValue(document, element, "contact-name");
-	}
+  /**
+   * @return the contactName
+   */
+  public String getContactName() {
+    return Utils.getElementStringValue(document, element, "contact-name");
+  }
 
-	/**
-	 * @return the countryCode
-	 */
-	public String getCountryCode() {
-		return Utils.getElementStringValue(document, element, "country-code");
-	}
+  /**
+   * @return the countryCode
+   */
+  public String getCountryCode() {
+    return Utils.getElementStringValue(document, element, "country-code");
+  }
 
-	/**
-	 * @return the email
-	 */
-	public String getEmail() {
-		return Utils.getElementStringValue(document, element, "email");
-	}
+  /**
+   * @return the email
+   */
+  public String getEmail() {
+    return Utils.getElementStringValue(document, element, "email");
+  }
 
-	/**
-	 * @return the fax
-	 */
-	public String getFax() {
-		return Utils.getElementStringValue(document, element, "fax");
-	}
+  /**
+   * @return the fax
+   */
+  public String getFax() {
+    return Utils.getElementStringValue(document, element, "fax");
+  }
 
-	/**
-	 * @return the phone
-	 */
-	public String getPhone() {
-		return Utils.getElementStringValue(document, element, "phone");
-	}
+  /**
+   * @return the phone
+   */
+  public String getPhone() {
+    return Utils.getElementStringValue(document, element, "phone");
+  }
 
-	/**
-	 * @return the postalCode
-	 */
-	public String getPostalCode() {
-		return Utils.getElementStringValue(document, element, "postal-code");
-	}
+  /**
+   * @return the postalCode
+   */
+  public String getPostalCode() {
+    return Utils.getElementStringValue(document, element, "postal-code");
+  }
 
-	/**
-	 * @return the region
-	 */
-	public String getRegion() {
-		return Utils.getElementStringValue(document, element, "region");
-	}
+  /**
+   * @return the region
+   */
+  public String getRegion() {
+    return Utils.getElementStringValue(document, element, "region");
+  }
 }

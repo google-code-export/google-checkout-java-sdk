@@ -28,17 +28,15 @@ import org.w3c.dom.Element;
  */
 public class PickupShippingAdjustment extends Shipping {
 
-	/**
-	 * A constructor which takes the document and element pointing to the
-	 * &lt;pickup-shipping-adjustment&gt; tag.
-	 * 
-	 * @param document
-	 *            The document.
-	 * @param element
-	 *            The element.
-	 */
-	public PickupShippingAdjustment(Document document, Element element) {
-		this.document = document;
-		this.element = element;
-	}
+  /**
+   * A constructor which takes the document and element pointing to the
+   * &lt;pickup-shipping-adjustment&gt; tag.
+   * 
+   * @param document The document.
+   * @param element The element.
+   */
+  public PickupShippingAdjustment(Document document, Element element) {
+    this.document = document;
+    this.element = element;
+  }
 }

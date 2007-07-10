@@ -28,53 +28,51 @@ import com.google.checkout.util.Utils;
  */
 public class RefundAmountNotification extends CheckoutNotification {
 
-	/**
-	 * A constructor which takes the request as a String.
-	 * 
-	 * @param requestString
-	 */
-	public RefundAmountNotification(String requestString) {
-		document = Utils.newDocumentFromString(requestString);
-		root = document.getDocumentElement();
-	}
+  /**
+   * A constructor which takes the request as a String.
+   * 
+   * @param requestString
+   */
+  public RefundAmountNotification(String requestString) {
+    document = Utils.newDocumentFromString(requestString);
+    root = document.getDocumentElement();
+  }
 
-	/**
-	 * A constructor which takes the request as an InputStream.
-	 * 
-	 * @param inputStream
-	 */
-	public RefundAmountNotification(InputStream inputStream) {
-		document = Utils.newDocumentFromInputStream(inputStream);
-		root = document.getDocumentElement();
-	}
+  /**
+   * A constructor which takes the request as an InputStream.
+   * 
+   * @param inputStream
+   */
+  public RefundAmountNotification(InputStream inputStream) {
+    document = Utils.newDocumentFromInputStream(inputStream);
+    root = document.getDocumentElement();
+  }
 
-	/**
-	 * Retrieves the value of the &lt;latest-refund-amount&gt; tag.
-	 * 
-	 * @return The lates refund amount.
-	 */
-	public float getLatestRefundAmount() {
-		return Utils.getElementFloatValue(document, root,
-				"latest-refund-amount");
-	}
+  /**
+   * Retrieves the value of the &lt;latest-refund-amount&gt; tag.
+   * 
+   * @return The lates refund amount.
+   */
+  public float getLatestRefundAmount() {
+    return Utils.getElementFloatValue(document, root, "latest-refund-amount");
+  }
 
-	/**
-	 * Retrieves the value of the &lt;total-refund-amount&gt; tag.
-	 * 
-	 * @return The total refund amount.
-	 */
-	public float getTotalRefundAmount() {
-		return Utils
-				.getElementFloatValue(document, root, "total-refund-amount");
-	}
+  /**
+   * Retrieves the value of the &lt;total-refund-amount&gt; tag.
+   * 
+   * @return The total refund amount.
+   */
+  public float getTotalRefundAmount() {
+    return Utils.getElementFloatValue(document, root, "total-refund-amount");
+  }
 
-	/**
-	 * Retrieves the currency code.
-	 * 
-	 * @return The currency code.
-	 */
-	public String getCurrencyCode() {
-		return Utils.findElementOrContainer(document, root,
-				"latest-refund-amount").getAttribute("currency");
-	}
+  /**
+   * Retrieves the currency code.
+   * 
+   * @return The currency code.
+   */
+  public String getCurrencyCode() {
+    return Utils.findElementOrContainer(document, root, "latest-refund-amount")
+        .getAttribute("currency");
+  }
 }

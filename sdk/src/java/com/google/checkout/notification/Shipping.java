@@ -29,25 +29,25 @@ import com.google.checkout.util.Utils;
  */
 public class Shipping {
 
-	protected Document document;
+  protected Document document;
 
-	protected Element element;
+  protected Element element;
 
-	/**
-	 * Retrieves the value of the &lt;shipping-cost&gt; element.
-	 * 
-	 * @return The shipping cost.
-	 */
-	public float getShippingCost() {
-		return Utils.getElementFloatValue(document, element, "shipping-cost");
-	}
+  /**
+   * Retrieves the value of the &lt;shipping-cost&gt; element.
+   * 
+   * @return The shipping cost.
+   */
+  public float getShippingCost() {
+    return Utils.getElementFloatValue(document, element, "shipping-cost");
+  }
 
-	/**
-	 * Retrieves the value of the &lt;shipping-name&gt; element.
-	 * 
-	 * @return The shipping name.
-	 */
-	public String getShippingName() {
-		return Utils.getElementStringValue(document, element, "shipping-name");
-	}
+  /**
+   * Retrieves the value of the &lt;shipping-name&gt; element.
+   * 
+   * @return The shipping name.
+   */
+  public String getShippingName() {
+    return Utils.getElementStringValue(document, element, "shipping-name");
+  }
 }

@@ -30,65 +30,64 @@ package com.google.checkout.notification;
  */
 public class FulfillmentOrderState {
 
-	/**
-	 * An instance of the FulfillmentOrderState class representing NEW.
-	 */
-	public static final FulfillmentOrderState NEW = new FulfillmentOrderState(
-			"NEW");
+  /**
+   * An instance of the FulfillmentOrderState class representing NEW.
+   */
+  public static final FulfillmentOrderState NEW =
+      new FulfillmentOrderState("NEW");
 
-	/**
-	 * An instance of the FulfillmentOrderState class representing PROCESSING.
-	 */
-	public static final FulfillmentOrderState PROCESSING = new FulfillmentOrderState(
-			"PROCESSING");
+  /**
+   * An instance of the FulfillmentOrderState class representing PROCESSING.
+   */
+  public static final FulfillmentOrderState PROCESSING =
+      new FulfillmentOrderState("PROCESSING");
 
-	/**
-	 * An instance of the FulfillmentOrderState class representing DELIVERED.
-	 */
-	public static final FulfillmentOrderState DELIVERED = new FulfillmentOrderState(
-			"DELIVERED");
+  /**
+   * An instance of the FulfillmentOrderState class representing DELIVERED.
+   */
+  public static final FulfillmentOrderState DELIVERED =
+      new FulfillmentOrderState("DELIVERED");
 
-	/**
-	 * An instance of the FulfillmentOrderState class representing
-	 * WILL_NOT_DELIVER.
-	 */
-	public static final FulfillmentOrderState WILL_NOT_DELIVER = new FulfillmentOrderState(
-			"WILL_NOT_DELIVER");
+  /**
+   * An instance of the FulfillmentOrderState class representing
+   * WILL_NOT_DELIVER.
+   */
+  public static final FulfillmentOrderState WILL_NOT_DELIVER =
+      new FulfillmentOrderState("WILL_NOT_DELIVER");
 
-	private String value;
+  private final String value;
 
-	private FulfillmentOrderState(String value) {
-		this.value = value;
-	}
+  private FulfillmentOrderState(String value) {
+    this.value = value;
+  }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#toString()
-	 */
-	public String toString() {
-		return value;
-	}
+  /*
+   * (non-Javadoc)
+   * 
+   * @see java.lang.Object#toString()
+   */
+  public String toString() {
+    return value;
+  }
 
-	/**
-	 * Get an instance of the FulfillmentOrderState based on the string value
-	 * passed in.
-	 * 
-	 * @param state
-	 *            The string value of the state.
-	 * @return The FulfillmentOrderState instance.
-	 */
-	public static FulfillmentOrderState getState(String state) {
-		if ("NEW".equals(state)) {
-			return NEW;
-		} else if ("PROCESSING".equals(state)) {
-			return PROCESSING;
-		} else if ("DELIVERED".equals(state)) {
-			return DELIVERED;
-		} else if ("WILL_NOT_DELIVER".equals(state)) {
-			return WILL_NOT_DELIVER;
-		} else {
-			throw new RuntimeException("Invalid Fulfillment State: " + state);
-		}
-	}
+  /**
+   * Get an instance of the FulfillmentOrderState based on the string value
+   * passed in.
+   * 
+   * @param state The string value of the state.
+   * @return The FulfillmentOrderState instance.
+   */
+  public static FulfillmentOrderState getState(String state) {
+    if ("NEW".equals(state)) {
+      return NEW;
+    } else if ("PROCESSING".equals(state)) {
+      return PROCESSING;
+    } else if ("DELIVERED".equals(state)) {
+      return DELIVERED;
+    } else if ("WILL_NOT_DELIVER".equals(state)) {
+      return WILL_NOT_DELIVER;
+    } else {
+      throw new RuntimeException("Invalid Fulfillment State: " + state);
+    }
+  }
 }
