@@ -38,7 +38,7 @@ public class AddTrackingDataRequest extends AbstractCheckoutRequest {
     super(mi);
     
     document = Utils.newEmptyDocument();
-    root = (Element) document.createElementNS(Constants.checkoutNamespace,
+    root = document.createElementNS(Constants.checkoutNamespace,
         "add-tracking-data");
     root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
         Constants.checkoutNamespace);

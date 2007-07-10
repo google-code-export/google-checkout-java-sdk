@@ -37,7 +37,7 @@ public class AuthorizeOrderRequest extends AbstractCheckoutRequest {
   public AuthorizeOrderRequest(MerchantInfo mi) {
     super(mi);
     document = Utils.newEmptyDocument();
-    root = (Element) document.createElementNS(Constants.checkoutNamespace,
+    root = document.createElementNS(Constants.checkoutNamespace,
         "authorize-order");
     root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
         Constants.checkoutNamespace);

@@ -38,7 +38,7 @@ public class AddMerchantOrderNumberRequest extends AbstractCheckoutRequest {
     super(mi);
     
     document = Utils.newEmptyDocument();
-    root = (Element) document.createElementNS(Constants.checkoutNamespace,
+    root = document.createElementNS(Constants.checkoutNamespace,
         "add-merchant-order-number");
     root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
         Constants.checkoutNamespace);
@@ -48,10 +48,6 @@ public class AddMerchantOrderNumberRequest extends AbstractCheckoutRequest {
   /**
    * Constructor which takes an instance of mi, a Google Order
    * Number and a Merchant Order Number.
-   * @param googleOrderNo
-   *            The Google Order Number.
-   * @param merchantOrderNo
-   *            The Merchant Order Number.
    */
   public AddMerchantOrderNumberRequest(MerchantInfo mi,
       String googleOrderNo, String merchantOrderNo) {

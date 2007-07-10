@@ -91,7 +91,7 @@ public class Utils {
 
 	public static Element createNewContainer(Document document, Element parent,
 			String childElement) {
-		Element child = (Element) document.createElement(childElement);
+		Element child = document.createElement(childElement);
 		parent.appendChild(child);
 		return child;
 	}
@@ -141,7 +141,7 @@ public class Utils {
 
 	public static Element createNewElementAndSet(Document document,
 			Element parent, String childElement, String childValue) {
-		Element child = (Element) document.createElement(childElement);
+		Element child = document.createElement(childElement);
 		parent.appendChild(child);
 		child.setNodeValue(childValue);
 		child.appendChild(document.createTextNode(childValue));
@@ -250,7 +250,7 @@ public class Utils {
 			Node n = nl.item(i);
 
 			if (n instanceof Element) {
-				al.add((Element) nl.item(i));
+				al.add(nl.item(i));
 			}
 		}
 
