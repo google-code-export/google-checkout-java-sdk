@@ -22,5 +22,6 @@ First download and install Eclipse Europa Java EE Developer edition. Then start 
   # Download and install Tomcat 6.0
   # Switch to "Java EE" or "Java" perspectives to start development on this project. 
   # Right-click on the root node, google-checkout-java-sdk, and select properties. 
-  # Select "Targeted Runtimes" and create a new runtime for Apache | Apache Tomcat 6.0. 
+  # Select "Targeted Runtimes" and create a new runtime for Apache | Apache Tomcat 6.0.
+  # Go to properties again, and select Server. Select the newly created Apache Tomcat 6.0 in there. 
   # Congratulations, you now have the Checkout SDK project setup with Eclipse. 
