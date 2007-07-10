@@ -5,9 +5,9 @@
 Here are the steps to use eclipse: 
   # Start eclipse, and create a new workspace
   # Download and install Subversion plugin from http://subclipse.tigris.org/
-  ## Open Help | Software Updates |Find and Install
-  ## Select "Search for new features to install"
-  ## Click on "New Remote Site"
+    ## Open Help | Software Updates |Find and Install
+    ## Select "Search for new features to install"
+    ## Click on "New Remote Site"
   ## Choose Name as subclipse, and URL as: http://subclipse.tigris.org/update_1.2.x
   ## Click on Finish
   ## Select the checkbox for "Subclipse Plugin" and press "Next"
@@ -23,4 +23,3 @@ Add your content here.  Format your content with:
   * Text in *bold* or _italic_
   * Headings, paragraphs, and lists
   * Automatic links to other wiki pages
-
