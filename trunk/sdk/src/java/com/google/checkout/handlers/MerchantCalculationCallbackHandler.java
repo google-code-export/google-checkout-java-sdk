@@ -32,7 +32,7 @@ import java.util.Iterator;
  * TODO
  *
  * @author simonjsmith
- * @author Inderjeet Singh (inder@google.com)
+ * @author inder
  */
 public class MerchantCalculationCallbackHandler extends
     AbstractNotificationProcessor implements MessageHandler {

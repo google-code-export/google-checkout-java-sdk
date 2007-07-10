@@ -25,59 +25,54 @@ package com.google.checkout.merchantcalculation;
  */
 public class MerchantCodeString {
 
-	private String code;
+  private String code;
 
-	private String pin;
+  private String pin;
 
-	/**
-	 * A constructor which takes the code and pin.
-	 * 
-	 * @param code
-	 *            The code.
-	 * @param pin
-	 *            The pin.
-	 */
-	public MerchantCodeString(String code, String pin) {
-		this.code = code;
-		this.pin = pin;
-	}
+  /**
+   * A constructor which takes the code and pin.
+   * 
+   * @param code The code.
+   * @param pin The pin.
+   */
+  public MerchantCodeString(String code, String pin) {
+    this.code = code;
+    this.pin = pin;
+  }
 
-	/**
-	 * Retrive the contents of the code attribute.
-	 * 
-	 * @return The code.
-	 */
-	public String getCode() {
-		return code;
-	}
+  /**
+   * Retrive the contents of the code attribute.
+   * 
+   * @return The code.
+   */
+  public String getCode() {
+    return code;
+  }
 
-	/**
-	 * Set the contents of the code attribute.
-	 * 
-	 * @param code
-	 *            The code.
-	 */
-	public void setCode(String code) {
-		this.code = code;
-	}
+  /**
+   * Set the contents of the code attribute.
+   * 
+   * @param code The code.
+   */
+  public void setCode(String code) {
+    this.code = code;
+  }
 
-	/**
-	 * Retrive the contents of the pin attribute.
-	 * 
-	 * @return The pin.
-	 */
-	public String getPin() {
-		return pin;
-	}
+  /**
+   * Retrive the contents of the pin attribute.
+   * 
+   * @return The pin.
+   */
+  public String getPin() {
+    return pin;
+  }
 
-	/**
-	 * Set the contents of the pin attribute.
-	 * 
-	 * @param pin
-	 *            The pin.
-	 */
-	public void setPin(String pin) {
-		this.pin = pin;
-	}
-
+  /**
+   * Set the contents of the pin attribute.
+   * 
+   * @param pin The pin.
+   */
+  public void setPin(String pin) {
+    this.pin = pin;
+  }
 }

@@ -53,25 +53,18 @@ public class MerchantCalculationResults {
 	}
 
 	/**
-	 * Add a result.
-	 * 
-	 * @param shippingName
-	 *            The shipping name.
-	 * @param addressId
-	 *            The address id.
-	 * @param shippable
-	 *            The shippable flag.
-	 * @param totalTaxAmount
-	 *            The total tax amount.
-	 * @param shippingRate
-	 *            The shipping rate.
-	 * @param currency
-	 *            The currency code.
-	 * @param merchantCodeResults
-	 *            A collection of MerchantCodeResult objects.
-	 * 
-	 * @see MerchantCodeResult
-	 */
+     * Add a result.
+     * 
+     * @param shippingName The shipping name.
+     * @param addressId The address id.
+     * @param shippable The shippable flag.
+     * @param totalTaxAmount The total tax amount.
+     * @param shippingRate The shipping rate.
+     * @param currency The currency code.
+     * @param merchantCodeResults A collection of MerchantCodeResult objects.
+     * 
+     * @see MerchantCodeResult
+     */
 	public void addResult(String shippingName, String addressId,
 			boolean shippable, double totalTaxAmount, double shippingRate,
 			String currency, Collection merchantCodeResults) {

@@ -28,110 +28,97 @@ import com.google.checkout.util.Utils;
  */
 public class TaxArea {
 
-	Document document;
+  Document document;
 
-	Element root;
+  Element root;
 
-	/**
-	 * Default constructor.
-	 */
-	public TaxArea() {
+  public TaxArea() {
 
-		document = Utils.newEmptyDocument();
-		root = document.createElement("tax-area");
-		document.appendChild(root);
-	}
+    document = Utils.newEmptyDocument();
+    root = document.createElement("tax-area");
+    document.appendChild(root);
+  }
 
-	/**
-	 * Add a &lt;us-country-area&gt; tag to the &lt;tax-area&gt; tag.
-	 * 
-	 * @param countryArea
-	 *            The US country area.
-	 * 
-	 * @see USArea
-	 */
-	public void addCountryArea(USArea countryArea) {
+  /**
+   * Add a &lt;us-country-area&gt; tag to the &lt;tax-area&gt; tag.
+   * 
+   * @param countryArea The US country area.
+   * 
+   * @see USArea
+   */
+  public void addCountryArea(USArea countryArea) {
 
-		Element usCountry = Utils.createNewContainer(document, root,
-				"us-country-area");
-		usCountry.setAttribute("country-area", countryArea.toString());
-	}
+    Element usCountry = Utils.createNewContainer(document, root,
+        "us-country-area");
+    usCountry.setAttribute("country-area", countryArea.toString());
+  }
 
-	/**
-	 * Add a &lt;state&gt; and encolsing &lt;us-state-area&gt; to the
-	 * &lt;tax-area&gt; tag.
-	 * 
-	 * @param stateCode
-	 *            The state code.
-	 */
-	public void addStateCode(String stateCode) {
+  /**
+   * Add a &lt;state&gt; and encolsing &lt;us-state-area&gt; to the
+   * &lt;tax-area&gt; tag.
+   * 
+   * @param stateCode The state code.
+   */
+  public void addStateCode(String stateCode) {
 
-		Element usState = Utils.createNewContainer(document, root,
-				"us-state-area");
-		Utils.createNewElementAndSet(document, usState, "state", stateCode);
-	}
+    Element usState = Utils.createNewContainer(document, root, "us-state-area");
+    Utils.createNewElementAndSet(document, usState, "state", stateCode);
+  }
 
-	/**
-	 * Add a &lt;zip-pattern&gt; and encolsing &lt;us-zip-area&gt; to the
-	 * &lt;tax-area&gt; tag.
-	 * 
-	 * @param zipPattern
-	 *            The Zip Pattern.
-	 */
-	public void addZipPattern(String zipPattern) {
+  /**
+   * Add a &lt;zip-pattern&gt; and encolsing &lt;us-zip-area&gt; to the
+   * &lt;tax-area&gt; tag.
+   * 
+   * @param zipPattern The Zip Pattern.
+   */
+  public void addZipPattern(String zipPattern) {
 
-		Element usZip = Utils.createNewContainer(document, root, "us-zip-area");
-		Utils
-				.createNewElementAndSet(document, usZip, "zip-pattern",
-						zipPattern);
-	}
+    Element usZip = Utils.createNewContainer(document, root, "us-zip-area");
+    Utils.createNewElementAndSet(document, usZip, "zip-pattern", zipPattern);
+  }
 
-	/**
-	 * Get the root element, &lt;tax-area&gt;
-	 * 
-	 * @return The root element, &lt;tax-atea&gt;.
-	 */
-	public Element getRootElement() {
-		return root;
-	}
+  /**
+   * Get the root element, &lt;tax-area&gt;
+   * 
+   * @return The root element, &lt;tax-atea&gt;.
+   */
+  public Element getRootElement() {
+    return root;
+  }
 
-	/**
-	 * This method adds a &lt;postal-area&gt; element. The &lt;country-code&gt;
-	 * element and optionally the &lt;postal-code-pattern&gt are subelements .
-	 * 
-	 * @param countryCode
-	 *            The country code.
-	 * @param postalCodePattern
-	 *            The Postal Code Pattern.
-	 * 
-	 */
-	public void addPostalArea(String countryCode, String postalCodePattern) {
-		Element pa = Utils.createNewContainer(document, root, "postal-area");
-		Utils.createNewElementAndSet(document, pa, "country-code", countryCode);
+  /**
+   * This method adds a &lt;postal-area&gt; element. The &lt;country-code&gt;
+   * element and optionally the &lt;postal-code-pattern&gt are subelements .
+   * 
+   * @param countryCode The country code.
+   * @param postalCodePattern The Postal Code Pattern.
+   * 
+   */
+  public void addPostalArea(String countryCode, String postalCodePattern) {
+    Element pa = Utils.createNewContainer(document, root, "postal-area");
+    Utils.createNewElementAndSet(document, pa, "country-code", countryCode);
 
-		if (postalCodePattern != null)
-		{
-		  Utils.createNewElementAndSet(document, pa, "postal-code-pattern",
-				postalCodePattern);
-		}
-	}
+    if (postalCodePattern != null) {
+      Utils.createNewElementAndSet(document, pa, "postal-code-pattern",
+          postalCodePattern);
+    }
+  }
 
-	/**
-	 * This method adds a &lt;postal-area&gt; element.
-	 * 
-	 * @param countryCode
-	 *            The country code.
-	 */
-	public void addPostalArea(String countryCode) {
-		addPostalArea(countryCode, null);
-	}
-	
-	/**
-	 * This method adds a &lt;world-area&gt; element.
-	 * 
-	 */
-	public void addWorldArea() {
-		Utils.createNewContainer(document, root, "world-area");
-	}
+  /**
+   * This method adds a &lt;postal-area&gt; element.
+   * 
+   * @param countryCode The country code.
+   */
+  public void addPostalArea(String countryCode) {
+    addPostalArea(countryCode, null);
+  }
+
+  /**
+   * This method adds a &lt;world-area&gt; element.
+   * 
+   */
+  public void addWorldArea() {
+    Utils.createNewContainer(document, root, "world-area");
+  }
 
 }
