@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (C) 2007 Google Inc.
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -29,12 +29,12 @@ import com.google.checkout.util.Utils;
  */
 public class CancelOrderRequest extends AbstractCheckoutRequest {
   private Document document;
-  
+
   private Element root;
-  
+
   public CancelOrderRequest(MerchantInfo mi) {
     super(mi);
-    
+
     document = Utils.newEmptyDocument();
     root = (Element) document.createElementNS(Constants.checkoutNamespace,
         "cancel-order");
@@ -42,178 +42,156 @@ public class CancelOrderRequest extends AbstractCheckoutRequest {
         Constants.checkoutNamespace);
     document.appendChild(root);
   }
-  
+
   /**
-   * Constructor which takes an instance of mi, Google Order
-   * Number and Reason String.
-   *
-   * @param mi
-   *            The mi.
-   * @param googleOrderNo
-   *            The Google Order Number.
-   * @param reason
-   *            The Reason String.
-   *
-   * @see mi
+   * Constructor which takes an instance of mi, Google Order Number and Reason
+   * String.
+   * 
+   * @param googleOrderNo The Google Order Number.
+   * @param reason The Reason String.
    */
-  public CancelOrderRequest(MerchantInfo mi,
-      String googleOrderNo, String reason) {
+  public CancelOrderRequest(MerchantInfo mi, String googleOrderNo, String reason) {
     this(mi);
     this.setGoogleOrderNo(googleOrderNo);
     this.setReason(reason);
   }
-  
+
   /**
-   * Constructor which takes an instance of mi, Google Order
-   * Number, Reason String and Comment String.
-   *
-   * @param mi
-   *            The mi.
-   * @param googleOrderNo
-   *            The Google Order Number.
-   * @param reason
-   *            The Reason String.
-   * @param comment
-   *            The Comment String.
-   *
-   * @see mi
+   * Constructor which takes an instance of mi, Google Order Number, Reason
+   * String and Comment String.
+   * 
+   * @param googleOrderNo The Google Order Number.
+   * @param reason The Reason String.
+   * @param comment The Comment String.
    */
-  public CancelOrderRequest(MerchantInfo mi,
-      String googleOrderNo, String reason, String comment) {
+  public CancelOrderRequest(MerchantInfo mi, String googleOrderNo,
+      String reason, String comment) {
     this(mi);
     this.setGoogleOrderNo(googleOrderNo);
     this.setReason(reason);
     this.setComment(comment);
   }
-  
+
   /**
    * Determine whether the reason and comment are within the string length
    * limits.
-   *
-   * @param reason
-   *            The Reason.
-   *
-   * @param comment
-   *            The Comment.
+   * 
+   * @param reason The Reason.
+   * @param comment The Comment.
    * @return True or false.
    */
   public boolean isWithinCancelStringLimits(String reason, String comment) {
     int lenStrReason = reason.length();
     int lenStrComment = comment.length();
-    
+
     if (lenStrReason <= Constants.cancelStrLimit
         && lenStrComment <= Constants.cancelStrLimit)
       return true;
     else
       return false;
   }
-  
-        /*
-         * (non-Javadoc)
-         *
-         * @see com.google.checkout.CheckoutRequest#getXml()
-         */
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.google.checkout.CheckoutRequest#getXml()
+   */
   public String getXml() {
     return Utils.documentToString(document);
   }
-  
-        /*
-         * (non-Javadoc)
-         *
-         * @see com.google.checkout.CheckoutRequest#getXmlPretty()
-         */
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.google.checkout.CheckoutRequest#getXmlPretty()
+   */
   public String getXmlPretty() {
-    
+
     return Utils.documentToStringPretty(document);
   }
-  
-        /*
-         * (non-Javadoc)
-         *
-         * @see com.google.checkout.CheckoutRequest#getPostUrl()
-         */
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.google.checkout.CheckoutRequest#getPostUrl()
+   */
   public String getPostUrl() {
     return mi.getRequestUrl();
   }
-  
+
   /**
    * Return the cancel order comment String, which is the value of the
    * &lt;comment&gt; tag.
-   *
+   * 
    * @return The cancel order comment String.
    */
   public String getComment() {
-    
+
     return Utils.getElementStringValue(document, root, "comment");
   }
-  
+
   /**
    * Return the Google Order Number, which is the value of the
    * google-order-number attribute on the root tag.
-   *
+   * 
    * @return The Google Order Number.
    */
   public String getGoogleOrderNo() {
-    
+
     return root.getAttribute("google-order-number");
   }
-  
+
   /**
    * Return the cancel order reason String, which is the value of the
    * &lt;reason&gt; tag.
-   *
+   * 
    * @return The cancel order reason String.
    */
   public String getReason() {
-    
+
     return Utils.getElementStringValue(document, root, "reason");
   }
-  
+
   /**
    * Set the cancel order comment String, which is the value of the
    * &lt;comment&gt; tag.
-   *
-   * @param comment
-   *            The cancel order comment String.
+   * 
+   * @param comment The cancel order comment String.
    */
   public void setComment(String comment) {
-    
+
     if (!isWithinCancelStringLimits("", comment)) {
       comment = "";
       System.err.println(Constants.cancelErrorString);
     }
-    
-    Utils.findElementAndSetElseCreateAndSet(document, root, "comment",
-        comment);
+
+    Utils.findElementAndSetElseCreateAndSet(document, root, "comment", comment);
   }
-  
+
   /**
-   * Set the Google Order Number, which is the value of the
-   * google-order-number attribute on the root tag.
-   *
-   * @param googleOrderNo
-   *            The Google Order Number.
+   * Set the Google Order Number, which is the value of the google-order-number
+   * attribute on the root tag.
+   * 
+   * @param googleOrderNo The Google Order Number.
    */
   public void setGoogleOrderNo(String googleOrderNo) {
-    
+
     root.setAttribute("google-order-number", googleOrderNo);
   }
-  
+
   /**
    * Set the cancel order reason String, which is the value of the
    * &lt;reason&gt; tag.
-   *
-   * @param reason
-   *            The cancel order reason String.
+   * 
+   * @param reason The cancel order reason String.
    */
   public void setReason(String reason) {
-    
+
     if (!isWithinCancelStringLimits(reason, "")) {
       reason = "";
       System.err.println(Constants.cancelErrorString);
     }
-    
-    Utils.findElementAndSetElseCreateAndSet(document, root, "reason",
-        reason);
+
+    Utils.findElementAndSetElseCreateAndSet(document, root, "reason", reason);
   }
 }

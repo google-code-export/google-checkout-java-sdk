@@ -36,7 +36,7 @@
     <%
     String button = request.getParameter("button");
     
-    MerchantInfo mi = (MerchantInfo) getServletContext().getAttribute("merchant-info");
+    MerchantInfo mi = (MerchantInfo) getServletConfig().getServletContext().getAttribute("merchant-info");
     AddMerchantOrderNumberRequest amonRequest;
     String orderNumber = request.getParameter("orderNumber") == null ? "" : request.getParameter("orderNumber");
     String merchantOrderNumber = "";

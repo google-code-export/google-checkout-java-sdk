@@ -29,23 +29,15 @@ import com.google.checkout.util.Utils;
  * requests.
  */
 public class ArchiveOrderRequest extends AbstractCheckoutRequest {
-  
+
   private Document document;
-  
+
   private Element root;
-  
-  /**
-   * Constructor which takes an instance of mi.
-   *
-   * @param mi
-   *            The mi.
-   *
-   * @see mi
-   */
+
   public ArchiveOrderRequest(MerchantInfo mi) {
-    
+
     super(mi);
-    
+
     document = Utils.newEmptyDocument();
     root = (Element) document.createElementNS(Constants.checkoutNamespace,
         "archive-order");
@@ -53,42 +45,35 @@ public class ArchiveOrderRequest extends AbstractCheckoutRequest {
         Constants.checkoutNamespace);
     document.appendChild(root);
   }
-  
+
   /**
    * Constructor which takes an instance of mi and Google Order
    * Number.
-   *
-   * @param mi
-   *            The mi.
-   * @param googleOrderNo
-   *            The Google Order Number.
-   *
-   * @see mi
+   * @param googleOrderNo The Google Order Number.
    */
-  public ArchiveOrderRequest(MerchantInfo mi,
-      String googleOrderNo) {
+  public ArchiveOrderRequest(MerchantInfo mi, String googleOrderNo) {
     this(mi);
     this.setGoogleOrderNo(googleOrderNo);
   }
-  
-        /*
-         * (non-Javadoc)
-         *
-         * @see com.google.checkout.CheckoutRequest#getXml()
-         */
+
+  /*
+   * (non-Javadoc)
+   *
+   * @see com.google.checkout.CheckoutRequest#getXml()
+   */
   public String getXml() {
     return Utils.documentToString(document);
   }
-  
-        /*
-         * (non-Javadoc)
-         *
-         * @see com.google.checkout.CheckoutRequest#getXmlPretty()
-         */
+
+  /*
+   * (non-Javadoc)
+   *
+   * @see com.google.checkout.CheckoutRequest#getXmlPretty()
+   */
   public String getXmlPretty() {
     return Utils.documentToStringPretty(document);
   }
-  
+
   /**
    * Return the Google Order Number, which is the value of the
    * google-order-number attribute on the root tag.
@@ -98,7 +83,7 @@ public class ArchiveOrderRequest extends AbstractCheckoutRequest {
   public String getGoogleOrderNo() {
     return root.getAttribute("google-order-number");
   }
-  
+
   /**
    * Set the Google Order Number, which is the value of the
    * google-order-number attribute on the root tag.
@@ -109,14 +94,14 @@ public class ArchiveOrderRequest extends AbstractCheckoutRequest {
   public void setGoogleOrderNo(String googleOrderNo) {
     root.setAttribute("google-order-number", googleOrderNo);
   }
-  
-        /*
-         * (non-Javadoc)
-         *
-         * @see com.google.checkout.CheckoutRequest#getPostUrl()
-         */
+
+  /*
+   * (non-Javadoc)
+   *
+   * @see com.google.checkout.CheckoutRequest#getPostUrl()
+   */
   public String getPostUrl() {
     return mi.getRequestUrl();
   }
-  
+
 }

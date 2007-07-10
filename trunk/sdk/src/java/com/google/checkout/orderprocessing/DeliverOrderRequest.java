@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (C) 2007 Google Inc.
- *
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- *
+ * 
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * 
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -29,22 +29,14 @@ import com.google.checkout.util.Utils;
  * requests.
  */
 public class DeliverOrderRequest extends AbstractCheckoutRequest {
-  
+
   private Document document;
-  
+
   private Element root;
-  
-  /**
-   * Constructor which takes an instance of mi.
-   *
-   * @param mi
-   *            The mi.
-   *
-   * @see mi
-   */
+
   public DeliverOrderRequest(MerchantInfo mi) {
     super(mi);
-    
+
     document = Utils.newEmptyDocument();
     root = (Element) document.createElementNS(Constants.checkoutNamespace,
         "deliver-order");
@@ -52,99 +44,75 @@ public class DeliverOrderRequest extends AbstractCheckoutRequest {
         Constants.checkoutNamespace);
     document.appendChild(root);
   }
-  
+
   /**
-   * Constructor which takes an instance of mi and the Google
-   * Order Number.
-   *
-   * @param mi
-   *            The mi.
-   * @param googleOrderNo
-   *            The Google Order Number.
-   *
-   * @see mi
+   * Constructor which takes an instance of mi and the Google Order Number.
    */
-  public DeliverOrderRequest(MerchantInfo mi,
-      String googleOrderNo) {
-    
+  public DeliverOrderRequest(MerchantInfo mi, String googleOrderNo) {
+
     this(mi);
     this.setGoogleOrderNo(googleOrderNo);
   }
-  
+
   /**
-   * Constructor which takes an instance of mi, the Google
-   * Order Number, the Carrier, Tracking Number and the Send Email flag.
-   *
-   * @param mi
-   *            The mi.
-   * @param googleOrderNo
-   *            The Google Order Number.
-   * @param carrier
-   *            The Carrier.
-   * @param trackingNo
-   *            The Tracking Number.
-   * @param sendEmail
-   *            Send Email flag.
-   *
-   * @see mi
+   * Constructor which takes an instance of mi, the Google Order Number, the
+   * Carrier, Tracking Number and the Send Email flag.
    */
-  public DeliverOrderRequest(MerchantInfo mi,
-      String googleOrderNo, String carrier, String trackingNo,
-      boolean sendEmail) {
-    
+  public DeliverOrderRequest(MerchantInfo mi, String googleOrderNo,
+      String carrier, String trackingNo, boolean sendEmail) {
+
     this(mi);
     this.setGoogleOrderNo(googleOrderNo);
     this.setCarrier(carrier);
     this.setTrackingNo(trackingNo);
     this.setSendEmail(sendEmail);
   }
-  
-        /*
-         * (non-Javadoc)
-         *
-         * @see com.google.checkout.CheckoutRequest#getXml()
-         */
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.google.checkout.CheckoutRequest#getXml()
+   */
   public String getXml() {
     return Utils.documentToString(document);
   }
-  
-        /*
-         * (non-Javadoc)
-         *
-         * @see com.google.checkout.CheckoutRequest#getXmlPretty()
-         */
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.google.checkout.CheckoutRequest#getXmlPretty()
+   */
   public String getXmlPretty() {
     return Utils.documentToStringPretty(document);
-    
+
   }
-  
+
   /**
    * Return the carrier String, which is the value of the &lt;carrier&gt; tag.
-   *
+   * 
    * @return The carrier String.
    */
   public String getCarrier() {
     Element trackingDataTag = Utils.findContainerElseCreate(document, root,
         "tracking-data");
-    return Utils
-        .getElementStringValue(document, trackingDataTag, "carrier");
+    return Utils.getElementStringValue(document, trackingDataTag, "carrier");
   }
-  
+
   /**
    * Return the Google Order Number, which is the value of the
    * google-order-number attribute on the root tag.
-   *
+   * 
    * @return The Google Order Number.
    */
   public String getGoogleOrderNo() {
-    
+
     return root.getAttribute("google-order-number");
   }
-  
+
   /**
    * Return the tracking number, which is the value of the
    * &lt;tracking-number&gt; tag.
-   *
+   * 
    * @return The tracking number.
    */
   public String getTrackingNo() {
@@ -153,76 +121,72 @@ public class DeliverOrderRequest extends AbstractCheckoutRequest {
     return Utils.getElementStringValue(document, trackingDataTag,
         "tracking-number");
   }
-  
+
   /**
    * True if an email is to be sent to the buyer. This is the value of the
    * &lt;send-email&gt; tag.
-   *
+   * 
    * @return The boolean value.
    */
   public boolean isSendEmail() {
     return Utils.getElementBooleanValue(document, root, "send-email");
   }
-  
+
   /**
    * Set the carrier String, which is the value of the &lt;carrier&gt; tag.
-   *
-   * @param carrier
-   *            The carrier String.
+   * 
+   * @param carrier The carrier String.
    */
   public void setCarrier(String carrier) {
-    
+
     Element trackingDataTag = Utils.findContainerElseCreate(document, root,
         "tracking-data");
     Utils.findElementAndSetElseCreateAndSet(document, trackingDataTag,
         "carrier", carrier);
   }
-  
+
   /**
-   * Set the Google Order Number, which is the value of the
-   * google-order-number attribute on the root tag.
-   *
-   * @param googleOrderNo
-   *            The Google Order Number.
+   * Set the Google Order Number, which is the value of the google-order-number
+   * attribute on the root tag.
+   * 
+   * @param googleOrderNo The Google Order Number.
    */
   public void setGoogleOrderNo(String googleOrderNo) {
-    
+
     root.setAttribute("google-order-number", googleOrderNo);
   }
-  
+
   /**
    * True if an email is to be sent to the buyer. This is the value of the
    * &lt;send-email&gt; tag.
-   *
-   * @param sendEmail
-   *            The boolean value.
+   * 
+   * @param sendEmail The boolean value.
    */
   public void setSendEmail(boolean sendEmail) {
-    
+
     Utils.findElementAndSetElseCreateAndSet(document, root, "send-email",
         sendEmail);
   }
-  
+
   /**
-   * Set the tracking number, which is the value of the
-   * &lt;tracking-number&gt; tag.
-   *
-   * @param trackingNo
-   *            The tracking number.
+   * Set the tracking number, which is the value of the &lt;tracking-number&gt;
+   * tag.
+   * 
+   * @param trackingNo The tracking number.
    */
   public void setTrackingNo(String trackingNo) {
-    
+
     Element trackingDataTag = Utils.findContainerElseCreate(document, root,
         "tracking-data");
     Utils.findElementAndSetElseCreateAndSet(document, trackingDataTag,
         "tracking-number", trackingNo);
   }
-  
-        /*
-         * (non-Javadoc)
-         *
-         * @see com.google.checkout.CheckoutRequest#getPostUrl()
-         */
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.google.checkout.CheckoutRequest#getPostUrl()
+   */
   public String getPostUrl() {
     return "https://sandbox.google.com/checkout/cws/v2/Merchant/"
         + mi.getMerchantId() + "/request";
