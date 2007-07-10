@@ -34,14 +34,6 @@ public class AddTrackingDataRequest extends AbstractCheckoutRequest {
   
   private Element root;
   
-  /**
-   * Constructor which takes an instance of mi.
-   *
-   * @param mi
-   *            The mi.
-   *
-   * @see mi
-   */
   public AddTrackingDataRequest(MerchantInfo mi) {
     super(mi);
     
@@ -56,17 +48,9 @@ public class AddTrackingDataRequest extends AbstractCheckoutRequest {
   /**
    * Constructor which takes an instance of mi, the Google
    * Order Number, the Carrier and the Tracking Number
-   *
-   * @param mi
-   *            The mi.
-   * @param googleOrderNo
-   *            The Google Order Number.
-   * @param carrier
-   *            The Carrier.
-   * @param trackingNo
-   *            The Tracking Number.
-   *
-   * @see mi
+   * @param googleOrderNo The Google Order Number.
+   * @param carrier The Carrier.
+   * @param trackingNo The Tracking Number.
    */
   public AddTrackingDataRequest(MerchantInfo mi,
       String googleOrderNo, String carrier, String trackingNo) {
@@ -76,29 +60,29 @@ public class AddTrackingDataRequest extends AbstractCheckoutRequest {
     this.setTrackingNo(trackingNo);
   }
   
-        /*
-         * (non-Javadoc)
-         *
-         * @see com.google.checkout.CheckoutRequest#getXml()
-         */
+  /*
+   * (non-Javadoc)
+   *
+   * @see com.google.checkout.CheckoutRequest#getXml()
+   */
   public String getXml() {
     return Utils.documentToString(document);
   }
   
-        /*
-         * (non-Javadoc)
-         *
-         * @see com.google.checkout.CheckoutRequest#getXmlPretty()
-         */
+  /*
+   * (non-Javadoc)
+   *
+   * @see com.google.checkout.CheckoutRequest#getXmlPretty()
+   */
   public String getXmlPretty() {
     return Utils.documentToStringPretty(document);
   }
   
-        /*
-         * (non-Javadoc)
-         *
-         * @see com.google.checkout.CheckoutRequest#getPostUrl()
-         */
+  /*
+   * (non-Javadoc)
+   *
+   * @see com.google.checkout.CheckoutRequest#getPostUrl()
+   */
   public String getPostUrl() {
     return "https://sandbox.google.com/checkout/cws/v2/Merchant/"
         + mi.getMerchantId() + "/request";
@@ -143,8 +127,7 @@ public class AddTrackingDataRequest extends AbstractCheckoutRequest {
   /**
    * Set the carrier String, which is the value of the &lt;carrier&gt; tag.
    *
-   * @param carrier
-   *            The carrier String.
+   * @param carrier The carrier String.
    */
   public void setCarrier(String carrier) {
     Element trackingDataTag = Utils.findContainerElseCreate(document, root,
@@ -157,8 +140,7 @@ public class AddTrackingDataRequest extends AbstractCheckoutRequest {
    * Set the Google Order Number, which is the value of the
    * google-order-number attribute on the root tag.
    *
-   * @param googleOrderNo
-   *            The Google Order Number.
+   * @param googleOrderNo The Google Order Number.
    */
   public void setGoogleOrderNo(String googleOrderNo) {
     root.setAttribute("google-order-number", googleOrderNo);
@@ -168,8 +150,7 @@ public class AddTrackingDataRequest extends AbstractCheckoutRequest {
    * Set the tracking number, which is the value of the
    * &lt;tracking-number&gt; tag.
    *
-   * @param trackingNo
-   *            The tracking number.
+   * @param trackingNo The tracking number.
    */
   public void setTrackingNo(String trackingNo) {
     Element trackingDataTag = Utils.findContainerElseCreate(document, root,

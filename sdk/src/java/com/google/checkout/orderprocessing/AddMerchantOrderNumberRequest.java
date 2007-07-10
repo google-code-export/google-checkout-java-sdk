@@ -34,14 +34,6 @@ public class AddMerchantOrderNumberRequest extends AbstractCheckoutRequest {
   
   private Element root;
   
-  /**
-   * Constructor which takes an instance of mi.
-   *
-   * @param mi
-   *            The mi.
-   *
-   * @see mi
-   */
   public AddMerchantOrderNumberRequest(MerchantInfo mi) {
     super(mi);
     
@@ -56,9 +48,6 @@ public class AddMerchantOrderNumberRequest extends AbstractCheckoutRequest {
   /**
    * Constructor which takes an instance of mi, a Google Order
    * Number and a Merchant Order Number.
-   *
-   * @param mi
-   *            The mi.
    * @param googleOrderNo
    *            The Google Order Number.
    * @param merchantOrderNo

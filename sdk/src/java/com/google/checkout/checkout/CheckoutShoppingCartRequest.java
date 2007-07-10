@@ -50,10 +50,6 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
   
   /**
    * Constructor which takes an instance of mi.
-   *
-   * @param mi The mi.
-   *
-   * @see mi
    */
   public CheckoutShoppingCartRequest(MerchantInfo mi) {
     
@@ -80,13 +76,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
   /**
    * Constructor which takes an instance of mi and the cart
    * expiration.
-   *
-   * @param mi
-   *            The mi.
    * @param expirationMinutesFromNow
    *            The number of minutes before the cart should expire.
-   *
-   * @see mi
    */
   public CheckoutShoppingCartRequest(MerchantInfo mi,
       int expirationMinutesFromNow) {
