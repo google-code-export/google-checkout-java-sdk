@@ -27,17 +27,17 @@ import com.google.checkout.notification.RiskInformationNotification;
  * @author simonjsmith
  * @author inder
  */
-public class RiskInformationNotificationHandler extends
-    AbstractNotificationProcessor implements MessageHandler {
+public class RiskInformationNotificationHandler implements MessageHandler {
 
   public String process(MerchantInfo mi, String notificationMsg)
       throws CheckoutException {
     try {
-      RiskInformationNotification notification = 
-        new RiskInformationNotification(notificationMsg);
+      RiskInformationNotification notification =
+          new RiskInformationNotification(notificationMsg);
       String ack = getAckString();
-      GoogleOrder order = GoogleOrder.findOrCreate(mi.getMerchantId(),
-          notification.getGoogleOrderNo());
+      GoogleOrder order =
+          GoogleOrder.findOrCreate(mi.getMerchantId(), notification
+              .getGoogleOrderNo());
       order.addIncomingMessage(notification.getTimestamp(), notification
           .getRootNodeName(), notification.getXmlPretty(), ack);
       return ack;
@@ -46,4 +46,7 @@ public class RiskInformationNotificationHandler extends
     }
   }
 
+  private String getAckString() {
+    return NotificationAcknowledgment.getAckString();
+  }
 }

@@ -36,10 +36,12 @@
     <%
     String button = request.getParameter("button");
     
-    MerchantInfo mi = (MerchantInfo) getServletContext().getAttribute("merchant-info");
+    MerchantInfo mi = 
+      (MerchantInfo) getServletContext().getAttribute("merchant-info");
     
     SendBuyerMessageRequest messageRequest;
-    String orderNumber = request.getParameter("orderNumber") == null ? "" : request.getParameter("orderNumber");
+    String orderNumber = request.getParameter("orderNumber") == null 
+        ? "" : request.getParameter("orderNumber");
     String message = "message";
     String sendEmail = "";
     
@@ -57,7 +59,8 @@
       prettyXml = messageRequest.getXmlPretty();
       responseXml = "";
     } else if (button.equals("AddValues")) {
-      messageRequest = (SendBuyerMessageRequest) session.getAttribute("messageRequest");
+      messageRequest = 
+        (SendBuyerMessageRequest) session.getAttribute("messageRequest");
       
       orderNumber = request.getParameter("orderNumber");
       message = request.getParameter("message");
@@ -70,14 +73,17 @@
       prettyXml = messageRequest.getXmlPretty();
       responseXml = "";
     } else if (button.equals("Submit")) {
-      messageRequest = (SendBuyerMessageRequest) session.getAttribute("messageRequest");
+      messageRequest = 
+        (SendBuyerMessageRequest) session.getAttribute("messageRequest");
       CheckoutResponse res = messageRequest.send();
       
       prettyXml = messageRequest.getXmlPretty();
       responseXml = res.getXmlPretty();
       
-      GoogleOrder order = GoogleOrder.findOrCreate(mi.getMerchantId(), orderNumber);
-      order.addOutgoingMessage(new Date(), "send-buyer-message", prettyXml, responseXml);
+      GoogleOrder order = GoogleOrder.findOrCreate(mi.getMerchantId(), 
+          orderNumber);
+      order.addOutgoingMessage(new Date(), "send-buyer-message", prettyXml, 
+          responseXml);
     }
     %>
     <p>

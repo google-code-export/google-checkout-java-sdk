@@ -27,8 +27,7 @@ import com.google.checkout.notification.NewOrderNotification;
  * @author simonjsmith
  * @author inder
  */
-public class NewOrderNotificationHandler extends AbstractNotificationProcessor
-    implements MessageHandler {
+public class NewOrderNotificationHandler implements MessageHandler {
 
   public String process(MerchantInfo mi, String notificationMsg)
       throws CheckoutException {
@@ -36,19 +35,24 @@ public class NewOrderNotificationHandler extends AbstractNotificationProcessor
       NewOrderNotification notification =
           new NewOrderNotification(notificationMsg);
       String ack = getAckString();
-      GoogleOrder order = GoogleOrder.findOrCreate(mi.getMerchantId(), 
-          notification.getGoogleOrderNo());
+      GoogleOrder order =
+          GoogleOrder.findOrCreate(mi.getMerchantId(), notification
+              .getGoogleOrderNo());
 
       order
           .setLastFulStatus(notification.getFulfillmentOrderState().toString());
       order.setLastFinStatus(notification.getFinancialOrderState().toString());
       order.setBuyerEmail(notification.getBuyerBillingAddress().getEmail());
       order.setOrderAmount("" + notification.getOrderTotal());
-      order.addIncomingMessage(notification.getTimestamp(), 
-          notification.getRootNodeName(), notification.getXmlPretty(), ack);
+      order.addIncomingMessage(notification.getTimestamp(), notification
+          .getRootNodeName(), notification.getXmlPretty(), ack);
       return ack;
     } catch (Exception e) {
       throw new CheckoutException(e);
     }
+  }
+
+  private String getAckString() {
+    return NotificationAcknowledgment.getAckString();
   }
 }
