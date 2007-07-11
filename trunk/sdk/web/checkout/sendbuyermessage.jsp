@@ -101,10 +101,9 @@
                 <td>Message:</td><td><input type="text" name="message" value="<%=message %>"/></td>
                 <td>Send Email:</td>
                 <td>
-                  <select name="sendemail" value="<%=sendEmail %>">
-                    <option value ="true">true</option>
-                    <option value ="false">false</option>
-                  </select>
+                  <jsp:include page="shipping-fragment.jsp">
+                    <jsp:param name="sendEmail" value="<%=sendEmail%>"/>
+                  </jsp:include>                  
                 </td>     
               </tr>
             </table>

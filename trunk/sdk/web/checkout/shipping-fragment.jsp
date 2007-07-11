@@ -13,23 +13,53 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 --%>
-   <%!
-      public String showValueWithSelection(String value, String expected) {
-        String returnValue = "value=\"" + value + "\""; 
-        if (value.equalsIgnoreCase(expected)) { 
-          returnValue += " selected=\"selected\""; 
-        }
-        return returnValue;
-      }
-   %>
-   <%
-     String carrier = request.getParameter("carrier");
-   %>
-   <select name="carrier">   
-     <option <%=showValueWithSelection("DHL", carrier)%> >DHL</option>
-     <option <%=showValueWithSelection("FedEx", carrier)%> >FedEx</option>           
-     <option <%=showValueWithSelection("UPS", carrier)%> >UPS</option>           
-     <option <%=showValueWithSelection("USPS", carrier)%> >USPS</option>           
-     <option <%=showValueWithSelection("Other", carrier)%> >Other</option>           
-   </select>
-   
+<%-- 
+ * This JSP fragment page provides common HTML fragments for various shipping
+ * related operations.  
+ * To use this page, invoke it in a JSP include and specify the needed 
+ * parameters. For example: 
+   // Following invocation generates a <select> tag with various shipping
+   // options
+   <jsp:include page="shipping-fragment.jsp">
+     <jsp:param name="carrier" value="<%=carrier%>"/>
+   </jsp:include>                  
+
+   // Following invocation generates a <select> tag with a sendemail option
+   <jsp:include page="shipping-fragment.jsp">
+     <jsp:param name="sendEmail" value="<%=sendEmail%>"/>
+   </jsp:include>      
+ * @author inder            
+--%>
+<%!
+  public String showValueWithSelection(String value, String expected) {
+    String returnValue = "value=\"" + value + "\""; 
+    if (value.equalsIgnoreCase(expected)) { 
+      returnValue += " selected=\"selected\""; 
+    }
+    return returnValue;
+  }
+%>
+<%
+  String carrier = request.getParameter("carrier");
+  if (carrier != null) { 
+%>
+<select name="carrier">
+	<option <%=showValueWithSelection("DHL", carrier)%>>DHL</option>
+	<option <%=showValueWithSelection("FedEx", carrier)%>>FedEx</option>
+	<option <%=showValueWithSelection("UPS", carrier)%>>UPS</option>
+	<option <%=showValueWithSelection("USPS", carrier)%>>USPS</option>
+	<option <%=showValueWithSelection("Other", carrier)%>>Other</option>
+</select>
+<%
+  }
+  
+  String sendEmail = request.getParameter("sendEmail");
+  if (sendEmail != null) {
+%>
+<select name="sendemail">
+  <option <%=showValueWithSelection("true", carrier)%>>true</option>
+  <option <%=showValueWithSelection("false", carrier)%>>false</option>
+</select>
+<%    
+  }
+%>
