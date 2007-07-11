@@ -20,6 +20,10 @@ import com.google.checkout.MerchantInfo;
 
 import junit.framework.TestCase;
 
+/**
+ * small test for OrderStateChangeNotificationHandler
+ * @author inder
+ */
 public class OrderStateChangeNotificationHandlerTest extends TestCase {
 
   public void testProcess() throws CheckoutException {
