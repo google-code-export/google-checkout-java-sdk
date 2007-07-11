@@ -101,15 +101,11 @@
               <tr>
                 <td><input type="button" value="Set Values" onClick="postIt('AddValues')"/></td>
                 <td>Order Number:</td><td><input type="text" name="orderNumber" value="<%=orderNumber %>"/></td>
-                <td>Carrier:</td>
+                <td>Carrier: </td>
                 <td>
-                  <select name="carrier" value="<%=carrier %>">
-                    <option value ="DHL">DHL</option>
-                    <option value ="FedEx">FedEx</option>	      	  
-                    <option value ="UPS">UPS</option>	      	  
-                    <option value ="USPS">USPS</option>	      	  
-                    <option value ="Other">Other</option>	      	  
-                  </select>
+                  <jsp:include page="shipping-fragment.jsp">
+                    <jsp:param name="carrier" value="<%=carrier%>"/>
+                  </jsp:include>                  
                 </td>
                 <td>Tracking Number:</td><td><input type="text" name="trackingnumber" value="<%=trackingNumber %>"/></td>
                 <td>Send Email:</td>
