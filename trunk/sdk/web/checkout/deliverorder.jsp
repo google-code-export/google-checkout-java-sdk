@@ -122,7 +122,7 @@
           <td colspan='1'><strong>Request XML</strong></td>
         </tr>
         <tr>
-          <td colspan='1'><textarea name="cart" readonly="true" cols="145" rows="20"><%=prettyXml%></textarea></td>
+          <td colspan='1'><textarea name="cart" cols="145" rows="20"><%=prettyXml%></textarea></td>
         </tr>
         <tr>
           <td align="left">
@@ -143,7 +143,7 @@
           <td colspan='1'><strong>Response XML</strong></td>
         </tr>
         <tr>
-          <td colspan='1'><textarea name="response" readonly="true" cols="145" rows="8"><%=responseXml%></textarea></td>
+          <td colspan='1'><textarea name="response" cols="145" rows="8"><%=responseXml%></textarea></td>
         </tr>
       </table>
     </form>
