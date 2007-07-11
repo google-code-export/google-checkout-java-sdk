@@ -27,8 +27,7 @@ import com.google.checkout.notification.OrderStateChangeNotification;
  * @author simonjsmith
  * @author inder
  */
-public class OrderStateChangeNotificationHandler extends
-    AbstractNotificationProcessor implements MessageHandler {
+public class OrderStateChangeNotificationHandler implements MessageHandler {
 
   public String process(MerchantInfo mi, String notificationMsg)
       throws CheckoutException {
@@ -48,5 +47,8 @@ public class OrderStateChangeNotificationHandler extends
     } catch (Exception e) {
       throw new CheckoutException(e);
     }
+  }
+  private String getAckString() {
+    return NotificationAcknowledgment.getAckString();
   }
 }

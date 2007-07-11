@@ -34,8 +34,7 @@ import java.util.Iterator;
  * @author simonjsmith
  * @author inder
  */
-public class MerchantCalculationCallbackHandler extends
-    AbstractNotificationProcessor implements MessageHandler {
+public class MerchantCalculationCallbackHandler implements MessageHandler {
   
   public String process(MerchantInfo mi, String notificationMsg)
       throws CheckoutException {
