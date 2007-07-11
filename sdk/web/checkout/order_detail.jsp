@@ -62,7 +62,7 @@
     <a href="javascript:toggle('<%=count %>');"><strong><%=header%></strong></a>
     <br />
     <div id="div_<%=count %>" style='display:none;'><textarea
-        id="ta_<%=count %>" readonly="true" cols="145" rows="20"><%=body%></textarea>
+        id="ta_<%=count %>" cols="145" rows="20"><%=body%></textarea>
     </div>
     <%
     }
