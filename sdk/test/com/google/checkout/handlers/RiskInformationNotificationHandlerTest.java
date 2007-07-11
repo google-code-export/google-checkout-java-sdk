@@ -20,6 +20,10 @@ import com.google.checkout.MerchantInfo;
 
 import junit.framework.TestCase;
 
+/**
+ * small test for RiskInformationNotificationHandler
+ * @author inder
+ */
 public class RiskInformationNotificationHandlerTest extends TestCase {
 
   public void testProcess() throws CheckoutException {
