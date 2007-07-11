@@ -53,7 +53,7 @@ public class ConfigurationListener implements ServletContextListener {
           + "<checkout-config-file> init parameter!");
     }
     Document doc = Utils.newDocumentFromInputStream(is);
-    context.setAttribute(KeyConstants.MERCHANT_INFO_KEY,
+    context.setAttribute(WebConstants.MERCHANT_INFO_KEY,
         extractMerchantInfo(doc));
   }
 

@@ -87,7 +87,7 @@ public class CheckoutMessageHandlerServlet extends
       String auth = request.getHeader("Authorization");
       MerchantInfo mi =
           (MerchantInfo) getServletContext().getAttribute(
-              KeyConstants.MERCHANT_INFO_KEY);
+              WebConstants.MERCHANT_INFO_KEY);
       if (auth == null || !auth.equals("Basic " + mi.getHttpAuth())) {
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
             "Authentication Failed.");
