@@ -21,7 +21,7 @@ package com.google.checkout.web;
  * 
  * @author inder
  */
-public interface KeyConstants {
+public interface WebConstants {
 
   public static final String MERCHANT_INFO_KEY = "merchant-info";
 }
