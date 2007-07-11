@@ -110,11 +110,10 @@
                 <td>Tracking Number:</td><td><input type="text" name="trackingnumber" value="<%=trackingNumber %>"/></td>
                 <td>Send Email:</td>
                 <td>
-                  <select name="sendemail" value="<%=sendEmail %>">
-                    <option value ="true">true</option>
-                    <option value ="false">false</option>
-                  </select>
-                </td>     
+                  <jsp:include page="shipping-fragment.jsp">
+                    <jsp:param name="sendEmail" value="<%=sendEmail%>"/>
+                  </jsp:include>                  
+               </td>     
               </tr>
             </table>
           </td>
