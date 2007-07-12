@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+         version="2.4">
+  <session-config>
+    <session-timeout>
+      30
+    </session-timeout>
+  </session-config>
+  <welcome-file-list>
+    <welcome-file>
+      index.jsp
+    </welcome-file>
+  </welcome-file-list>
+    
+  <!-- Begin: Configuration for Google checkout message processing -->
+  <servlet>
+    <description>
+      Servlet that receives notifications for Google Checkout
+    </description>
+    <display-name>CheckoutNotificationServlet</display-name>
+    <servlet-name>CheckoutNotificationServlet</servlet-name>
+    <servlet-class>com.google.checkout.sdk.CheckoutMessageHandlerServlet</servlet-class>
+    <init-param>
+      <param-name>handler-type</param-name>
+      <param-value>notification-handler</param-value>
+    </init-param>
+  </servlet>
+  
+  <servlet>
+    <description>
+      Servlet that receives callback requests for Google Checkout
+    </description>
+    <display-name>CheckoutCallbackServlet</display-name>
+    <servlet-name>CheckoutCallbackServlet</servlet-name>
+    <servlet-class>com.google.checkout.sdk.CheckoutMessageHandlerServlet</servlet-class>
+    <init-param>
+      <param-name>handler-type</param-name>
+      <param-value>callback-handler</param-value>
+    </init-param>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>CheckoutNotificationServlet</servlet-name>
+    <url-pattern>/notification</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+    <servlet-name>CheckoutCallbackServlet</servlet-name>
+    <url-pattern>/callback</url-pattern>
+  </servlet-mapping>
+  
+  <!-- location of configuration file for checkout with respect to context 
+    root. Using the default path here. -->
+  <context-param>
+    <param-name>checkout-config-file</param-name>
+    <param-value>/WEB-INF/checkout-config.xml</param-value>
+  </context-param>
+  
+  <!-- End: Configuration for Google checkout message processing -->  
+</web-app>
