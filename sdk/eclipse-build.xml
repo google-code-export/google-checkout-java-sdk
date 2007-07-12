@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="sdk" default="default" basedir=".">
+  <description>Builds, tests, and runs the project sdk.</description>
+  
+  <property name="release.version" value="0.6" />
+  
+  <target name="init">
+    <property name="build.dir" value="build"/>
+    <property name="dist.dir" value="dist"/>
+  </target>
+
+  <target name="zip" depends="init,dist,javadoc">
+    <property name="zipdist.dir" value="${build.dir}/tmpdist" />
+    <property name="sdkdist.dir" value="${zipdist.dir}/checkout-sdk-${release.version}" />
+    <mkdir dir="${sdkdist.dir}" />
+    <jar basedir="${build.classes.dir}" zipfile="${sdkdist.dir}/checkout-sdk.jar"/>
+    <mkdir dir="${sdkdist.dir}/lib" />
+    <copy file="docs/index.html" todir="${sdkdist.dir}" />
+    <copy todir="${sdkdist.dir}">
+      <fileset dir=".">
+        <include name="web/**"/>
+      </fileset>      
+    </copy>
+    <copy todir="${sdkdist.dir}/docs/javadoc">
+      <fileset dir="${dist.dir}/javadoc" />
+    </copy>
+    <copy todir="${sdkdist.dir}/project">
+      <fileset dir=".">
+        <include name="src/**" />
+        <include name=".settings" />
+        <include name=".project" />
+        <include name=".classpath" />
+        <include name="nbproject" />
+        <exclude name="**/build/**" />
+        <exclude name="**/dist/**" />
+        <exclude name="**/nbproject/private/**" />
+        <exclude name="**/nbproject/genfiles.properties" />
+      </fileset>
+    </copy>
+    <copy todir="${sdkdist.dir}/samples">
+      <fileset dir="../samples">
+        <include name="**/src/**" />
+        <include name="**/.settings" />
+        <include name="**/.project" />
+        <include name="**/.classpath" />
+        <include name="**/nbproject" />
+        <exclude name="**/build/**" />
+        <exclude name="**/dist/**" />
+        <exclude name="**/nbproject/private/**" />
+        <exclude name="**/nbproject/genfiles.properties" />
+      </fileset>
+    </copy>
+    <zip zipfile="${dist.dir}/checkout-sdk-${release.version}.zip" basedir="${zipdist.dir}" />
+  </target>
+</project>
