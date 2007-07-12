@@ -12,7 +12,10 @@
   </target>
   <target name="dist">
   </target>
-  <target name="javadoc">
+  <target name="javadoc" depends="init">
+  	<javadoc sourcepath="src/java" destdir="${javadoc.dir}" 
+  	  packagenames="com.google.*" Windowtitle="Google Java Checkout SDK API"
+  	  Doctitle="Google Java Checkout API"/>
   </target>
 
   <target name="zip" depends="init,dist,javadoc">
