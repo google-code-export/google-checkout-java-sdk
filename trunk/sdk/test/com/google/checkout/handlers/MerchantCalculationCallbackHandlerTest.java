@@ -17,8 +17,11 @@ package com.google.checkout.handlers;
 
 import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
+import com.google.checkout.util.Utils;
 
 import junit.framework.TestCase;
+
+import org.w3c.dom.Document;
 
 /**
  * small test for MerchantCalculationCallbackHandler
@@ -32,12 +35,22 @@ public class MerchantCalculationCallbackHandlerTest extends TestCase {
     String notificationMsg = TestUtils.readMessage(
         "/com/google/checkout/handlers/merchant-calculation-callback-sample.xml");
     String response = handler.process(mi, notificationMsg);
-    System.out.println(response);
+    //System.out.println(response);
     assertTrue(response.contains("merchant-calculation-results"));
     assertTrue(response.contains("results"));
     assertTrue(response.contains("total-tax"));
     assertTrue(response.contains("shipping-rate"));
     assertTrue(response.contains("merchant-code-results"));
     assertTrue(response.contains("calculated-amount"));
+
+    Document responseDoc = Utils.newDocumentFromString(response);
+    responseDoc.normalizeDocument();
+    
+    String expectedResponse = TestUtils.readMessage(
+    "/com/google/checkout/handlers/merchant-calculation-callback-response-sample.xml");
+    Document expectedDoc = Utils.newDocumentFromString(expectedResponse);
+    expectedDoc.normalizeDocument();
+    
+    assertEquals(expectedDoc.toString(), responseDoc.toString());
   }
 }
