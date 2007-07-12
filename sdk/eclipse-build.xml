@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="sdk" default="default" basedir=".">
+<project name="sdk" default="zip" basedir=".">
   <description>Builds, tests, and runs the project sdk.</description>
   
   <property name="release.version" value="0.6" />
   
   <target name="init">
     <property name="build.dir" value="build"/>
+    <property name="build.classes.dir" value="${build.dir}/classes"/>
+    <property name="javadoc.dir" value="doc"/>
     <property name="dist.dir" value="dist"/>
+  </target>
+  <target name="dist">
+  </target>
+  <target name="javadoc">
   </target>
 
   <target name="zip" depends="init,dist,javadoc">
@@ -22,7 +28,7 @@
       </fileset>      
     </copy>
     <copy todir="${sdkdist.dir}/docs/javadoc">
-      <fileset dir="${dist.dir}/javadoc" />
+      <fileset dir="${javadoc.dir}" />
     </copy>
     <copy todir="${sdkdist.dir}/project">
       <fileset dir=".">
@@ -37,8 +43,9 @@
         <exclude name="**/nbproject/genfiles.properties" />
       </fileset>
     </copy>
+    <mkdir dir="${sdkdist.dir}/samples"/>
     <copy todir="${sdkdist.dir}/samples">
-      <fileset dir="../samples">
+      <fileset dir="../simple">
         <include name="**/src/**" />
         <include name="**/.settings" />
         <include name="**/.project" />
@@ -50,6 +57,7 @@
         <exclude name="**/nbproject/genfiles.properties" />
       </fileset>
     </copy>
+    <mkdir dir="${dist.dir}"/>
     <zip zipfile="${dist.dir}/checkout-sdk-${release.version}.zip" basedir="${zipdist.dir}" />
   </target>
 </project>
