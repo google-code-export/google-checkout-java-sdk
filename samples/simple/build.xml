@@ -28,11 +28,9 @@
     <target name="-post-compile" depends="init">
       <copy todir="${build.web.dir}">
         <fileset dir="${checkout-sdk.home}/web">
-          <exclude name="web/WEB-INF/checkout-fragment-for-web.xml"/>
+          <exclude name="web/WEB-INF/web.xml"/>
         </fileset>
       </copy>
       <copy file="web/WEB-INF/web.xml" todir="${build.web.dir}/WEB-INF"/>
-      <copy file="${checkout-sdk.home}/lib/com_google_checkout_example_settings.properties" 
-            todir="${build.classes.dir}"/>
     </target>    
 </project>
