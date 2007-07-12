@@ -14,7 +14,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ****************************************************************************-->
-<project name="simple" default="default" basedir=".">
+<project name="simple" default="setup" basedir=".">
     <description>Builds, tests, and runs the project simple.</description>
 
     <property file="build.properties"/>
@@ -24,7 +24,7 @@
         <property name="build.web.dir" value="build/web"/>
     </target>
 
-    <target name="-pre-compile" depends="init">
+    <target name="setup" depends="init">
       <copy file="${checkout-sdk.eclipse.home}/checkout-sdk.jar" 
             todir="${build.web.dir}/WEB-INF/lib"/>
     </target>
@@ -36,5 +36,4 @@
       </copy>
       <copy file="web/WEB-INF/web.xml" todir="${build.web.dir}/WEB-INF"/>
     </target>    
-  <target name="default" depends="init,-pre-compile,-post-compile"/>  
 </project>
