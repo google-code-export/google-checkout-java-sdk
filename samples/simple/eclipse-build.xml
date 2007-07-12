@@ -18,22 +18,23 @@
     <description>Builds, tests, and runs the project simple.</description>
 
     <property file="build.properties"/>
-    <property name="checkout-sdk.home" value="../.."/>
+    <property name="checkout-sdk.eclipse.home" value="../.."/>
     
     <target name="init">
         <property name="build.web.dir" value="build/web"/>
     </target>
 
     <target name="-pre-compile" depends="init">
-      <copy file="${checkout-sdk.home}/checkout-sdk.jar" 
+      <copy file="${checkout-sdk.eclipse.home}/checkout-sdk.jar" 
             todir="${build.web.dir}/WEB-INF/lib"/>
     </target>
     <target name="-post-compile" depends="init">
       <copy todir="${build.web.dir}">
-        <fileset dir="${checkout-sdk.home}/web">
+        <fileset dir="${checkout-sdk.eclipse.home}/web">
           <exclude name="web/WEB-INF/web.xml"/>
         </fileset>
       </copy>
       <copy file="web/WEB-INF/web.xml" todir="${build.web.dir}/WEB-INF"/>
     </target>    
+  <target name="default" depends="init,-pre-compile,-post-compile"/>  
 </project>
