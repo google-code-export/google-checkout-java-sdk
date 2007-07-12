@@ -11,7 +11,6 @@
     <mkdir dir="${sdkdist.dir}" />
     <jar basedir="${build.classes.dir}" zipfile="${sdkdist.dir}/checkout-sdk.jar"/>
     <mkdir dir="${sdkdist.dir}/lib" />
-    <copy file="src/java/com_google_checkout_example_settings.properties" todir="${sdkdist.dir}/lib" />
     <copy file="docs/index.html" todir="${sdkdist.dir}" />
     <copy todir="${sdkdist.dir}">
       <fileset dir=".">
