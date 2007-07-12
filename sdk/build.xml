@@ -27,6 +27,23 @@
         <include name=".project" />
         <include name=".classpath" />
         <include name="nbproject" />
+        <include name="**/build.xml" />
+        <include name="**/standalone-build.xml" />
+        <exclude name="**/build/**" />
+        <exclude name="**/dist/**" />
+        <exclude name="**/nbproject/private/**" />
+        <exclude name="**/nbproject/genfiles.properties" />
+      </fileset>
+    </copy>
+    <copy todir="${sdkdist.dir}/samples">
+      <fileset dir="../samples">
+        <include name="**/src/**" />
+        <include name="**/.settings" />
+        <include name="**/.project" />
+        <include name="**/.classpath" />
+        <include name="**/build.xml" />
+        <include name="**/standalone-build.xml" />
+        <include name="**/nbproject" />
         <exclude name="**/build/**" />
         <exclude name="**/dist/**" />
         <exclude name="**/nbproject/private/**" />
