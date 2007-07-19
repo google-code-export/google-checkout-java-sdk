@@ -14,7 +14,10 @@
  * the License.
  ******************************************************************************/
 
-package com.google.checkout;
+package com.google.checkout.impl;
+
+import com.google.checkout.CheckoutResponse;
+import com.google.checkout.MerchantInfo;
 
 import java.io.IOException;
 import java.io.InputStream;
