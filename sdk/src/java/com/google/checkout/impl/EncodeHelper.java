@@ -14,7 +14,7 @@
  * the License.
  ******************************************************************************/
 
-package com.google.checkout;
+package com.google.checkout.impl;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
