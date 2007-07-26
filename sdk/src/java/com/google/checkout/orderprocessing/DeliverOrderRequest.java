@@ -187,7 +187,6 @@ public class DeliverOrderRequest extends AbstractCheckoutRequest {
    * @see com.google.checkout.CheckoutRequest#getPostUrl()
    */
   public String getPostUrl() {
-    return "https://sandbox.google.com/checkout/cws/v2/Merchant/"
-        + mi.getMerchantId() + "/request";
+    return mi.getRequestUrl();
   }
 }
