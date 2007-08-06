@@ -14,10 +14,8 @@
  * the License.
  ******************************************************************************/
 
-package com.google.checkout.impl;
+package com.google.checkout;
 
-import com.google.checkout.CheckoutResponse;
-import com.google.checkout.MerchantInfo;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -90,7 +88,7 @@ public abstract class AbstractCheckoutRequest {
       connection.setRequestProperty("accept", "application/xml");
       
       PrintWriter output = new PrintWriter(new OutputStreamWriter(
-          connection.getOutputStream()));
+          connection.getOutputStream(), "UTF8"));
       output.print(getXml());
       output.flush();
       output.close();

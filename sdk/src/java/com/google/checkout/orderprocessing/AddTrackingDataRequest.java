@@ -19,8 +19,8 @@ package com.google.checkout.orderprocessing;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.google.checkout.AbstractCheckoutRequest;
 import com.google.checkout.MerchantInfo;
-import com.google.checkout.impl.AbstractCheckoutRequest;
 import com.google.checkout.util.Constants;
 import com.google.checkout.util.Utils;
 
@@ -85,8 +85,7 @@ public class AddTrackingDataRequest extends AbstractCheckoutRequest {
    * @see com.google.checkout.CheckoutRequest#getPostUrl()
    */
   public String getPostUrl() {
-    return "https://sandbox.google.com/checkout/cws/v2/Merchant/"
-        + mi.getMerchantId() + "/request";
+    return mi.getRequestUrl();
   }
 
   /**
