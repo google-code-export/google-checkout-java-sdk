@@ -1,6 +1,0 @@
-Manifest-Version: 1.0
-OpenIDE-Module: com.google.integrationwizard
-OpenIDE-Module-Layer: com/google/checkoutsdk/integrationwizard/layer.xml
-OpenIDE-Module-Localizing-Bundle: com/google/checkoutsdk/integrationwizard/Bundle.properties
-OpenIDE-Module-Specification-Version: 1.0
-
