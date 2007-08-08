@@ -1,12 +1,18 @@
 package com.google.checkoutsdk.nbmodule.integrationwizard;
 
+import com.google.checkoutsdk.nbmodule.integrationwizard.handlers.CheckoutConfigManager;
 import java.awt.Component;
+import java.io.File;
+import java.net.URI;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
 
 public final class ConfigWizardPanel extends JPanel {
+    
+    // The located web.xml file
+    private File webXmlFile;
     
     /**
      * Creates the checkout-config.xml editing panel for the Integration Wizard. 
@@ -22,7 +28,7 @@ public final class ConfigWizardPanel extends JPanel {
      * @return Name of this panel
      */
     public String getName() {
-        return "Create checkout-config.xml";
+        return "Create Config File";
     }
     
     /** This method is called from within the constructor to
@@ -32,36 +38,51 @@ public final class ConfigWizardPanel extends JPanel {
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jSeparator1 = new javax.swing.JSeparator();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
+        configLabel = new javax.swing.JLabel();
+        configTextField = new javax.swing.JTextField();
+        separator1 = new javax.swing.JSeparator();
+        merchantIdLabel = new javax.swing.JLabel();
+        merchantKeyLabel = new javax.swing.JLabel();
+        merchantIdTextField = new javax.swing.JTextField();
+        merchantKeyTextField = new javax.swing.JTextField();
+        addDefaultHandlersCheckBox = new javax.swing.JCheckBox();
+        launchHandlerManagerCheckBox = new javax.swing.JCheckBox();
+        envComboBox = new javax.swing.JComboBox();
+        envLabel = new javax.swing.JLabel();
+        currencyCodeLabel = new javax.swing.JLabel();
+        separator2 = new javax.swing.JSeparator();
+        currencyCodeTextField = new javax.swing.JTextField();
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 0, 12));
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, "checkout-config.xml will be placed alongside web.xml at:");
+        configLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        org.openide.awt.Mnemonics.setLocalizedText(configLabel, "checkout-config.xml will be placed alongside web.xml at:");
 
-        jTextField1.setEditable(false);
+        configTextField.setEditable(false);
 
-        jLabel2.setFont(new java.awt.Font("Dialog", 0, 12));
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel2, "Merchant ID:");
+        merchantIdLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        org.openide.awt.Mnemonics.setLocalizedText(merchantIdLabel, "Merchant ID:");
 
-        jLabel3.setFont(new java.awt.Font("Dialog", 0, 12));
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel3, "Merchant Key:");
+        merchantKeyLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        org.openide.awt.Mnemonics.setLocalizedText(merchantKeyLabel, "Merchant Key:");
 
-        jCheckBox1.setFont(new java.awt.Font("Dialog", 0, 12));
-        org.openide.awt.Mnemonics.setLocalizedText(jCheckBox1, "Create a default set of handlers");
-        jCheckBox1.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        jCheckBox1.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        addDefaultHandlersCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        org.openide.awt.Mnemonics.setLocalizedText(addDefaultHandlersCheckBox, "Create a default set of handlers");
+        addDefaultHandlersCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        addDefaultHandlersCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
-        jCheckBox2.setFont(new java.awt.Font("Dialog", 0, 12));
-        org.openide.awt.Mnemonics.setLocalizedText(jCheckBox2, "Run the Handler Manager after this wizard");
-        jCheckBox2.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        jCheckBox2.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        launchHandlerManagerCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        org.openide.awt.Mnemonics.setLocalizedText(launchHandlerManagerCheckBox, "Run the Handler Manager after this wizard");
+        launchHandlerManagerCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        launchHandlerManagerCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
+
+        envComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Sandbox", "Production" }));
+
+        envLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        org.openide.awt.Mnemonics.setLocalizedText(envLabel, "Environment:");
+
+        currencyCodeLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        org.openide.awt.Mnemonics.setLocalizedText(currencyCodeLabel, "Currency Code:");
+
+        currencyCodeTextField.setText("USD");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -70,43 +91,61 @@ public final class ConfigWizardPanel extends JPanel {
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jTextField1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
-                    .add(jLabel1)
-                    .add(jSeparator1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                    .add(configTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                    .add(configLabel)
+                    .add(separator1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                    .add(merchantIdLabel)
                     .add(layout.createSequentialGroup()
-                        .add(jLabel2)
-                        .add(21, 21, 21)
-                        .add(jTextField2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE))
-                    .add(layout.createSequentialGroup()
-                        .add(jLabel3)
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(currencyCodeLabel)
+                            .add(merchantKeyLabel)
+                            .add(envLabel))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jTextField3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 282, Short.MAX_VALUE))
-                    .add(jCheckBox1)
-                    .add(jCheckBox2))
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, envComboBox, 0, 275, Short.MAX_VALUE)
+                            .add(layout.createSequentialGroup()
+                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, merchantIdTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+                                    .add(merchantKeyTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)))
+                            .add(currencyCodeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 85, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, separator2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                    .add(addDefaultHandlersCheckBox)
+                    .add(launchHandlerManagerCheckBox))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jLabel1)
+                .add(configLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jTextField1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(configTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(16, 16, 16)
-                .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(separator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel2)
-                    .add(jTextField2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(merchantIdLabel)
+                    .add(merchantIdTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel3)
-                    .add(jTextField3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(33, 33, 33)
-                .add(jCheckBox1)
+                    .add(merchantKeyLabel)
+                    .add(merchantKeyTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jCheckBox2)
-                .addContainerGap(123, Short.MAX_VALUE))
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(envLabel)
+                    .add(envComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(currencyCodeLabel)
+                    .add(currencyCodeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(14, 14, 14)
+                .add(separator2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(addDefaultHandlersCheckBox)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(launchHandlerManagerCheckBox)
+                .addContainerGap(71, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     
@@ -119,24 +158,67 @@ public final class ConfigWizardPanel extends JPanel {
     /*************************************************************************/
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JCheckBox jCheckBox2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JCheckBox addDefaultHandlersCheckBox;
+    private javax.swing.JLabel configLabel;
+    private javax.swing.JTextField configTextField;
+    private javax.swing.JLabel currencyCodeLabel;
+    private javax.swing.JTextField currencyCodeTextField;
+    private javax.swing.JComboBox envComboBox;
+    private javax.swing.JLabel envLabel;
+    private javax.swing.JCheckBox launchHandlerManagerCheckBox;
+    private javax.swing.JLabel merchantIdLabel;
+    private javax.swing.JTextField merchantIdTextField;
+    private javax.swing.JLabel merchantKeyLabel;
+    private javax.swing.JTextField merchantKeyTextField;
+    private javax.swing.JSeparator separator1;
+    private javax.swing.JSeparator separator2;
     // End of variables declaration//GEN-END:variables
     
     /*************************************************************************/
     /*                          UTILITY METHODS                              */
     /*************************************************************************/
     
+    public void updateConfigTextField() {
+        URI uri = webXmlFile.getParentFile().toURI().resolve("checkout-config.xml");
+        String configFileName = uri.toString().replace("file:", "");
+        configTextField.setText(configFileName);
+    }
+    
+    public CheckoutConfigManager getConfigManager() {
+        CheckoutConfigManager configManager = new CheckoutConfigManager();
+        
+        configManager.setMerchantId(merchantIdTextField.getText());
+        configManager.setMerchantKey(merchantKeyTextField.getText());
+        configManager.setEnv((String)envComboBox.getSelectedItem());
+        configManager.setCurrencyCode(currencyCodeTextField.getText());
+        configManager.setNewFileName(configTextField.getText());
+        
+        return configManager;
+    }
+    
     /*************************************************************************/
     /*                       SHARED DATA ACCESSORS                           */
     /*************************************************************************/
+    
+    private void setWebXmlFile(File webXmlFile) {
+        this.webXmlFile = webXmlFile;
+    }
+    
+    private boolean addDefaultHandlers() {
+        return addDefaultHandlersCheckBox.isSelected();
+    }
+    
+    private void setAddDefaultHandlers(boolean addDefaultHandlers) {
+        addDefaultHandlersCheckBox.setSelected(addDefaultHandlers);
+    }
+    
+    private boolean launchHandlerManager() {
+        return launchHandlerManagerCheckBox.isSelected();
+    }
+    
+    private void setLaunchHandlerManager(boolean launchHandlerManager) {
+        launchHandlerManagerCheckBox.setSelected(launchHandlerManager);
+    }
     
     /*************************************************************************/
     /*                       WIZARD DESCRIPTOR PANEL                         */
@@ -161,10 +243,28 @@ public final class ConfigWizardPanel extends JPanel {
             return true;
         }
 
+        // TODO: Add listener to enable/disable 'next' button
         public final void addChangeListener(ChangeListener l) {}
         public final void removeChangeListener(ChangeListener l) {}
-        public void readSettings(Object settings) {}
-        public void storeSettings(Object settings) {}
+        
+        public void readSettings(Object settings) {
+            // Read shared info from the wizard descriptor
+            IntegrationWizardDescriptor descriptor = (IntegrationWizardDescriptor) settings;
+            component.setWebXmlFile(descriptor.getWebXmlFile());
+            component.setAddDefaultHandlers(descriptor.addDefaultHandlers());
+            component.setLaunchHandlerManager(descriptor.launchHandlerManager());
+
+            // Update the config file's name
+            component.updateConfigTextField();
+        }
+        
+        public void storeSettings(Object settings) {
+            // Write shared info to the wizard descriptor
+            IntegrationWizardDescriptor descriptor = (IntegrationWizardDescriptor) settings;
+            descriptor.setConfigManager(component.getConfigManager());
+            descriptor.setAddDefaultHandlers(component.addDefaultHandlers());
+            descriptor.setLaunchHandlerManager(component.launchHandlerManager());
+        }
     }
 }
 

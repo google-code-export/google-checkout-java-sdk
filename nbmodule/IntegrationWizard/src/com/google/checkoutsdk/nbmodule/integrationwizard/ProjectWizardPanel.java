@@ -120,6 +120,8 @@ public final class ProjectWizardPanel extends JPanel {
         }
     }//GEN-LAST:event_projectListValueChanged
 
+    // TODO: Remove refresh button?  While wizard is open, NetBeans cannot
+    // regain focus, so the user shouldn't be able to add/remove projects
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
         refreshProjectList();
     }//GEN-LAST:event_refreshButtonActionPerformed
@@ -212,6 +214,7 @@ public final class ProjectWizardPanel extends JPanel {
             return true;
         }
 
+        // TODO: Add listener to enable/disable 'next' button
         public final void addChangeListener(ChangeListener l) {}
         public final void removeChangeListener(ChangeListener l) {}
         
@@ -226,7 +229,7 @@ public final class ProjectWizardPanel extends JPanel {
         }
         
         public void storeSettings(Object settings) {
-            // Write shared info from the wizard descriptor
+            // Write shared info to the wizard descriptor
             IntegrationWizardDescriptor descriptor = (IntegrationWizardDescriptor) settings;
             descriptor.setProject(component.getCurrentProject());
             descriptor.setWebXmlFile(component.getWebXmlFile());

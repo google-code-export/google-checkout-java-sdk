@@ -34,7 +34,7 @@ public class SamplesWizardPanel extends javax.swing.JPanel {
     private void initComponents() {
         sampleCheckBox = new javax.swing.JCheckBox();
         locationTextField = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        locationLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         detailsTextArea = new javax.swing.JTextArea();
         browseButton = new javax.swing.JButton();
@@ -50,10 +50,8 @@ public class SamplesWizardPanel extends javax.swing.JPanel {
             }
         });
 
-        locationTextField.setText("jTextField1");
-
-        jLabel1.setFont(new java.awt.Font("Dialog", 0, 12));
-        jLabel1.setText("Location:");
+        locationLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        locationLabel.setText("Location:");
 
         detailsTextArea.setColumns(20);
         detailsTextArea.setLineWrap(true);
@@ -77,7 +75,7 @@ public class SamplesWizardPanel extends javax.swing.JPanel {
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(browseButton))
                     .add(sampleCheckBox)
-                    .add(jLabel1)
+                    .add(locationLabel)
                     .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -87,7 +85,7 @@ public class SamplesWizardPanel extends javax.swing.JPanel {
                 .addContainerGap()
                 .add(sampleCheckBox)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jLabel1)
+                .add(locationLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(browseButton)
@@ -98,6 +96,10 @@ public class SamplesWizardPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /*************************************************************************/
+    /*                           EVENT HANDLERS                              */
+    /*************************************************************************/
+    
     private void sampleCheckBoxStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sampleCheckBoxStateChanged
         if (sampleCheckBox.isSelected()) {
             this.locationTextField.setEnabled(true);
@@ -109,18 +111,14 @@ public class SamplesWizardPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_sampleCheckBoxStateChanged
     
     /*************************************************************************/
-    /*                           EVENT HANDLERS                              */
-    /*************************************************************************/
-    
-    /*************************************************************************/
     /*                          SWING VARIABLES                              */
     /*************************************************************************/    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton browseButton;
     private javax.swing.JTextArea detailsTextArea;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel locationLabel;
     private javax.swing.JTextField locationTextField;
     private javax.swing.JCheckBox sampleCheckBox;
     // End of variables declaration//GEN-END:variables
@@ -156,6 +154,7 @@ public class SamplesWizardPanel extends javax.swing.JPanel {
             return true;
         }
 
+        // TODO: Add listener to enable/disable 'next' button
         public final void addChangeListener(ChangeListener l) {}
         public final void removeChangeListener(ChangeListener l) {}
         public void readSettings(Object settings) {}
