@@ -6,12 +6,12 @@ import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
 
-public final class ConfirmationWizardPanel extends JPanel {
+public class SamplesWizardPanel extends javax.swing.JPanel {
     
     /**
      * Creates the samples selection panel for the Integration Wizard. 
      */
-    public ConfirmationWizardPanel() {        
+    public SamplesWizardPanel() {
         initComponents();
     }
     
@@ -22,7 +22,7 @@ public final class ConfirmationWizardPanel extends JPanel {
      * @return Name of this panel
      */
     public String getName() {
-        return "Cofirm Changes";
+        return "Add Sample Pages";
     }
     
     /** This method is called from within the constructor to
@@ -32,18 +32,38 @@ public final class ConfirmationWizardPanel extends JPanel {
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
+        sampleCheckBox = new javax.swing.JCheckBox();
+        locationTextField = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        detailsTextArea = new javax.swing.JTextArea();
+        browseButton = new javax.swing.JButton();
+
+        sampleCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        sampleCheckBox.setSelected(true);
+        sampleCheckBox.setText("I would like to add samples pages to this project");
+        sampleCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        sampleCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        sampleCheckBox.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                sampleCheckBoxStateChanged(evt);
+            }
+        });
+
+        locationTextField.setText("jTextField1");
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 12));
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, "Clicking \"Finish\" with have the following effects:");
+        jLabel1.setText("Location:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setEditable(false);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("Modify <project-name>\n\n- Add checkout-sdk.jar to your WEB-INF/lib directory\n- Modify web.xml\n- Add checkout-config.xml to your WEB-INF directory\n- Create a default set of handlers\n- Add sample JSPs to your web/checkout directory");
-        jScrollPane1.setViewportView(jTextArea1);
+        detailsTextArea.setColumns(20);
+        detailsTextArea.setLineWrap(true);
+        detailsTextArea.setRows(5);
+        detailsTextArea.setText("These sample JSPs are:\n - Good examples of how to write handlers for Checkout SDK\n - Useful for testing ");
+        detailsTextArea.setBorder(null);
+        detailsTextArea.setOpaque(false);
+        jScrollPane1.setViewportView(detailsTextArea);
+
+        browseButton.setText("Browse");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -52,20 +72,41 @@ public final class ConfirmationWizardPanel extends JPanel {
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
-                    .add(jLabel1))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .add(locationTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(browseButton))
+                    .add(sampleCheckBox)
+                    .add(jLabel1)
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
+                .add(sampleCheckBox)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jLabel1)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
-                .addContainerGap())
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(browseButton)
+                    .add(locationTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(137, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void sampleCheckBoxStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sampleCheckBoxStateChanged
+        if (sampleCheckBox.isSelected()) {
+            this.locationTextField.setEnabled(true);
+            this.browseButton.setEnabled(true);
+        } else {
+            this.locationTextField.setEnabled(false);
+            this.browseButton.setEnabled(false);
+        }
+    }//GEN-LAST:event_sampleCheckBoxStateChanged
     
     /*************************************************************************/
     /*                           EVENT HANDLERS                              */
@@ -76,9 +117,12 @@ public final class ConfirmationWizardPanel extends JPanel {
     /*************************************************************************/    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton browseButton;
+    private javax.swing.JTextArea detailsTextArea;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextField locationTextField;
+    private javax.swing.JCheckBox sampleCheckBox;
     // End of variables declaration//GEN-END:variables
     
     /*************************************************************************/
@@ -93,13 +137,13 @@ public final class ConfirmationWizardPanel extends JPanel {
     /*                       WIZARD DESCRIPTOR PANEL                         */
     /*************************************************************************/
    
-    static public class Panel implements WizardDescriptor.Panel {
+    public static class Panel implements WizardDescriptor.Panel {
         // The visual component of this panel
-        private ConfirmationWizardPanel component;
+        private SamplesWizardPanel component;
 
         public Component getComponent() {
             if (component == null) {
-                component = new ConfirmationWizardPanel();
+                component = new SamplesWizardPanel();
             }
             return component;
         }
@@ -118,4 +162,3 @@ public final class ConfirmationWizardPanel extends JPanel {
         public void storeSettings(Object settings) {}
     }
 }
-

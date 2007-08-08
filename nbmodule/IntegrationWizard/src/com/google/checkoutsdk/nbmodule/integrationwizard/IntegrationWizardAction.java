@@ -14,8 +14,11 @@ public final class IntegrationWizardAction extends CallableSystemAction {
     
     private WizardDescriptor.Panel[] panels;
     
+    /**
+     * Creates and shows the wizard when the action button is pressed.
+     */
     public void performAction() {
-        WizardDescriptor wizardDescriptor = new WizardDescriptor(getPanels());
+        WizardDescriptor wizardDescriptor = new IntegrationWizardDescriptor(getPanels());
         // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
         wizardDescriptor.setTitleFormat(new MessageFormat("{0}"));
         wizardDescriptor.setTitle("Google Checkout Integration Wizard");
@@ -32,13 +35,14 @@ public final class IntegrationWizardAction extends CallableSystemAction {
      * Initialize panels representing individual wizard's steps and sets
      * various properties for them influencing wizard appearance.
      */
-    private WizardDescriptor.Panel[] getPanels() {
+    private WizardDescriptor.Panel[] getPanels() {        
         if (panels == null) {
             panels = new WizardDescriptor.Panel[] {
-                new ProjectWizardPanel(),
-                new WebXmlWizardPanel(),
-                new HandlerWizardPanel(),
-                new ConfirmationWizardPanel()
+                new ProjectWizardPanel.Panel(),
+                new WebXmlWizardPanel.Panel(),
+                new ConfigWizardPanel.Panel(),
+                new SamplesWizardPanel.Panel(),
+                new ConfirmationWizardPanel.Panel()
             };
             String[] steps = new String[panels.length];
             for (int i = 0; i < panels.length; i++) {
