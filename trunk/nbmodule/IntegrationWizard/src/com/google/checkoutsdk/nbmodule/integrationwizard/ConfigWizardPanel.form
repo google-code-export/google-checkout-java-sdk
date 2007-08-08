@@ -15,21 +15,32 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jTextField1" alignment="0" pref="376" max="32767" attributes="0"/>
-                  <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="jSeparator1" alignment="0" pref="376" max="32767" attributes="0"/>
+                  <Component id="configTextField" alignment="0" pref="376" max="32767" attributes="0"/>
+                  <Component id="configLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="separator1" alignment="0" pref="376" max="32767" attributes="0"/>
+                  <Component id="merchantIdLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
-                      <Component id="jTextField2" pref="282" max="32767" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="currencyCodeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="merchantKeyLabel" min="-2" max="-2" attributes="0"/>
+                          <Component id="envLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jTextField3" pref="282" max="32767" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="envComboBox" alignment="1" pref="275" max="32767" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="merchantIdTextField" alignment="1" pref="275" max="32767" attributes="0"/>
+                                  <Component id="merchantKeyTextField" alignment="0" pref="275" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Component id="currencyCodeTextField" alignment="0" min="-2" pref="85" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <Component id="jCheckBox1" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="jCheckBox2" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="separator2" alignment="1" pref="376" max="32767" attributes="0"/>
+                  <Component id="addDefaultHandlersCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="launchHandlerManagerCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -39,32 +50,44 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+              <Component id="configLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jTextField1" min="-2" max="-2" attributes="0"/>
+              <Component id="configTextField" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
-              <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
+              <Component id="separator1" min="-2" pref="10" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="merchantIdLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="merchantIdTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="merchantKeyLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="merchantKeyTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
-              <Component id="jCheckBox1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jCheckBox2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="123" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="envLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="envComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="currencyCodeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="currencyCodeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
+              <Component id="separator2" min="-2" pref="10" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="addDefaultHandlersCheckBox" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="launchHandlerManagerCheckBox" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="71" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="jLabel1">
+    <Component class="javax.swing.JLabel" name="configLabel">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
@@ -72,14 +95,14 @@
         <Property name="text" type="java.lang.String" value="checkout-config.xml will be placed alongside web.xml at:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1">
+    <Component class="javax.swing.JTextField" name="configTextField">
       <Properties>
         <Property name="editable" type="boolean" value="false"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JSeparator" name="jSeparator1">
+    <Component class="javax.swing.JSeparator" name="separator1">
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel2">
+    <Component class="javax.swing.JLabel" name="merchantIdLabel">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
@@ -87,7 +110,7 @@
         <Property name="text" type="java.lang.String" value="Merchant ID:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="jLabel3">
+    <Component class="javax.swing.JLabel" name="merchantKeyLabel">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
@@ -95,11 +118,11 @@
         <Property name="text" type="java.lang.String" value="Merchant Key:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField2">
+    <Component class="javax.swing.JTextField" name="merchantIdTextField">
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField3">
+    <Component class="javax.swing.JTextField" name="merchantKeyTextField">
     </Component>
-    <Component class="javax.swing.JCheckBox" name="jCheckBox1">
+    <Component class="javax.swing.JCheckBox" name="addDefaultHandlersCheckBox">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
@@ -115,7 +138,7 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JCheckBox" name="jCheckBox2">
+    <Component class="javax.swing.JCheckBox" name="launchHandlerManagerCheckBox">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
@@ -129,6 +152,39 @@
         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
           <Insets value="[0, 0, 0, 0]"/>
         </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="envComboBox">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="2">
+            <StringItem index="0" value="Sandbox"/>
+            <StringItem index="1" value="Production"/>
+          </StringArray>
+        </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="envLabel">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Environment:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="currencyCodeLabel">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Currency Code:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JSeparator" name="separator2">
+    </Component>
+    <Component class="javax.swing.JTextField" name="currencyCodeTextField">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="USD"/>
       </Properties>
     </Component>
   </SubComponents>

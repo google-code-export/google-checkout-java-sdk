@@ -416,6 +416,7 @@ public final class WebXmlWizardPanel extends JPanel {
             return true;
         }
 
+        // TODO: Add listener to enable/disable 'next' button
         public final void addChangeListener(ChangeListener l) {}
         public final void removeChangeListener(ChangeListener l) {}
         
@@ -429,7 +430,7 @@ public final class WebXmlWizardPanel extends JPanel {
         }
         
         public void storeSettings(Object settings) {
-            // Write shared info from the wizard descriptor
+            // Write shared info to the wizard descriptor
             IntegrationWizardDescriptor descriptor = (IntegrationWizardDescriptor) settings;
             descriptor.setWebXmlFile(component.getWebXmlFile());
             descriptor.setModifiedWebXml(component.getModifiedWebXml());
