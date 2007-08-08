@@ -6,11 +6,9 @@
 <p>This SDK provides a library and instructions to integrate Google
 Checkout XML APIs in your Web applications. The <a href="release-notes.html">release notes</a> document the updates in this release. <br>
 </p>
-<p>The remainder of the
-instructions assume that you unzipped the checkout sdk at checkout-sdk/
-directory. Here are the steps to use
-this SDK:</p>
-
+<h3>Using the SDK</h3>
+The remainder of the instructions assume that you unzipped the checkout sdk at checkout-sdk/
+directory. Here are the steps to use this SDK:</p>
 <ol>
   <li>Copy <a href="checkout-sdk.jar">checkout-sdk.jar</a> to your WEB-INF/lib</li>
   <li>Copy <a href="web/WEB-INF/checkout-config.xml">checkout-sdk/web/WEB-INF/checkout-config.xml</a> to your WEB-INF/ directory</li>
@@ -26,6 +24,22 @@ this SDK:</p>
 	</ol></li>
 	<li>Copy over the contents of <a href="web/checkout">web/checkout</a> to a suitable directory in your application. For example, web/checkout</li>
   <li>Your application is now ready to use Google Checkout APIs. Deploy
-it on tomcat or another application server to test the integration </li>
+it on tomcat or another application server to test the integration. </li>
 </ol>
+
+<h3>Building the Source-code</h3>
+The source-code for Checkout SDK is included in the <a href="project/">project/</a> directory. 
+<ul>
+<li>To run it from NetBeans, just load up the project/ directory as a NetBeans project. 
+Configure tomcat, and deploy the application to run it. </li>
+<li>To build the application from command-line, cd to the project/ directory and follow these steps: 
+<ol>
+<li>Edit build.properties and adjust the value of tomcat.home to point to your Tomcat installation. 
+If you intend to use a different application server, you can ignore the tomcat.home variable, and 
+instead adjust the servlet-api-jar.path property directly to point to the location of servlet-api.jar</li>
+<li>Make sure that you have ant installed, and run ant -f standalone-build.xml </li>
+<li>Check dist/ directory to see newly created checkout-sdk.jar and checkout-war.jar</li>
+</ol>
+</li>
+</ul>
 </body></html>
