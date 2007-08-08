@@ -66,6 +66,9 @@
               <Connection code="projectModel" type="code"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="projectListValueChanged"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
