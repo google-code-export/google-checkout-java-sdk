@@ -15,23 +15,18 @@ public final class ProjectWizardPanel extends JPanel {
     // The contents of the project selector list
     private DefaultListModel projectModel;
     
-    // The located web.xml file
-    private File webXmlFile;
-    
     // List of the currently displayed (open) projects
     private Project[] projects;
     
-    // The currently selected project 
-    private Project currentProject;
+    // Integration settings, built by this wizard
+    private Settings settings;
     
     /**
      * Creates the project choosing panel for the Integration Wizard. 
      */
     public ProjectWizardPanel() {
-        projectModel = new DefaultListModel();
-        
+        projectModel = new DefaultListModel();        
         initComponents();
-        refreshProjectList();
     }
     
     /**
@@ -110,12 +105,13 @@ public final class ProjectWizardPanel extends JPanel {
     private void projectListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_projectListValueChanged
         if (!evt.getValueIsAdjusting() && projectList.getSelectedIndex() >= 0) {
             Project newProject = projects[projectList.getSelectedIndex()];
-            if (currentProject != newProject) {
-                // Set the new project
-                currentProject = newProject;
+            if (settings.getProject() != newProject) {
+                // Project selection has changed, so reset settings (to clear
+                // info from other panels)
+                settings.reset();
                 
-                // Clear the selected web.xml file
-                webXmlFile = null;
+                // Set the new project
+                settings.setProject(newProject);
             }
         }
     }//GEN-LAST:event_projectListValueChanged
@@ -152,8 +148,8 @@ public final class ProjectWizardPanel extends JPanel {
         
         // Determine the selected projects name
         String selectedName = null;
-        if (currentProject != null) {
-            selectedName = currentProject.getProjectDirectory().getName();
+        if (settings.getProject() != null) {
+            selectedName = settings.getProject().getProjectDirectory().getName();
         } else if (openProjects.getMainProject() != null) {
             selectedName = openProjects.getMainProject().getProjectDirectory().getName();
         }
@@ -172,23 +168,15 @@ public final class ProjectWizardPanel extends JPanel {
     }
     
     /*************************************************************************/
-    /*                       SHARED DATA ACCESSORS                           */
+    /*                         SETTINGS ACCESSORS                            */
     /*************************************************************************/
     
-    public Project getCurrentProject() {
-        return currentProject;
+    public Settings getSettings() {
+        return settings;
     }
     
-    public void setCurrentProject(Project project) {
-        this.currentProject= project;
-    }
-
-    private File getWebXmlFile() {
-        return webXmlFile;
-    }
-    
-    private void setWebXmlFile(File webXmlFile) {
-        this.webXmlFile = webXmlFile;
+    public void setSettings(Settings settings) {
+        this.settings = settings;
     }
     
     /*************************************************************************/
@@ -221,8 +209,7 @@ public final class ProjectWizardPanel extends JPanel {
         public void readSettings(Object settings) {
             // Read shared info from the wizard descriptor
             IntegrationWizardDescriptor descriptor = (IntegrationWizardDescriptor) settings;
-            component.setCurrentProject(descriptor.getProject());
-            component.setWebXmlFile(descriptor.getWebXmlFile());
+            component.setSettings(descriptor.getSettings());
 
             // Refresh the panel
             component.refreshProjectList();
@@ -231,9 +218,7 @@ public final class ProjectWizardPanel extends JPanel {
         public void storeSettings(Object settings) {
             // Write shared info to the wizard descriptor
             IntegrationWizardDescriptor descriptor = (IntegrationWizardDescriptor) settings;
-            descriptor.setProject(component.getCurrentProject());
-            descriptor.setWebXmlFile(component.getWebXmlFile());
+            descriptor.setSettings(component.getSettings());
         }
     }
 }
-

@@ -11,8 +11,8 @@ import org.openide.util.HelpCtx;
 
 public final class ConfigWizardPanel extends JPanel {
     
-    // The located web.xml file
-    private File webXmlFile;
+    // Integration settings, built by this wizard
+    private Settings settings;
     
     /**
      * Creates the checkout-config.xml editing panel for the Integration Wizard. 
@@ -178,14 +178,19 @@ public final class ConfigWizardPanel extends JPanel {
     /*                          UTILITY METHODS                              */
     /*************************************************************************/
     
-    public void updateConfigTextField() {
-        URI uri = webXmlFile.getParentFile().toURI().resolve("checkout-config.xml");
+    public void updatePanel() {
+        // Update the config text field
+        URI uri = settings.getWebXmlFile().getParentFile().toURI().resolve("checkout-config.xml");
         String configFileName = uri.toString().replace("file:", "");
         configTextField.setText(configFileName);
+        
+        // Update the check boxes
+        addDefaultHandlersCheckBox.setSelected(settings.addDefaultHandlers());
+        launchHandlerManagerCheckBox.setSelected(settings.launchHandlerManager());
     }
     
-    public CheckoutConfigManager getConfigManager() {
-        CheckoutConfigManager configManager = new CheckoutConfigManager();
+    public void recordSettings() {
+        CheckoutConfigManager configManager = settings.getConfigManager();
         
         configManager.setMerchantId(merchantIdTextField.getText());
         configManager.setMerchantKey(merchantKeyTextField.getText());
@@ -193,31 +198,20 @@ public final class ConfigWizardPanel extends JPanel {
         configManager.setCurrencyCode(currencyCodeTextField.getText());
         configManager.setNewFileName(configTextField.getText());
         
-        return configManager;
+        settings.setAddDefaultHandlers(addDefaultHandlersCheckBox.isSelected());
+        settings.setLaunchHandlerManager(launchHandlerManagerCheckBox.isSelected());
     }
     
     /*************************************************************************/
-    /*                       SHARED DATA ACCESSORS                           */
+    /*                         SETTINGS ACCESSORS                            */
     /*************************************************************************/
     
-    private void setWebXmlFile(File webXmlFile) {
-        this.webXmlFile = webXmlFile;
+    public Settings getSettings() {
+        return settings;
     }
     
-    private boolean addDefaultHandlers() {
-        return addDefaultHandlersCheckBox.isSelected();
-    }
-    
-    private void setAddDefaultHandlers(boolean addDefaultHandlers) {
-        addDefaultHandlersCheckBox.setSelected(addDefaultHandlers);
-    }
-    
-    private boolean launchHandlerManager() {
-        return launchHandlerManagerCheckBox.isSelected();
-    }
-    
-    private void setLaunchHandlerManager(boolean launchHandlerManager) {
-        launchHandlerManagerCheckBox.setSelected(launchHandlerManager);
+    public void setSettings(Settings settings) {
+        this.settings = settings;
     }
     
     /*************************************************************************/
@@ -250,20 +244,19 @@ public final class ConfigWizardPanel extends JPanel {
         public void readSettings(Object settings) {
             // Read shared info from the wizard descriptor
             IntegrationWizardDescriptor descriptor = (IntegrationWizardDescriptor) settings;
-            component.setWebXmlFile(descriptor.getWebXmlFile());
-            component.setAddDefaultHandlers(descriptor.addDefaultHandlers());
-            component.setLaunchHandlerManager(descriptor.launchHandlerManager());
+            component.setSettings(descriptor.getSettings());
 
             // Update the config file's name
-            component.updateConfigTextField();
+            component.updatePanel();
         }
         
         public void storeSettings(Object settings) {
+            // Record the page state into settings
+            component.recordSettings();
+            
             // Write shared info to the wizard descriptor
             IntegrationWizardDescriptor descriptor = (IntegrationWizardDescriptor) settings;
-            descriptor.setConfigManager(component.getConfigManager());
-            descriptor.setAddDefaultHandlers(component.addDefaultHandlers());
-            descriptor.setLaunchHandlerManager(component.launchHandlerManager());
+            descriptor.setSettings(component.getSettings());
         }
     }
 }

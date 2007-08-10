@@ -20,20 +20,14 @@ import org.openide.windows.WindowManager;
 
 public final class WebXmlWizardPanel extends JPanel {
     
-    // The currently selected project
-    private Project project;
-    
-    // The located web.xml file
-    private File webXmlFile;
-    
-    // The modified web.xml
-    private String modifiedWebXml;
-    
     // The xml fragment to insert into web.xml
     private String webFragment;
     
     // Whether there was an error reading the file or not
-    boolean error = false;
+    private boolean error = false;
+    
+    // Integration settings, built by this wizard
+    private Settings settings;
         
     /**
      * Creates the web.xml choosing panel for the Integration Wizard. 
@@ -87,6 +81,11 @@ public final class WebXmlWizardPanel extends JPanel {
 
         previewTextArea.setColumns(20);
         previewTextArea.setRows(5);
+        previewTextArea.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                previewTextAreaPropertyChange(evt);
+            }
+        });
         previewTextArea.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 previewTextAreaKeyTyped(evt);
@@ -162,26 +161,30 @@ public final class WebXmlWizardPanel extends JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void previewTextAreaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_previewTextAreaPropertyChange
+// TODO add your handling code here:
+    }//GEN-LAST:event_previewTextAreaPropertyChange
+
     /*************************************************************************/
     /*                           EVENT HANDLERS                              */
     /*************************************************************************/
     
     private void previewTextAreaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_previewTextAreaKeyTyped
         // TODO: fix warning display to show after first character
-        if (modifiedWebXml != null) {
-            previewWarningLabel.setVisible(!error && !modifiedWebXml.equals(previewTextArea.getText()));
+        if (settings.getModifiedWebXml() != null) {
+            previewWarningLabel.setVisible(!error && !settings.getModifiedWebXml().equals(previewTextArea.getText()));
         }
     }//GEN-LAST:event_previewTextAreaKeyTyped
 
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
         // Generate and show the file chooser
-        JFileChooser jfc = new JFileChooser(getFile(project.getProjectDirectory()));
+        JFileChooser jfc = new JFileChooser(getFile(settings.getProject().getProjectDirectory()));
         jfc.setDialogTitle("Locate web.xml");
         jfc.setFileSelectionMode (JFileChooser.FILES_ONLY);
         jfc.showOpenDialog(WindowManager.getDefault().getMainWindow());
         
         // Get the selected file
-        webXmlFile = jfc.getSelectedFile();
+        settings.setWebXmlFile(jfc.getSelectedFile());
         
         // Process the new web.xml file
         processWebXmlFile();
@@ -217,33 +220,33 @@ public final class WebXmlWizardPanel extends JPanel {
     private void processWebXmlFile() {        
         String errorMsg = null;
         
-        if (webXmlFile == null) {
+        if (settings.getWebXmlFile() == null) {
             getDefaultWebXmlFile();
         }
         
         if (webFragment == null) {
             errorMsg = "Error reading webFragment.xml file.";
-        } else if (webXmlFile == null) {
+        } else if (settings.getWebXmlFile() == null) {
             errorMsg = "No file selected.";
         } else {
             // Reset error status
             error = false;
-            modifiedWebXml = null;
+            settings.setModifiedWebXml(null);
             continueCheckBox.setEnabled(false);
             continueCheckBox.setSelected(false);
             webWarningLabel.setVisible(false);
             
             // Display file name
-            webTextField.setText(webXmlFile.getAbsolutePath());
+            webTextField.setText(settings.getWebXmlFile().getAbsolutePath());
         
             // Display warning if file is not web.xml
-            if (!webXmlFile.getName().equals("web.xml")) {
+            if (!settings.getWebXmlFile().getName().equals("web.xml")) {
                 webWarningLabel.setVisible(true);
             }
             
             // Read the file and display it in the preview area
             try {
-                BufferedReader reader = new BufferedReader(new FileReader(webXmlFile));
+                BufferedReader reader = new BufferedReader(new FileReader(settings.getWebXmlFile()));
                 String line = reader.readLine();
                 StringBuilder lines = new StringBuilder();
                 while (line != null) {
@@ -258,7 +261,7 @@ public final class WebXmlWizardPanel extends JPanel {
                 
                 // Insert CheckoutSDK web.xml and set preview text
                 if (insertWebFragment(lines.toString())) {
-                    previewTextArea.setText(modifiedWebXml);
+                    previewTextArea.setText(settings.getModifiedWebXml());
                 } else {
                     errorMsg = "Unable to automatically insert web.xml fragment.";
                 }
@@ -274,13 +277,14 @@ public final class WebXmlWizardPanel extends JPanel {
             error = true;
             continueCheckBox.setEnabled(true);
             previewTextArea.setText(errorMsg);
+            settings.setModifiedWebXml(null);
         }
     }
     
     private void getDefaultWebXmlFile() {
         try {
-            File projectDirectory = new File(project.getProjectDirectory().getURL().toURI());
-            webXmlFile = new File(projectDirectory.toURL().toURI().resolve("web/WEB-INF/web.xml"));
+            File projectDirectory = new File(settings.getProject().getProjectDirectory().getURL().toURI());
+            settings.setWebXmlFile(new File(projectDirectory.toURL().toURI().resolve("web/WEB-INF/web.xml")));
         } catch (MalformedURLException ex) {
             ex.printStackTrace();
         } catch (URISyntaxException ex) {
@@ -303,7 +307,7 @@ public final class WebXmlWizardPanel extends JPanel {
         int index = file.indexOf("</web-app>");
         
         if (index >= 0) {
-            modifiedWebXml = file.substring(0, index) + "\n" + webFragment + "\n" + file.substring(index);
+            settings.setModifiedWebXml(file.substring(0, index) + "\n" + webFragment + "\n" + file.substring(index));
             return true;
         }
         
@@ -372,25 +376,17 @@ public final class WebXmlWizardPanel extends JPanel {
                 "  </listener>\n" +
                 "  <!-- End: Configuration for Google checkout message processing -->";
     }
-
+    
     /*************************************************************************/
-    /*                       SHARED DATA ACCESSORS                           */
+    /*                         SETTINGS ACCESSORS                            */
     /*************************************************************************/
     
-    private void setCurrentProject(Project project) {
-        this.project = project;
+    public Settings getSettings() {
+        return settings;
     }
     
-    private File getWebXmlFile() {
-        return webXmlFile;
-    }
-    
-    private void setWebXmlFile(File webXmlFile) {
-        this.webXmlFile = webXmlFile;
-    }
-
-    private String getModifiedWebXml() {
-        return modifiedWebXml;
+    public void setSettings(Settings settings) {
+        this.settings = settings;
     }
     
     /*************************************************************************/
@@ -423,18 +419,16 @@ public final class WebXmlWizardPanel extends JPanel {
         public void readSettings(Object settings) {
             // Read shared info from the wizard descriptor
             IntegrationWizardDescriptor descriptor = (IntegrationWizardDescriptor) settings;
-            component.setCurrentProject(descriptor.getProject());
-            component.setWebXmlFile(descriptor.getWebXmlFile());
-                        
+            component.setSettings(descriptor.getSettings());
+
+            // Handle the (potentially new) web.xml file
             component.processWebXmlFile();
         }
         
         public void storeSettings(Object settings) {
             // Write shared info to the wizard descriptor
             IntegrationWizardDescriptor descriptor = (IntegrationWizardDescriptor) settings;
-            descriptor.setWebXmlFile(component.getWebXmlFile());
-            descriptor.setModifiedWebXml(component.getModifiedWebXml());
+            descriptor.setSettings(component.getSettings());
         }
     }
 }
-

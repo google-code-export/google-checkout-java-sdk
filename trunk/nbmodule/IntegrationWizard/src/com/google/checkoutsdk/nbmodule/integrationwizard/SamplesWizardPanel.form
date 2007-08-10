@@ -16,12 +16,12 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="locationTextField" pref="290" max="32767" attributes="0"/>
+                      <Component id="samplesDirectoryTextField" pref="290" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="browseButton" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="sampleCheckBox" min="-2" max="-2" attributes="0"/>
-                  <Component id="locationLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="addSamplesCheckBox" min="-2" max="-2" attributes="0"/>
+                  <Component id="samplesDirectoryLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="jScrollPane1" alignment="0" pref="376" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -32,13 +32,13 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="sampleCheckBox" min="-2" max="-2" attributes="0"/>
+              <Component id="addSamplesCheckBox" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="locationLabel" min="-2" max="-2" attributes="0"/>
+              <Component id="samplesDirectoryLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="browseButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="locationTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="samplesDirectoryTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" max="-2" attributes="0"/>
@@ -48,12 +48,11 @@
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JCheckBox" name="sampleCheckBox">
+    <Component class="javax.swing.JCheckBox" name="addSamplesCheckBox">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
         </Property>
-        <Property name="selected" type="boolean" value="true"/>
         <Property name="text" type="java.lang.String" value="I would like to add samples pages to this project"/>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
@@ -65,17 +64,17 @@
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="sampleCheckBoxStateChanged"/>
+        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="addSamplesCheckBoxStateChanged"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="locationTextField">
+    <Component class="javax.swing.JTextField" name="samplesDirectoryTextField">
     </Component>
-    <Component class="javax.swing.JLabel" name="locationLabel">
+    <Component class="javax.swing.JLabel" name="samplesDirectoryLabel">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Location:"/>
+        <Property name="text" type="java.lang.String" value="Samples directory:"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
@@ -103,6 +102,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Browse"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="browseButtonActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>
