@@ -1,3 +1,4 @@
+#summary Link to O'Reilly article
 #refactoring to perform in order to migrate an application using the sample code project to use the SDK
 
 = Introduction =
