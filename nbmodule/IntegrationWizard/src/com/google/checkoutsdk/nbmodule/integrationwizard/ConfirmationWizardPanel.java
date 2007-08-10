@@ -1,12 +1,18 @@
 package com.google.checkoutsdk.nbmodule.integrationwizard;
 
+import com.google.checkoutsdk.nbmodule.integrationwizard.handlers.CheckoutConfigManager;
 import java.awt.Component;
+import java.io.File;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeListener;
+import org.netbeans.api.project.Project;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
 
 public final class ConfirmationWizardPanel extends JPanel {
+    
+    // Integration settings, built by this wizard
+    private Settings settings;
     
     /**
      * Creates the samples selection panel for the Integration Wizard. 
@@ -32,18 +38,27 @@ public final class ConfirmationWizardPanel extends JPanel {
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        jLabel1 = new javax.swing.JLabel();
+        confirmLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        changesTextArea = new javax.swing.JTextArea();
+        launchHandlerManagerCheckBox = new javax.swing.JCheckBox();
 
-        jLabel1.setFont(new java.awt.Font("Dialog", 0, 12));
-        org.openide.awt.Mnemonics.setLocalizedText(jLabel1, "Clicking \"Finish\" with have the following effects:");
+        confirmLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        org.openide.awt.Mnemonics.setLocalizedText(confirmLabel, "Clicking \"Finish\" with have the following effects:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setEditable(false);
-        jTextArea1.setRows(5);
-        jTextArea1.setText("Modify <project-name>\n\n- Add checkout-sdk.jar to your WEB-INF/lib directory\n- Modify web.xml\n- Add checkout-config.xml to your WEB-INF directory\n- Create a default set of handlers\n- Add sample JSPs to your web/checkout directory");
-        jScrollPane1.setViewportView(jTextArea1);
+        changesTextArea.setColumns(20);
+        changesTextArea.setEditable(false);
+        changesTextArea.setRows(5);
+        jScrollPane1.setViewportView(changesTextArea);
+
+        org.openide.awt.Mnemonics.setLocalizedText(launchHandlerManagerCheckBox, "Run the Handler Manager after this wizard");
+        launchHandlerManagerCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        launchHandlerManagerCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        launchHandlerManagerCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                launchHandlerManagerCheckBoxActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -53,41 +68,77 @@ public final class ConfirmationWizardPanel extends JPanel {
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
-                    .add(jLabel1))
+                    .add(confirmLabel)
+                    .add(launchHandlerManagerCheckBox))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jLabel1)
+                .add(confirmLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(launchHandlerManagerCheckBox)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-    
-    /*************************************************************************/
-    /*                           EVENT HANDLERS                              */
-    /*************************************************************************/
+
+    private void launchHandlerManagerCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_launchHandlerManagerCheckBoxActionPerformed
+        // Update settings
+        settings.setLaunchHandlerManager(launchHandlerManagerCheckBox.isSelected());
+    }//GEN-LAST:event_launchHandlerManagerCheckBoxActionPerformed
     
     /*************************************************************************/
     /*                          SWING VARIABLES                              */
     /*************************************************************************/    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JTextArea changesTextArea;
+    private javax.swing.JLabel confirmLabel;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JCheckBox launchHandlerManagerCheckBox;
     // End of variables declaration//GEN-END:variables
     
     /*************************************************************************/
     /*                          UTILITY METHODS                              */
     /*************************************************************************/
     
+    private void updatePanel() {
+        // Update changes text area
+        String changes = "";
+        
+        changes = "Modify " + settings.getProject().getProjectDirectory().getName() + "\n\n";
+        changes += "- Add checkout-sdk.jar to your WEB_INF/lib directory\n";
+        if (settings.getModifiedWebXml() != null) {
+            changes += "- Modify " + settings.getWebXmlFile().getName() + "\n";
+        }
+        changes += "- Add checkout-config.xml to your WEB-INF directory\n";
+        if (settings.addDefaultHandlers()) {
+            changes += "- Add a default set of handlers to _________\n";
+        }
+        if (settings.addSamples()) {
+            changes += "- Add samples to your " + settings.getSamplesDirectory().getPath() + " directory\n";
+        }
+        
+        changesTextArea.setText(changes);
+        
+        // Update run handler manager check box
+        launchHandlerManagerCheckBox.setSelected(settings.launchHandlerManager());
+    }
+    
     /*************************************************************************/
-    /*                       SHARED DATA ACCESSORS                           */
+    /*                         SETTINGS ACCESSORS                            */
     /*************************************************************************/
+    
+    public Settings getSettings() {
+        return settings;
+    }
+    
+    public void setSettings(Settings settings) {
+        this.settings = settings;
+    }
     
     /*************************************************************************/
     /*                       WIZARD DESCRIPTOR PANEL                         */
@@ -114,8 +165,21 @@ public final class ConfirmationWizardPanel extends JPanel {
 
         public final void addChangeListener(ChangeListener l) {}
         public final void removeChangeListener(ChangeListener l) {}
-        public void readSettings(Object settings) {}
-        public void storeSettings(Object settings) {}
+        
+        public void readSettings(Object settings) {
+            // Read shared info from the wizard descriptor
+            IntegrationWizardDescriptor descriptor = (IntegrationWizardDescriptor) settings;
+            component.setSettings(descriptor.getSettings());
+            
+            // Update the panel with a list of current changes
+            component.updatePanel();
+        }
+        
+        public void storeSettings(Object settings) {
+            // Write shared info to the wizard descriptor
+            IntegrationWizardDescriptor descriptor = (IntegrationWizardDescriptor) settings;
+            descriptor.setSettings(component.getSettings());
+        }
     }
 }
 
