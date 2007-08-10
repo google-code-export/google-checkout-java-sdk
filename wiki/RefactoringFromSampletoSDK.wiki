@@ -1,4 +1,4 @@
-#refactoring to migrate a project from sample code to sdk
+#Refactoring to migrate a project from sample code to SDK
 
 = Introduction =
 
