@@ -5,15 +5,24 @@ import java.io.File;
 import org.netbeans.api.project.Project;
 
 public class Settings {
-    
+    // Project panel
     private Project project;
     private File webInfDirectory;
+    
+    // WebXml panel
     private File webXmlFile;
     private String modifiedWebXml;
+    
+    // Config panel
     private CheckoutConfigManager configManager;
-    private boolean addDefaultHandlers;
+    
+    // Samples panel
     private boolean addSamples;
     private File samplesDirectory;
+    private boolean addHandlers;
+    private File handlerDirectory;
+    
+    // Confirmation panel
     private boolean launchHandlerManager;
     
     public Settings() {
@@ -27,9 +36,10 @@ public class Settings {
         webXmlFile = null;
         modifiedWebXml = null;
         configManager = new CheckoutConfigManager();
-        addDefaultHandlers = true;
         addSamples = true;
         samplesDirectory = null;
+        addHandlers = true;
+        handlerDirectory = null;
         launchHandlerManager = true;
     }
     
@@ -73,14 +83,6 @@ public class Settings {
         this.configManager = configManager;
     }
 
-    public boolean addDefaultHandlers() {
-        return addDefaultHandlers;
-    }
-
-    public void setAddDefaultHandlers(boolean addDefaultHandlers) {
-        this.addDefaultHandlers = addDefaultHandlers;
-    }
-
     public boolean addSamples() {
         return addSamples;
     }
@@ -97,6 +99,22 @@ public class Settings {
         this.samplesDirectory = samplesDirectory;
     }
 
+    public boolean addHandlers() {
+        return addHandlers;
+    }
+
+    public void setAddHandlers(boolean addHandlers) {
+        this.addHandlers = addHandlers;
+    }
+
+    public File getHandlerDirectory() {
+        return handlerDirectory;
+    }
+
+    public void setHandlerDirectory(File handlerDirectory) {
+        this.handlerDirectory = handlerDirectory;
+    }
+
     public boolean launchHandlerManager() {
         return launchHandlerManager;
     }
@@ -104,5 +122,4 @@ public class Settings {
     public void setLaunchHandlerManager(boolean launchHandlerManager) {
         this.launchHandlerManager = launchHandlerManager;
     }
-    
 }

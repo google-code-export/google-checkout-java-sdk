@@ -18,7 +18,7 @@ public final class IntegrationWizardAction extends CallableSystemAction {
      * Creates and shows the wizard when the action button is pressed.
      */
     public void performAction() {
-        WizardDescriptor wizardDescriptor = new IntegrationWizardDescriptor(getPanels());
+        IntegrationWizardDescriptor wizardDescriptor = new IntegrationWizardDescriptor(getPanels());
         // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
         wizardDescriptor.setTitleFormat(new MessageFormat("{0}"));
         wizardDescriptor.setTitle("Google Checkout Integration Wizard");
@@ -27,7 +27,7 @@ public final class IntegrationWizardAction extends CallableSystemAction {
         dialog.toFront();
         boolean cancelled = wizardDescriptor.getValue() != WizardDescriptor.FINISH_OPTION;
         if (!cancelled) {
-            // do something
+            
         }
     }
     

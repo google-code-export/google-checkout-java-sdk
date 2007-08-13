@@ -115,11 +115,11 @@ public final class ConfirmationWizardPanel extends JPanel {
             changes += "- Modify " + shorten(settings.getWebXmlFile()) + "\n";
         }
         changes += "- Create " + shorten(settings.getWebInfDirectory()) + "/checkout-config.xml\n";
-        if (settings.addDefaultHandlers()) {
-            changes += "- Create default handlers in web/handlers\n";
-        }
         if (settings.addSamples()) {
             changes += "- Add sample JSPs to " + shorten(settings.getSamplesDirectory()) + "\n";
+        }
+        if (settings.addHandlers()) {
+            changes += "- Create default handlers in " + shorten(settings.getHandlerDirectory()) + "\n";
         }
         
         changesTextArea.setText(changes);
