@@ -44,12 +44,17 @@ public class SamplesWizardPanel extends javax.swing.JPanel {
         addSamplesCheckBox = new javax.swing.JCheckBox();
         samplesDirectoryTextField = new javax.swing.JTextField();
         samplesDirectoryLabel = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        detailsTextArea = new javax.swing.JTextArea();
-        browseButton = new javax.swing.JButton();
+        samplesBrowseButton = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        addHandlersCheckBox = new javax.swing.JCheckBox();
+        handlerDirectoryLabel = new javax.swing.JLabel();
+        handlerDirectoryTextField = new javax.swing.JTextField();
+        handlerBrowseButton = new javax.swing.JButton();
+        handlerPackageLabel = new javax.swing.JLabel();
+        handlerPackageTextField = new javax.swing.JTextField();
 
         addSamplesCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        addSamplesCheckBox.setText("I would like to add samples pages to this project");
+        addSamplesCheckBox.setText("Add samples pages to this project");
         addSamplesCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         addSamplesCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
         addSamplesCheckBox.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -61,20 +66,35 @@ public class SamplesWizardPanel extends javax.swing.JPanel {
         samplesDirectoryLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         samplesDirectoryLabel.setText("Samples directory:");
 
-        detailsTextArea.setColumns(20);
-        detailsTextArea.setLineWrap(true);
-        detailsTextArea.setRows(5);
-        detailsTextArea.setText("These sample JSPs are:\n - Good examples of how to write handlers for Checkout SDK\n - Useful for testing ");
-        detailsTextArea.setBorder(null);
-        detailsTextArea.setOpaque(false);
-        jScrollPane1.setViewportView(detailsTextArea);
-
-        browseButton.setText("Browse");
-        browseButton.addActionListener(new java.awt.event.ActionListener() {
+        samplesBrowseButton.setText("Browse");
+        samplesBrowseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                browseButtonActionPerformed(evt);
+                samplesBrowseButtonActionPerformed(evt);
             }
         });
+
+        addHandlersCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
+        addHandlersCheckBox.setText("Add default handlers to this project");
+        addHandlersCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        addHandlersCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        addHandlersCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addHandlersCheckBoxActionPerformed(evt);
+            }
+        });
+
+        handlerDirectoryLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        handlerDirectoryLabel.setText("Handler directory:");
+
+        handlerBrowseButton.setText("Browse");
+        handlerBrowseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                handlerBrowseButtonActionPerformed(evt);
+            }
+        });
+
+        handlerPackageLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        handlerPackageLabel.setText("Package:");
 
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
@@ -83,13 +103,21 @@ public class SamplesWizardPanel extends javax.swing.JPanel {
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(handlerPackageTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                    .add(jSeparator1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(samplesDirectoryTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(browseButton))
+                        .add(samplesBrowseButton))
                     .add(addSamplesCheckBox)
                     .add(samplesDirectoryLabel)
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE))
+                    .add(addHandlersCheckBox)
+                    .add(handlerDirectoryLabel)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .add(handlerDirectoryTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 290, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(handlerBrowseButton))
+                    .add(handlerPackageLabel))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -101,19 +129,51 @@ public class SamplesWizardPanel extends javax.swing.JPanel {
                 .add(samplesDirectoryLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(browseButton)
+                    .add(samplesBrowseButton)
                     .add(samplesDirectoryTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(137, Short.MAX_VALUE))
+                .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(addHandlersCheckBox)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(handlerDirectoryLabel)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(handlerBrowseButton)
+                    .add(handlerDirectoryTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(handlerPackageLabel)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(handlerPackageTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(86, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     /*************************************************************************/
     /*                           EVENT HANDLERS                              */
     /*************************************************************************/
-    
-    private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
+   
+    private void handlerBrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_handlerBrowseButtonActionPerformed
+        // Generate and show the file chooser
+        JFileChooser jfc = new JFileChooser(getFile(settings.getProject().getProjectDirectory()));
+        jfc.setDialogTitle("Handler Directory");
+        jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        jfc.showOpenDialog(WindowManager.getDefault().getMainWindow());
+        
+        // Fill the handler directory text field with the located directory
+        String text = jfc.getSelectedFile().getPath();
+        handlerDirectoryTextField.setText(text);
+    }//GEN-LAST:event_handlerBrowseButtonActionPerformed
+
+    private void addHandlersCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addHandlersCheckBoxActionPerformed
+        boolean selected = addHandlersCheckBox.isSelected();
+        handlerDirectoryTextField.setEnabled(selected);
+        handlerBrowseButton.setEnabled(selected);
+        handlerPackageTextField.setEnabled(selected);
+        settings.setAddHandlers(selected);
+    }//GEN-LAST:event_addHandlersCheckBoxActionPerformed
+ 
+    private void samplesBrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_samplesBrowseButtonActionPerformed
         // Generate and show the file chooser
         JFileChooser jfc = new JFileChooser(getFile(settings.getProject().getProjectDirectory()));
         jfc.setDialogTitle("Samples Directory");
@@ -123,12 +183,12 @@ public class SamplesWizardPanel extends javax.swing.JPanel {
         // Fill the samples directory text field with the located directory
         String text = jfc.getSelectedFile().getPath();
         samplesDirectoryTextField.setText(text);
-    }//GEN-LAST:event_browseButtonActionPerformed
+    }//GEN-LAST:event_samplesBrowseButtonActionPerformed
 
     private void addSamplesCheckBoxStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_addSamplesCheckBoxStateChanged
         boolean selected = addSamplesCheckBox.isSelected();
         samplesDirectoryTextField.setEnabled(selected);
-        browseButton.setEnabled(selected);
+        samplesBrowseButton.setEnabled(selected);
         settings.setAddSamples(selected);
     }//GEN-LAST:event_addSamplesCheckBoxStateChanged
     
@@ -137,10 +197,15 @@ public class SamplesWizardPanel extends javax.swing.JPanel {
     /*************************************************************************/    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox addHandlersCheckBox;
     private javax.swing.JCheckBox addSamplesCheckBox;
-    private javax.swing.JButton browseButton;
-    private javax.swing.JTextArea detailsTextArea;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JButton handlerBrowseButton;
+    private javax.swing.JLabel handlerDirectoryLabel;
+    private javax.swing.JTextField handlerDirectoryTextField;
+    private javax.swing.JLabel handlerPackageLabel;
+    private javax.swing.JTextField handlerPackageTextField;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JButton samplesBrowseButton;
     private javax.swing.JLabel samplesDirectoryLabel;
     private javax.swing.JTextField samplesDirectoryTextField;
     // End of variables declaration//GEN-END:variables
@@ -166,16 +231,47 @@ public class SamplesWizardPanel extends javax.swing.JPanel {
         // Show the samples directory in the text field
         samplesDirectoryTextField.setText(settings.getSamplesDirectory().getPath());
         
-        // Set the check box
+        // Set the samples check box
         addSamplesCheckBox.setSelected(settings.addSamples());
+        samplesDirectoryTextField.setEnabled(settings.addSamples());
+        samplesBrowseButton.setEnabled(settings.addSamples());
+        
+        // Generate default handler directory if none provided
+        if (settings.getHandlerDirectory() == null) {
+            try {
+                FileObject projectDirectory = settings.getProject().getProjectDirectory();
+                File file = new File(projectDirectory.getURL().toURI().resolve("web/handlers/"));
+                settings.setHandlerDirectory(file);
+            } catch (URISyntaxException ex) {
+                // Okay to not have a default
+            } catch (FileStateInvalidException ex) {
+                // Okay to not have a default
+            }
+        }
+        
+        // Show the handler directory in the text field
+        handlerDirectoryTextField.setText(settings.getHandlerDirectory().getPath());
+        
+        // Set the check box
+        addHandlersCheckBox.setSelected(settings.addHandlers());
+        handlerDirectoryTextField.setEnabled(settings.addHandlers());
+        handlerBrowseButton.setEnabled(settings.addHandlers());
+        handlerPackageTextField.setEnabled(settings.addHandlers());
     }
     
     private void recordSettings() {
-        // Validate samples directory
         // TODO: Fix validation to check whether the text is really a directory
+        
+        // Validate samples directory
         File dir = new File(samplesDirectoryTextField.getText());
         if (!dir.exists() || dir.isDirectory()) {
             settings.setSamplesDirectory(dir);
+        }
+        
+        // Validate handler directory
+        dir = new File(handlerDirectoryTextField.getText());
+        if (!dir.exists() || dir.isDirectory()) {
+            settings.setHandlerDirectory(dir);
         }
     }
     
