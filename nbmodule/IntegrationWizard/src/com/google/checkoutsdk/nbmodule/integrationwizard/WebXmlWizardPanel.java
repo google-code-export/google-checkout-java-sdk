@@ -7,16 +7,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URISyntaxException;
-import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeListener;
-import org.netbeans.api.project.Project;
 import org.openide.WizardDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileStateInvalidException;
 import org.openide.util.HelpCtx;
-import org.openide.windows.WindowManager;
 
 public final class WebXmlWizardPanel extends JPanel {
     
@@ -34,8 +32,6 @@ public final class WebXmlWizardPanel extends JPanel {
      */
     public WebXmlWizardPanel() {        
         initComponents();
-        webWarningLabel.setVisible(false);
-        previewWarningLabel.setVisible(false);
         continueCheckBox.setEnabled(false);
         continueCheckBox.setSelected(false);
         readWebFragment();
@@ -58,34 +54,19 @@ public final class WebXmlWizardPanel extends JPanel {
      */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
-        webLabel = new javax.swing.JLabel();
-        webTextField = new javax.swing.JTextField();
-        browseButton = new javax.swing.JButton();
+        webXmlTextField = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         previewTextArea = new javax.swing.JTextArea();
         previewLabel = new javax.swing.JLabel();
         separator = new javax.swing.JSeparator();
-        webWarningLabel = new javax.swing.JLabel();
         previewDescriptionLabel = new javax.swing.JLabel();
-        previewWarningLabel = new javax.swing.JLabel();
         continueCheckBox = new javax.swing.JCheckBox();
+        webXmlLabel = new javax.swing.JLabel();
 
-        org.openide.awt.Mnemonics.setLocalizedText(webLabel, "web.xml file:");
-
-        org.openide.awt.Mnemonics.setLocalizedText(browseButton, "Browse");
-        browseButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                browseButtonActionPerformed(evt);
-            }
-        });
+        webXmlTextField.setEditable(false);
 
         previewTextArea.setColumns(20);
         previewTextArea.setRows(5);
-        previewTextArea.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                previewTextAreaPropertyChange(evt);
-            }
-        });
         previewTextArea.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 previewTextAreaKeyTyped(evt);
@@ -96,133 +77,107 @@ public final class WebXmlWizardPanel extends JPanel {
 
         org.openide.awt.Mnemonics.setLocalizedText(previewLabel, "Preview");
 
-        webWarningLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        webWarningLabel.setForeground(new java.awt.Color(255, 0, 0));
-        webWarningLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        org.openide.awt.Mnemonics.setLocalizedText(webWarningLabel, "Warning: File not named \"web.xml\"");
-
         previewDescriptionLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        org.openide.awt.Mnemonics.setLocalizedText(previewDescriptionLabel, "Preview the changes to web.xml.  You may modify them if necessary.");
-
-        previewWarningLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        previewWarningLabel.setForeground(new java.awt.Color(255, 0, 0));
-        previewWarningLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        org.openide.awt.Mnemonics.setLocalizedText(previewWarningLabel, "Warning: Preview has ben modified");
+        org.openide.awt.Mnemonics.setLocalizedText(previewDescriptionLabel, "Preview the changes, and modify them if necessary.");
 
         org.openide.awt.Mnemonics.setLocalizedText(continueCheckBox, "I will modify web.xml manually (see help)");
         continueCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         continueCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
+        webXmlLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        org.openide.awt.Mnemonics.setLocalizedText(webXmlLabel, "This will modify your web.xml file found at:");
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(previewLabel)
-                    .add(previewDescriptionLabel)
-                    .add(webWarningLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
-                    .add(separator, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
-                    .add(layout.createSequentialGroup()
-                        .add(webLabel)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(webTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(browseButton))
-                    .add(continueCheckBox)
-                    .add(previewWarningLabel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE))
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, separator, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, webXmlTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, webXmlLabel)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, previewLabel)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, previewDescriptionLabel)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, continueCheckBox))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(webLabel)
-                    .add(browseButton)
-                    .add(webTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(webXmlLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(webWarningLabel)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(separator, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(webXmlTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(8, 8, 8)
+                .add(separator, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(previewLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(previewDescriptionLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(continueCheckBox)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(previewWarningLabel)
-                .add(21, 21, 21))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void previewTextAreaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_previewTextAreaPropertyChange
-// TODO add your handling code here:
-    }//GEN-LAST:event_previewTextAreaPropertyChange
 
     /*************************************************************************/
     /*                           EVENT HANDLERS                              */
     /*************************************************************************/
     
     private void previewTextAreaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_previewTextAreaKeyTyped
-        // TODO: fix warning display to show after first character
-        if (settings.getModifiedWebXml() != null) {
-            previewWarningLabel.setVisible(!error && !settings.getModifiedWebXml().equals(previewTextArea.getText()));
-        }
+        // TODO: display warning after text changes
+        //if (settings.getModifiedWebXml() != null) {
+            //previewWarningLabel.setVisible(!error && !settings.getModifiedWebXml().equals(previewTextArea.getText()));
+        //}
     }//GEN-LAST:event_previewTextAreaKeyTyped
-
-    private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
-        // Generate and show the file chooser
-        JFileChooser jfc = new JFileChooser(getFile(settings.getProject().getProjectDirectory()));
-        jfc.setDialogTitle("Locate web.xml");
-        jfc.setFileSelectionMode (JFileChooser.FILES_ONLY);
-        jfc.showOpenDialog(WindowManager.getDefault().getMainWindow());
-        
-        // Get the selected file
-        settings.setWebXmlFile(jfc.getSelectedFile());
-        
-        // Process the new web.xml file
-        processWebXmlFile();
-        
-    }//GEN-LAST:event_browseButtonActionPerformed
     
     /*************************************************************************/
     /*                          SWING VARIABLES                              */
     /*************************************************************************/
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton browseButton;
     private javax.swing.JCheckBox continueCheckBox;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel previewDescriptionLabel;
     private javax.swing.JLabel previewLabel;
     private javax.swing.JTextArea previewTextArea;
-    private javax.swing.JLabel previewWarningLabel;
     private javax.swing.JSeparator separator;
-    private javax.swing.JLabel webLabel;
-    private javax.swing.JTextField webTextField;
-    private javax.swing.JLabel webWarningLabel;
+    private javax.swing.JLabel webXmlLabel;
+    private javax.swing.JTextField webXmlTextField;
     // End of variables declaration//GEN-END:variables
  
     /*************************************************************************/
     /*                          UTILITY METHODS                              */
     /*************************************************************************/
   
+     private void updatePanel() {
+        // Get the default web.xml if one doesn't already exist
+        if (settings.getWebXmlFile() == null) {
+            URI uri = settings.getWebInfDirectory().toURI().resolve("web.xml");
+            settings.setWebXmlFile(new File(uri));
+        }
+        
+        // Set the web.xml field
+        webXmlTextField.setText(settings.getWebXmlFile().getPath());
+        
+        // Fill the preview area with a newly processed file or an modified file
+        if (settings.getModifiedWebXml() != null) {
+            previewTextArea.setText(settings.getModifiedWebXml());
+        } else {
+            processWebXmlFile();
+        }
+    }
+    
     /**
      * Reads the new web.xml file, generates the modified version (by inserting
      * the web fragment), and displays the final text or an error message.
      */
     private void processWebXmlFile() {        
         String errorMsg = null;
-        
-        if (settings.getWebXmlFile() == null) {
-            getDefaultWebXmlFile();
-        }
         
         if (webFragment == null) {
             errorMsg = "Error reading webFragment.xml file.";
@@ -234,15 +189,6 @@ public final class WebXmlWizardPanel extends JPanel {
             settings.setModifiedWebXml(null);
             continueCheckBox.setEnabled(false);
             continueCheckBox.setSelected(false);
-            webWarningLabel.setVisible(false);
-            
-            // Display file name
-            webTextField.setText(settings.getWebXmlFile().getAbsolutePath());
-        
-            // Display warning if file is not web.xml
-            if (!settings.getWebXmlFile().getName().equals("web.xml")) {
-                webWarningLabel.setVisible(true);
-            }
             
             // Read the file and display it in the preview area
             try {
@@ -279,27 +225,6 @@ public final class WebXmlWizardPanel extends JPanel {
             previewTextArea.setText(errorMsg);
             settings.setModifiedWebXml(null);
         }
-    }
-    
-    private void getDefaultWebXmlFile() {
-        try {
-            File projectDirectory = new File(settings.getProject().getProjectDirectory().getURL().toURI());
-            settings.setWebXmlFile(new File(projectDirectory.toURL().toURI().resolve("web/WEB-INF/web.xml")));
-        } catch (MalformedURLException ex) {
-            ex.printStackTrace();
-        } catch (URISyntaxException ex) {
-            ex.printStackTrace();
-        } catch (FileStateInvalidException ex) {
-            ex.printStackTrace();
-        }
-    }
-    
-    private File getFile(FileObject file) {
-        File ret = null;
-        try {
-            ret = new File(file.getURL().getFile());
-        } catch (FileStateInvalidException ex) {}
-        return ret;
     }
     
     private boolean insertWebFragment(String file) {
@@ -377,6 +302,13 @@ public final class WebXmlWizardPanel extends JPanel {
                 "  <!-- End: Configuration for Google checkout message processing -->";
     }
     
+    private void recordSettings() {
+        // Save the changes to the preview area
+        if (!error) {
+            settings.setModifiedWebXml(previewTextArea.getText());
+        }
+    }
+    
     /*************************************************************************/
     /*                         SETTINGS ACCESSORS                            */
     /*************************************************************************/
@@ -422,10 +354,13 @@ public final class WebXmlWizardPanel extends JPanel {
             component.setSettings(descriptor.getSettings());
 
             // Handle the (potentially new) web.xml file
-            component.processWebXmlFile();
+            component.updatePanel();
         }
         
         public void storeSettings(Object settings) {
+            // Record the page state into settings
+            component.recordSettings();
+            
             // Write shared info to the wizard descriptor
             IntegrationWizardDescriptor descriptor = (IntegrationWizardDescriptor) settings;
             descriptor.setSettings(component.getSettings());

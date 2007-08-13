@@ -17,30 +17,27 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="configTextField" alignment="0" pref="376" max="32767" attributes="0"/>
                   <Component id="configLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="separator1" alignment="0" pref="376" max="32767" attributes="0"/>
-                  <Component id="merchantIdLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="currencyCodeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="merchantKeyLabel" min="-2" max="-2" attributes="0"/>
-                          <Component id="envLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="envComboBox" alignment="1" pref="275" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="merchantIdTextField" alignment="1" pref="275" max="32767" attributes="0"/>
-                                  <Component id="merchantKeyTextField" alignment="0" pref="275" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Component id="currencyCodeTextField" alignment="0" min="-2" pref="85" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="merchantKeyLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                      <Component id="merchantKeyTextField" pref="275" max="32767" attributes="0"/>
                   </Group>
-                  <Component id="separator2" alignment="1" pref="376" max="32767" attributes="0"/>
-                  <Component id="addDefaultHandlersCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="launchHandlerManagerCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="separator1" alignment="0" pref="376" max="32767" attributes="0"/>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="merchantIdLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                      <Component id="merchantIdTextField" pref="275" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="envLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                      <Component id="envComboBox" pref="275" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="currencyCodeLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="currencyCodeTextField" min="-2" pref="85" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -53,17 +50,17 @@
               <Component id="configLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="configTextField" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="separator1" min="-2" pref="10" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="merchantIdLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="merchantIdTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="merchantIdLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="merchantKeyLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="merchantKeyTextField" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="merchantKeyLabel" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -75,13 +72,7 @@
                   <Component id="currencyCodeLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="currencyCodeTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
-              <Component id="separator2" min="-2" pref="10" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="addDefaultHandlersCheckBox" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="launchHandlerManagerCheckBox" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="71" max="32767" attributes="0"/>
+              <EmptySpace pref="127" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -92,7 +83,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="checkout-config.xml will be placed alongside web.xml at:"/>
+        <Property name="text" type="java.lang.String" value="This will place checkout-config at:"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="configTextField">
@@ -122,38 +113,6 @@
     </Component>
     <Component class="javax.swing.JTextField" name="merchantKeyTextField">
     </Component>
-    <Component class="javax.swing.JCheckBox" name="addDefaultHandlersCheckBox">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="12" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Create a default set of handlers"/>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-            <EmptyBorder bottom="0" left="0" right="0" top="0"/>
-          </Border>
-        </Property>
-        <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
-          <Insets value="[0, 0, 0, 0]"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JCheckBox" name="launchHandlerManagerCheckBox">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="12" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Run the Handler Manager after this wizard"/>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.EmptyBorderInfo">
-            <EmptyBorder bottom="0" left="0" right="0" top="0"/>
-          </Border>
-        </Property>
-        <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
-          <Insets value="[0, 0, 0, 0]"/>
-        </Property>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JComboBox" name="envComboBox">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
@@ -179,8 +138,6 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Currency Code:"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JSeparator" name="separator2">
     </Component>
     <Component class="javax.swing.JTextField" name="currencyCodeTextField">
       <Properties>

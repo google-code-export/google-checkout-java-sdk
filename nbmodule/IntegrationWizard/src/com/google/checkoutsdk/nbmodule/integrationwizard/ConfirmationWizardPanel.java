@@ -112,20 +112,32 @@ public final class ConfirmationWizardPanel extends JPanel {
         changes = "Modify " + settings.getProject().getProjectDirectory().getName() + "\n\n";
         changes += "- Add checkout-sdk.jar to your WEB_INF/lib directory\n";
         if (settings.getModifiedWebXml() != null) {
-            changes += "- Modify " + settings.getWebXmlFile().getName() + "\n";
+            changes += "- Modify " + shorten(settings.getWebXmlFile()) + "\n";
         }
-        changes += "- Add checkout-config.xml to your WEB-INF directory\n";
+        changes += "- Create " + shorten(settings.getWebInfDirectory()) + "/checkout-config.xml\n";
         if (settings.addDefaultHandlers()) {
-            changes += "- Add a default set of handlers to _________\n";
+            changes += "- Create default handlers in web/handlers\n";
         }
         if (settings.addSamples()) {
-            changes += "- Add samples to your " + settings.getSamplesDirectory().getPath() + " directory\n";
+            changes += "- Add sample JSPs to " + shorten(settings.getSamplesDirectory()) + "\n";
         }
         
         changesTextArea.setText(changes);
         
         // Update run handler manager check box
         launchHandlerManagerCheckBox.setSelected(settings.launchHandlerManager());
+    }
+    
+    private String shorten(File file) {
+        String full = file.getPath();
+        if (full.startsWith("/")) {
+            full = full.substring(1);
+        }
+        String prefix = settings.getProject().getProjectDirectory().getPath();
+        if (!prefix.endsWith("/")) {
+            prefix += "/";
+        }
+        return full.replace(prefix, "");
     }
     
     /*************************************************************************/

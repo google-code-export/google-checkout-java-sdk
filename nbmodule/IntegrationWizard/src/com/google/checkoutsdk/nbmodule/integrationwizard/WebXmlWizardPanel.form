@@ -12,23 +12,16 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="jScrollPane1" alignment="0" pref="376" max="32767" attributes="1"/>
+                  <Component id="separator" alignment="0" pref="376" max="32767" attributes="0"/>
+                  <Component id="webXmlTextField" alignment="0" pref="376" max="32767" attributes="0"/>
+                  <Component id="webXmlLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="previewLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="previewDescriptionLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="webWarningLabel" alignment="0" pref="430" max="32767" attributes="0"/>
-                  <Component id="separator" alignment="0" pref="430" max="32767" attributes="0"/>
-                  <Component id="jScrollPane1" alignment="0" pref="430" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="webLabel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="webTextField" pref="253" max="32767" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="browseButton" min="-2" max="-2" attributes="0"/>
-                  </Group>
+                  <Component id="previewDescriptionLabel" alignment="0" min="-2" max="-2" attributes="1"/>
                   <Component id="continueCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Component id="previewWarningLabel" alignment="0" pref="430" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -38,45 +31,29 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="webLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="browseButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="webTextField" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="webXmlLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="webWarningLabel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="separator" min="-2" max="-2" attributes="0"/>
+              <Component id="webXmlTextField" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+              <Component id="separator" min="-2" pref="10" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="previewLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="previewDescriptionLabel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" pref="179" max="32767" attributes="0"/>
+              <Component id="jScrollPane1" pref="149" max="32767" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="continueCheckBox" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="previewWarningLabel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
   </Layout>
   <SubComponents>
-    <Component class="javax.swing.JLabel" name="webLabel">
+    <Component class="javax.swing.JTextField" name="webXmlTextField">
       <Properties>
-        <Property name="text" type="java.lang.String" value="web.xml file:"/>
+        <Property name="editable" type="boolean" value="false"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="webTextField">
-    </Component>
-    <Component class="javax.swing.JButton" name="browseButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Browse"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="browseButtonActionPerformed"/>
-      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
@@ -91,7 +68,6 @@
             <Property name="rows" type="int" value="5"/>
           </Properties>
           <Events>
-            <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="previewTextAreaPropertyChange"/>
             <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="previewTextAreaKeyTyped"/>
           </Events>
         </Component>
@@ -104,36 +80,12 @@
     </Component>
     <Component class="javax.swing.JSeparator" name="separator">
     </Component>
-    <Component class="javax.swing.JLabel" name="webWarningLabel">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="12" style="0"/>
-        </Property>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="0" green="0" red="ff" type="rgb"/>
-        </Property>
-        <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Warning: File not named &quot;web.xml&quot;"/>
-      </Properties>
-    </Component>
     <Component class="javax.swing.JLabel" name="previewDescriptionLabel">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Dialog" size="12" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Preview the changes to web.xml.  You may modify them if necessary."/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="previewWarningLabel">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="12" style="0"/>
-        </Property>
-        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="0" green="0" red="ff" type="rgb"/>
-        </Property>
-        <Property name="horizontalAlignment" type="int" value="0"/>
-        <Property name="text" type="java.lang.String" value="Warning: Preview has ben modified"/>
+        <Property name="text" type="java.lang.String" value="Preview the changes, and modify them if necessary."/>
       </Properties>
     </Component>
     <Component class="javax.swing.JCheckBox" name="continueCheckBox">
@@ -147,6 +99,14 @@
         <Property name="margin" type="java.awt.Insets" editor="org.netbeans.beaninfo.editors.InsetsEditor">
           <Insets value="[0, 0, 0, 0]"/>
         </Property>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="webXmlLabel">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="This will modify your web.xml file found at:"/>
       </Properties>
     </Component>
   </SubComponents>

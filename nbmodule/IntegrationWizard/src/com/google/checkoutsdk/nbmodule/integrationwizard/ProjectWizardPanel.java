@@ -2,13 +2,18 @@ package com.google.checkoutsdk.nbmodule.integrationwizard;
 
 import java.awt.Component;
 import java.io.File;
+import java.net.URISyntaxException;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeListener;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.WizardDescriptor;
+import org.openide.filesystems.FileObject;
+import org.openide.filesystems.FileStateInvalidException;
 import org.openide.util.HelpCtx;
+import org.openide.windows.WindowManager;
 
 public final class ProjectWizardPanel extends JPanel {
     
@@ -49,10 +54,14 @@ public final class ProjectWizardPanel extends JPanel {
         projectLabel = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         projectList = new javax.swing.JList();
-        refreshButton = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        webInfLabel = new javax.swing.JLabel();
+        locationLabel = new javax.swing.JLabel();
+        webInfTextField = new javax.swing.JTextField();
+        browseButton = new javax.swing.JButton();
 
         projectLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        org.openide.awt.Mnemonics.setLocalizedText(projectLabel, "Select a project to integrate Google Checkout with.");
+        org.openide.awt.Mnemonics.setLocalizedText(projectLabel, "Select a project to integrate with.");
 
         projectList.setFont(new java.awt.Font("Dialog", 0, 12));
         projectList.setModel(projectModel);
@@ -64,10 +73,16 @@ public final class ProjectWizardPanel extends JPanel {
 
         jScrollPane1.setViewportView(projectList);
 
-        org.openide.awt.Mnemonics.setLocalizedText(refreshButton, "Refresh");
-        refreshButton.addActionListener(new java.awt.event.ActionListener() {
+        webInfLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        org.openide.awt.Mnemonics.setLocalizedText(webInfLabel, "Locate this project's WEB-INF directory");
+
+        locationLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        org.openide.awt.Mnemonics.setLocalizedText(locationLabel, "Location:");
+
+        org.openide.awt.Mnemonics.setLocalizedText(browseButton, "Browse");
+        browseButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                refreshButtonActionPerformed(evt);
+                browseButtonActionPerformed(evt);
             }
         });
 
@@ -78,25 +93,49 @@ public final class ProjectWizardPanel extends JPanel {
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 391, Short.MAX_VALUE)
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
                     .add(layout.createSequentialGroup()
-                        .add(projectLabel)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 19, Short.MAX_VALUE)
-                        .add(refreshButton)))
+                        .add(locationLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(webInfTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(browseButton))
+                    .add(webInfLabel)
+                    .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(projectLabel))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(projectLabel)
-                    .add(refreshButton))
+                .add(projectLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(webInfLabel)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(locationLabel)
+                    .add(browseButton)
+                    .add(webInfTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
+        // Generate and show the file chooser
+        JFileChooser jfc = new JFileChooser(getFile(settings.getProject().getProjectDirectory()));
+        jfc.setDialogTitle("WEB-INF Directory");
+        jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        jfc.showOpenDialog(WindowManager.getDefault().getMainWindow());
+        
+        // Fill the samples directory text field with the located directory
+        String text = jfc.getSelectedFile().getPath();
+        webInfTextField.setText(text);
+    }//GEN-LAST:event_browseButtonActionPerformed
 
     /*************************************************************************/
     /*                           EVENT HANDLERS                              */
@@ -112,25 +151,26 @@ public final class ProjectWizardPanel extends JPanel {
                 
                 // Set the new project
                 settings.setProject(newProject);
+                
+                // Update the WEB-INF text field
+                updateWebInfTextField();
             }
         }
     }//GEN-LAST:event_projectListValueChanged
-
-    // TODO: Remove refresh button?  While wizard is open, NetBeans cannot
-    // regain focus, so the user shouldn't be able to add/remove projects
-    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
-        refreshProjectList();
-    }//GEN-LAST:event_refreshButtonActionPerformed
 
     /*************************************************************************/
     /*                          SWING VARIABLES                              */
     /*************************************************************************/
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton browseButton;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel locationLabel;
     private javax.swing.JLabel projectLabel;
     private javax.swing.JList projectList;
-    private javax.swing.JButton refreshButton;
+    private javax.swing.JLabel webInfLabel;
+    private javax.swing.JTextField webInfTextField;
     // End of variables declaration//GEN-END:variables
     
     /*************************************************************************/
@@ -141,7 +181,7 @@ public final class ProjectWizardPanel extends JPanel {
      * Refreshes the project list with the list of currently opened projects.
      * The "default project" (defined by NetBeans) is selected by default.
      */
-    public void refreshProjectList() {
+    private void refreshProjectList() {
         // Get a list of open projects
         OpenProjects openProjects = OpenProjects.getDefault();
         projects = openProjects.getOpenProjects();
@@ -165,6 +205,44 @@ public final class ProjectWizardPanel extends JPanel {
                 projectList.setSelectedIndex(i);
             }
         }
+        
+        // Refresh the WEB-INF text field
+        updateWebInfTextField();
+    }
+    
+    
+    private void updateWebInfTextField() {
+        // Generate default WEB-INF directory if none provided
+        if (settings.getWebInfDirectory() == null) {
+            try {
+                FileObject projectDirectory = settings.getProject().getProjectDirectory();
+                File file = new File(projectDirectory.getURL().toURI().resolve("web/WEB-INF/"));
+                settings.setWebInfDirectory(file);
+            } catch (URISyntaxException ex) {
+                // Okay to not have a default
+            } catch (FileStateInvalidException ex) {
+                // Okay to not have a default
+            }
+        }
+        
+        // Show the WEB-INF directory in the text field
+        webInfTextField.setText(settings.getWebInfDirectory().getPath());
+    }
+    
+    private void recordSettings() {
+        // Validate WEB-INF directory
+        File dir = new File(webInfTextField.getText());
+        if (dir.isDirectory()) {
+            settings.setWebInfDirectory(dir);
+        }
+    }
+    
+    private File getFile(FileObject file) {
+        File ret = null;
+        try {
+            ret = new File(file.getURL().getFile());
+        } catch (FileStateInvalidException ex) {}
+        return ret;
     }
     
     /*************************************************************************/
@@ -216,6 +294,9 @@ public final class ProjectWizardPanel extends JPanel {
         }
         
         public void storeSettings(Object settings) {
+            // Record the page state into settings
+            component.recordSettings();
+            
             // Write shared info to the wizard descriptor
             IntegrationWizardDescriptor descriptor = (IntegrationWizardDescriptor) settings;
             descriptor.setSettings(component.getSettings());

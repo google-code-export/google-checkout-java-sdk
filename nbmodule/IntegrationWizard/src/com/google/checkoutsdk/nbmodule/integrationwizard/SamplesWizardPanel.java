@@ -170,7 +170,8 @@ public class SamplesWizardPanel extends javax.swing.JPanel {
         addSamplesCheckBox.setSelected(settings.addSamples());
     }
     
-    private void validateSamplesDirectory() {
+    private void recordSettings() {
+        // Validate samples directory
         // TODO: Fix validation to check whether the text is really a directory
         File dir = new File(samplesDirectoryTextField.getText());
         if (!dir.exists() || dir.isDirectory()) {
@@ -235,8 +236,8 @@ public class SamplesWizardPanel extends javax.swing.JPanel {
         }
         
         public void storeSettings(Object settings) {
-            // Update the samples directory file with the entered location
-            component.validateSamplesDirectory();
+            // Record the page state into settings
+            component.recordSettings();
             
             // Write shared info to the wizard descriptor
             IntegrationWizardDescriptor descriptor = (IntegrationWizardDescriptor) settings;

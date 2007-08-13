@@ -45,16 +45,13 @@ public final class ConfigWizardPanel extends JPanel {
         merchantKeyLabel = new javax.swing.JLabel();
         merchantIdTextField = new javax.swing.JTextField();
         merchantKeyTextField = new javax.swing.JTextField();
-        addDefaultHandlersCheckBox = new javax.swing.JCheckBox();
-        launchHandlerManagerCheckBox = new javax.swing.JCheckBox();
         envComboBox = new javax.swing.JComboBox();
         envLabel = new javax.swing.JLabel();
         currencyCodeLabel = new javax.swing.JLabel();
-        separator2 = new javax.swing.JSeparator();
         currencyCodeTextField = new javax.swing.JTextField();
 
         configLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        org.openide.awt.Mnemonics.setLocalizedText(configLabel, "checkout-config.xml will be placed alongside web.xml at:");
+        org.openide.awt.Mnemonics.setLocalizedText(configLabel, "This will place checkout-config at:");
 
         configTextField.setEditable(false);
 
@@ -63,16 +60,6 @@ public final class ConfigWizardPanel extends JPanel {
 
         merchantKeyLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         org.openide.awt.Mnemonics.setLocalizedText(merchantKeyLabel, "Merchant Key:");
-
-        addDefaultHandlersCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        org.openide.awt.Mnemonics.setLocalizedText(addDefaultHandlersCheckBox, "Create a default set of handlers");
-        addDefaultHandlersCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        addDefaultHandlersCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
-
-        launchHandlerManagerCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
-        org.openide.awt.Mnemonics.setLocalizedText(launchHandlerManagerCheckBox, "Run the Handler Manager after this wizard");
-        launchHandlerManagerCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        launchHandlerManagerCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
 
         envComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Sandbox", "Production" }));
 
@@ -93,25 +80,23 @@ public final class ConfigWizardPanel extends JPanel {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(configTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
                     .add(configLabel)
-                    .add(separator1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
-                    .add(merchantIdLabel)
                     .add(layout.createSequentialGroup()
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(currencyCodeLabel)
-                            .add(merchantKeyLabel)
-                            .add(envLabel))
+                        .add(merchantKeyLabel)
+                        .add(19, 19, 19)
+                        .add(merchantKeyTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE))
+                    .add(separator1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                        .add(merchantIdLabel)
+                        .add(28, 28, 28)
+                        .add(merchantIdTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE))
+                    .add(layout.createSequentialGroup()
+                        .add(envLabel)
+                        .add(26, 26, 26)
+                        .add(envComboBox, 0, 275, Short.MAX_VALUE))
+                    .add(layout.createSequentialGroup()
+                        .add(currencyCodeLabel)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, envComboBox, 0, 275, Short.MAX_VALUE)
-                            .add(layout.createSequentialGroup()
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                                    .add(org.jdesktop.layout.GroupLayout.TRAILING, merchantIdTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
-                                    .add(merchantKeyTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)))
-                            .add(currencyCodeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 85, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, separator2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
-                    .add(addDefaultHandlersCheckBox)
-                    .add(launchHandlerManagerCheckBox))
+                        .add(currencyCodeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 85, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -121,16 +106,16 @@ public final class ConfigWizardPanel extends JPanel {
                 .add(configLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(configTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(16, 16, 16)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(separator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(merchantIdLabel)
-                    .add(merchantIdTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(merchantIdTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(merchantIdLabel))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(merchantKeyLabel)
-                    .add(merchantKeyTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(merchantKeyTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(merchantKeyLabel))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(envLabel)
@@ -139,13 +124,7 @@ public final class ConfigWizardPanel extends JPanel {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(currencyCodeLabel)
                     .add(currencyCodeTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(14, 14, 14)
-                .add(separator2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(addDefaultHandlersCheckBox)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(launchHandlerManagerCheckBox)
-                .addContainerGap(71, Short.MAX_VALUE))
+                .addContainerGap(127, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
     
@@ -158,38 +137,31 @@ public final class ConfigWizardPanel extends JPanel {
     /*************************************************************************/
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox addDefaultHandlersCheckBox;
     private javax.swing.JLabel configLabel;
     private javax.swing.JTextField configTextField;
     private javax.swing.JLabel currencyCodeLabel;
     private javax.swing.JTextField currencyCodeTextField;
     private javax.swing.JComboBox envComboBox;
     private javax.swing.JLabel envLabel;
-    private javax.swing.JCheckBox launchHandlerManagerCheckBox;
     private javax.swing.JLabel merchantIdLabel;
     private javax.swing.JTextField merchantIdTextField;
     private javax.swing.JLabel merchantKeyLabel;
     private javax.swing.JTextField merchantKeyTextField;
     private javax.swing.JSeparator separator1;
-    private javax.swing.JSeparator separator2;
     // End of variables declaration//GEN-END:variables
     
     /*************************************************************************/
     /*                          UTILITY METHODS                              */
     /*************************************************************************/
     
-    public void updatePanel() {
+    private void updatePanel() {
         // Update the config text field
-        URI uri = settings.getWebXmlFile().getParentFile().toURI().resolve("checkout-config.xml");
+        URI uri = settings.getWebInfDirectory().toURI().resolve("checkout-config.xml");
         String configFileName = uri.toString().replace("file:", "");
         configTextField.setText(configFileName);
-        
-        // Update the check boxes
-        addDefaultHandlersCheckBox.setSelected(settings.addDefaultHandlers());
-        launchHandlerManagerCheckBox.setSelected(settings.launchHandlerManager());
     }
     
-    public void recordSettings() {
+    private void recordSettings() {
         CheckoutConfigManager configManager = settings.getConfigManager();
         
         configManager.setMerchantId(merchantIdTextField.getText());
@@ -197,9 +169,6 @@ public final class ConfigWizardPanel extends JPanel {
         configManager.setEnv((String)envComboBox.getSelectedItem());
         configManager.setCurrencyCode(currencyCodeTextField.getText());
         configManager.setNewFileName(configTextField.getText());
-        
-        settings.setAddDefaultHandlers(addDefaultHandlersCheckBox.isSelected());
-        settings.setLaunchHandlerManager(launchHandlerManagerCheckBox.isSelected());
     }
     
     /*************************************************************************/
