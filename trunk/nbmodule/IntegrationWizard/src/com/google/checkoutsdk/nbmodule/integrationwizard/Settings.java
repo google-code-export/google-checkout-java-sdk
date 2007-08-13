@@ -7,6 +7,7 @@ import org.netbeans.api.project.Project;
 public class Settings {
     
     private Project project;
+    private File webInfDirectory;
     private File webXmlFile;
     private String modifiedWebXml;
     private CheckoutConfigManager configManager;
@@ -22,6 +23,7 @@ public class Settings {
     // Reset all fields
     public void reset() {
         project = null;
+        webInfDirectory = null;
         webXmlFile = null;
         modifiedWebXml = null;
         configManager = new CheckoutConfigManager();
@@ -37,6 +39,14 @@ public class Settings {
     
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public File getWebInfDirectory() {
+        return webInfDirectory;
+    }
+
+    public void setWebInfDirectory(File webInfDirectory) {
+        this.webInfDirectory = webInfDirectory;
     }
 
     public File getWebXmlFile() {
