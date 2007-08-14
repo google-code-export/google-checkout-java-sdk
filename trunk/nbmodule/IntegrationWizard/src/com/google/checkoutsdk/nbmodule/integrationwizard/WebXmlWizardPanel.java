@@ -237,7 +237,7 @@ public final class WebXmlWizardPanel extends JPanel {
     }
     
     private void readWebFragment() {
-        InputStream is = this.getClass().getResourceAsStream("xml/webFragment.xml");
+        InputStream is = this.getClass().getResourceAsStream("sources/webFragment.xml");
         if (is != null) {
             try {
                 StringBuilder buf = new StringBuilder();
