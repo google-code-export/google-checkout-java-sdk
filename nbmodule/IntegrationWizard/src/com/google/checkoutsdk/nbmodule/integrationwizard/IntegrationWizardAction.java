@@ -4,7 +4,9 @@ import java.awt.Component;
 import java.awt.Dialog;
 import java.text.MessageFormat;
 import javax.swing.JComponent;
+import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
 import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
 import org.openide.util.NbBundle;
@@ -18,16 +20,34 @@ public final class IntegrationWizardAction extends CallableSystemAction {
      * Creates and shows the wizard when the action button is pressed.
      */
     public void performAction() {
-        IntegrationWizardDescriptor wizardDescriptor = new IntegrationWizardDescriptor(getPanels());
-        // {0} will be replaced by WizardDesriptor.Panel.getComponent().getName()
-        wizardDescriptor.setTitleFormat(new MessageFormat("{0}"));
-        wizardDescriptor.setTitle("Google Checkout Integration Wizard");
-        Dialog dialog = DialogDisplayer.getDefault().createDialog(wizardDescriptor);
-        dialog.setVisible(true);
-        dialog.toFront();
-        boolean cancelled = wizardDescriptor.getValue() != WizardDescriptor.FINISH_OPTION;
-        if (!cancelled) {
-            
+        if (OpenProjects.getDefault().getOpenProjects().length <= 0) {
+            // No open projects, display error
+            String msg = "Error: No open projects\n" +
+                    "Open your web application in NetBeans first,\n" +
+                    "then run the Integration Wizard again.";
+            NotifyDescriptor d = new NotifyDescriptor.Message(msg, NotifyDescriptor.INFORMATION_MESSAGE);
+            DialogDisplayer.getDefault().notify(d);      
+        } else {
+            // Create and show the wizard
+            IntegrationWizardDescriptor wizardDescriptor = new IntegrationWizardDescriptor(getPanels());
+            wizardDescriptor.setTitleFormat(new MessageFormat("{0}"));
+            wizardDescriptor.setTitle("Google Checkout Integration Wizard");
+            Dialog dialog = DialogDisplayer.getDefault().createDialog(wizardDescriptor);
+            dialog.setVisible(true);
+            dialog.toFront();
+
+            // Handle the integration after the wizard closes
+            boolean cancelled = wizardDescriptor.getValue() != WizardDescriptor.FINISH_OPTION;
+            if (!cancelled) {
+                Settings settings = wizardDescriptor.getSettings();
+                Integrator integrator = new Integrator(settings);
+                boolean success = integrator.integrate();
+                if (!success) {
+                    String msg = "Error: " + integrator.getErrorMessage();
+                    NotifyDescriptor d = new NotifyDescriptor.Message(msg, NotifyDescriptor.INFORMATION_MESSAGE);
+                    DialogDisplayer.getDefault().notify(d);      
+                }
+            }
         }
     }
     
