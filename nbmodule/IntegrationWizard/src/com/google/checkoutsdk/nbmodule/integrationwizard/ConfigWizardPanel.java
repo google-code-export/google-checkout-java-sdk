@@ -155,10 +155,14 @@ public final class ConfigWizardPanel extends JPanel {
     /*************************************************************************/
     
     private void updatePanel() {
-        // Update the config text field
-        URI uri = settings.getWebInfDirectory().toURI().resolve("checkout-config.xml");
-        String configFileName = uri.toString().replace("file:", "");
-        configTextField.setText(configFileName);
+        // Get the default checkout-config.xml if one doesn't already exist
+        if (settings.getConfigManager().getFile() == null) {
+            URI uri = settings.getWebInfDirectory().toURI().resolve("checkout-config.xml");
+            settings.getConfigManager().setFile((new File(uri)));
+        }
+        
+        // Set the checkout-config.xml field
+        configTextField.setText(settings.getConfigManager().getFile().getPath());
     }
     
     private void recordSettings() {
@@ -168,7 +172,6 @@ public final class ConfigWizardPanel extends JPanel {
         configManager.setMerchantKey(merchantKeyTextField.getText());
         configManager.setEnv((String)envComboBox.getSelectedItem());
         configManager.setCurrencyCode(currencyCodeTextField.getText());
-        configManager.setNewFileName(configTextField.getText());
     }
     
     /*************************************************************************/

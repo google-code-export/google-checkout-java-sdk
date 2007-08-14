@@ -6,14 +6,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.net.MalformedURLException;
+import java.io.InputStream;
 import java.net.URI;
-import java.net.URISyntaxException;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
-import org.openide.filesystems.FileObject;
-import org.openide.filesystems.FileStateInvalidException;
 import org.openide.util.HelpCtx;
 
 public final class WebXmlWizardPanel extends JPanel {
@@ -240,66 +237,24 @@ public final class WebXmlWizardPanel extends JPanel {
     }
     
     private void readWebFragment() {
-        // TODO: Read this from a file as oposed to hard coding it (I had trouble
-        // with the getResource() method)
-        webFragment = "" +
-                "<!-- Begin: Configuration for Google checkout message processing -->\n" +
-                "  <servlet>\n" +
-                "    <description>\n" +
-                "      Servlet that receives notifications for Google Checkout\n" +
-                "    </description>\n" +
-                "    <display-name>CheckoutNotificationServlet</display-name>\n" +
-                "    <servlet-name>CheckoutNotificationServlet</servlet-name>\n" +
-                "    <servlet-class>\n" +
-                "      com.google.checkout.sdk.CheckoutMessageHandlerServlet\n" +
-                "    </servlet-class>\n" +
-                "    <init-param>\n" +
-                "      <param-name>handler-type</param-name>\n" +
-                "      <param-value>notification-handler</param-value>\n" +
-                "    </init-param>\n" +
-                "    <load-on-startup>0</load-on-startup>\n" +
-                "  </servlet>\n" +
-                "\n" +
-                "  <servlet>\n" +
-                "    <description>\n" +
-                "      Servlet that receives callback requests for Google Checkout\n" +
-                "    </description>\n" +
-                "    <display-name>CheckoutCallbackServlet</display-name>\n" +
-                "    <servlet-name>CheckoutCallbackServlet</servlet-name>\n" +
-                "    <servlet-class>\n" +
-                "      com.google.checkout.sdk.CheckoutMessageHandlerServlet\n" +
-                "    </servlet-class>\n" +
-                "    <init-param>\n" +
-                "      <param-name>handler-type</param-name>\n" +
-                "      <param-value>callback-handler</param-value>\n" +
-                "    </init-param>\n" +
-                "    <load-on-startup>0</load-on-startup>\n" +
-                "  </servlet>\n" +
-                "\n" +
-                "  <servlet-mapping>\n" +
-                "    <servlet-name>CheckoutNotificationServlet</servlet-name>\n" +
-                "    <url-pattern>/notification</url-pattern>\n" +
-                "  </servlet-mapping>\n" +
-                "\n" +
-                "  <servlet-mapping>\n" +
-                "    <servlet-name>CheckoutCallbackServlet</servlet-name>\n" +
-                "    <url-pattern>/callback</url-pattern>\n" +
-                "  </servlet-mapping>\n" +
-                "\n" +
-                "  <!-- location of configuration file for checkout with respect to context \n" +
-                "    root. Using the default path here. -->\n" +
-                "  <context-param>\n" +
-                "    <param-name>checkout-config-file</param-name>\n" +
-                "    <param-value>/WEB-INF/checkout-config.xml</param-value>\n" +
-                "  </context-param>\n" +
-                "\n" +
-                "  <listener>\n" +
-                "    <description>\n" +
-                "      Servlet context listener that configures some needed context attributes\n" +
-                "    </description>\n" +
-                "    <listener-class>com.google.checkout.web.ConfigurationListener</listener-class>\n" +
-                "  </listener>\n" +
-                "  <!-- End: Configuration for Google checkout message processing -->";
+        InputStream is = this.getClass().getResourceAsStream("xml/webFragment.xml");
+        if (is != null) {
+            try {
+                StringBuilder buf = new StringBuilder();
+
+                int ch;
+                while ((ch = is.read()) != -1) {
+                    buf.append((char) ch);
+                }
+                is.close();
+
+                webFragment = buf.toString();
+            } catch (IOException ex) {
+                webFragment = null;
+            }
+        } else {
+            webFragment = null;
+        }
     }
     
     private void recordSettings() {
