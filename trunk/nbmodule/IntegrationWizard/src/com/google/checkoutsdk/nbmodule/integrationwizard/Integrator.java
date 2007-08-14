@@ -1,6 +1,7 @@
 package com.google.checkoutsdk.nbmodule.integrationwizard;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,11 +48,11 @@ public class Integrator {
         }
         
         // Add sample JSPs
-        /*if (success && settings.addSamples()) {
+        if (success && settings.addSamples()) {
             if (!copySamplesJsps()) {
                 success = false;
             }
-        }*/
+        }
         
         // Create default handlers
         /*if (success && settings.addHandlers()) {
@@ -75,11 +76,11 @@ public class Integrator {
         
         // Get the checkout-sdk.jar path
         String path = settings.getWebInfDirectory().getPath() + "/lib/checkout-sdk.jar";
-        File file = new File(path);
+        File dest = new File(path);
             
         // Write the file
         try {
-            writeFileFromStream(source, file);
+            writeFileFromStream(source, dest);
         } catch (IOException ex) {
             success = false;
             errorMessage = "Could not write checkout-sdk.jar";
@@ -93,11 +94,11 @@ public class Integrator {
         
         // Get the source and destination
         String source = settings.getModifiedWebXml();
-        File file = settings.getWebXmlFile();
+        File dest = settings.getWebXmlFile();
         
         // Write the file
         try {
-            writeFileFromString(source, file);
+            writeFileFromString(source, dest);
         } catch (IOException ex) {
             success = false;
             errorMessage = "Could not write web.xml";
@@ -111,17 +112,78 @@ public class Integrator {
         
         // Get the source and destination
         String source = settings.getConfigManager().getBody();
-        File file = settings.getConfigManager().getFile();
+        File dest = settings.getConfigManager().getFile();
         
         // Write the file
         try {
-            writeFileFromString(source, file);
+            writeFileFromString(source, dest);
         } catch (IOException ex) {
             success = false;
-            errorMessage = "Could not write web.xml";
+            errorMessage = "Could not write checkout-config.xml";
         }
         
         return success;
+    }
+    
+    private boolean copySamplesJsps() {
+        boolean success = true;
+        
+        // Get the sample directory provided by the user
+        File destDirectory = settings.getSamplesDirectory();
+        
+        // Get the sample names
+        String[] samples = getSampleNames();
+        
+        // Loop through each of the samples
+        for (int i=0; i<samples.length  && success; i++) {
+            // Get the source
+            String name = "sources/samples/" + samples[i];
+            InputStream source = getClass().getResourceAsStream(name);
+        
+            // Get the destination
+            String path = destDirectory.getPath() + "/" + samples[i];
+            File dest = new File(path);
+
+            // Write the file
+            try {
+                writeFileFromStream(source, dest);
+            } catch (IOException ex) {
+                success = false;
+                errorMessage = "Could not write " + samples[i];
+            }
+        }
+        
+        return success;
+    }
+    
+    /*************************************************************************/
+    /*                    HARDCODED METHODS (REMOVE ASAP)                    */
+    /*************************************************************************/
+    
+    private static String[] getSampleNames() {
+        // TODO: REMOVE THIS!!!
+        String[] samples = new String[18];
+        
+        samples[0] = "addmerchantordernumber.jsp";
+        samples[1] = "addtrackingdata.jsp";
+        samples[2] = "archiveorder.jsp";
+        samples[3] = "authorizeorder.jsp";
+        samples[4] = "cancelorder.jsp";
+        samples[5] = "chargeorder.jsp";
+        samples[6] = "deliverorder.jsp";
+        samples[7] = "index.jsp";
+        samples[8] = "left_bottom.jsp";
+        samples[9] = "left_top.jsp";
+        samples[10] = "order_detail.jsp";
+        samples[11] = "orders.jsp";
+        samples[12] = "processorder.jsp";
+        samples[13] = "refundorder.jsp";
+        samples[14] = "sendbuyermessage.jsp";
+        samples[15] = "shipping-fragment.jsp";
+        samples[16] = "shopping_cart.jsp";
+        samples[17] = "unarchiveorder.jsp";
+        
+        return samples;
     }
     
     /*************************************************************************/
@@ -153,6 +215,11 @@ public class Integrator {
     
     private static void writeFileFromStream(InputStream source, File dest) throws IOException {
         InputStreamReader reader = new InputStreamReader(source);
+        writeFileFromReader(reader, dest);
+    }
+    
+    private static void writeFileFromFile(File source, File dest) throws IOException {
+        FileReader reader = new FileReader(source);
         writeFileFromReader(reader, dest);
     }
     
