@@ -4,6 +4,7 @@ import com.google.checkoutsdk.nbmodule.integrationwizard.handlers.CheckoutConfig
 import java.awt.Component;
 import java.io.File;
 import java.net.URI;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeListener;
 import org.openide.WizardDescriptor;
@@ -163,11 +164,24 @@ public final class ConfigWizardPanel extends JPanel {
         
         // Set the checkout-config.xml field
         configTextField.setText(settings.getConfigManager().getFile().getPath());
+        
+        // Fill the text fields
+        CheckoutConfigManager configManager = settings.getConfigManager();
+        merchantIdTextField.setText(configManager.getMerchantId());
+        merchantKeyTextField.setText(configManager.getMerchantKey());
+        currencyCodeTextField.setText(configManager.getCurrencyCode());
+        
+        // Select the drop down item
+        DefaultComboBoxModel model = (DefaultComboBoxModel) envComboBox.getModel();
+        int index = model.getIndexOf(configManager.getEnv());
+        if (index >= 0) {
+            envComboBox.setSelectedIndex(index);
+        }
     }
     
     private void recordSettings() {
+        // Save the text field info
         CheckoutConfigManager configManager = settings.getConfigManager();
-        
         configManager.setMerchantId(merchantIdTextField.getText());
         configManager.setMerchantKey(merchantKeyTextField.getText());
         configManager.setEnv((String)envComboBox.getSelectedItem());
