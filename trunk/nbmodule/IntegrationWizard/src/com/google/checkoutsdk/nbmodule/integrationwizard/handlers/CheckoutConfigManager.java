@@ -7,12 +7,7 @@ import java.io.IOException;
 public class CheckoutConfigManager {
     
     // The actual config file be read from and written to
-    // Will be null
     private File file;
-    
-    // The fully qualified path to a new file, used to create a new file if
-    // 'file' is null when writeConfig() is called
-    private String newFileName;
     
     // Basic merchant info
     private String merchantId;
@@ -31,7 +26,6 @@ public class CheckoutConfigManager {
      */
     public CheckoutConfigManager() {
         file = null;
-        setNewFileName(null);
         
         // Init fields to default values
         // TODO: Read these from some type of config file
@@ -46,6 +40,8 @@ public class CheckoutConfigManager {
         requestSuffix = "request";
     }
     
+    
+    
     /*************************************************************************/
     /*                             FIELD ACCESSORS                           */
     /*************************************************************************/
@@ -56,14 +52,6 @@ public class CheckoutConfigManager {
 
     public void setFile(File file) {
         this.file = file;
-    }
-
-    public String getNewFileName() {
-        return newFileName;
-    }
-
-    public void setNewFileName(String newFileName) {
-        this.newFileName = newFileName;
     }
 
     public String getMerchantId() {
@@ -122,68 +110,47 @@ public class CheckoutConfigManager {
     }
     
     /**
-     * Writes the information out to the config file.
+     * Generates the new body of checkout-config.xml based on all of this
+     * class's fields.
      *
-     * @return true if successful
+     * @return The new body
      */
-    public boolean writeConfig() {
-        boolean retVal = true;
-        
-        // Generate a new file if 'file' doesn't already exist
-        if (file == null && getNewFileName() != null) {
-            file = new File(getNewFileName());
+    public String getBody() {
+        String body = "";
+
+        // Begin
+        body += "<checkout-config>\n";
+
+        // Merchant info
+        body += "    <metchant-info>\n"
+                + "        <merchant-id>" + merchantId + "</merchant-id>\n"
+                + "        <merchant-key>" + merchantKey + "</merchant-key>\n"
+                + "        <env>" + env + "</env>\n"
+                + "        <currency-code>" + currencyCode + "</currency-code>\n"
+                + "        <sandbox-root>" + sandboxRoot + "</sandbox-root>\n"
+                + "        <production-root>" + productionRoot + "</production-root>\n"
+                + "        <checkout-suffix>" + checkoutSuffix + "</checkout-suffix>\n"
+                + "        <merchant-checkout-suffix>" + merchantCheckoutSuffix + "</merchant-checkout-suffix>\n"
+                + "        <request-suffix>" + requestSuffix + "</request-suffix>\n"
+                + "    </merchant-info>\n";
+
+        // Notification handlers
+        body += "    <notification-handlers>\n";
+        for (int i=0; i<10; i++) {
+
         }
-        
-        if (file == null) {
-            // File creation failed
-            retVal = false;
-        } else {
-            String output = "";
+        body += "    </notification-handlers>\n";
 
-            // Begin
-            output += "<checkout-config>\n";
+        // Callback handlers
+        body += "    <callback-handlers>\n";
+        for (int i=0; i<10; i++) {
 
-            // Merchant info
-            output += "  <metchant-info>\n"
-                    + "    <merchant-id>" + merchantId + "</merchant-id>\n"
-                    + "    <merchant-key>" + merchantKey + "</merchant-key>\n"
-                    + "    <env>" + env + "</env>\n"
-                    + "    <currency-code>" + currencyCode + "</currency-code>\n"
-                    + "    <sandbox-root>" + sandboxRoot + "</sandbox-root>\n"
-                    + "    <production-root>" + productionRoot + "</production-root>\n"
-                    + "    <checkout-suffix>" + checkoutSuffix + "</checkout-suffix>\n"
-                    + "    <merchant-checkout-suffix>" + merchantCheckoutSuffix + "</merchant-checkout-suffix>\n"
-                    + "    <request-suffix>" + requestSuffix + "</request-suffix>\n"
-                    + "  </merchant-info>\n";
-
-            // Notification handlers
-            output += "  <notification-handlers>\n";
-            for (int i=0; i<10; i++) {
-
-            }
-            output += "  </notification-handlers>\n";
-
-            // Callback handlers
-            output += "  <callback-handlers>\n";
-            for (int i=0; i<10; i++) {
-
-            }
-            output += "  </callback-handlers>\n";
-
-            // End
-            output += "</checkout-config>";
-
-            // Write to the file
-            try {
-                FileWriter writer = new FileWriter(file);
-                writer.write(output);
-                writer.flush();
-                writer.close();
-            } catch (IOException ex) {
-               retVal = false;
-            }
         }
+        body += "    </callback-handlers>\n";
+
+        // End
+        body += "</checkout-config>";
         
-        return retVal;
+        return body;
     }
 }
