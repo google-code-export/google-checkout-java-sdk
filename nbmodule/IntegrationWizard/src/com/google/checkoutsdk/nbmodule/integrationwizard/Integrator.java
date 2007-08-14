@@ -1,4 +1,4 @@
-    package com.google.checkoutsdk.nbmodule.integrationwizard;
+package com.google.checkoutsdk.nbmodule.integrationwizard;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -71,7 +71,7 @@ public class Integrator {
         boolean success = true;
         
         // Get the checkout-sdk.jar.txt resource
-        InputStream source = getClass().getResourceAsStream("xml/checkout-sdk.jar.txt");
+        InputStream source = getClass().getResourceAsStream("sources/checkout-sdk.jar.txt");
         
         // Get the checkout-sdk.jar path
         String path = settings.getWebInfDirectory().getPath() + "/lib/checkout-sdk.jar";
