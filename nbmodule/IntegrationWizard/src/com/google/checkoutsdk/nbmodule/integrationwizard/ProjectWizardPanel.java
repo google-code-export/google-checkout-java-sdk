@@ -133,8 +133,11 @@ public final class ProjectWizardPanel extends JPanel {
         jfc.showOpenDialog(WindowManager.getDefault().getMainWindow());
         
         // Fill the samples directory text field with the located directory
-        String text = jfc.getSelectedFile().getPath();
-        webInfTextField.setText(text);
+        File selectedFile = jfc.getSelectedFile();
+        if (selectedFile != null) {
+            String text = selectedFile.getPath();
+            webInfTextField.setText(text);
+        }
     }//GEN-LAST:event_browseButtonActionPerformed
 
     /*************************************************************************/
