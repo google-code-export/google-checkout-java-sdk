@@ -108,8 +108,11 @@ public class SamplesWizardPanel extends javax.swing.JPanel {
         jfc.showOpenDialog(WindowManager.getDefault().getMainWindow());
         
         // Fill the samples directory text field with the located directory
-        String text = jfc.getSelectedFile().getPath();
-        samplesDirectoryTextField.setText(text);
+        File selectedFile = jfc.getSelectedFile();
+        if (selectedFile != null) {
+            String text = selectedFile.getPath();
+            samplesDirectoryTextField.setText(text);
+        }
     }//GEN-LAST:event_samplesBrowseButtonActionPerformed
 
     private void addSamplesCheckBoxStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_addSamplesCheckBoxStateChanged
