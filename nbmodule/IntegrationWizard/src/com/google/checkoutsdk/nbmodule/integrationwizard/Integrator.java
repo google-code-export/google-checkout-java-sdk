@@ -54,13 +54,6 @@ public class Integrator {
             }
         }
         
-        // Create default handlers
-        /*if (success && settings.addHandlers()) {
-            if (!copyDefaultHandlers()) {
-                success = false;
-            }
-        }*/
-        
         return success;
     }
     

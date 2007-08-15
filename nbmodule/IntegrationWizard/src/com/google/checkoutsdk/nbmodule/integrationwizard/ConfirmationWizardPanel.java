@@ -118,9 +118,6 @@ public final class ConfirmationWizardPanel extends JPanel {
         if (settings.addSamples()) {
             changes += "- Add sample JSPs to " + shorten(settings.getSamplesDirectory()) + "\n";
         }
-        if (settings.addHandlers()) {
-            changes += "- Create default handlers in " + shorten(settings.getHandlerDirectory()) + "\n";
-        }
         
         changesTextArea.setText(changes);
         

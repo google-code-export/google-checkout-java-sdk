@@ -19,8 +19,6 @@ public class Settings {
     // Samples panel
     private boolean addSamples;
     private File samplesDirectory;
-    private boolean addHandlers;
-    private File handlerDirectory;
     
     // Confirmation panel
     private boolean launchHandlerManager;
@@ -38,8 +36,6 @@ public class Settings {
         configManager = new CheckoutConfigManager();
         addSamples = true;
         samplesDirectory = null;
-        addHandlers = true;
-        handlerDirectory = null;
         launchHandlerManager = true;
     }
     
@@ -97,22 +93,6 @@ public class Settings {
 
     public void setSamplesDirectory(File samplesDirectory) {
         this.samplesDirectory = samplesDirectory;
-    }
-
-    public boolean addHandlers() {
-        return addHandlers;
-    }
-
-    public void setAddHandlers(boolean addHandlers) {
-        this.addHandlers = addHandlers;
-    }
-
-    public File getHandlerDirectory() {
-        return handlerDirectory;
-    }
-
-    public void setHandlerDirectory(File handlerDirectory) {
-        this.handlerDirectory = handlerDirectory;
     }
 
     public boolean launchHandlerManager() {
