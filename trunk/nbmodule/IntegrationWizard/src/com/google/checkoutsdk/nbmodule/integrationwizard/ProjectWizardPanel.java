@@ -125,6 +125,10 @@ public final class ProjectWizardPanel extends JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /*************************************************************************/
+    /*                           EVENT HANDLERS                              */
+    /*************************************************************************/
+    
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
         // Generate and show the file chooser
         JFileChooser jfc = new JFileChooser(getFile(settings.getProject().getProjectDirectory()));
@@ -140,10 +144,6 @@ public final class ProjectWizardPanel extends JPanel {
         }
     }//GEN-LAST:event_browseButtonActionPerformed
 
-    /*************************************************************************/
-    /*                           EVENT HANDLERS                              */
-    /*************************************************************************/
-    
     private void projectListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_projectListValueChanged
         if (!evt.getValueIsAdjusting() && projectList.getSelectedIndex() >= 0) {
             Project newProject = projects[projectList.getSelectedIndex()];

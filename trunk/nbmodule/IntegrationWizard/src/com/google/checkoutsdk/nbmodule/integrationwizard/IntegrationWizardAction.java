@@ -2,9 +2,14 @@ package com.google.checkoutsdk.nbmodule.integrationwizard;
 
 import java.awt.Component;
 import java.awt.Dialog;
+import java.awt.FlowLayout;
 import java.text.MessageFormat;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import org.netbeans.api.project.ui.OpenProjects;
+import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.WizardDescriptor;
@@ -39,9 +44,34 @@ public final class IntegrationWizardAction extends CallableSystemAction {
             // Handle the integration after the wizard closes
             boolean cancelled = wizardDescriptor.getValue() != WizardDescriptor.FINISH_OPTION;
             if (!cancelled) {
+                // Create the progress dialog
+                ProgressPanel progressPanel = new ProgressPanel();
+                DialogDescriptor desc = new DialogDescriptor(
+                        progressPanel,  // panel to display
+                        "Integrating Google Checkout SDK",  // dialog title
+                        false,  // modal
+                        new Object[0],  // options
+                        null,  // initial value (selected option)
+                        DialogDescriptor.DEFAULT_ALIGN,  // options alignment
+                        null,  // help control
+                        null);  // action listener
+                
+                // Show the progress dialog
+                dialog = DialogDisplayer.getDefault().createDialog(desc);
+                dialog.setVisible(true);
+                dialog.toFront();
+                
+                // Create the integrator that does the actual integration work
                 Settings settings = wizardDescriptor.getSettings();
-                Integrator integrator = new Integrator(settings);
+                Integrator integrator = new Integrator(settings, progressPanel);
+                
+                // Integrate
                 boolean success = integrator.integrate();
+                
+                // Close the progress dialog
+                dialog.setVisible(false);
+                
+                // Show error box if necessary
                 if (!success) {
                     String msg = "Error: " + integrator.getErrorMessage();
                     NotifyDescriptor d = new NotifyDescriptor.Message(msg, NotifyDescriptor.INFORMATION_MESSAGE);

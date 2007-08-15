@@ -85,6 +85,10 @@ public final class ConfirmationWizardPanel extends JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /*************************************************************************/
+    /*                           EVENT HANDLERS                              */
+    /*************************************************************************/    
+    
     private void launchHandlerManagerCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_launchHandlerManagerCheckBoxActionPerformed
         // Update settings
         settings.setLaunchHandlerManager(launchHandlerManagerCheckBox.isSelected());
