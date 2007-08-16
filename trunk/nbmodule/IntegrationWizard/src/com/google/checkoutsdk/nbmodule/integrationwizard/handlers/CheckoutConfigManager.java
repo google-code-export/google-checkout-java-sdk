@@ -122,7 +122,7 @@ public class CheckoutConfigManager {
         body += "<checkout-config>\n";
 
         // Merchant info
-        body += "    <metchant-info>\n"
+        body += "    <merchant-info>\n"
                 + "        <merchant-id>" + merchantId + "</merchant-id>\n"
                 + "        <merchant-key>" + merchantKey + "</merchant-key>\n"
                 + "        <env>" + env + "</env>\n"
