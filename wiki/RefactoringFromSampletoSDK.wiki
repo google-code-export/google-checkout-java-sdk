@@ -1,5 +1,3 @@
-#Refactoring to migrate a project from sample code to SDK
-
 This page contains some notes designed to help you migrate to the SDK from the old Java sample code.  The key difference between the old sample code project and the SDK is that in the SDK you no longer have to edit the Servlet sourcecode in order to plug in new notification handler classes.  
 
 Therefore, you should:
