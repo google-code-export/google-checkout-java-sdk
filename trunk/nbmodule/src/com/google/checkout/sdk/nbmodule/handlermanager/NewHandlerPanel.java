@@ -244,6 +244,7 @@ public class NewHandlerPanel extends javax.swing.JPanel {
             } else {
                 types = configManager.getNotificationTypes();
             }
+            messageTypeModel.removeAllElements();
             for (int i=0; i<types.length; i++) {
                 messageTypeModel.addElement(types[i]);
             }

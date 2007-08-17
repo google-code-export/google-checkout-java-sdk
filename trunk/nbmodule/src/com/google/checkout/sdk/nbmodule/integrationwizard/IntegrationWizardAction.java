@@ -1,23 +1,24 @@
 package com.google.checkout.sdk.nbmodule.integrationwizard;
 
+import com.google.checkout.sdk.nbmodule.handlermanager.HandlerManagerAction;
 import com.google.checkout.sdk.nbmodule.integrationwizard.panels.ConfigWizardPanel;
 import com.google.checkout.sdk.nbmodule.integrationwizard.panels.ConfirmationWizardPanel;
 import com.google.checkout.sdk.nbmodule.integrationwizard.panels.ProgressPanel;
 import com.google.checkout.sdk.nbmodule.integrationwizard.panels.ProjectWizardPanel;
+import com.google.checkout.sdk.nbmodule.integrationwizard.panels.SamplesWizardPanel;
 import com.google.checkout.sdk.nbmodule.integrationwizard.panels.WebXmlWizardPanel;
 import java.awt.Component;
 import java.awt.Dialog;
-import java.awt.FlowLayout;
 import java.text.MessageFormat;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
+import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.WizardDescriptor;
+import org.openide.filesystems.FileObject;
+import org.openide.filesystems.FileStateInvalidException;
 import org.openide.util.HelpCtx;
 import org.openide.util.NbBundle;
 import org.openide.util.actions.CallableSystemAction;
@@ -32,10 +33,10 @@ public final class IntegrationWizardAction extends CallableSystemAction {
     public void performAction() {
         if (OpenProjects.getDefault().getOpenProjects().length <= 0) {
             // No open projects, display error
-            String msg = "Error: No open projects\n" +
+            String msg = "No open projects.\n" +
                     "Open your web application in NetBeans first,\n" +
                     "then run the Integration Wizard again.";
-            NotifyDescriptor d = new NotifyDescriptor.Message(msg, NotifyDescriptor.INFORMATION_MESSAGE);
+            NotifyDescriptor d = new NotifyDescriptor.Message(msg, NotifyDescriptor.ERROR_MESSAGE);
             DialogDisplayer.getDefault().notify(d);      
         } else {
             // Create and show the wizard
@@ -76,11 +77,25 @@ public final class IntegrationWizardAction extends CallableSystemAction {
                 // Close the progress dialog
                 dialog.setVisible(false);
                 
-                // Show error box if necessary
-                if (!success) {
-                    String msg = "Error: " + integrator.getErrorMessage();
-                    NotifyDescriptor d = new NotifyDescriptor.Message(msg, NotifyDescriptor.INFORMATION_MESSAGE);
-                    DialogDisplayer.getDefault().notify(d);      
+                if (success) {
+                    // Refresh the file system to update changes in the IDE
+                    try {
+                        Project p = settings.getProject();
+                        FileObject dir = p.getProjectDirectory();
+                        dir.getFileSystem().refresh(false);
+                    } catch (FileStateInvalidException ex) {
+                        // Simply didn't refresh; this is okay
+                    }
+                    
+                    // Launch handler manager if requested
+                    if (settings.launchHandlerManager()) {
+                        new HandlerManagerAction().performAction();
+                    }
+                } else {
+                    // Show error message
+                    String msg = integrator.getErrorMessage();
+                    NotifyDescriptor d = new NotifyDescriptor.Message(msg, NotifyDescriptor.ERROR_MESSAGE);
+                    DialogDisplayer.getDefault().notify(d);
                 }
             }
         }
