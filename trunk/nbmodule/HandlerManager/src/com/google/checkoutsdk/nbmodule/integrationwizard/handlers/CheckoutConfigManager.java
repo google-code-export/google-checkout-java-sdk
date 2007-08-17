@@ -1,8 +1,7 @@
 package com.google.checkoutsdk.nbmodule.integrationwizard.handlers;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.util.HashMap;
 
 public class CheckoutConfigManager {
     
@@ -20,12 +19,20 @@ public class CheckoutConfigManager {
     private String merchantCheckoutSuffix;
     private String requestSuffix;
     
+    // The maps which store handlers
+    HashMap notificationHandlers;
+    HashMap callbackHandlers;
+    
     /**
      * Creates a new instance of CheckoutConfigManager, one that isn't bound
      * to a specefic file
      */
     public CheckoutConfigManager() {
         file = null;
+        
+        // Init handlers maps
+        initNotificationHandlers();
+        initCallbackHandlers();
         
         // Init fields to default values
         // TODO: Read these from some type of config file
@@ -90,23 +97,52 @@ public class CheckoutConfigManager {
     /*                         UTILITY METHODS                               */
     /*************************************************************************/
     
-    public void getHandlers() {
-        //LinkedList handlers = new LinkedList();
-        //BufferedReader reader = new BufferedReader(new FileReader(file));
+    private void initNotificationHandlers() {
+        if (notificationHandlers == null) {
+            notificationHandlers = new HashMap();
+        }
         
+        // Insert a key-value pair for each message type
+        // TODO: Read these from some type of config file
+        notificationHandlers.put("new-order-notification", null);
+        notificationHandlers.put("risk-information-notification", null);
+        notificationHandlers.put("order-state-change-notification", null);
+        notificationHandlers.put("charge-amount-notification", null);
+        notificationHandlers.put("refund-amount-notification", null);
+        notificationHandlers.put("chargeback-amount-notification", null);
+        notificationHandlers.put("authorization-amount-notification", null);
     }
     
-    /*************************************************************************/
-    /*                         FILE IO METHODS                               */
-    /*************************************************************************/
+    private void initCallbackHandlers() {
+        if (callbackHandlers == null) {
+            callbackHandlers = new HashMap();
+        }
+        
+        // Insert a key-value pair for each message type
+        // TODO: Read these from some type of config file
+        callbackHandlers.put("merchant-calculation-callback", null);
+    }
     
-    /**
-     * Reads information from the config file.
-     *
-     * @return true if successful
-     */
-    public boolean readConfig() {
-        return true;
+    public String[] getNotificationTypes() {
+        Object[] keys = notificationHandlers.keySet().toArray();
+        String[] types = new String[keys.length];
+        
+        for (int i=0; i<types.length; i++) {
+            types[i] = (String) keys[i];
+        }
+        
+        return types;
+    }
+    
+    public String[] getCallbackTypes() {
+        Object[] keys = callbackHandlers.keySet().toArray();
+        String[] types = new String[keys.length];
+        
+        for (int i=0; i<types.length; i++) {
+            types[i] = (String) keys[i];
+        }
+        
+        return types;
     }
     
     /**
@@ -136,15 +172,31 @@ public class CheckoutConfigManager {
 
         // Notification handlers
         body += "    <notification-handlers>\n";
-        for (int i=0; i<10; i++) {
-
+        Object[] keys = notificationHandlers.keySet().toArray();
+        for (int i=0; i<keys.length; i++) {
+            String key = (String) keys[i];
+            String value = (String) notificationHandlers.get(key);
+            if (value != null) {
+                body += "        <notification-handler>\n"
+                        + "            <message-type>" + key + "</message-type>\n"
+                        + "            <handler-class>" + value + "</handler-class>\n"
+                        + "        </notification-handler>\n";
+            }
         }
         body += "    </notification-handlers>\n";
 
         // Callback handlers
         body += "    <callback-handlers>\n";
-        for (int i=0; i<10; i++) {
-
+        keys = callbackHandlers.keySet().toArray();
+        for (int i=0; i<keys.length; i++) {
+            String key = (String) keys[i];
+            String value = (String) callbackHandlers.get(key);
+            if (value != null) {
+                body += "        <callback-handler>\n"
+                        + "            <message-type>" + key + "</message-type>\n"
+                        + "            <handler-class>" + value + "</handler-class>\n"
+                        + "        </callback-handler>\n";
+            }
         }
         body += "    </callback-handlers>\n";
 
