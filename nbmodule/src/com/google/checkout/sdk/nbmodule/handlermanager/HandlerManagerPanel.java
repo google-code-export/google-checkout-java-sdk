@@ -8,6 +8,9 @@ import org.netbeans.api.project.ProjectInformation;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
+import org.openide.filesystems.FileObject;
+import org.openide.filesystems.FileStateInvalidException;
+import org.openide.filesystems.FileSystem;
 
 public class HandlerManagerPanel extends javax.swing.JPanel {
         
@@ -23,16 +26,7 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
         projects = new HashMap();
         
         initComponents();
-        
-        // Initialize the map of projects
-        Project[] openProjects = OpenProjects.getDefault().getOpenProjects();
-        for (int i=0; i<openProjects.length; i++) {
-            Project p = openProjects[i];
-            ProjectInformation info = (ProjectInformation)p.getLookup().lookup(ProjectInformation.class);
-            if (info != null) {
-                projects.put(info.getDisplayName(), p);
-            }
-        }
+        initProjectMap();
         
         // Initialize the list of projects
         String name = getDefaultProjectName();        
@@ -47,10 +41,54 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
         }
     }
     
+    private void initProjectMap() {
+        Project[] openProjects = OpenProjects.getDefault().getOpenProjects();
+        for (int i=0; i<openProjects.length; i++) {
+            // Get the project's directory and information
+            Project p = openProjects[i];
+            FileObject directory = p.getProjectDirectory();
+            ProjectInformation info = (ProjectInformation)p.getLookup().lookup(ProjectInformation.class);
+            
+            // Find checkout-config.xml
+            FileObject config = findFile("checkout-config.xml", directory);
+            
+            // If this project is checkout-integrated, add it to projects
+            if (config != null && info != null) {
+                projects.put(info.getDisplayName(), p);
+            }
+        }
+    }
+    
+    private FileObject findFile(String name, FileObject file) {
+        if (!file.isFolder()) {
+            // If file is a file, check the name
+            if (file.getNameExt().equals(name)) {
+                return file;
+            } else {
+                return null;
+            }
+        } else {
+            // If the file is a directory, check all children
+            FileObject[] files = file.getChildren();
+            for (int i=0; i<files.length; i++) {
+                file = findFile(name, files[i]);
+                if (file != null) {
+                    return file;
+                }
+            }
+            return null;
+        }
+    }
+    
     private String getDefaultProjectName() {
         Project defaultProject = OpenProjects.getDefault().getMainProject();
         ProjectInformation info = (ProjectInformation)defaultProject.getLookup().lookup(ProjectInformation.class);
         return info.getDisplayName();
+    }
+    
+    
+    public boolean success() {
+        return projects.size() > 0;
     }
     
     /** This method is called from within the constructor to
