@@ -40,19 +40,4 @@ public class Handler {
     public void setCallback(boolean callback) {
         this.callback = callback;
     }
-    
-    static public Handler[] getValues() {
-        Handler[] values = new Handler[8];
-        values[0] = new Handler("NewOrderNotificationHandler", "new-order-notification", false);
-        values[1] = new Handler("RiskInformationNotificationHandler", "risk-information-notification", false);
-        values[2] = new Handler("OrderStateChangeNotificationHandler", "order-state-change-notification", false);
-        values[3] = new Handler("ChargeAmountNotificationHandler", "charge-amount-notification", false);
-        values[4] = new Handler("RefundAmountNotificationHandler", "refund-amount-notification", false);
-        values[5] = new Handler("ChargebackAmountNotificationHandler", "chargeback-amount-notification", false);
-        values[6] = new Handler("AuthorizationAmountNotificationHandler", "authorization-amount-notification", false);
-        values[7] = new Handler("MerchantCalculationCallbackHandler", "merchant-calculation-callback", true);
-        
-        return values;
-    }
-    
 }
