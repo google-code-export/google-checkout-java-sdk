@@ -14,4 +14,4 @@ Therefore, you should:
 
 6. Update your merchant centre integration settings to point to the new callback URLs as defined in the new web.xml deployment descriptor.
 
-7. Test!
+7. Deploy and test!
