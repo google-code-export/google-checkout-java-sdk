@@ -8,10 +8,10 @@ Therefore, you should:
 
 3. Setup the XML configuration file which contains merchant constants and mappings from message types to notification handler classes.  This means you should no longer be using the properties file for setting merchant constants.  Take a look at the [http://google-checkout-java-sdk.googlecode.com/svn/trunk/sdk/web/WEB-INF/checkout-config.xml checkout-config.xml] file for an example.
 
-4. Migrate your notification processor classes from step 1 over to use the MessageHandler interface.  All notification handlers are required to implement this interface in order to be legally registered in the checkout-config.xml.  This interface replaces the old AbstractNotificaitonHandler.  Note that the process method now takes a String rather than the strongly typed callback wrapper classes, this makes it easier to extend the dispatch mechanism later if required.  You can still use the wrappers classes, but you will need to instantiate them in your handler implementations - see the handlers package for examples of how to do this.
+4. Migrate your notification processor classes from step 1 over to use the MessageHandler interface.  All notification handlers are required to implement this interface in order to be legally registered in the checkout-config.xml.  This interface replaces the old AbstractNotificationHandler.  Note that the process method now takes a String rather than the strongly typed callback wrapper classes, this makes it easier to extend the dispatch mechanism later if required.  You can still use the wrappers classes, but you will need to instantiate them in your handler implementations - see the handlers package for examples of how to do this.
 
 5. In addition to the architectural changes, some class names changed.  The intent of the class remains the same - e.g. MerchantConstants is now MerchantInfo.  Your IDE should be able to help you resolve these issues.
 
-6. Update your merchant centre integration settings to point to the new callback URLs as defined in the new web.xml deployment descriptor.
+6. Update your merchant center integration settings to point to the new callback URLs as defined in the new web.xml deployment descriptor.
 
 7. Deploy and test!
