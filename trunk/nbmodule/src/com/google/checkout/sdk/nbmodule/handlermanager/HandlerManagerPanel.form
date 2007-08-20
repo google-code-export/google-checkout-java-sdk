@@ -64,27 +64,8 @@
           <SubComponents>
             <Component class="javax.swing.JTable" name="notificationTable">
               <Properties>
-                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="2" rowCount="7">
-                    <Column editable="false" title="Message Type" type="java.lang.String">
-                      <Data value="new-order-notification"/>
-                      <Data value="risk-information-notification"/>
-                      <Data value="order-state-change-notification"/>
-                      <Data value="charge-amount-notification"/>
-                      <Data value="refund-amount-notification"/>
-                      <Data value="chargeback-amount-notification"/>
-                      <Data value="authorization-amount-notification"/>
-                    </Column>
-                    <Column editable="true" title="Handler Class" type="java.lang.String">
-                      <Data value="com.google.checkout.sdk.NewOrderNotificationHandler"/>
-                      <Data value="com.google.checkout.sdk.RiskInformationNotificationHandler"/>
-                      <Data value="com.google.checkout.sdk.OrderStateChangeNotificationHandler"/>
-                      <Data value="com.google.checkout.sdk.ChargeAmountNotificationHandler"/>
-                      <Data value="com.google.checkout.sdk.RefundAmountNotificationHandler"/>
-                      <Data value="com.google.checkout.sdk.ChargebackAmountNotificationHandler"/>
-                      <Data value="com.google.checkout.sdk.AuthorizationAmountNotificationHandler"/>
-                    </Column>
-                  </Table>
+                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="notificationTableModel" type="code"/>
                 </Property>
               </Properties>
             </Component>
@@ -103,15 +84,8 @@
           <SubComponents>
             <Component class="javax.swing.JTable" name="callbackTable">
               <Properties>
-                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="2" rowCount="1">
-                    <Column editable="false" title="Message Type" type="java.lang.String">
-                      <Data value="merchant-calculation-callback"/>
-                    </Column>
-                    <Column editable="true" title="Handler Class" type="java.lang.String">
-                      <Data value="com.google.checkout.sdk.MerchantCalculationCallbackHandler"/>
-                    </Column>
-                  </Table>
+                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="callbackTableModel" type="code"/>
                 </Property>
               </Properties>
             </Component>
@@ -143,6 +117,9 @@
               <Connection code="projectModel" type="code"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="valueChanged" listener="javax.swing.event.ListSelectionListener" parameters="javax.swing.event.ListSelectionEvent" handler="projectListValueChanged"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

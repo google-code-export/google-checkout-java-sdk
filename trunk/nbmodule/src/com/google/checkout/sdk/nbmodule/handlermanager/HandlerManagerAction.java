@@ -25,8 +25,8 @@ public final class HandlerManagerAction extends CallableSystemAction {
                     panel,  // panel to display
                     "Google Checkout Handler Manager",  // dialog title
                     true,  // modal
-                    new Object[] {"Close"},  // options
-                    "Close",  // initial value (selected option)
+                    new Object[] {"Save", "Cancel"},  // options
+                    "Save",  // initial value (selected option)
                     DialogDescriptor.DEFAULT_ALIGN,  // options alignment
                     null,  // help control
                     null);  // action listener
@@ -35,6 +35,14 @@ public final class HandlerManagerAction extends CallableSystemAction {
             Dialog dialog = DialogDisplayer.getDefault().createDialog(desc);
             dialog.setVisible(true);
             dialog.toFront();
+            
+            // Save if "Save" was pressed
+            if (desc.getValue() instanceof String) {
+                // Note: I check the type because if a button named "Cancel" is
+                // pressed, Java returns the int -1; otherwise, it returns the
+                // name of the button.
+                panel.save();
+            }
         }
     }
     

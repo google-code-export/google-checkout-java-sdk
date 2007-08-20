@@ -222,7 +222,7 @@ public class Integrator {
     /*                         FILE WRITING METHODS                          */
     /*************************************************************************/
     
-    private static void createFile(File file, boolean dir) throws IOException {
+    public static void createFile(File file, boolean dir) throws IOException {
         File parent = file.getParentFile();
         
         // Create the parent folder if necessary
@@ -240,22 +240,22 @@ public class Integrator {
         }
     }
     
-    private static void writeFileFromString(String source, File dest) throws IOException {
+    public static void writeFileFromString(String source, File dest) throws IOException {
         StringReader reader = new StringReader(source);
         writeFileFromReader(reader, dest);
     }
     
-    private static void writeFileFromStream(InputStream source, File dest) throws IOException {
+    public static void writeFileFromStream(InputStream source, File dest) throws IOException {
         InputStreamReader reader = new InputStreamReader(source);
         writeFileFromReader(reader, dest);
     }
     
-    private static void writeFileFromFile(File source, File dest) throws IOException {
+    public static void writeFileFromFile(File source, File dest) throws IOException {
         FileReader reader = new FileReader(source);
         writeFileFromReader(reader, dest);
     }
     
-    private static void writeFileFromReader(Reader source, File dest) throws IOException {
+    public static void writeFileFromReader(Reader source, File dest) throws IOException {
         // Create new file if necessary
         if (!dest.exists()) {
             createFile(dest, false);
