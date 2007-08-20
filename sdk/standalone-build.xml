@@ -8,7 +8,7 @@
     <property name="build.web.dir" value="${build.dir}/web"/>
     <property name="build.classes.dir" 
               value="${build.web.dir}/WEB-INF/classes"/>
-    <property name="javadoc.dir" value="doc"/>
+    <property name="javadoc.dir" value="docs/javadoc"/>
     <property name="dist.dir" value="dist"/>    
     <property name="build.classpath" value="${servlet-api-jar.path}"/>
   </target>
@@ -36,6 +36,7 @@
   </target>
 
   <target name="javadoc" depends="init,compile">
+  	<mkdir dir="${javadoc.dir}"/>
     <javadoc sourcepath="src/java" destdir="${javadoc.dir}" 
              packagenames="com.google.*" 
              Windowtitle="Google Java Checkout SDK API"
