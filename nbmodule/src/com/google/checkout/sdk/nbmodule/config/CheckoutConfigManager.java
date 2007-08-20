@@ -1,7 +1,16 @@
 package com.google.checkout.sdk.nbmodule.config;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 public class CheckoutConfigManager {
     
@@ -45,6 +54,15 @@ public class CheckoutConfigManager {
         checkoutSuffix = "checkout";
         merchantCheckoutSuffix = "merchantCheckout";
         requestSuffix = "request";
+    }
+    
+    /**
+     * Creates a new instance of CheckoutConfigManager with the specified file.
+     */
+    public CheckoutConfigManager(File file) {
+        this();
+        this.file = file;
+        readFile();
     }
     
     
@@ -91,6 +109,32 @@ public class CheckoutConfigManager {
 
     public void setCurrencyCode(String currencyCode) {
         this.currencyCode = currencyCode;
+    }
+    
+    /*************************************************************************/
+    /*                           MAP ACCESSORS                               */
+    /*************************************************************************/
+    
+    public Object getNotificationHandler(String type) {
+        return notificationHandlers.get(type);
+    }
+    
+    public void setNotificationHandler(String type, String name) {
+        if (name.trim().equals("")) {
+            name = null;
+        }
+        notificationHandlers.put(type,name);
+    }
+    
+    public Object getCallbackHandler(String type) {
+        return callbackHandlers.get(type);
+    }
+    
+    public void setCallbackHandler(String type, String name) {
+        if (name.trim().equals("")) {
+            name = null;
+        }
+        callbackHandlers.put(type,name);   
     }
     
     /*************************************************************************/
@@ -143,6 +187,85 @@ public class CheckoutConfigManager {
         }
         
         return types;
+    }
+    
+    public String read(Element parent, String name) {
+        Element elem = (Element) parent.getElementsByTagName(name).item(0);
+        Node value = (Node)elem.getChildNodes().item(0);
+        return value.getNodeValue().trim();
+    }
+    
+    /*************************************************************************/
+    /*                            FILE METHODS                               */
+    /*************************************************************************/
+
+    /**
+     * Uses a simple SAX parser to read the checkout-config.xml file.  Reads
+     * only one element of each root type (merchant-info, notification-handlers,
+     * callback-handlers).
+     * 
+     * @return true if read successfully
+     */
+    public boolean readFile() {
+        boolean success = true;
+        
+        if (file != null) {
+            try {
+                // Get the document
+                DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+                DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+                Document doc = docBuilder.parse(file);
+                doc.getDocumentElement().normalize();
+                
+                // Read merchant information
+                Element merchantInfo = (Element) doc.getElementsByTagName("merchant-info").item(0);
+                if (merchantInfo != null) {
+                    merchantId = read(merchantInfo, "merchant-id");
+                    merchantKey = read(merchantInfo, "merchant-key");
+                    env = read(merchantInfo, "env");
+                    currencyCode = read(merchantInfo, "currency-code");
+                    sandboxRoot = read(merchantInfo, "sandbox-root");
+                    productionRoot = read(merchantInfo, "production-root");
+                    checkoutSuffix = read(merchantInfo, "checkout-suffix");
+                    merchantCheckoutSuffix = read(merchantInfo, "merchant-checkout-suffix");
+                    requestSuffix = read(merchantInfo, "request-suffix");
+                }
+                
+                // Read notification handlers
+                Element notificationRoot = (Element) doc.getElementsByTagName("notification-handlers").item(0);
+                if (notificationRoot != null) {
+                    NodeList nodes = notificationRoot.getElementsByTagName("notification-handler");
+                    for( int i=0; i<nodes.getLength(); i++) {
+                        Element elem = (Element) nodes.item(i);
+                        String type = read(elem, "message-type");
+                        String name = read(elem, "handler-class");
+                        setNotificationHandler(type, name);
+                    }
+                }
+                
+                // Read notification handlers
+                Element callbackRoot = (Element) doc.getElementsByTagName("callback-handlers").item(0);
+                if (callbackRoot != null) {
+                    NodeList nodes = callbackRoot.getElementsByTagName("callback-handler");
+                    for( int i=0; i<nodes.getLength(); i++) {
+                        Element elem = (Element) nodes.item(i);
+                        String type = read(elem, "message-type");
+                        String name = read(elem, "handler-class");
+                        setCallbackHandler(type, name);
+                    }
+                }
+            } catch (ParserConfigurationException ex) {
+                success = false;
+            } catch (IOException ex) {
+                success = false;
+            } catch (SAXException ex) {
+                success = false;
+            }
+        } else {
+            success = false;
+        }
+        
+        return success;
     }
     
     /**

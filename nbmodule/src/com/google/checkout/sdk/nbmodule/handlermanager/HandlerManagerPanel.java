@@ -1,8 +1,13 @@
 package com.google.checkout.sdk.nbmodule.handlermanager;
 
+import com.google.checkout.sdk.nbmodule.config.CheckoutConfigManager;
+import com.google.checkout.sdk.nbmodule.integrationwizard.Integrator;
 import java.awt.Dialog;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.table.DefaultTableModel;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectInformation;
 import org.netbeans.api.project.ui.OpenProjects;
@@ -10,38 +15,45 @@ import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileStateInvalidException;
-import org.openide.filesystems.FileSystem;
 
 public class HandlerManagerPanel extends javax.swing.JPanel {
         
     // Combo box models
     DefaultComboBoxModel projectModel;
     
+    // Table models
+    DefaultTableModel notificationTableModel;
+    DefaultTableModel callbackTableModel;
+    
     // Map of open projects
     HashMap projects;
+    
+    // Map of checkout-config.xml managers
+    HashMap configManagers;
+    
+    // The name of the currently selected project
+    String selectedProject;
     
     /** Creates new form HandlerManagerPanel */
     public HandlerManagerPanel() {
         projectModel = new DefaultComboBoxModel();
+        notificationTableModel = new DefaultTableModel();
+        callbackTableModel = new DefaultTableModel();
         projects = new HashMap();
+        configManagers = new HashMap();
+        selectedProject = null;
         
         initComponents();
-        initProjectMap();
-        
-        // Initialize the list of projects
-        String name = getDefaultProjectName();        
-        Object[] keys = projects.keySet().toArray();
-        for (int i=0; i<keys.length; i++) {
-            projectModel.addElement((String) keys[i]);
-            
-            // Select if default project
-            if (((String) keys[i]).equals(name)) {
-                projectList.setSelectedIndex(i);
-            }
-        }
+        initMaps();
+        initTableModels();
+        initProjects();
     }
     
-    private void initProjectMap() {
+    /*************************************************************************/
+    /*                            INITIALIZERS                               */
+    /*************************************************************************/
+    
+    private void initMaps() {
         Project[] openProjects = OpenProjects.getDefault().getOpenProjects();
         for (int i=0; i<openProjects.length; i++) {
             // Get the project's directory and information
@@ -55,9 +67,38 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
             // If this project is checkout-integrated, add it to projects
             if (config != null && info != null) {
                 projects.put(info.getDisplayName(), p);
+                configManagers.put(info.getDisplayName(), new CheckoutConfigManager(getFile(config)));
             }
         }
     }
+    
+    private void initTableModels() {        
+        // Init notifications
+        notificationTableModel.addColumn("Message Type");
+        notificationTableModel.addColumn("Handler Class");
+        
+        // Init callbacks
+        callbackTableModel.addColumn("Message Type");
+        callbackTableModel.addColumn("Handler Class");        
+    }
+    
+    private void initProjects() {
+        // Initialize the list of projects
+        String name = getDefaultProjectName();        
+        Object[] keys = projects.keySet().toArray();
+        for (int i=0; i<keys.length; i++) {
+            projectModel.addElement((String) keys[i]);
+            
+            // Select if default project
+            if (name != null && ((String) keys[i]).equals(name)) {
+                projectList.setSelectedIndex(i);
+            }
+        }
+    }
+    
+    /*************************************************************************/
+    /*                          UTILITY METHODS                              */
+    /*************************************************************************/
     
     private FileObject findFile(String name, FileObject file) {
         if (!file.isFolder()) {
@@ -79,16 +120,112 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
             return null;
         }
     }
-    
+
     private String getDefaultProjectName() {
         Project defaultProject = OpenProjects.getDefault().getMainProject();
-        ProjectInformation info = (ProjectInformation)defaultProject.getLookup().lookup(ProjectInformation.class);
-        return info.getDisplayName();
+        if (defaultProject != null) {
+            ProjectInformation info = (ProjectInformation)defaultProject.getLookup().lookup(ProjectInformation.class);
+            return info.getDisplayName();
+        } else {
+            return null;
+        }
     }
     
+    private File getFile(FileObject file) {
+        File ret = null;
+        try {
+            ret = new File(file.getURL().getFile());
+        } catch (FileStateInvalidException ex) {}
+        return ret;
+    }
+    
+    private void removeAllRows(DefaultTableModel table) {
+        while (table.getRowCount() > 0) {
+            table.removeRow(0);
+        }
+    }
+    
+    private void readProjectFromTables(String projectName) {
+        Project p = (Project) projects.get(projectName);
+        CheckoutConfigManager config = (CheckoutConfigManager) configManagers.get(projectName);
+
+        // Save notification handlers
+        for (int i=0; i<notificationTableModel.getRowCount(); i++) {
+            String type = (String) notificationTableModel.getValueAt(i, 0);
+            String name = (String) notificationTableModel.getValueAt(i, 1);
+            if (type != null && name != null) {
+                config.setNotificationHandler(type, name);
+            }
+        }
+
+        // Save callback handlers
+        for (int i=0; i<callbackTableModel.getRowCount(); i++) {
+            String type = (String) callbackTableModel.getValueAt(i, 0);
+            String name = (String) callbackTableModel.getValueAt(i, 1);
+            if (type != null && name != null) {
+                config.setCallbackHandler(type, name);
+            }
+        }
+    }
+    
+    private void writeProjectToTables(String projectName) {
+        Project p = (Project) projects.get(projectName);
+        CheckoutConfigManager config = (CheckoutConfigManager) configManagers.get(projectName);
+        
+        // Write notification handlers
+        removeAllRows(notificationTableModel);
+        String[] types = config.getNotificationTypes();
+        for (int i=0; i<types.length; i++) {
+            Object name = config.getNotificationHandler(types[i]);
+            Object[] row = new Object[2];
+            row[0] = types[i];
+            row[1] = name != null ? (String) name : "";
+            notificationTableModel.addRow(row);
+        }
+        
+        // Write callback handlers
+        removeAllRows(callbackTableModel);
+        types = config.getCallbackTypes();
+        for (int i=0; i<types.length; i++) {
+            Object name = config.getCallbackHandler(types[i]);
+            Object[] row = new Object[2];
+            row[0] = types[i];
+            row[1] = name != null ? (String) name : "";
+            callbackTableModel.addRow(row);
+        }
+    }
+    
+    /*************************************************************************/
+    /*                           PUBLIC METHODS                              */
+    /*************************************************************************/
     
     public boolean success() {
         return projects.size() > 0;
+    }
+    
+    public boolean save() {
+        boolean success = true;
+        
+        // Get most recent info
+        readProjectFromTables(selectedProject);
+        
+        Object[] configManagerArray = configManagers.values().toArray();
+        for (int i=0; i<configManagerArray.length && success; i++) {
+            CheckoutConfigManager configManager = (CheckoutConfigManager) configManagerArray[i];
+            
+            // Get the source and destination
+            String source = configManager.getBody();
+            File dest = configManager.getFile();
+
+            // Write the file
+            try {
+                Integrator.writeFileFromString(source, dest);
+            } catch (IOException ex) {
+                success = false;
+            }
+        }
+
+        return success;
     }
     
     /** This method is called from within the constructor to
@@ -108,62 +245,12 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
         projectList = new javax.swing.JList();
         jLabel1 = new javax.swing.JLabel();
 
-        notificationTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"new-order-notification", "com.google.checkout.sdk.NewOrderNotificationHandler"},
-                {"risk-information-notification", "com.google.checkout.sdk.RiskInformationNotificationHandler"},
-                {"order-state-change-notification", "com.google.checkout.sdk.OrderStateChangeNotificationHandler"},
-                {"charge-amount-notification", "com.google.checkout.sdk.ChargeAmountNotificationHandler"},
-                {"refund-amount-notification", "com.google.checkout.sdk.RefundAmountNotificationHandler"},
-                {"chargeback-amount-notification", "com.google.checkout.sdk.ChargebackAmountNotificationHandler"},
-                {"authorization-amount-notification", "com.google.checkout.sdk.AuthorizationAmountNotificationHandler"}
-            },
-            new String [] {
-                "Message Type", "Handler Class"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        notificationTable.setModel(notificationTableModel);
         notificationScrollPane.setViewportView(notificationTable);
 
         tabbedPane.addTab("Notifications", notificationScrollPane);
 
-        callbackTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {"merchant-calculation-callback", "com.google.checkout.sdk.MerchantCalculationCallbackHandler"}
-            },
-            new String [] {
-                "Message Type", "Handler Class"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
+        callbackTable.setModel(callbackTableModel);
         callbackScrollPane.setViewportView(callbackTable);
 
         tabbedPane.addTab("Callbacks", callbackScrollPane);
@@ -177,6 +264,12 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
 
         projectList.setFont(new java.awt.Font("Dialog", 0, 12));
         projectList.setModel(projectModel);
+        projectList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                projectListValueChanged(evt);
+            }
+        });
+
         jScrollPane1.setViewportView(projectList);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 12));
@@ -213,6 +306,39 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    /*************************************************************************/
+    /*                            EVENT HANDLERS                             */
+    /*************************************************************************/
+    
+    private void projectListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_projectListValueChanged
+        String newProject = (String) projectList.getSelectedValue();
+        
+        // If project is changing or this is the first selection
+        if (selectedProject == null || !selectedProject.equals(newProject)) {
+            // Unselect boxes to prevent values carrying over to a new project
+            notificationTable.clearSelection();
+            notificationTable.removeEditor();
+            callbackTable.clearSelection();
+            callbackTable.removeEditor();
+            
+            // Save the old project if there is one
+            if (selectedProject != null) {
+                readProjectFromTables(selectedProject);
+            }
+            
+            // Load the newly selected project
+            writeProjectToTables(newProject);
+            
+            // Assign newly selected project
+            selectedProject = newProject;
+            
+            // If this is the first project selected, refresh the UI
+            if (selectedProject == null) {
+                // TODO: Find something that will update the table
+            }
+        }
+    }//GEN-LAST:event_projectListValueChanged
+    
     private void newHandlerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newHandlerButtonActionPerformed
         // Create the new handler dialog
         NewHandlerPanel panel = new NewHandlerPanel();
@@ -231,7 +357,6 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
         dialog.setVisible(true);
         dialog.toFront();
     }//GEN-LAST:event_newHandlerButtonActionPerformed
-    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane callbackScrollPane;
