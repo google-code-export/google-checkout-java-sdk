@@ -8,7 +8,7 @@ In an effort to make Checkout integration as easy as possible, we are now creati
 
   # Get the most recent .nbm file from the [http://code.google.com/p/google-checkout-java-sdk/downloads/list downloads] section.
   # Open NetBeans and go to the Update Center (Tools -> Update Center).
-  # Select "Install Manualy Downlaoded Modules (.nbm File)" and click Next.
+  # Select "Install Manually Downloaded Modules (.nbm File)" and click Next.
   # Press "Add...", select the .nbm file you downloaded earlier, click Okay and then click Next.
   # You should see "Google Checkout SDK Integration" in the "Include in Install" area.  You can also read some information about the module at the bottom of the screen.  Click Next to continue.
   # Read and accept the license.
@@ -28,19 +28,38 @@ To begin, go to Tools -> Checkout SDK | Integration Wizard.  This will launch th
 
 === 1. Select Project ===
 
-
+Select the project that you wish to integrate with Checkout SDK from the list of open projects.  Then locate your WEB-INF directory using the text field and Browse button in the bottom of the Wizard (in a normal web application, the WEB-INF folder should be automatically located).  Once the folder is selected, click Next to contineu.
 
 === 2. Modify web.xml ===
 
+In order to handle incoming messages from the Checkout servers, your web application needs some additional information which is added to its web.xml file.  This wizard will locate your web.xml file and attempt to add the appropriate XML fragment.  In the preview area you can see the new contents of web.xml and modify them if you like.  At the end of the wizard, whatever is in this text box will be written to your web.xml file.
 
+If the web.xml file can't be found, you may skip this step and add the fragment manually after the wizard has run.  You can find the appropriate fragment in checkout-sdk.zip (available on the [http://code.google.com/p/google-checkout-java-sdk/downloads/list downloads]page) at web/WEB-INF/web.xml.
+
+Click Next to continue.
 
 === 3. Create Config File ===
 
-
+In order to keep track of your individual merchant information and the names of your handlers, Checkout SDK needs to create a config file in your web application.  This file, checkout-config.xml, will be placed alongside your web.xml file in your WEB-INF directory.  This step requires you to supply your merchant ID and key, as well as the desired environment (Sandbox or Production) and currency code.  Enter this information and click Next to continue. 
 
 === 4. Add Samples Pages ===
 
+Supplied in Checkout SDK are some sample JSPs which can show you examples of handlers in action as well as help you test your web implementation.  These pages allow you to generate a sample cart and send messages to the Checkout servers.
 
+If you would like these samples added to your web application, make sure the checkbox is selected and enter a location for these pages.  The default location is web/checkout.  Click next to continue.
 
 === 5. Confirm Changes ===
 
+The final step of this wizard is a confirmation dialog, which shows the affected project and lists all of the changes this wizard will make.  Clicking Finish will execute all of these changes.  If you don't wish to do something on the list, you may go back to previous wizard panels and change your selections.
+
+If the checkbox at the bottom of the page is selected when the wizard finishes, the Handler Manager (covered below) will be run directly after this wizard.
+
+== Handler Manager ==
+
+The Handler Manager is a tool with allows you to manage the Checkout handlers in a web application.  When launched, it will show all open projects with checkout-config.xml files on the left side of the screen.  Selecting a project will populate the tables to the right with information about handlers, including the type of message handled (i.e. new-order-notification) and the name of the handler class (i.e. com.google.checkout.sdk.NewOrderNotificationHandler).  You can modify the handler names manually, and checkout-config.xml will be updated when the Save button is pressed.
+
+This manager also allows you to create handler templates.  To do so, click on the "Create New Handler" button in the bottom left of the screen.  This will bring up another dialog, which asks for the name, location and package name of the new class.  You can also select the message class (notification or callback), message type and implementation.  Currently only empty implementations are supported, but others may be included in future releases.  If selected, the last option (Update Handler Manager) will automatically update the tables in the Handler Manager with the new class name.
+
+= Problems =
+
+This module is still in early developement.  We hope that you will try it out and that it will save you time during your Checkout integration, but if you find problems please report them through the [http://code.google.com/p/google-checkout-java-sdk/issues/list issues] page.  The source code is also available from the [http://code.google.com/p/google-checkout-java-sdk/source source] page, so if you understand a problem and can fix it, you're welcome update the code and submit a patch.  This is a community supported project, so your contributions are greatly appreciated.
