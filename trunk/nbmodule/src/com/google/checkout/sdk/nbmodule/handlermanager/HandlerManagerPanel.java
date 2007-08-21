@@ -1,6 +1,6 @@
 package com.google.checkout.sdk.nbmodule.handlermanager;
 
-import com.google.checkout.sdk.nbmodule.config.CheckoutConfigManager;
+import com.google.checkout.sdk.nbmodule.CheckoutConfigManager;
 import com.google.checkout.sdk.nbmodule.integrationwizard.Integrator;
 import java.awt.Dialog;
 import java.io.File;

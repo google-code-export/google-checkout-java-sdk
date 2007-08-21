@@ -1,4 +1,4 @@
-package com.google.checkout.sdk.nbmodule.config;
+package com.google.checkout.sdk.nbmodule;
 
 import java.io.File;
 import java.io.IOException;

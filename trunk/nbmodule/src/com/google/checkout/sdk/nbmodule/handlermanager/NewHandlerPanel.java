@@ -1,6 +1,6 @@
 package com.google.checkout.sdk.nbmodule.handlermanager;
 
-import com.google.checkout.sdk.nbmodule.config.CheckoutConfigManager;
+import com.google.checkout.sdk.nbmodule.CheckoutConfigManager;
 import java.io.File;
 import java.util.HashMap;
 import javax.swing.DefaultComboBoxModel;
