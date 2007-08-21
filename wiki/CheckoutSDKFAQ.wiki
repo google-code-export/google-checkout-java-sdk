@@ -1,0 +1,4 @@
+#summary This page lists some frequently asked questions related to the Checkout SDK
+
+===What security mechanism does the Checkout SDK use while posting the cart to Google Checkout===
+The checkout SDK simply does a server to server post.  It is plain XML over https, secured with basic authentication.  See the send() method on AbstractCheckoutRequest for details of this.  
