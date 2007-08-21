@@ -1,8 +1,9 @@
 package com.google.checkout.sdk.nbmodule.integrationwizard.panels;
 
+import com.google.checkout.sdk.nbmodule.ProgressTracker;
 import javax.swing.JPanel;
 
-public final class ProgressPanel extends JPanel {
+public final class ProgressPanel extends JPanel implements ProgressTracker {
     int barSize;
     
     /**
