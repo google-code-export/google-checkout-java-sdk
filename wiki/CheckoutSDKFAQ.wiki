@@ -1,13 +1,13 @@
 #summary This page lists some frequently asked questions related to the Checkout SDK
 
-===What are the licensing terms for the Checkout SDK===
+===What are the licensing terms for the Checkout SDK?===
 The source-code for the Checkout SDK project is available under an open-source license [http://www.apache.org/licenses/ Apache License 2.0]. 
 
-===What are the support options for the Checkout SDK===
+===What are the support options for the Checkout SDK?===
 The checkout SDK is a *community-supported* project. We intend to release minor update with bug-fixes every two months or so. If you need a bug-fix urgently and can not wait for the update release, you have two options: 
   # Modify the source-code available under the project/ directory of your SDK bundle and build a new library for your use. The project/ directory is setup to be an [http://www.eclipse.org/ Eclipse] as well as a [http://www.netbeans.org/ NetBeans] project.
   # Download the source-code from the subversion repository and build a release yourself. [http://code.google.com/p/google-checkout-java-sdk/wiki/EclipseProjectSetup Here] are the instructions on how to download and build the project from Eclipse. 
 You are welcome to log any bugs or suggested bug-fixes under the [http://code.google.com/p/google-checkout-java-sdk/issues/list Issues] page.
 
-===What security mechanism does the Checkout SDK use while posting the cart to Google Checkout===
+===What security mechanism does the Checkout SDK use while posting the cart to Google Checkout?===
 The checkout SDK simply does a server to server post.  It is plain XML over https, secured with basic authentication.  See the send() method on AbstractCheckoutRequest for details of this.  
