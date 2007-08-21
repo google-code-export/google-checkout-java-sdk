@@ -1,6 +1,6 @@
 package com.google.checkout.sdk.nbmodule.integrationwizard.panels;
 
-import com.google.checkout.sdk.nbmodule.CheckoutConfigManager;
+import com.google.checkout.sdk.nbmodule.common.CheckoutConfigManager;
 import com.google.checkout.sdk.nbmodule.integrationwizard.IntegrationWizardDescriptor;
 import com.google.checkout.sdk.nbmodule.integrationwizard.Settings;
 import java.awt.Component;

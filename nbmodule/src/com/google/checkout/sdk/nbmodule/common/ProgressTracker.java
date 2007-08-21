@@ -14,20 +14,21 @@
  * the License.
  ******************************************************************************/
 
-package com.google.checkout.sdk.nbmodule;
+package com.google.checkout.sdk.nbmodule.common;
 
 /**
+ * A simple interface which represents an object that tracks progress of some
+ * operation.
  *
- * @author inder
+ * @author David Rubel
  */
 public interface ProgressTracker {
   
-  public void setText(String text);
+  public void setMaxProgress(int max);
   
-  public void incrementProgress();
-
-  public void incrementProgress(int x);
+  public void setCurrentOperation(String text);
   
-  public void setBarSize(int max);
+  public void incProgress();
 
+  public void incProgress(int x);
 }
