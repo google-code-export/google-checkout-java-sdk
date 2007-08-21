@@ -217,7 +217,12 @@ public class CheckoutConfigManager {
     public String read(Element parent, String name) {
         Element elem = (Element) parent.getElementsByTagName(name).item(0);
         Node value = (Node)elem.getChildNodes().item(0);
-        return value.getNodeValue().trim();
+        
+        if (value == null) {
+            return "";
+        } else {
+            return value.getNodeValue().trim();
+        }
     }
     
     /*************************************************************************/
