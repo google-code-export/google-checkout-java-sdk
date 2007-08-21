@@ -4,12 +4,13 @@
 The source-code for the Checkout SDK project is available under an open-source license [http://www.apache.org/licenses/ Apache License 2.0]. 
 
 ===What are the support options for the Checkout SDK?===
+[http://groups.google.com/group/google-checkout-developers-forum Google checkout developer forum] is the best place to ask questions related to the Checkout SDK. 
 The checkout SDK is a *community-supported* project. We intend to release minor update with bug-fixes every two months or so. If you need a bug-fix urgently and can not wait for the update release, you have two options: 
   # Modify the source-code available under the project/ directory of your SDK bundle and build a new library for your use. The project/ directory is setup to be an [http://www.eclipse.org/ Eclipse] as well as a [http://www.netbeans.org/ NetBeans] project.
   # Download the source-code from the subversion repository and build a release yourself. [http://code.google.com/p/google-checkout-java-sdk/wiki/EclipseProjectSetup Here] are the instructions on how to download and build the project from Eclipse. 
 You are welcome to log any bugs or suggested bug-fixes under the [http://code.google.com/p/google-checkout-java-sdk/issues/list Issues] page.
 
-===What versions of the JDK are supported===
+===What versions of the JDK are supported?===
 The checkout SDK should work with any JDK later than version 1.4. It should also be possible to re-compile the code with JDK 1.3 since we do not use any JDK 1.4 specific features, but this configuration is not supported.
 
 ===What security mechanism does the Checkout SDK use while posting the cart to Google Checkout?===
