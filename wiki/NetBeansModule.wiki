@@ -1,0 +1,46 @@
+#summary A description of the Checkout SDK NetBeans Module.
+
+= Introduction =
+
+In an effort to make Checkout integration as easy as possible, we are now creating a NetBeans module that will allow you to integrate Checkout SDK through a simple wizard and manage your Checkout handlers through a simple UI.  This project is available as a distributable NetBeans Module and works with NetBeans 5.5.1 and greater.
+
+= Installing the Module =
+
+  # Get the most recent .nbm file from the [http://code.google.com/p/google-checkout-java-sdk/downloads/list downloads] section.
+  # Open NetBeans and go to the Update Center (Tools -> Update Center).
+  # Select "Install Manualy Downlaoded Modules (.nbm File)" and click Next.
+  # Press "Add...", select the .nbm file you downloaded earlier, click Okay and then click Next.
+  # You should see "Google Checkout SDK Integration" in the "Include in Install" area.  You can also read some information about the module at the bottom of the screen.  Click Next to continue.
+  # Read and accept the license.
+  # The module should install quickly.  Click Next to continue.
+  # At this time, we do not have a signed certificate for this module.  Check the "Include" box next to "Google Checkout SDK Integration" and click Yes when the warning pops up.
+  # Click Finish to finish the installation.
+
+= Using the Module =
+
+Using this module can be divided into two clear steps: initial integration and assigning handlers.
+
+== Initial Integration ==
+
+Before you can being integration, you must first load your web application into NetBeans.  You could do this by creating a new Web Application and starting from scratch, or by creating a Web Application with Existing Sources, and import your existing web application.  From here out, we will assume that you have this project created correctly.
+
+To begin, go to Tools -> Checkout SDK | Integration Wizard.  This will launch the Integration Wizard, which will guide you through the steps to integrate Checkout SDK.
+
+=== 1. Select Project ===
+
+
+
+=== 2. Modify web.xml ===
+
+
+
+=== 3. Create Config File ===
+
+
+
+=== 4. Add Samples Pages ===
+
+
+
+=== 5. Confirm Changes ===
+
