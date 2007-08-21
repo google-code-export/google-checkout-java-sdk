@@ -1,3 +1,19 @@
+/*******************************************************************************
+ * Copyright (C) 2007 Google Inc.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ ******************************************************************************/
+
 package com.google.checkout.sdk.nbmodule.handlermanager;
 
 import com.google.checkout.sdk.nbmodule.common.CheckoutConfigManager;
@@ -13,112 +29,113 @@ import org.openide.filesystems.FileStateInvalidException;
 import org.openide.windows.WindowManager;
 
 public class NewHandlerPanel extends javax.swing.JPanel {
+  
+  // Combo box models
+  DefaultComboBoxModel projectModel;
+  DefaultComboBoxModel messageClassModel;
+  DefaultComboBoxModel messageTypeModel;
+  DefaultComboBoxModel implementationModel;
+  
+  // Currently selected project
+  Project project;
+  
+  CheckoutConfigManager configManager;
+  
+  // Public accessable fields
+  // TODO: Move these into a separate class
+  private String handlerName;
+  private String handlerPackage;
+  private String handlerLocation;
+  private String handlerClass;
+  private String handlerType;
+  private String handlerImpl;
+  private boolean updateHandlerManager;
+  
+  /** Creates new form NewHandlerPanel */
+  public NewHandlerPanel(Project project) {
+    this.project = project;
+    updateHandlerManager = true;
     
-    // Combo box models
-    DefaultComboBoxModel projectModel;
-    DefaultComboBoxModel messageClassModel;
-    DefaultComboBoxModel messageTypeModel;
-    DefaultComboBoxModel implementationModel;
+    // Init models
+    messageClassModel = new DefaultComboBoxModel();
+    messageTypeModel = new DefaultComboBoxModel();
+    implementationModel = new DefaultComboBoxModel();
+    configManager = new CheckoutConfigManager();
     
-    // Currently selected project
-    Project project;
+    initComponents();
+    initProject();
+    initStaticModels();
+  }
+  
+  /*************************************************************************/
+  /*                            INITIALIZERS                               */
+  /*************************************************************************/
+  
+  private void initProject() {
+    ProjectInformation info = (ProjectInformation)
+        project.getLookup().lookup(ProjectInformation.class);
+    projectTextField.setText(info.getDisplayName());
+    locationTextField.setText(project.getProjectDirectory().getPath());
+  }
+  
+  private void initStaticModels() {
+    // Initialize the list of message classes
+    messageClassModel.addElement("Notification");
+    messageClassModel.addElement("Callback");
     
-    CheckoutConfigManager configManager;
-    
-    // Public accessable fields
-    // TODO: Move these into a separate class
-    private String handlerName;
-    private String handlerPackage;
-    private String handlerLocation;
-    private String handlerClass;
-    private String handlerType;
-    private String handlerImpl;
-    private boolean updateHandlerManager;
-    
-    /** Creates new form NewHandlerPanel */
-    public NewHandlerPanel(Project project) {
-        this.project = project;
-        updateHandlerManager = true;
-        
-        // Init models
-        messageClassModel = new DefaultComboBoxModel();
-        messageTypeModel = new DefaultComboBoxModel();
-        implementationModel = new DefaultComboBoxModel();
-        configManager = new CheckoutConfigManager();
-
-        initComponents();
-        initProject();
-        initStaticModels();
-    }
-    
-    /*************************************************************************/
-    /*                            INITIALIZERS                               */
-    /*************************************************************************/
-    
-    private void initProject() {
-        ProjectInformation info = (ProjectInformation)project.getLookup().lookup(ProjectInformation.class);
-        projectTextField.setText(info.getDisplayName());
-        locationTextField.setText(project.getProjectDirectory().getPath());
-    }
-    
-    private void initStaticModels() {        
-        // Initialize the list of message classes
-        messageClassModel.addElement("Notification");
-        messageClassModel.addElement("Callback");
-        
-        // Initialize the list of implementation types
-        implementationModel.addElement("Empty Class");
-    }
-    
-    /*************************************************************************/
-    /*                          PUBLIC ACCESSORS                             */
-    /*************************************************************************/
-    
-    public String getHandlerName() {
-        return handlerName;
-    }
-    
-    public String getHandlerPackage() {
-        return handlerPackage;
-    }
-
-    public File getHandlerLocation() {
-        return new File(handlerLocation);
-    }
-
-    public String getHandlerClass() {
-        return handlerClass;
-    }
-
-    public String getHandlerType() {
-        return handlerType;
-    }
-
-    public String getHandlerImpl() {
-        return handlerImpl;
-    }
-    
-    public boolean updateHandlerManager() {
-        return updateHandlerManager;
-    }
-    
-    /*************************************************************************/
-    /*                          UTILITY METHODS                              */
-    /*************************************************************************/
-    
-    private File getFile(FileObject file) {
-        File ret = null;
-        try {
-            ret = new File(file.getURL().getFile());
-        } catch (FileStateInvalidException ex) {}
-        return ret;
-    }
-    
-    /** This method is called from within the constructor to
-     * initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is
-     * always regenerated by the Form Editor.
-     */
+    // Initialize the list of implementation types
+    implementationModel.addElement("Empty Class");
+  }
+  
+  /*************************************************************************/
+  /*                          PUBLIC ACCESSORS                             */
+  /*************************************************************************/
+  
+  public String getHandlerName() {
+    return handlerName;
+  }
+  
+  public String getHandlerPackage() {
+    return handlerPackage;
+  }
+  
+  public File getHandlerLocation() {
+    return new File(handlerLocation);
+  }
+  
+  public String getHandlerClass() {
+    return handlerClass;
+  }
+  
+  public String getHandlerType() {
+    return handlerType;
+  }
+  
+  public String getHandlerImpl() {
+    return handlerImpl;
+  }
+  
+  public boolean updateHandlerManager() {
+    return updateHandlerManager;
+  }
+  
+  /*************************************************************************/
+  /*                          UTILITY METHODS                              */
+  /*************************************************************************/
+  
+  private File getFile(FileObject file) {
+    File ret = null;
+    try {
+      ret = new File(file.getURL().getFile());
+    } catch (FileStateInvalidException ex) {}
+    return ret;
+  }
+  
+  /** This method is called from within the constructor to
+   * initialize the form.
+   * WARNING: Do NOT modify this code. The content of this method is
+   * always regenerated by the Form Editor.
+   */
     // <editor-fold defaultstate="collapsed" desc=" Generated Code ">//GEN-BEGIN:initComponents
     private void initComponents() {
         classNameLabel = new javax.swing.JLabel();
@@ -314,78 +331,80 @@ public class NewHandlerPanel extends javax.swing.JPanel {
                 .addContainerGap(17, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
+    
     private void updateCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateCheckBoxActionPerformed
-        updateHandlerManager = updateCheckBox.isSelected();
+      updateHandlerManager = updateCheckBox.isSelected();
     }//GEN-LAST:event_updateCheckBoxActionPerformed
-
+    
     /*************************************************************************/
     /*                           EVENT HANDLER                               */
     /*************************************************************************/
     
     private void implementationComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_implementationComboBoxItemStateChanged
-        handlerImpl = (String) implementationComboBox.getSelectedItem();
+      handlerImpl = (String) implementationComboBox.getSelectedItem();
     }//GEN-LAST:event_implementationComboBoxItemStateChanged
-
+    
     private void messageTypeComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_messageTypeComboBoxItemStateChanged
-        handlerType = (String) messageTypeComboBox.getSelectedItem();
+      handlerType = (String) messageTypeComboBox.getSelectedItem();
     }//GEN-LAST:event_messageTypeComboBoxItemStateChanged
-
+    
     private void createdFileUpdater(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_createdFileUpdater
-        String path = locationTextField.getText();
-        if (!path.startsWith("/")) {
-            path = "/" + path;
-        }
-        if (!path.endsWith("/")) {
-            path += "/";
-        }
-        path += packageTextField.getText().replace(".", "/");
-        if (!path.endsWith("/")) {
-            path += "/";
-        }
-        path += classNameTextField.getText() + ".java";
-        createdFileTextField.setText(path);
-        
-        // Update data
-        handlerName = classNameTextField.getText();
-        handlerPackage = packageTextField.getText().replace("/", ".");
-        if (handlerPackage.endsWith(".")) {
-            handlerPackage = handlerPackage.substring(0, handlerPackage.length()-1);
-        }
-        handlerLocation = createdFileTextField.getText();
+      String path = locationTextField.getText();
+      if (!path.startsWith("/")) {
+        path = "/" + path;
+      }
+      if (!path.endsWith("/")) {
+        path += "/";
+      }
+      path += packageTextField.getText().replace(".", "/");
+      if (!path.endsWith("/")) {
+        path += "/";
+      }
+      path += classNameTextField.getText() + ".java";
+      createdFileTextField.setText(path);
+      
+      // Update data
+      handlerName = classNameTextField.getText();
+      handlerPackage = packageTextField.getText().replace("/", ".");
+      if (handlerPackage.endsWith(".")) {
+        handlerPackage = handlerPackage.substring(0, handlerPackage.length()-1);
+      }
+      handlerLocation = createdFileTextField.getText();
     }//GEN-LAST:event_createdFileUpdater
     
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
-        // Generate and show the file chooser
-        JFileChooser jfc = new JFileChooser(getFile(project.getProjectDirectory()));
-        jfc.setDialogTitle("WEB-INF Directory");
-        jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        jfc.showOpenDialog(WindowManager.getDefault().getMainWindow());
-        
-        // Fill the samples directory text field with the located directory
-        File selectedFile = jfc.getSelectedFile();
-        if (selectedFile != null) {
-            String text = selectedFile.getPath();
-            locationTextField.setText(text);
-        }
+      // Generate and show the file chooser
+      JFileChooser jfc = 
+          new JFileChooser(getFile(project.getProjectDirectory()));
+      jfc.setDialogTitle("WEB-INF Directory");
+      jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+      jfc.showOpenDialog(WindowManager.getDefault().getMainWindow());
+      
+      // Fill the samples directory text field with the located directory
+      File selectedFile = jfc.getSelectedFile();
+      if (selectedFile != null) {
+        String text = selectedFile.getPath();
+        locationTextField.setText(text);
+      }
     }//GEN-LAST:event_browseButtonActionPerformed
-   
+    
     private void messageClassComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_messageClassComboBoxItemStateChanged
-        if (evt.getStateChange() == evt.SELECTED) {
-            String[] types;
-            if (((String) messageClassComboBox.getSelectedItem()).equals("Callback")) {
-                types = configManager.getCallbackTypes();
-            } else {
-                types = configManager.getNotificationTypes();
-            }
-            messageTypeModel.removeAllElements();
-            for (int i=0; i<types.length; i++) {
-                messageTypeModel.addElement(types[i]);
-            }
+      if (evt.getStateChange() == evt.SELECTED) {
+        String[] types;
+        String selectedItem = (String) messageClassComboBox.getSelectedItem();
+        if (selectedItem.equals("Callback")) {
+          types = configManager.getCallbackTypes();
+        } else {
+          types = configManager.getNotificationTypes();
         }
-        
-        // Update data
-        handlerClass = (String) messageClassComboBox.getSelectedItem();
+        messageTypeModel.removeAllElements();
+        for (int i=0; i<types.length; i++) {
+          messageTypeModel.addElement(types[i]);
+        }
+      }
+      
+      // Update data
+      handlerClass = (String) messageClassComboBox.getSelectedItem();
     }//GEN-LAST:event_messageClassComboBoxItemStateChanged
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

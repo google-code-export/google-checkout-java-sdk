@@ -16,7 +16,7 @@ import <type-package>;
  */
 public class <name> implements MessageHandler {
         
-    public String process(MerchantInfo mi, String notificationMsg)
+  public String process(MerchantInfo mi, String notificationMsg)
       throws CheckoutException {
     try {
       <type> notification = 
@@ -34,5 +34,4 @@ public class <name> implements MessageHandler {
   private String getAckString() {
     return NotificationAcknowledgment.getAckString();
   }
-    
 }
