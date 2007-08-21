@@ -1,4 +1,4 @@
-package com.google.checkout.sdk.nbmodule;
+package com.google.checkout.sdk.nbmodule.common;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +12,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
+/**
+ * Represents a physical checkout-config.xml file, storing information about
+ * a merchant and keeping maps of notification and callback handlers.
+ */
 public class CheckoutConfigManager {
     
     // The actual config file be read from and written to
@@ -90,8 +94,6 @@ public class CheckoutConfigManager {
         readFile();
     }
     
-    
-    
     /*************************************************************************/
     /*                             FIELD ACCESSORS                           */
     /*************************************************************************/
@@ -166,6 +168,9 @@ public class CheckoutConfigManager {
     /*                         UTILITY METHODS                               */
     /*************************************************************************/
     
+    /**
+     * Creates the standard batch of notification handlers.
+     */
     private void initNotificationHandlers() {
         if (notificationHandlers == null) {
             notificationHandlers = new HashMap();
@@ -182,6 +187,9 @@ public class CheckoutConfigManager {
         notificationHandlers.put("authorization-amount-notification", null);
     }
     
+    /**
+     * Creates the standard batch of callback handlers.
+     */
     private void initCallbackHandlers() {
         if (callbackHandlers == null) {
             callbackHandlers = new HashMap();
@@ -192,6 +200,11 @@ public class CheckoutConfigManager {
         callbackHandlers.put("merchant-calculation-callback", null);
     }
     
+    /**
+     * Gets an array of notification message types.
+     *
+     * @return Array of notification message types
+     */
     public String[] getNotificationTypes() {
         Object[] keys = notificationHandlers.keySet().toArray();
         String[] types = new String[keys.length];
@@ -203,6 +216,11 @@ public class CheckoutConfigManager {
         return types;
     }
     
+    /**
+     * Gets an array of callback message types.
+     *
+     * @return Array of callback message types
+     */
     public String[] getCallbackTypes() {
         Object[] keys = callbackHandlers.keySet().toArray();
         String[] types = new String[keys.length];
@@ -214,7 +232,14 @@ public class CheckoutConfigManager {
         return types;
     }
     
-    public String read(Element parent, String name) {
+    /**
+     * Reads the value of an XML element from a parent element.
+     *
+     * @param parent The parent element to read from
+     * @param name The name of the element to look for
+     * @return The value of the element
+     */
+    private String read(Element parent, String name) {
         Element elem = (Element) parent.getElementsByTagName(name).item(0);
         Node value = (Node)elem.getChildNodes().item(0);
         

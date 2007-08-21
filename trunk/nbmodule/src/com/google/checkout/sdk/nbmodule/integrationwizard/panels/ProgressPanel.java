@@ -1,31 +1,35 @@
 package com.google.checkout.sdk.nbmodule.integrationwizard.panels;
 
-import com.google.checkout.sdk.nbmodule.ProgressTracker;
+import com.google.checkout.sdk.nbmodule.common.ProgressTracker;
 import javax.swing.JPanel;
 
+/**
+ * A simple panel which tracks the progress of the Integration Wizard.
+ * Contains a text field to display progress and a progress bar which moves as
+ * steps are finished.
+ *
+ * @author David rubel
+ */
 public final class ProgressPanel extends JPanel implements ProgressTracker {
     int barSize;
     
-    /**
-     * Creates the samples selection panel for the Integration Wizard. 
-     */
     public ProgressPanel() {
         this.barSize = barSize;
         initComponents();
     }
     
-    public void setBarSize(int max) {
+    public void setMaxProgress(int max) {
         progressBar.setMaximum(max);
     }
     
-    public void setText(String text) {
+    public void setCurrentOperation(String text) {
         progressLabel.setText(text);
     }
     
-    public void incrementProgress() {
-        incrementProgress(1);
+    public void incProgress() {
+        incProgress(1);
     }
-    public void incrementProgress(int x) {
+    public void incProgress(int x) {
         progressBar.setValue(progressBar.getValue() + x);
     }
     

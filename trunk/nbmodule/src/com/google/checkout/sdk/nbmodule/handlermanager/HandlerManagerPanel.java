@@ -1,7 +1,7 @@
 package com.google.checkout.sdk.nbmodule.handlermanager;
 
-import com.google.checkout.sdk.nbmodule.CheckoutConfigManager;
-import com.google.checkout.sdk.nbmodule.integrationwizard.Integrator;
+import com.google.checkout.sdk.nbmodule.common.CheckoutConfigManager;
+import com.google.checkout.sdk.nbmodule.common.CheckoutFileWriter;
 import java.awt.Dialog;
 import java.io.File;
 import java.io.IOException;
@@ -224,7 +224,7 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
             
             // Write the template to a file
             try {
-                Integrator.writeFileFromString(template, panel.getHandlerLocation());
+                CheckoutFileWriter.writeFileFromString(template, panel.getHandlerLocation());
             } catch (IOException ex) {
                 success = false;
             }
@@ -305,7 +305,7 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
 
             // Write the file
             try {
-                Integrator.writeFileFromString(source, dest);
+                CheckoutFileWriter.writeFileFromString(source, dest);
             } catch (IOException ex) {
                 success = false;
             }

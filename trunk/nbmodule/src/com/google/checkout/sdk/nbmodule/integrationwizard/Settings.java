@@ -1,6 +1,6 @@
 package com.google.checkout.sdk.nbmodule.integrationwizard;
 
-import com.google.checkout.sdk.nbmodule.CheckoutConfigManager;
+import com.google.checkout.sdk.nbmodule.common.CheckoutConfigManager;
 import java.io.File;
 import org.netbeans.api.project.Project;
 
