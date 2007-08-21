@@ -15,40 +15,50 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="separator" alignment="0" pref="376" max="32767" attributes="0"/>
-                  <Component id="classNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="createdFileLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="packageLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="classNameLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="projectLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="locationLabel" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="locationComboBox" alignment="1" pref="291" max="32767" attributes="0"/>
-                          <Component id="packageComboBox" alignment="0" pref="291" max="32767" attributes="0"/>
-                          <Component id="createdFileTextField" alignment="0" pref="291" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
+                          <Component id="classNameTextField" alignment="0" pref="292" max="32767" attributes="0"/>
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="locationTextField" pref="206" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="classNameTextField" pref="291" max="32767" attributes="0"/>
+                              <Component id="browseButton" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="projectComboBox" alignment="0" pref="291" max="32767" attributes="0"/>
+                          <Component id="projectTextField" alignment="0" pref="292" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Component id="separator" alignment="0" pref="376" max="32767" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="messageClassLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                      <Component id="messageClassComboBox" pref="271" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="messageTypeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="implementationLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="implementationComboBox" alignment="0" pref="271" max="32767" attributes="0"/>
+                          <Component id="messageTypeComboBox" alignment="0" pref="271" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="updateCheckBox" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="implementationLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="messageClassLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                          <Component id="messageTypeLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                      </Group>
+                      <Component id="createdFileLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Component id="messageClassComboBox" alignment="0" pref="271" max="32767" attributes="0"/>
-                          <Component id="implementationComboBox" alignment="0" pref="271" max="32767" attributes="0"/>
-                          <Component id="messageTypeComboBox" alignment="1" pref="271" max="32767" attributes="0"/>
-                      </Group>
+                      <Component id="createdFileTextField" pref="291" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="packageLabel" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="packageTextField" pref="292" max="32767" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -63,20 +73,21 @@
                   <Component id="classNameLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="classNameTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="projectLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="projectComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="projectTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="locationLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="locationComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="browseButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="locationTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="packageLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="packageComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="packageTextField" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -86,9 +97,9 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="separator" min="-2" pref="10" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="messageClassLabel" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="messageClassComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="messageClassLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="messageClassComboBox" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -102,7 +113,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="updateCheckBox" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+              <EmptySpace pref="17" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -120,23 +131,8 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="NewHandler"/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="projectLabel">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="12" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Project:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="projectComboBox">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="projectModel" type="code"/>
-        </Property>
-      </Properties>
       <Events>
-        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="projectComboBoxItemStateChanged"/>
+        <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="createdFileUpdater"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="locationLabel">
@@ -145,28 +141,6 @@
           <Font name="Dialog" size="12" style="0"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Location:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="locationComboBox">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="locationModel" type="code"/>
-        </Property>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JLabel" name="packageLabel">
-      <Properties>
-        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-          <Font name="Dialog" size="12" style="0"/>
-        </Property>
-        <Property name="text" type="java.lang.String" value="Package:"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JComboBox" name="packageComboBox">
-      <Properties>
-        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-          <Connection code="packageModel" type="code"/>
-        </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="createdFileLabel">
@@ -198,6 +172,9 @@
           <Connection code="messageTypeModel" type="code"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="messageTypeComboBoxItemStateChanged"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="implementationLabel">
       <Properties>
@@ -213,6 +190,9 @@
           <Connection code="implementationModel" type="code"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="implementationComboBoxItemStateChanged"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JCheckBox" name="updateCheckBox">
       <Properties>
@@ -230,6 +210,9 @@
           <Insets value="[0, 0, 0, 0]"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="updateCheckBoxActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="messageClassLabel">
       <Properties>
@@ -248,6 +231,45 @@
       <Events>
         <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="messageClassComboBoxItemStateChanged"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="locationTextField">
+      <Events>
+        <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="createdFileUpdater"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="browseButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Browse"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="browseButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="projectLabel">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Project:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="packageLabel">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Dialog" size="12" style="0"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Package:"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="packageTextField">
+      <Events>
+        <EventHandler event="caretUpdate" listener="javax.swing.event.CaretListener" parameters="javax.swing.event.CaretEvent" handler="createdFileUpdater"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="projectTextField">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

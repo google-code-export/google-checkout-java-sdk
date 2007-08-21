@@ -1,77 +1,117 @@
 package com.google.checkout.sdk.nbmodule.handlermanager;
 
 import com.google.checkout.sdk.nbmodule.config.CheckoutConfigManager;
+import java.io.File;
 import java.util.HashMap;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JFileChooser;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectInformation;
 import org.netbeans.api.project.ui.OpenProjects;
+import org.openide.filesystems.FileObject;
+import org.openide.filesystems.FileStateInvalidException;
+import org.openide.windows.WindowManager;
 
 public class NewHandlerPanel extends javax.swing.JPanel {
     
     // Combo box models
     DefaultComboBoxModel projectModel;
-    DefaultComboBoxModel locationModel;
-    DefaultComboBoxModel packageModel;
     DefaultComboBoxModel messageClassModel;
     DefaultComboBoxModel messageTypeModel;
     DefaultComboBoxModel implementationModel;
     
-    // Map of open projects
-    HashMap projects;
+    // Currently selected project
+    Project project;
     
     CheckoutConfigManager configManager;
     
+    // Public accessable fields
+    // TODO: Move these into a separate class
+    private String handlerName;
+    private String handlerPackage;
+    private String handlerLocation;
+    private String handlerClass;
+    private String handlerType;
+    private String handlerImpl;
+    private boolean updateHandlerManager;
+    
     /** Creates new form NewHandlerPanel */
-    public NewHandlerPanel() {
+    public NewHandlerPanel(Project project) {
+        this.project = project;
+        updateHandlerManager = true;
+        
         // Init models
-        projectModel = new DefaultComboBoxModel();
-        locationModel = new DefaultComboBoxModel();
-        packageModel = new DefaultComboBoxModel();
         messageClassModel = new DefaultComboBoxModel();
         messageTypeModel = new DefaultComboBoxModel();
         implementationModel = new DefaultComboBoxModel();
-        
-        // Init projects
-        projects = new HashMap();
-        
         configManager = new CheckoutConfigManager();
-        
-        // Run computer generated code
+
         initComponents();
-        
-        // Initialize the map of projects
-        Project[] openProjects = OpenProjects.getDefault().getOpenProjects();
-        for (int i=0; i<openProjects.length; i++) {
-            Project p = openProjects[i];
-            ProjectInformation info = (ProjectInformation)p.getLookup().lookup(ProjectInformation.class);
-            if (info != null) {
-                projects.put(info.getDisplayName(), p);
-            }
-        }
-        
-        // Initialize models
-        initModels();
+        initProject();
+        initStaticModels();
     }
     
-    private void initModels() {
-        // Initialize the list of projects 
-        Object[] keys = projects.keySet().toArray();
-        for (int i=0; i<keys.length; i++) {
-            projectModel.addElement((String) keys[i]);
-        }
-        
-        // Initialize the list of locations
-        locationModel.addElement("Source Packages");
-        locationModel.addElement("Test Packages");
-        
+    /*************************************************************************/
+    /*                            INITIALIZERS                               */
+    /*************************************************************************/
+    
+    private void initProject() {
+        ProjectInformation info = (ProjectInformation)project.getLookup().lookup(ProjectInformation.class);
+        projectTextField.setText(info.getDisplayName());
+        locationTextField.setText(project.getProjectDirectory().getPath());
+    }
+    
+    private void initStaticModels() {        
         // Initialize the list of message classes
         messageClassModel.addElement("Notification");
         messageClassModel.addElement("Callback");
         
         // Initialize the list of implementation types
         implementationModel.addElement("Empty Class");
-        implementationModel.addElement("File Handler");
+    }
+    
+    /*************************************************************************/
+    /*                          PUBLIC ACCESSORS                             */
+    /*************************************************************************/
+    
+    public String getHandlerName() {
+        return handlerName;
+    }
+    
+    public String getHandlerPackage() {
+        return handlerPackage;
+    }
+
+    public File getHandlerLocation() {
+        return new File(handlerLocation);
+    }
+
+    public String getHandlerClass() {
+        return handlerClass;
+    }
+
+    public String getHandlerType() {
+        return handlerType;
+    }
+
+    public String getHandlerImpl() {
+        return handlerImpl;
+    }
+    
+    public boolean updateHandlerManager() {
+        return updateHandlerManager;
+    }
+    
+    /*************************************************************************/
+    /*                          UTILITY METHODS                              */
+    /*************************************************************************/
+    
+    private File getFile(FileObject file) {
+        File ret = null;
+        try {
+            ret = new File(file.getURL().getFile());
+        } catch (FileStateInvalidException ex) {}
+        return ret;
     }
     
     /** This method is called from within the constructor to
@@ -83,12 +123,7 @@ public class NewHandlerPanel extends javax.swing.JPanel {
     private void initComponents() {
         classNameLabel = new javax.swing.JLabel();
         classNameTextField = new javax.swing.JTextField();
-        projectLabel = new javax.swing.JLabel();
-        projectComboBox = new javax.swing.JComboBox();
         locationLabel = new javax.swing.JLabel();
-        locationComboBox = new javax.swing.JComboBox();
-        packageLabel = new javax.swing.JLabel();
-        packageComboBox = new javax.swing.JComboBox();
         createdFileLabel = new javax.swing.JLabel();
         createdFileTextField = new javax.swing.JTextField();
         separator = new javax.swing.JSeparator();
@@ -99,31 +134,25 @@ public class NewHandlerPanel extends javax.swing.JPanel {
         updateCheckBox = new javax.swing.JCheckBox();
         messageClassLabel = new javax.swing.JLabel();
         messageClassComboBox = new javax.swing.JComboBox();
+        locationTextField = new javax.swing.JTextField();
+        browseButton = new javax.swing.JButton();
+        projectLabel = new javax.swing.JLabel();
+        packageLabel = new javax.swing.JLabel();
+        packageTextField = new javax.swing.JTextField();
+        projectTextField = new javax.swing.JTextField();
 
         classNameLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         classNameLabel.setText("Class Name:");
 
         classNameTextField.setText("NewHandler");
-
-        projectLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        projectLabel.setText("Project:");
-
-        projectComboBox.setModel(projectModel);
-        projectComboBox.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                projectComboBoxItemStateChanged(evt);
+        classNameTextField.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                createdFileUpdater(evt);
             }
         });
 
         locationLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         locationLabel.setText("Location:");
-
-        locationComboBox.setModel(locationModel);
-
-        packageLabel.setFont(new java.awt.Font("Dialog", 0, 12));
-        packageLabel.setText("Package:");
-
-        packageComboBox.setModel(packageModel);
 
         createdFileLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         createdFileLabel.setText("Created File:");
@@ -134,17 +163,32 @@ public class NewHandlerPanel extends javax.swing.JPanel {
         messageTypeLabel.setText("Message Type:");
 
         messageTypeComboBox.setModel(messageTypeModel);
+        messageTypeComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                messageTypeComboBoxItemStateChanged(evt);
+            }
+        });
 
         implementationLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         implementationLabel.setText("Implementation:");
 
         implementationComboBox.setModel(implementationModel);
+        implementationComboBox.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                implementationComboBoxItemStateChanged(evt);
+            }
+        });
 
         updateCheckBox.setFont(new java.awt.Font("Dialog", 0, 12));
         updateCheckBox.setSelected(true);
         updateCheckBox.setText("Update Handler Manager with new handler");
         updateCheckBox.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
         updateCheckBox.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        updateCheckBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateCheckBoxActionPerformed(evt);
+            }
+        });
 
         messageClassLabel.setFont(new java.awt.Font("Dialog", 0, 12));
         messageClassLabel.setText("Message Class:");
@@ -156,6 +200,33 @@ public class NewHandlerPanel extends javax.swing.JPanel {
             }
         });
 
+        locationTextField.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                createdFileUpdater(evt);
+            }
+        });
+
+        browseButton.setText("Browse");
+        browseButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                browseButtonActionPerformed(evt);
+            }
+        });
+
+        projectLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        projectLabel.setText("Project:");
+
+        packageLabel.setFont(new java.awt.Font("Dialog", 0, 12));
+        packageLabel.setText("Package:");
+
+        packageTextField.addCaretListener(new javax.swing.event.CaretListener() {
+            public void caretUpdate(javax.swing.event.CaretEvent evt) {
+                createdFileUpdater(evt);
+            }
+        });
+
+        projectTextField.setEditable(false);
+
         org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -163,34 +234,41 @@ public class NewHandlerPanel extends javax.swing.JPanel {
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(separator, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
-                    .add(classNameLabel)
                     .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(createdFileLabel)
-                            .add(packageLabel)
+                            .add(classNameLabel)
                             .add(projectLabel)
                             .add(locationLabel))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(org.jdesktop.layout.GroupLayout.TRAILING, locationComboBox, 0, 291, Short.MAX_VALUE)
-                            .add(packageComboBox, 0, 291, Short.MAX_VALUE)
-                            .add(createdFileTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE)
-                            .add(layout.createSequentialGroup()
+                            .add(classNameTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)
+                            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                                .add(locationTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                                .add(classNameTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE))
-                            .add(projectComboBox, 0, 291, Short.MAX_VALUE)))
-                    .add(updateCheckBox)
+                                .add(browseButton))
+                            .add(projectTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)))
+                    .add(separator, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE)
+                    .add(layout.createSequentialGroup()
+                        .add(messageClassLabel)
+                        .add(17, 17, 17)
+                        .add(messageClassComboBox, 0, 271, Short.MAX_VALUE))
                     .add(layout.createSequentialGroup()
                         .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                            .add(implementationLabel)
-                            .add(messageClassLabel)
-                            .add(messageTypeLabel))
+                            .add(messageTypeLabel)
+                            .add(implementationLabel))
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, messageClassComboBox, 0, 271, Short.MAX_VALUE)
-                            .add(org.jdesktop.layout.GroupLayout.LEADING, implementationComboBox, 0, 271, Short.MAX_VALUE)
-                            .add(messageTypeComboBox, 0, 271, Short.MAX_VALUE))))
+                        .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                            .add(implementationComboBox, 0, 271, Short.MAX_VALUE)
+                            .add(messageTypeComboBox, 0, 271, Short.MAX_VALUE)))
+                    .add(updateCheckBox)
+                    .add(layout.createSequentialGroup()
+                        .add(createdFileLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(createdFileTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 291, Short.MAX_VALUE))
+                    .add(layout.createSequentialGroup()
+                        .add(packageLabel)
+                        .add(32, 32, 32)
+                        .add(packageTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -200,18 +278,19 @@ public class NewHandlerPanel extends javax.swing.JPanel {
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(classNameLabel)
                     .add(classNameTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(27, 27, 27)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(projectLabel)
-                    .add(projectComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(projectTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(locationLabel)
-                    .add(locationComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(browseButton)
+                    .add(locationTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(packageLabel)
-                    .add(packageComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(packageTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(createdFileLabel)
@@ -219,7 +298,7 @@ public class NewHandlerPanel extends javax.swing.JPanel {
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(separator, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(messageClassLabel)
                     .add(messageClassComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -232,10 +311,65 @@ public class NewHandlerPanel extends javax.swing.JPanel {
                     .add(implementationComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(updateCheckBox)
-                .add(29, 29, 29))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void updateCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateCheckBoxActionPerformed
+        updateHandlerManager = updateCheckBox.isSelected();
+    }//GEN-LAST:event_updateCheckBoxActionPerformed
+
+    /*************************************************************************/
+    /*                           EVENT HANDLER                               */
+    /*************************************************************************/
+    
+    private void implementationComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_implementationComboBoxItemStateChanged
+        handlerImpl = (String) implementationComboBox.getSelectedItem();
+    }//GEN-LAST:event_implementationComboBoxItemStateChanged
+
+    private void messageTypeComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_messageTypeComboBoxItemStateChanged
+        handlerType = (String) messageTypeComboBox.getSelectedItem();
+    }//GEN-LAST:event_messageTypeComboBoxItemStateChanged
+
+    private void createdFileUpdater(javax.swing.event.CaretEvent evt) {//GEN-FIRST:event_createdFileUpdater
+        String path = locationTextField.getText();
+        if (!path.startsWith("/")) {
+            path = "/" + path;
+        }
+        if (!path.endsWith("/")) {
+            path += "/";
+        }
+        path += packageTextField.getText().replace(".", "/");
+        if (!path.endsWith("/")) {
+            path += "/";
+        }
+        path += classNameTextField.getText() + ".java";
+        createdFileTextField.setText(path);
+        
+        // Update data
+        handlerName = classNameTextField.getText();
+        handlerPackage = packageTextField.getText().replace("/", ".");
+        if (handlerPackage.endsWith(".")) {
+            handlerPackage = handlerPackage.substring(0, handlerPackage.length()-1);
+        }
+        handlerLocation = createdFileTextField.getText();
+    }//GEN-LAST:event_createdFileUpdater
+    
+    private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
+        // Generate and show the file chooser
+        JFileChooser jfc = new JFileChooser(getFile(project.getProjectDirectory()));
+        jfc.setDialogTitle("WEB-INF Directory");
+        jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        jfc.showOpenDialog(WindowManager.getDefault().getMainWindow());
+        
+        // Fill the samples directory text field with the located directory
+        File selectedFile = jfc.getSelectedFile();
+        if (selectedFile != null) {
+            String text = selectedFile.getPath();
+            locationTextField.setText(text);
+        }
+    }//GEN-LAST:event_browseButtonActionPerformed
+   
     private void messageClassComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_messageClassComboBoxItemStateChanged
         if (evt.getStateChange() == evt.SELECTED) {
             String[] types;
@@ -249,41 +383,29 @@ public class NewHandlerPanel extends javax.swing.JPanel {
                 messageTypeModel.addElement(types[i]);
             }
         }
+        
+        // Update data
+        handlerClass = (String) messageClassComboBox.getSelectedItem();
     }//GEN-LAST:event_messageClassComboBoxItemStateChanged
-
-    private void projectComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_projectComboBoxItemStateChanged
-        /*if (evt.getStateChange() == evt.SELECTED)  {
-            // Get the selected project and sources
-            Project p = (Project) projects.get((String) projectComboBox.getSelectedItem());
-            Sources sources = (Sources) p.getLookup().lookup(Sources.class);
-            
-            // Update location combo box
-            locationModel.removeAllElements();
-            SourceGroup[] sourceGroups = sources.getSourceGroups(sources.TYPE_GENERIC);
-            for (int i=0; i<sourceGroups.length; i++) {
-                locationModel.addElement(sourceGroups[i].getDisplayName());
-            }
-        }*/
-    }//GEN-LAST:event_projectComboBoxItemStateChanged
-    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton browseButton;
     private javax.swing.JLabel classNameLabel;
     private javax.swing.JTextField classNameTextField;
     private javax.swing.JLabel createdFileLabel;
     private javax.swing.JTextField createdFileTextField;
     private javax.swing.JComboBox implementationComboBox;
     private javax.swing.JLabel implementationLabel;
-    private javax.swing.JComboBox locationComboBox;
     private javax.swing.JLabel locationLabel;
+    private javax.swing.JTextField locationTextField;
     private javax.swing.JComboBox messageClassComboBox;
     private javax.swing.JLabel messageClassLabel;
     private javax.swing.JComboBox messageTypeComboBox;
     private javax.swing.JLabel messageTypeLabel;
-    private javax.swing.JComboBox packageComboBox;
     private javax.swing.JLabel packageLabel;
-    private javax.swing.JComboBox projectComboBox;
+    private javax.swing.JTextField packageTextField;
     private javax.swing.JLabel projectLabel;
+    private javax.swing.JTextField projectTextField;
     private javax.swing.JSeparator separator;
     private javax.swing.JCheckBox updateCheckBox;
     // End of variables declaration//GEN-END:variables

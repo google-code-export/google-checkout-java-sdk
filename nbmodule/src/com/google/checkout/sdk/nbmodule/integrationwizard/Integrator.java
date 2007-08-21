@@ -192,8 +192,9 @@ public class Integrator {
     /*                    HARDCODED METHODS (REMOVE ASAP)                    */
     /*************************************************************************/
     
+    // TODO: Remove
+    
     private static String[] getSampleNames() {
-        // TODO: REMOVE THIS!!!
         String[] samples = new String[18];
         
         samples[0] = "addmerchantordernumber.jsp";
@@ -221,6 +222,8 @@ public class Integrator {
     /*************************************************************************/
     /*                         FILE WRITING METHODS                          */
     /*************************************************************************/
+    
+    // TODO: Move these to a new class
     
     public static void createFile(File file, boolean dir) throws IOException {
         File parent = file.getParentFile();
