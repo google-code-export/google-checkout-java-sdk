@@ -60,8 +60,7 @@ The Handler Manager is a tool with allows you to manage Checkout handlers in a w
 
 This manager also allows you to create new java handler classes.  To do so, click on the "Create New Handler" button in the bottom left of the screen.  This will bring up another dialog which asks for the name, location and package name of the new class.  You can also select the message class (notification or callback), message type and implementation.  Currently only empty implementations are supported, but others may be included in future releases.  If selected, the last option (Update Handler Manager) will automatically update the tables in the Handler Manager with the new class name.
 
-= Problems =
+= Troubleshooting =
 
 This module is still in early development.  We hope that you will try it out and that it will save you time during your Checkout integration, but if you find problems please report them through the [http://code.google.com/p/google-checkout-java-sdk/issues/list issues] page.  The source code is also available from the [http://code.google.com/p/google-checkout-java-sdk/source source] page, so if you understand a problem and can fix it, you're welcome update the code and submit a patch.  This is a community supported project, so your contributions are greatly appreciated!
-
 
