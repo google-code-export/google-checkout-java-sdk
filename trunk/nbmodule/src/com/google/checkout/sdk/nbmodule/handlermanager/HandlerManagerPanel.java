@@ -5,6 +5,7 @@ import com.google.checkout.sdk.nbmodule.integrationwizard.Integrator;
 import java.awt.Dialog;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
@@ -13,6 +14,7 @@ import org.netbeans.api.project.ProjectInformation;
 import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileStateInvalidException;
 
@@ -195,6 +197,90 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
         }
     }
     
+    private boolean createHandler(NewHandlerPanel panel) {
+        boolean success = true;
+        
+        // Read template
+        String template = readFile(getImplFile(panel.getHandlerImpl()));
+        
+        if (template != null) {
+            // Read basic handler info and get handler type
+            String handlerName = panel.getHandlerName();
+            String handlerPackage = panel.getHandlerPackage();
+            String handlerTypePackage = getNotificationClassFromType(panel.getHandlerType());
+            
+            // Build handler type from the handler type package name
+            String handlerType = handlerTypePackage;
+            int loc = handlerType.lastIndexOf(".") + 1;
+            if (loc >= 0) {
+                handlerType = handlerType.substring(loc);
+            }
+
+            // Replace things in the template
+            template = template.replace("<name>", handlerName);
+            template = template.replace("<package>", handlerPackage);
+            template = template.replace("<type-package>", handlerTypePackage);
+            template = template.replace("<type>", handlerType);
+            
+            // Write the template to a file
+            try {
+                Integrator.writeFileFromString(template, panel.getHandlerLocation());
+            } catch (IOException ex) {
+                success = false;
+            }
+        } else {
+            success = false;
+        }
+        
+        return success;
+    }
+    
+    private String getImplFile(String name) {
+        // TODO: Look this up from a config file
+        String fileName = null;
+        
+        if (name.equals("Empty Class")) {
+            fileName = "/com/google/checkout/sdk/nbmodule/sources/EmptyHandler.txt";
+        } /*else if (name.equals("File Handler")) {
+            fileName = "/com/google/checkout/sdk/nbmodule/sources/FileHandler.txt";
+        }*/
+        
+        return fileName;
+    }
+    
+    private String getNotificationClassFromType(String type) {
+        // TODO: Look this up from a config file
+        HashMap types = new HashMap();
+        types.put("new-order-notification", "com.google.checkout.notification.NewOrderNotification");
+        types.put("risk-information-notification", "com.google.checkout.notification.RiskInformationNotification");
+        types.put("order-state-change-notification", "com.google.checkout.notification.OrderStateChangeNotification");
+        types.put("charge-amount-notification", "com.google.checkout.notification.ChargeAmountNotification");
+        types.put("refund-amount-notification", "com.google.checkout.notification.RefundAmountNotification");
+        types.put("chargeback-amount-notification", "com.google.checkout.notification.ChargebackAmountNotification");
+        types.put("authorization-amount-notification", "com.google.checkout.notification.AuthorizationAmountNotification");      
+        types.put("merchant-calculation-callback", "com.google.checkout.merchantcalculation.MerchantCalculationCallback");
+        
+        return (String) types.get(type);
+    }
+    
+    private String readFile(String filename) {
+        StringBuilder builder = new StringBuilder();
+        InputStream source = getClass().getResourceAsStream(filename);
+        
+        try {
+        // Read from the input stream and write to the string builder
+            int ch;
+            while ((ch = source.read()) != -1) {
+                builder.append((char)ch);
+            }
+
+            // Close streams
+            source.close();
+        } catch (IOException ex) {}
+        
+        return builder.toString();
+    }
+    
     /*************************************************************************/
     /*                           PUBLIC METHODS                              */
     /*************************************************************************/
@@ -331,17 +417,12 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
             
             // Assign newly selected project
             selectedProject = newProject;
-            
-            // If this is the first project selected, refresh the UI
-            if (selectedProject == null) {
-                // TODO: Find something that will update the table
-            }
         }
     }//GEN-LAST:event_projectListValueChanged
     
     private void newHandlerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newHandlerButtonActionPerformed
         // Create the new handler dialog
-        NewHandlerPanel panel = new NewHandlerPanel();
+        NewHandlerPanel panel = new NewHandlerPanel((Project)projects.get(selectedProject));
         DialogDescriptor desc = new DialogDescriptor(
                 panel,  // panel to display
                 "Create New Checkout Handler",  // dialog title
@@ -356,6 +437,39 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
         Dialog dialog = DialogDisplayer.getDefault().createDialog(desc);
         dialog.setVisible(true);
         dialog.toFront();
+        
+        // Create the new handler
+        // TODO: Better error handling.  Throw custom exception?
+        boolean success = createHandler(panel);
+    
+        if (!success) {
+            // Failure: show error message
+            String msg = "Failed to create " + panel.getHandlerName() + ".java.";
+            NotifyDescriptor d = new NotifyDescriptor.Message(msg, NotifyDescriptor.ERROR_MESSAGE);
+            DialogDisplayer.getDefault().notify(d);  
+        } else {
+            // Update Handler Manager if requested
+            if (panel.updateHandlerManager()) {
+                // Get information
+                String type = panel.getHandlerType();
+                String name = panel.getHandlerPackage() + "." + panel.getHandlerName();
+                
+                // Select the right table
+                DefaultTableModel table;
+                if (((String)panel.getHandlerClass()).equals("Notification")) {
+                    table = notificationTableModel;
+                } else {
+                    table = callbackTableModel;
+                }
+                
+                // Change the entry in the table
+                for (int i=0; i<table.getRowCount(); i++) {
+                    if (((String) table.getValueAt(i, 0)).equals(type)) {
+                        table.setValueAt(name, i, 1);
+                    }
+                }
+            }
+        }
     }//GEN-LAST:event_newHandlerButtonActionPerformed
     
     // Variables declaration - do not modify//GEN-BEGIN:variables

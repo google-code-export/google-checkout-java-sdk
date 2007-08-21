@@ -25,4 +25,14 @@
             <attr name="com-google-checkout-sdk-nbmodule-handlermanager-HandlerManagerAction.shadow/Separator1.instance" boolvalue="true"/>
         </folder>
     </folder>
+    <folder name="Templates">
+        <folder name="Ant">
+            <file name="handler">
+                <attr name="SystemFileSystem.localizingBundle" stringvalue="com.google.checkout.sdk.nbmodule.Bundle"/>
+                <attr name="instantiatingIterator" newvalue="com.google.checkout.sdk.nbmodule.handlerwizard.HandlerWizardIterator"/>
+                <attr name="template" boolvalue="true"/>
+                <attr name="templateWizardURL" urlvalue="nbresloc:/com/google/checkout/sdk/nbmodule/handlerwizard/handler.html"/>
+            </file>
+        </folder>
+    </folder>
 </filesystem>
