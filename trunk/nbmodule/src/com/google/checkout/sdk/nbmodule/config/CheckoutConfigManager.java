@@ -45,8 +45,8 @@ public class CheckoutConfigManager {
         
         // Init fields to default values
         // TODO: Read these from some type of config file
-        merchantId = "812318588721976";
-        merchantKey = "c1YAeK6wMizfJ6BmZJG9Fg";
+        merchantId = "";
+        merchantKey = "";
         env = "Sandbox";
         currencyCode = "USD";
         sandboxRoot = "https://sandbox.google.com/checkout/cws/v2/Merchant";
@@ -54,6 +54,31 @@ public class CheckoutConfigManager {
         checkoutSuffix = "checkout";
         merchantCheckoutSuffix = "merchantCheckout";
         requestSuffix = "request";
+        
+        notificationHandlers.put("new-order-notification", 
+                "com.google.checkout.sdk.NewOrderNotificationHandler");
+
+        notificationHandlers.put("risk-information-notification", 
+                "com.google.checkout.sdk.RiskInformationNotificationHandler");
+
+        notificationHandlers.put("order-state-change-notification", 
+                "com.google.checkout.sdk.OrderStateChangeNotificationHandler");
+      
+        notificationHandlers.put("charge-amount-notification", 
+                "com.google.checkout.sdk.ChargeAmountNotificationHandler");
+      
+        notificationHandlers.put("refund-amount-notification", 
+                "com.google.checkout.sdk.RefundAmountNotificationHandler");
+
+        notificationHandlers.put("chargeback-amount-notification", 
+                "com.google.checkout.sdk.ChargebackAmountNotificationHandler");
+      
+        notificationHandlers.put("authorization-amount-notification", 
+                "com.google.checkout.sdk.AuthorizationAmountNotificationHandler");
+      
+        callbackHandlers.put("merchant-calculation-callback", 
+                "com.google.checkout.sdk.MerchantCalculationCallbackHandler");
+
     }
     
     /**
