@@ -21,11 +21,9 @@ import com.google.checkout.sdk.nbmodule.common.ProgressTracker;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
-import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.jar.JarFile;
-import java.util.zip.ZipEntry;
+import java.util.jar.JarEntry;
+import java.util.jar.JarInputStream;
 
 public class Integrator {
   // The settings built by the Integration Wizard
@@ -124,17 +122,22 @@ public class Integrator {
     InputStream source = 
         getClass().getResourceAsStream("/resources/checkout-sdk.jar");
     
-    // Get the checkout-sdk.jar path
-    String path = settings.getWebInfDirectory().getPath() + 
-        "/lib/checkout-sdk.jar";
-    File dest = new File(path);
-    
-    // Write the file
-    try {
-      CheckoutFileWriter.writeFileFromStream(source, dest);
-    } catch (IOException ex) {
+    if (source == null) {
       success = false;
-      errorMessage = "Could not write checkout-sdk.jar";
+      errorMessage = "Could not find checkout-sdk.jar";
+    } else {
+      // Get the checkout-sdk.jar path
+      String path = settings.getWebInfDirectory().getPath() + 
+          "/lib/checkout-sdk.jar";
+      File dest = new File(path);
+
+      // Write the file
+      try {
+        CheckoutFileWriter.writeFileFromStream(source, dest);
+      } catch (IOException ex) {
+        success = false;
+        errorMessage = "Could not write checkout-sdk.jar";
+      }
     }
     
     return success;
@@ -179,29 +182,40 @@ public class Integrator {
   private boolean copySamplesJsps() {
     boolean success = true;
     
+    
     // Get the sample directory provided by the user
     File destDirectory = settings.getSamplesDirectory();
-    
+
     // Get the sample names
-    String dir = "resources/samples/";
-    HashMap streams = getResourcesInJar(dir);
-    Object[] keys = streams.keySet().toArray();
+    String dir = "/resources/samples.jar";
+    HashMap strings = null;
+    try {
+       strings = getFilesFromJar(dir);
+    } catch (IOException ex) {
+      success = false;
+      errorMessage = "Could not read samples.jar";
+    }
     
-    // Loop through each of the samples
-    for (int i=0; i<keys.length && success; i++) {
-      // Get the source
-      InputStream source = (InputStream) streams.get(keys[i]);
-      
-      // Get the destination
-      String path = destDirectory.getPath() + "/" + keys[i];
-      File dest = new File(path);
-      
-      // Write the file
-      try {
-        CheckoutFileWriter.writeFileFromStream(source, dest);
-      } catch (IOException ex) {
-        success = false;
-        errorMessage = "Could not write " + keys[i];
+    if (strings != null) {
+      // Get the file names
+      Object[] keys = strings.keySet().toArray();
+
+      // Loop through each of the files
+      for (int i=0; i<keys.length && success; i++) {
+        // Get the source
+        String source = (String) strings.get(keys[i]);
+
+        // Get the destination
+        String path = destDirectory.getPath() + "/" + keys[i];
+        File dest = new File(path);
+
+        // Write the file
+        try {
+          CheckoutFileWriter.writeFileFromString(source, dest);
+        } catch (IOException ex) {
+          success = false;
+          errorMessage = "Could not write " + keys[i];
+        }
       }
     }
     
@@ -212,50 +226,35 @@ public class Integrator {
   /*                         JAR READING METHODS                           */
   /*************************************************************************/
   
-  private JarFile getJarFile() {
-    JarFile jar = null;
-    String thisPath = 
-        "/com/google/checkout/sdk/nbmodule/integrationwizard/Integrator.class";
-    URL url = getClass().getResource(thisPath);
-    String path = url.getPath().replace("file:", "");
+  private HashMap getFilesFromJar(String jarPath) throws IOException {
+    HashMap strings = new HashMap();
     
-    int loc = path.indexOf(".jar!") + 4;
-    String jarPath = path.substring(0, loc);
-    
-    try {
-      jar = new JarFile(jarPath);
-    } catch (IOException ex) {
-      ex.printStackTrace();
+    // Get the jar input stream
+    InputStream resource = getClass().getResourceAsStream(jarPath);
+    if (resource == null) {
+      throw new IOException(jarPath + " not found.");
     }
-    
-    return jar;
-  }
-  
-  private HashMap getResourcesInJar(String dir) {
-    HashMap streams = new HashMap();
-    JarFile jar = getJarFile();
-    Enumeration entries = jar.entries();
-    
-    // Remove leading / from dir
-    if (dir.startsWith("/")) {
-      dir = dir.substring(1);
-    }
+    JarInputStream jarStream = new JarInputStream(resource);
 
-    // Get all entries in the jar that start with dir
-    while (entries.hasMoreElements()) {
-      ZipEntry entry = (ZipEntry)entries.nextElement();
-      String name = entry.getName();
-      if (name.startsWith(dir) && !entry.isDirectory()) {
-        int loc = name.lastIndexOf("/");
-        name = name.substring(loc+1);
-        try {
-          streams.put(name, jar.getInputStream(entry));
-        } catch (IOException ex) {
-          // Skip this entry
+    // Step through each entry
+    JarEntry entry = jarStream.getNextJarEntry();      
+    while (entry != null) {
+      if (!entry.isDirectory()) {
+        // Read the jar entry
+        StringBuilder builder = new StringBuilder();
+        int ch;
+        while ((ch = jarStream.read()) >= 0) {
+          builder.append((char) ch);
         }
+
+        // Store the entry as a string
+        strings.put(entry.getName(), builder.toString());
+
+        // Move to the next entry
+        entry = jarStream.getNextJarEntry();
       }
     }
-
-    return streams;
+    
+    return strings;
   }
 }
