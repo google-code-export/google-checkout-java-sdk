@@ -107,7 +107,7 @@ public final class ConfirmationWizardPanel extends JPanel {
     
     private void launchHandlerManagerCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_launchHandlerManagerCheckBoxActionPerformed
       // Update settings
-      boolean selected = launchHandlerManagerCheckBox.isSelected()
+      boolean selected = launchHandlerManagerCheckBox.isSelected();
       settings.setLaunchHandlerManager(selected);
     }//GEN-LAST:event_launchHandlerManagerCheckBoxActionPerformed
     

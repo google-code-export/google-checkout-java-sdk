@@ -16,6 +16,7 @@
 
 package com.google.checkout.sdk.nbmodule.integrationwizard.panels;
 
+import com.google.checkout.sdk.nbmodule.common.FileConverter;
 import com.google.checkout.sdk.nbmodule.integrationwizard.IntegrationWizardDescriptor;
 import com.google.checkout.sdk.nbmodule.integrationwizard.Settings;
 import java.awt.Component;
@@ -150,7 +151,8 @@ public final class ProjectWizardPanel extends JPanel {
     
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
       // Generate and show the file chooser
-      File file = getFile(settings.getProject().getProjectDirectory());
+      File file = 
+          FileConverter.getFile(settings.getProject().getProjectDirectory());
       JFileChooser jfc = new JFileChooser(file);
       jfc.setDialogTitle("WEB-INF Directory");
       jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -261,14 +263,6 @@ public final class ProjectWizardPanel extends JPanel {
       if (dir.isDirectory()) {
         settings.setWebInfDirectory(dir);
       }
-    }
-    
-    private File getFile(FileObject file) {
-      File ret = null;
-      try {
-        ret = new File(file.getURL().getFile());
-      } catch (FileStateInvalidException ex) {}
-      return ret;
     }
     
     /*************************************************************************/

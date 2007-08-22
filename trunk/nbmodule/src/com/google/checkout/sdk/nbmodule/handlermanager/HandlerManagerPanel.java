@@ -18,6 +18,7 @@ package com.google.checkout.sdk.nbmodule.handlermanager;
 
 import com.google.checkout.sdk.nbmodule.common.CheckoutConfigManager;
 import com.google.checkout.sdk.nbmodule.common.CheckoutFileWriter;
+import com.google.checkout.sdk.nbmodule.common.FileConverter;
 import java.awt.Dialog;
 import java.io.File;
 import java.io.IOException;
@@ -32,7 +33,6 @@ import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.filesystems.FileObject;
-import org.openide.filesystems.FileStateInvalidException;
 import org.openide.util.Lookup;
 
 public class HandlerManagerPanel extends javax.swing.JPanel {
@@ -88,7 +88,7 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
       if (config != null && info != null) {
         projects.put(info.getDisplayName(), p);
         configManagers.put(info.getDisplayName(),
-            new CheckoutConfigManager(getFile(config)));
+            new CheckoutConfigManager(FileConverter.getFile(config)));
       }
     }
   }
@@ -152,14 +152,6 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
     } else {
       return null;
     }
-  }
-  
-  private File getFile(FileObject file) {
-    File ret = null;
-    try {
-      ret = new File(file.getURL().getFile());
-    } catch (FileStateInvalidException ex) {}
-    return ret;
   }
   
   private void removeAllRows(DefaultTableModel table) {
