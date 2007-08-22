@@ -257,7 +257,7 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
     String fileName = null;
     
     if (name.equals("Empty Class")) {
-      fileName = "/com/google/checkout/sdk/nbmodule/sources/EmptyHandler.txt";
+      fileName = "/resources/EmptyHandler.txt";
     }
     
     return fileName;

@@ -254,7 +254,7 @@ public final class WebXmlWizardPanel extends JPanel {
     }
     
     private void readWebFragment() {
-      String loc = "/com/google/checkout/sdk/nbmodule/sources/webFragment.xml";
+      String loc = "/resources/webFragment.xml";
       InputStream is = this.getClass().getResourceAsStream(loc);
       if (is != null) {
         try {
