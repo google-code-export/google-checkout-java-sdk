@@ -21,6 +21,11 @@ import com.google.checkout.sdk.nbmodule.common.ProgressTracker;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.jar.JarFile;
+import java.util.zip.ZipEntry;
 
 public class Integrator {
   // The settings built by the Integration Wizard
@@ -117,7 +122,7 @@ public class Integrator {
     
     // Get the checkout-sdk.jar.txt resource
     InputStream source = 
-        getClass().getResourceAsStream("/com/google/checkout/sdk/nbmodule/sources/checkout-sdk.jar");
+        getClass().getResourceAsStream("/resources/checkout-sdk.jar");
     
     // Get the checkout-sdk.jar path
     String path = settings.getWebInfDirectory().getPath() + 
@@ -178,17 +183,17 @@ public class Integrator {
     File destDirectory = settings.getSamplesDirectory();
     
     // Get the sample names
-    String[] samples = getSampleNames();
+    String dir = "resources/samples/";
+    HashMap streams = getResourcesInJar(dir);
+    Object[] keys = streams.keySet().toArray();
     
     // Loop through each of the samples
-    for (int i=0; i<samples.length  && success; i++) {
+    for (int i=0; i<keys.length && success; i++) {
       // Get the source
-      String name = "/com/google/checkout/sdk/nbmodule/sources/samples/" + 
-          samples[i];
-      InputStream source = getClass().getResourceAsStream(name);
+      InputStream source = (InputStream) streams.get(keys[i]);
       
       // Get the destination
-      String path = destDirectory.getPath() + "/" + samples[i];
+      String path = destDirectory.getPath() + "/" + keys[i];
       File dest = new File(path);
       
       // Write the file
@@ -196,7 +201,7 @@ public class Integrator {
         CheckoutFileWriter.writeFileFromStream(source, dest);
       } catch (IOException ex) {
         success = false;
-        errorMessage = "Could not write " + samples[i];
+        errorMessage = "Could not write " + keys[i];
       }
     }
     
@@ -204,33 +209,53 @@ public class Integrator {
   }
   
   /*************************************************************************/
-  /*                    HARDCODED METHODS (REMOVE ASAP)                    */
+  /*                         JAR READING METHODS                           */
   /*************************************************************************/
   
-  // TODO: Remove
+  private JarFile getJarFile() {
+    JarFile jar = null;
+    String thisPath = 
+        "/com/google/checkout/sdk/nbmodule/integrationwizard/Integrator.class";
+    URL url = getClass().getResource(thisPath);
+    String path = url.getPath().replace("file:", "");
+    
+    int loc = path.indexOf(".jar!") + 4;
+    String jarPath = path.substring(0, loc);
+    
+    try {
+      jar = new JarFile(jarPath);
+    } catch (IOException ex) {
+      ex.printStackTrace();
+    }
+    
+    return jar;
+  }
   
-  private static String[] getSampleNames() {
-    String[] samples = new String[18];
+  private HashMap getResourcesInJar(String dir) {
+    HashMap streams = new HashMap();
+    JarFile jar = getJarFile();
+    Enumeration entries = jar.entries();
     
-    samples[0] = "addmerchantordernumber.jsp";
-    samples[1] = "addtrackingdata.jsp";
-    samples[2] = "archiveorder.jsp";
-    samples[3] = "authorizeorder.jsp";
-    samples[4] = "cancelorder.jsp";
-    samples[5] = "chargeorder.jsp";
-    samples[6] = "deliverorder.jsp";
-    samples[7] = "index.jsp";
-    samples[8] = "left_bottom.jsp";
-    samples[9] = "left_top.jsp";
-    samples[10] = "order_detail.jsp";
-    samples[11] = "orders.jsp";
-    samples[12] = "processorder.jsp";
-    samples[13] = "refundorder.jsp";
-    samples[14] = "sendbuyermessage.jsp";
-    samples[15] = "shipping-fragment.jsp";
-    samples[16] = "shopping_cart.jsp";
-    samples[17] = "unarchiveorder.jsp";
-    
-    return samples;
+    // Remove leading / from dir
+    if (dir.startsWith("/")) {
+      dir = dir.substring(1);
+    }
+
+    // Get all entries in the jar that start with dir
+    while (entries.hasMoreElements()) {
+      ZipEntry entry = (ZipEntry)entries.nextElement();
+      String name = entry.getName();
+      if (name.startsWith(dir) && !entry.isDirectory()) {
+        int loc = name.lastIndexOf("/");
+        name = name.substring(loc+1);
+        try {
+          streams.put(name, jar.getInputStream(entry));
+        } catch (IOException ex) {
+          // Skip this entry
+        }
+      }
+    }
+
+    return streams;
   }
 }
