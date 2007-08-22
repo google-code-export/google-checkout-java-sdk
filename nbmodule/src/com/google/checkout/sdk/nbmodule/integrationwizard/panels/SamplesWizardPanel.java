@@ -16,10 +16,12 @@
 
 package com.google.checkout.sdk.nbmodule.integrationwizard.panels;
 
+import com.google.checkout.sdk.nbmodule.common.FileConverter;
 import com.google.checkout.sdk.nbmodule.integrationwizard.IntegrationWizardDescriptor;
 import com.google.checkout.sdk.nbmodule.integrationwizard.Settings;
 import java.awt.Component;
 import java.io.File;
+import java.net.URI;
 import java.net.URISyntaxException;
 import javax.swing.JFileChooser;
 import javax.swing.event.ChangeListener;
@@ -119,8 +121,9 @@ public class SamplesWizardPanel extends javax.swing.JPanel {
     
     private void samplesBrowseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_samplesBrowseButtonActionPerformed
       // Generate and show the file chooser
-      File file = getFile(settings.getProject().getProjectDirectory());
-      JFileChooser jfc = new JFileChooser(file));
+      File file = 
+          FileConverter.getFile(settings.getProject().getProjectDirectory());
+      JFileChooser jfc = new JFileChooser(file);
       jfc.setDialogTitle("Samples Directory");
       jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
       jfc.showOpenDialog(WindowManager.getDefault().getMainWindow());
@@ -188,14 +191,6 @@ public class SamplesWizardPanel extends javax.swing.JPanel {
       if (!dir.exists() || dir.isDirectory()) {
         settings.setSamplesDirectory(dir);
       }
-    }
-    
-    private File getFile(FileObject file) {
-      File ret = null;
-      try {
-        ret = new File(file.getURL().getFile());
-      } catch (FileStateInvalidException ex) {}
-      return ret;
     }
     
     /*************************************************************************/

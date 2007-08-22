@@ -17,15 +17,12 @@
 package com.google.checkout.sdk.nbmodule.handlermanager;
 
 import com.google.checkout.sdk.nbmodule.common.CheckoutConfigManager;
+import com.google.checkout.sdk.nbmodule.common.FileConverter;
 import java.io.File;
-import java.util.HashMap;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectInformation;
-import org.netbeans.api.project.ui.OpenProjects;
-import org.openide.filesystems.FileObject;
-import org.openide.filesystems.FileStateInvalidException;
 import org.openide.windows.WindowManager;
 
 public class NewHandlerPanel extends javax.swing.JPanel {
@@ -117,18 +114,6 @@ public class NewHandlerPanel extends javax.swing.JPanel {
   
   public boolean updateHandlerManager() {
     return updateHandlerManager;
-  }
-  
-  /*************************************************************************/
-  /*                          UTILITY METHODS                              */
-  /*************************************************************************/
-  
-  private File getFile(FileObject file) {
-    File ret = null;
-    try {
-      ret = new File(file.getURL().getFile());
-    } catch (FileStateInvalidException ex) {}
-    return ret;
   }
   
   /** This method is called from within the constructor to
@@ -374,8 +359,8 @@ public class NewHandlerPanel extends javax.swing.JPanel {
     
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
       // Generate and show the file chooser
-      JFileChooser jfc = 
-          new JFileChooser(getFile(project.getProjectDirectory()));
+      File file = FileConverter.getFile(project.getProjectDirectory());
+      JFileChooser jfc = new JFileChooser(file);
       jfc.setDialogTitle("WEB-INF Directory");
       jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
       jfc.showOpenDialog(WindowManager.getDefault().getMainWindow());
