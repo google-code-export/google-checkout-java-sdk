@@ -19,10 +19,10 @@ package com.google.checkout.sdk.nbmodule.handlermanager;
 import com.google.checkout.sdk.nbmodule.common.CheckoutConfigManager;
 import com.google.checkout.sdk.nbmodule.common.CheckoutFileWriter;
 import com.google.checkout.sdk.nbmodule.common.FileConverter;
+import com.google.checkout.sdk.nbmodule.common.FileFinder;
 import java.awt.Dialog;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
@@ -82,7 +82,7 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
           (ProjectInformation)p.getLookup().lookup(ProjectInformation.class);
       
       // Find checkout-config.xml
-      FileObject config = findFile("checkout-config.xml", directory);
+      FileObject config = FileFinder.findFile("checkout-config.xml", directory);
       
       // If this project is checkout-integrated, add it to projects
       if (config != null && info != null) {
@@ -120,27 +120,6 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
   /*************************************************************************/
   /*                          UTILITY METHODS                              */
   /*************************************************************************/
-  
-  private FileObject findFile(String name, FileObject file) {
-    if (!file.isFolder()) {
-      // If file is a file, check the name
-      if (file.getNameExt().equals(name)) {
-        return file;
-      } else {
-        return null;
-      }
-    } else {
-      // If the file is a directory, check all children
-      FileObject[] files = file.getChildren();
-      for (int i=0; i<files.length; i++) {
-        file = findFile(name, files[i]);
-        if (file != null) {
-          return file;
-        }
-      }
-      return null;
-    }
-  }
   
   private String getDefaultProjectName() {
     Project defaultProject = OpenProjects.getDefault().getMainProject();
@@ -210,98 +189,6 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
       row[1] = name != null ? (String) name : "";
       callbackTableModel.addRow(row);
     }
-  }
-  
-  private boolean createHandler(NewHandlerPanel panel) {
-    boolean success = true;
-    
-    // Read template
-    String template = readFile(getImplFile(panel.getHandlerImpl()));
-    
-    if (template != null) {
-      // Read basic handler info and get handler type
-      String handlerName = panel.getHandlerName();
-      String handlerPackage = panel.getHandlerPackage();
-      String handlerTypePackage =
-          getNotificationClassFromType(panel.getHandlerType());
-      
-      // Build handler type from the handler type package name
-      String handlerType = handlerTypePackage;
-      int loc = handlerType.lastIndexOf(".") + 1;
-      if (loc >= 0) {
-        handlerType = handlerType.substring(loc);
-      }
-      
-      // Replace things in the template
-      template = template.replace("<name>", handlerName);
-      template = template.replace("<package>", handlerPackage);
-      template = template.replace("<type-package>", handlerTypePackage);
-      template = template.replace("<type>", handlerType);
-      
-      // Write the template to a file
-      try {
-        CheckoutFileWriter.
-            writeFileFromString(template, panel.getHandlerLocation());
-      } catch (IOException ex) {
-        success = false;
-      }
-    } else {
-      success = false;
-    }
-    
-    return success;
-  }
-  
-  private String getImplFile(String name) {
-    // TODO: Look this up from a config file
-    String fileName = null;
-    
-    if (name.equals("Empty Class")) {
-      fileName = "/resources/EmptyHandler.txt";
-    }
-    
-    return fileName;
-  }
-  
-  private String getNotificationClassFromType(String type) {
-    // TODO: Look this up from a config file
-    HashMap types = new HashMap();
-    types.put("new-order-notification", 
-        "com.google.checkout.notification.NewOrderNotification");
-    types.put("risk-information-notification", 
-        "com.google.checkout.notification.RiskInformationNotification");
-    types.put("order-state-change-notification", 
-        "com.google.checkout.notification.OrderStateChangeNotification");
-    types.put("charge-amount-notification", 
-        "com.google.checkout.notification.ChargeAmountNotification");
-    types.put("refund-amount-notification", 
-        "com.google.checkout.notification.RefundAmountNotification");
-    types.put("chargeback-amount-notification", 
-        "com.google.checkout.notification.ChargebackAmountNotification");
-    types.put("authorization-amount-notification", 
-        "com.google.checkout.notification.AuthorizationAmountNotification");
-    types.put("merchant-calculation-callback", 
-        "com.google.checkout.merchantcalculation.MerchantCalculationCallback");
-    
-    return (String) types.get(type);
-  }
-  
-  private String readFile(String filename) {
-    StringBuilder builder = new StringBuilder();
-    InputStream source = getClass().getResourceAsStream(filename);
-    
-    try {
-      // Read from the input stream and write to the string builder
-      int ch;
-      while ((ch = source.read()) != -1) {
-        builder.append((char)ch);
-      }
-      
-      // Close streams
-      source.close();
-    } catch (IOException ex) {}
-    
-    return builder.toString();
   }
   
   /*************************************************************************/
@@ -463,13 +350,15 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
       dialog.setVisible(true);
       dialog.toFront();
       
+      // Get the handler creation data
+      HandlerCreationData handlerData = panel.getHandlerCreationData();
+      
       // Create the new handler
-      // TODO: Better error handling.  Throw custom exception?
-      boolean success = createHandler(panel);
+      boolean success = new HandlerCreator().createHandler(handlerData);
       
       if (!success) {
         // Failure: show error message
-        String msg = "Failed to create " + panel.getHandlerName() + ".java.";
+        String msg = "Failed to create " + handlerData.getHandlerName() + ".java.";
         NotifyDescriptor d = 
             new NotifyDescriptor.Message(msg, NotifyDescriptor.ERROR_MESSAGE);
         DialogDisplayer.getDefault().notify(d);
@@ -477,13 +366,14 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
         // Update Handler Manager if requested
         if (panel.updateHandlerManager()) {
           // Get information
-          String type = panel.getHandlerType();
-          String name = panel.getHandlerPackage() + "." +
-              panel.getHandlerName();
+          String type = handlerData.getHandlerType();
+          String name = handlerData.getHandlerPackage() + "." +
+              handlerData.getHandlerName();
           
           // Select the right table
           DefaultTableModel table;
-          if (((String)panel.getHandlerClass()).equals("Notification")) {
+          if (handlerData.getHandlerClass().
+              equals(HandlerCreationData.NOTIFICATION)) {
             table = notificationTableModel;
           } else {
             table = callbackTableModel;
