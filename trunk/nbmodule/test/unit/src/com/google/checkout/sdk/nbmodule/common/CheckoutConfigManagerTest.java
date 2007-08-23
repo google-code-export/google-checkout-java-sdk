@@ -46,10 +46,10 @@ public class CheckoutConfigManagerTest extends TestCase {
     if (url == null) {
       fail("Could not find test-checkout-config.xml.");
     }
-    File testXml = new File(url.getPath());
+    File testXml = new File(url.getFile());
     instance.setFile(testXml);
     
-    // Test that the read succeeded
+    // Verify that the read succeeded
     boolean expResult = true;
     boolean result = instance.readFile();
     assertEquals(expResult, result);
@@ -86,7 +86,7 @@ public class CheckoutConfigManagerTest extends TestCase {
     if (url == null) {
       fail("Could not find test-checkout-config.xml.");
     }
-    File textXml = new File(url.getPath());
+    File textXml = new File(url.getFile());
     instance.setFile(textXml);
     
     // Setup expected result
@@ -94,7 +94,7 @@ public class CheckoutConfigManagerTest extends TestCase {
     if (url == null) {
       fail("Could not find expected-checkout-config.xml.");
     }
-    File expXml = new File(url.getPath());
+    File expXml = new File(url.getFile());
     String expResult = null;
     try {
       expResult = CheckoutFileReader.readFileAsString(expXml);
@@ -104,9 +104,6 @@ public class CheckoutConfigManagerTest extends TestCase {
     
     // Verify that the expected result is returned by getBody()
     String result = instance.getBody();
-    System.out.println(result);
-    System.out.println(expResult);
-    System.out.println(expResult.startsWith(result) + "  :  " + result.startsWith(expResult));
     assertEquals(expResult, result);
   }
 }

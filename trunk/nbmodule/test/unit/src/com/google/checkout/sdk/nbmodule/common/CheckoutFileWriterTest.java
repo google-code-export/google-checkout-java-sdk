@@ -74,15 +74,14 @@ public class CheckoutFileWriterTest extends TestCase {
   /*************************************************************************/
   
   /**
-   * Creates a temporary file in the resources directory.  This file will be
-   * deleted when the program exits.
+   * Creates a temporary file in the present working directory.  This file will
+   * be deleted when the program exits.
    *
    * @param name The name of the file
    * @return The temporary file
    */
   private File createTempFile(String name) {
-    URL url = getClass().getResource("/resources/");
-    File file = new File(url.getPath(), name);
+    File file = new File(name);
     file.deleteOnExit();
     
     return file;
