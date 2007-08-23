@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
+import org.netbeans.api.project.Project;
 
 public class Integrator {
   // The settings built by the Integration Wizard
@@ -139,6 +140,10 @@ public class Integrator {
         errorMessage = "Could not write checkout-sdk.jar";
       }
     }
+    
+    // Add checkout-sdk.jar to the project's classpath
+    // TODO: Get this to work!  I can't find a way to do this yet...
+    //Project p = settings.getProject();
     
     return success;
   }
