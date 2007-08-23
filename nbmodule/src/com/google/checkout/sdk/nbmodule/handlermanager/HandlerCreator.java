@@ -47,6 +47,24 @@ public class HandlerCreator {
   public boolean createHandler(HandlerCreationData handlerData) {
     boolean success = true;
     
+    String handler = createHandlerAsString(handlerData);
+    
+    if (handler == null) {
+      success = false;
+    } else {
+      // Write the template to a file
+      try {
+        File file = new File(handlerData.getHandlerLocation());
+        CheckoutFileWriter.writeFileFromString(handler, file);
+      } catch (IOException ex) {
+        success = false;
+      }  
+    }
+    
+    return success;
+  }
+  
+  public String createHandlerAsString(HandlerCreationData handlerData) {
     // Read template
     String template = readTemplate(getImplFile(handlerData));
     
@@ -68,20 +86,10 @@ public class HandlerCreator {
       template = template.replace("<name>", handlerName);
       template = template.replace("<package>", handlerPackage);
       template = template.replace("<type-package>", handlerTypePackage);
-      template = template.replace("<type>", handlerType);
-      
-      // Write the template to a file
-      try {
-        File file = new File(handlerData.getHandlerLocation());
-        CheckoutFileWriter.writeFileFromString(template, file);
-      } catch (IOException ex) {
-        success = false;
-      }
-    } else {
-      success = false;
+      template = template.replace("<type>", handlerType);  
     }
     
-    return success;
+    return template;
   }
   
   /**
