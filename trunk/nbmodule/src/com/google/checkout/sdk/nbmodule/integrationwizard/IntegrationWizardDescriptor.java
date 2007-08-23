@@ -18,10 +18,15 @@ package com.google.checkout.sdk.nbmodule.integrationwizard;
 
 import org.openide.WizardDescriptor;
 
+/**
+ * A subclass of WizardDescriptor with the added functionality to store
+ * an Integration Wizard settings object.
+ *
+ * @author David Rubel
+ */
 public class IntegrationWizardDescriptor extends WizardDescriptor {
   private Settings settings;
   
-  /** Creates a new instance of IntegrationWizardDescriptor */
   public IntegrationWizardDescriptor(WizardDescriptor.Panel[] panels) {
     super(panels);
     settings = new Settings();
@@ -34,6 +39,4 @@ public class IntegrationWizardDescriptor extends WizardDescriptor {
   public void setSettings(Settings settings) {
     this.settings = settings;
   }
-  
-  
 }

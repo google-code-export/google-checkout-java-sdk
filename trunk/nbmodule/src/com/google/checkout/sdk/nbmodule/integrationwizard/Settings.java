@@ -20,6 +20,12 @@ import com.google.checkout.sdk.nbmodule.common.CheckoutConfigManager;
 import java.io.File;
 import org.netbeans.api.project.Project;
 
+/**
+ * Stores all of the information required to perform the Checkout Integration.
+ * This classs should be built by the Integration Wizard.
+ *
+ * @author David Rubel
+ */
 public class Settings {
   // Project panel
   private Project project;
@@ -54,6 +60,10 @@ public class Settings {
     samplesDirectory = null;
     launchHandlerManager = true;
   }
+  
+  /*************************************************************************/
+  /*                           PUBLIC ACCESSORS                            */
+  /*************************************************************************/
   
   public Project getProject() {
     return project;
