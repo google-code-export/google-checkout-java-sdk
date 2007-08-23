@@ -16,7 +16,6 @@
 
 package com.google.checkout.sdk.nbmodule.integrationwizard.panels;
 
-import com.google.checkout.sdk.nbmodule.common.FileConverter;
 import com.google.checkout.sdk.nbmodule.integrationwizard.IntegrationWizardDescriptor;
 import com.google.checkout.sdk.nbmodule.integrationwizard.Settings;
 import java.awt.Component;
@@ -32,6 +31,7 @@ import org.netbeans.api.project.ui.OpenProjects;
 import org.openide.WizardDescriptor;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileStateInvalidException;
+import org.openide.filesystems.FileUtil;
 import org.openide.util.HelpCtx;
 import org.openide.windows.WindowManager;
 
@@ -152,7 +152,7 @@ public final class ProjectWizardPanel extends JPanel {
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
       // Generate and show the file chooser
       File file = 
-          FileConverter.getFile(settings.getProject().getProjectDirectory());
+          FileUtil.toFile(settings.getProject().getProjectDirectory());
       JFileChooser jfc = new JFileChooser(file);
       jfc.setDialogTitle("WEB-INF Directory");
       jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
