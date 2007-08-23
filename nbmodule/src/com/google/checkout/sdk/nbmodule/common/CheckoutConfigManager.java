@@ -77,25 +77,18 @@ public class CheckoutConfigManager {
     
     notificationHandlers.put("new-order-notification",
         "com.google.checkout.sdk.NewOrderNotificationHandler");
-    
     notificationHandlers.put("risk-information-notification",
         "com.google.checkout.sdk.RiskInformationNotificationHandler");
-    
     notificationHandlers.put("order-state-change-notification",
         "com.google.checkout.sdk.OrderStateChangeNotificationHandler");
-    
     notificationHandlers.put("charge-amount-notification",
         "com.google.checkout.sdk.ChargeAmountNotificationHandler");
-    
     notificationHandlers.put("refund-amount-notification",
         "com.google.checkout.sdk.RefundAmountNotificationHandler");
-    
     notificationHandlers.put("chargeback-amount-notification",
         "com.google.checkout.sdk.ChargebackAmountNotificationHandler");
-    
     notificationHandlers.put("authorization-amount-notification",
         "com.google.checkout.sdk.AuthorizationAmountNotificationHandler");
-    
     callbackHandlers.put("merchant-calculation-callback",
         "com.google.checkout.sdk.MerchantCalculationCallbackHandler");
     
@@ -152,6 +145,26 @@ public class CheckoutConfigManager {
   
   public void setCurrencyCode(String currencyCode) {
     this.currencyCode = currencyCode;
+  }
+
+  public String getSandboxRoot() {
+    return sandboxRoot;
+  }
+
+  public String getProductionRoot() {
+    return productionRoot;
+  }
+
+  public String getCheckoutSuffix() {
+    return checkoutSuffix;
+  }
+
+  public String getMerchantCheckoutSuffix() {
+    return merchantCheckoutSuffix;
+  }
+
+  public String getRequestSuffix() {
+    return requestSuffix;
   }
   
   /*************************************************************************/
@@ -364,12 +377,12 @@ public class CheckoutConfigManager {
         + "        <merchant-key>" + merchantKey + "</merchant-key>\n"
         + "        <env>" + env + "</env>\n"
         + "        <currency-code>" + currencyCode + "</currency-code>\n"
-        + "        <sandbox-root>" + sandboxRoot + "</sandbox-root>\n"
-        + "        <production-root>" + productionRoot + "</production-root>\n"
-        + "        <checkout-suffix>" + checkoutSuffix + "</checkout-suffix>\n"
-        + "        <merchant-checkout-suffix>" + merchantCheckoutSuffix
+        + "        <sandbox-root>" + getSandboxRoot() + "</sandbox-root>\n"
+        + "        <production-root>" + getProductionRoot() + "</production-root>\n"
+        + "        <checkout-suffix>" + getCheckoutSuffix() + "</checkout-suffix>\n"
+        + "        <merchant-checkout-suffix>" + getMerchantCheckoutSuffix()
         + "</merchant-checkout-suffix>\n"
-        + "        <request-suffix>" + requestSuffix + "</request-suffix>\n"
+        + "        <request-suffix>" + getRequestSuffix() + "</request-suffix>\n"
         + "    </merchant-info>\n";
     
     // Notification handlers

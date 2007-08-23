@@ -17,12 +17,12 @@
 package com.google.checkout.sdk.nbmodule.handlermanager;
 
 import com.google.checkout.sdk.nbmodule.common.CheckoutConfigManager;
-import com.google.checkout.sdk.nbmodule.common.FileConverter;
 import java.io.File;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
 import org.netbeans.api.project.Project;
 import org.netbeans.api.project.ProjectInformation;
+import org.openide.filesystems.FileUtil;
 import org.openide.windows.WindowManager;
 
 public class NewHandlerPanel extends javax.swing.JPanel {
@@ -345,7 +345,7 @@ public class NewHandlerPanel extends javax.swing.JPanel {
     
     private void browseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_browseButtonActionPerformed
       // Generate and show the file chooser
-      File file = FileConverter.getFile(project.getProjectDirectory());
+      File file = FileUtil.toFile(project.getProjectDirectory());
       JFileChooser jfc = new JFileChooser(file);
       jfc.setDialogTitle("WEB-INF Directory");
       jfc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);

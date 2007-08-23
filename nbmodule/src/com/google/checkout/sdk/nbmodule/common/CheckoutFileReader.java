@@ -16,30 +16,41 @@
 
 package com.google.checkout.sdk.nbmodule.common;
 
+import java.io.BufferedReader;
 import java.io.File;
-import org.openide.filesystems.FileObject;
-import org.openide.filesystems.FileStateInvalidException;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
- * A simple file converter, which converts between FileObjects (NetBeans) and
- * Files (Java).
+ * A simple file reader to reduce code duplication.
  *
  * @author David Rubel
  */
-public class FileConverter {
- 
+public class CheckoutFileReader {
+  
   /**
-   * Converts a FileObject into a File.
+   * Reads the given file and returns it's contents as a string.
    *
-   * @param file The NetBeans FileObject
-   * @return The Java File
+   * @param file File to read
+   * @return The contents of the file
    */
-  public static File getFile(FileObject file) {
-    File ret = null;
-    try {
-      ret = new File(file.getURL().getFile());
-    } catch (FileStateInvalidException ex) {}
-    return ret;
+  static public String readFileAsString(File file) throws IOException {
+    BufferedReader reader = new BufferedReader(new FileReader(file));
+    StringBuilder builder = new StringBuilder();
+
+    // Read file
+    String line;
+    while ((line = reader.readLine()) != null) {
+      builder.append(line + "\n");
+    }
+    String contents = builder.toString();
+
+    // Remove trailing new line
+    if (contents.endsWith("\n")) {
+      contents = contents.substring(0, contents.length() - 1);
+    }
+
+    return contents;
   }
   
 }
