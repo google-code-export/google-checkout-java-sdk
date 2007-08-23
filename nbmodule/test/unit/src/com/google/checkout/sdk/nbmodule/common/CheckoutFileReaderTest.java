@@ -41,7 +41,7 @@ public class CheckoutFileReaderTest extends TestCase {
     if (url == null) {
       fail("Could not find test.txt.");
     }
-    File file = new File(url.getPath());
+    File file = new File(url.getFile());
     
     // Verify that the correct contents are read from the file
     String expResult = "Test text\nTesting, 1... 2... 3...";
