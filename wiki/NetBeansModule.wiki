@@ -62,5 +62,15 @@ This manager also allows you to create new java handler classes.  To do so, clic
 
 = Troubleshooting =
 
+=== Why does NetBeans tell me that the package com.google.checkout does not exist? ===
+
+This module doesn't automatically add the newly created checkout-sdk.jar to your project's path (yet).  The simplest solution is to close the project and reopen it, letting NetBeans automatically handle adding the jar.  You could also add the jar manually by right clicking on Libraries, selecting "Add JAR/Folder" and locating checkout-sdk.jar (in your WEB-INF/lib directory).
+
+=== Note: Building the module manually ===
+
+To build this module manually, you must first copy checkout-sdk-0.7.zip to your nbmodule directory and run the ant target "setup."  This needs to be done each time the project is made "clean."  After this, you may build and run just like any other NetBeans project.
+
+=== Other Problems ===
+
 This module is still in early development.  We hope that you will try it out and that it will save you time during your Checkout integration, but if you find problems please report them through the [http://code.google.com/p/google-checkout-java-sdk/issues/list issues] page.  The source code is also available from the [http://code.google.com/p/google-checkout-java-sdk/source source] page, so if you understand a problem and can fix it, you're welcome update the code and submit a patch.  This is a community supported project, so your contributions are greatly appreciated!
 
