@@ -39,21 +39,11 @@ public class HandlerCreatorTest extends TestCase {
   public void testCreateEmptyHandler() {
     System.out.println("createHandler with empty class template");
   
-    // Setup handler location
-    URL url = getClass().getResource("/resources/");
-    if (url == null) {
-      fail("Could not find resources directory.");
-    }
-    File loc = new File(url.getFile());
-    if (!loc.isDirectory()) {
-      fail("Resources directory is not a directory.");
-    }
-    
     // Setup handler creation data
     HandlerCreationData handlerData = new HandlerCreationData();
     handlerData.setHandlerName("TempHandler");
     handlerData.setHandlerPackage("com.google.test");
-    handlerData.setHandlerLocation(loc.getPath());
+    handlerData.setHandlerLocation("");
     handlerData.setHandlerClass(HandlerCreationData.NOTIFICATION);
     handlerData.setHandlerType("new-order-notification");
     handlerData.setHandlerImpl(HandlerCreationData.EMPTY_CLASS);
@@ -66,7 +56,7 @@ public class HandlerCreatorTest extends TestCase {
     assertNotNull(result);
     
     // Get the expected result
-    url = getClass().getResource("/resources/expected-temp-handler.txt");
+    URL url = getClass().getResource("/resources/expected-temp-handler.txt");
     if (url == null) {
       fail("Could not find expected-temp-handler.txt.");
     }

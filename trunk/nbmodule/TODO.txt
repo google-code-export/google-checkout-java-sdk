@@ -1,5 +1,3 @@
-********************************************************************************
-
 Master TODO list:
 
 1. Find a way to add checkout-sdk.jar to the project's classpath during
@@ -43,3 +41,16 @@ location is a valid directory
 to indicate success, but this should probably be handled by throwing custom
 exceptions.  The best example of this is Integrator.java, which could use
 these custom exceptions to generate error messages for the user.
+
+
+5. Look into getting the module signed, for ease of installation.
+NOTE: The version must be increased to allow users to update the modules
+through netbeans.  This can be done by right-clicking on the project
+("Google Checkout SDK Integration") and selecting Properties and updating
+the "Specification Version" number in the "API Versioning" node.
+
+6. Enable help buttons throughout the Wizard panels.
+
+7. Show some type of warning if you are running the Integration Wizard on
+a project that has already been integrated (contains a checkout-config.xml
+file).
