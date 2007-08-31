@@ -2,12 +2,12 @@
 
 = Introduction =
 
-In an effort to make Checkout integration as easy as possible, we are now creating a NetBeans module that will allow you to integrate Checkout SDK through a simple wizard and manage your Checkout handlers through a simple UI.  This project is available as a distributable NetBeans Module and works with NetBeans 5.5.1 and greater.
+In an effort to make Checkout integration as easy as possible, we are now creating a NetBeans module that will allow you to integrate Checkout SDK through a simple wizard and manage your Checkout handlers through a simple UI.  This project is available as a distributable !NetBeans Module and works with !NetBeans 5.5.1 and greater.
 
 = Installing the Module =
 
   # Get the most recent .nbm file from the [http://code.google.com/p/google-checkout-java-sdk/downloads/list downloads] section.
-  # Open NetBeans and go to the Update Center (Tools -> Update Center).
+  # Open !NetBeans and go to the Update Center (Tools -> Update Center).
   # Select "Install Manually Downloaded Modules (.nbm File)" and click Next.
   # Press "Add...", select the .nbm file you downloaded earlier, click Okay and then click Next.
   # You should see "Google Checkout SDK Integration" in the "Include in Install" area.  You can also read some information about the module at the bottom of the screen.  Click Next to continue.
@@ -22,7 +22,7 @@ Using this module can be divided into two clear steps: initial integration and a
 
 == Initial Integration (Integration Wizard) ==
 
-Before you can being integration, you must first load your web application into NetBeans.  You could do this by creating a new Web Application and starting from scratch, or by creating a Web Application with Existing Sources and importing your existing web application.  From here out, we will assume that you have this project created correctly.
+Before you can being integration, you must first load your web application into !NetBeans.  You could do this by creating a new Web Application and starting from scratch, or by creating a Web Application with Existing Sources and importing your existing web application.  From here out, we will assume that you have this project created correctly.
 
 To begin, go to Tools -> Checkout SDK | Integration Wizard.  This will launch the Integration Wizard, which will guide you through the steps to integrate Checkout SDK.
 
@@ -68,9 +68,8 @@ This module doesn't automatically add the newly created checkout-sdk.jar to your
 
 === Note: Building the module manually ===
 
-To build this module manually, you must first copy checkout-sdk-0.7.zip to your nbmodule directory and run the ant target "setup."  This needs to be done each time the project is made "clean."  After this, you may build and run just like any other NetBeans project.
+To build this module manually, you must first copy checkout-sdk-0.7.zip to your nbmodule directory and run the ant target "setup."  This needs to be done each time the project is made "clean."  After this, you may build and run just like any other !NetBeans project.
 
 === Other Problems ===
 
 This module is still in early development.  We hope that you will try it out and that it will save you time during your Checkout integration, but if you find problems please report them through the [http://code.google.com/p/google-checkout-java-sdk/issues/list issues] page.  The source code is also available from the [http://code.google.com/p/google-checkout-java-sdk/source source] page, so if you understand a problem and can fix it, you're welcome update the code and submit a patch.  This is a community supported project, so your contributions are greatly appreciated!
-
