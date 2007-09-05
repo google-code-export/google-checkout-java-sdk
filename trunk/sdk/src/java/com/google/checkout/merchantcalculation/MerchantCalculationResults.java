@@ -164,7 +164,16 @@ public class MerchantCalculationResults {
     }
   }
 
-/**
+  /**
+   * Returns the document representing the CheckoutShoppingCartRequest
+   *
+   * @return The document representing the CheckoutShoppingCartRequest
+   */
+  protected Document getDocument() {
+    return document;
+  }
+  
+ /**
   * Return the XML String.
   * 
   * @return The XML String.
