@@ -1047,6 +1047,13 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
       eParam.setAttribute("type", param.getParamType().toString());
     }
   }
+  
+  /**
+   * Returns the document representing the CheckoutShoppingCartRequest
+   */
+  protected Document getDocument() {
+    return document;
+  }
 
   /*
    * (non-Javadoc)
