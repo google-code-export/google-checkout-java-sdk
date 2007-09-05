@@ -40,13 +40,13 @@ import com.google.checkout.util.Utils;
  */
 public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
 
-  Document document;
+  private Document document;
 
-  Element root;
+  private Element root;
 
-  Element shoppingCart;
+  private Element shoppingCart;
 
-  Element checkoutFlowSupport;
+  private Element checkoutFlowSupport;
 
   /**
    * Constructor which takes an instance of mi.
