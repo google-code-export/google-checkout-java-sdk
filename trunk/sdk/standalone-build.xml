@@ -17,6 +17,11 @@
     <mkdir dir="${build.classes.dir}"/>
     <javac srcdir="src" destdir="${build.classes.dir}" 
            classpath="${build.classpath}" source="1.4" target="1.4"/>
+    <copy todir="${build.classes.dir}">
+      <fileset dir="src/java">
+        <include name="**/*.xsl" />
+      </fileset>
+    </copy>
   </target>
   
   <target name="war" depends="init,compile">
