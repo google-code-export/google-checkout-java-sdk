@@ -60,6 +60,10 @@ The Handler Manager is a tool with allows you to manage Checkout handlers in a w
 
 This manager also allows you to create new java handler classes.  To do so, click on the "Create New Handler" button in the bottom left of the screen.  This will bring up another dialog which asks for the name, location and package name of the new class.  You can also select the message class (notification or callback), message type and implementation.  Currently only empty implementations are supported, but others may be included in future releases.  If selected, the last option (Update Handler Manager) will automatically update the tables in the Handler Manager with the new class name.
 
+== Assigning Application Server ==
+
+In the build.properties file (located in the main directory along with build.xml), modify the tomcat.home value to point to your installation of tomcat or change the servlet-api-jar.path to point to a suitable path if you want to use a different application server.
+
 = Troubleshooting =
 
 === Why does !NetBeans tell me that the package com.google.checkout does not exist? ===
