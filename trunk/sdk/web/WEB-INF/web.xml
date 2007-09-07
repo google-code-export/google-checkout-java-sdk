@@ -32,7 +32,7 @@
     <display-name>CheckoutNotificationServlet</display-name>
     <servlet-name>CheckoutNotificationServlet</servlet-name>
     <servlet-class>
-      com.google.checkout.sdk.CheckoutMessageHandlerServlet
+      com.google.checkout.web.CheckoutMessageHandlerServlet
     </servlet-class>
     <init-param>
       <param-name>handler-type</param-name>
@@ -48,7 +48,7 @@
     <display-name>CheckoutCallbackServlet</display-name>
     <servlet-name>CheckoutCallbackServlet</servlet-name>
     <servlet-class>
-      com.google.checkout.sdk.CheckoutMessageHandlerServlet
+      com.google.checkout.web.CheckoutMessageHandlerServlet
     </servlet-class>
     <init-param>
       <param-name>handler-type</param-name>
