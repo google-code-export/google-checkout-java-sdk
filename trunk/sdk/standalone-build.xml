@@ -43,6 +43,7 @@
   <target name="javadoc" depends="init,compile">
   	<mkdir dir="${javadoc.dir}"/>
     <javadoc sourcepath="src/java" destdir="${javadoc.dir}" 
+             classpath="${build.classpath}"
              packagenames="com.google.*" 
              Windowtitle="Google Java Checkout SDK API"
   	     Doctitle="Google Java Checkout API"/>
