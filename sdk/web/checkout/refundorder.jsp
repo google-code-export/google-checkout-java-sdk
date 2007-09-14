@@ -39,8 +39,11 @@
     MerchantInfo mi = (MerchantInfo) getServletContext().getAttribute("merchant-info");
     
     RefundOrderRequest refundRequest;
-    String orderNumber = request.getParameter("orderNumber") == null ? "" : request.getParameter("orderNumber");
-    float amount = request.getParameter("amount") == null ? 0f : Float.parseFloat(request.getParameter("amount"));
+    String orderNumber = request.getParameter("orderNumber").equals("null") ? "" 
+        : request.getParameter("orderNumber");
+    float amount = request.getParameter("amount").equals("null") ? 0f 
+        : Float.parseFloat(request.getParameter("amount"));
+
     String comment = "comment";
     String reason = "reason";
     
