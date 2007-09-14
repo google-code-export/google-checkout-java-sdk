@@ -45,7 +45,7 @@
     <copy file="lib/build.properties.sample" 
           tofile="${sdkdist.dir}/project/build.properties" />
     <mkdir dir="${sdkdist.dir}/samples"/>
-    <copy todir="${sdkdist.dir}/">
+    <copy todir="${sdkdist.dir}/samples">
       <fileset dir="../samples">
         <exclude name="**/build/**" />
         <exclude name="**/dist/**" />
