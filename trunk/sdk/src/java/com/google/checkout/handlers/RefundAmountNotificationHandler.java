@@ -22,7 +22,6 @@ import com.google.checkout.MerchantInfo;
 import com.google.checkout.notification.RefundAmountNotification;
 
 /**
- * TODO
  * 
  * @author simonjsmith
  * @author inder

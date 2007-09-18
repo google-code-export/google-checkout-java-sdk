@@ -22,10 +22,9 @@ import com.google.checkout.MerchantInfo;
 import com.google.checkout.notification.AuthorizationAmountNotification;
 
 /**
- * TODO
  * 
  * @author simonjsmith
- * @author Inderjeet Singh (inde@google.com)
+ * @author Inderjeet Singh (inder@google.com)
  */
 public class AuthorizationAmountNotificationHandler implements MessageHandler {
 

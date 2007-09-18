@@ -22,7 +22,6 @@ import com.google.checkout.MerchantInfo;
 import com.google.checkout.notification.ChargebackAmountNotification;
 
 /**
- * TODO
  * 
  * @author simonjsmith
  * @author Inderjeet Singh (inder@google.com)
