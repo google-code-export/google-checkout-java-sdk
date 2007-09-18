@@ -29,7 +29,6 @@ import java.util.Collection;
 import java.util.Iterator;
 
 /**
- * TODO
  *
  * @author simonjsmith
  * @author inder

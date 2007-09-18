@@ -13,7 +13,6 @@
     <mkdir dir="${sdkdist.dir}" />
     <jar basedir="${build.classes.dir}" 
          zipfile="${sdkdist.dir}/checkout-sdk.jar"/>
-    <mkdir dir="${sdkdist.dir}/lib" />
     <copy file="docs/index.html" todir="${sdkdist.dir}" />
     <copy file="docs/release-notes.html" todir="${sdkdist.dir}" />
     <copy todir="${sdkdist.dir}">
@@ -21,7 +20,7 @@
         <include name="web/**"/>
       </fileset>      
     </copy>
-    <copy todir="${sdkdist.dir}/docs/javadoc">
+    <copy todir="${sdkdist.dir}/javadoc">
       <fileset dir="${javadoc.dir}" />
     </copy>
     <copy todir="${sdkdist.dir}/project">
@@ -30,7 +29,7 @@
         <include name=".settings" />
         <include name=".project" />
         <include name=".classpath" />
-        <include name="nbproject" />
+        <include name="**/nbproject/**" />
         <include name="build.xml"/>
         <include name="standalone-build.xml"/>
         <include name="**/test/**"/>
@@ -50,6 +49,7 @@
         <exclude name="**/build/**" />
         <exclude name="**/dist/**" />
         <exclude name="**/nbproject/private/**" />
+        <exclude name="**/build.properties" />
         <exclude name="**/nbproject/genfiles.properties" />
       </fileset>
     </copy>
