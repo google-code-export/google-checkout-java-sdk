@@ -1,0 +1,65 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" 
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Using Google Checkout SDK</title>
+</head>
+<body>
+<h1>Using Google Checkout SDK</h1>
+<p>The <a href="http://code.google.com/p/google-checkout-java-sdk/">Google
+Checkout API Java SDK</a> provides a library and instructions to integrate
+Google Checkout XML APIs in your Web applications. The <a
+	href="release-notes.html">release notes</a> document the updates in
+this release.<br>
+</p>
+<h3>Using the SDK</h3>
+The remainder of the instructions assume that you unzipped the checkout
+sdk at checkout-sdk/ directory. Here are the steps to use this SDK:
+
+<ol>
+	<li>Copy checkout-sdk.jar to your WEB-INF/lib</li>
+	<li>Copy checkout-sdk/web/WEB-INF/checkout-config.xml to your
+	WEB-INF/ directory</li>
+	<li>Edit your WEB-INF/web.xml and cut-and-paste the contents from
+	web/WEB-INF/web.xml
+	<ol>
+		<li>If you need to add additional handlers to process checkout
+		notifications, edit checkout-config.xml and change default value of
+		the handlers to your classes.</li>
+		<li>Use <a href="javadoc/index.html">Checkout SDK Javadocs</a>
+		to extend notification handlers</li>
+		<li>The Checkout SDK Source code is available under the project/ directory 
+		if you need to learn how the notification handlers work</li>
+	</ol>
+	</li>
+	<li>Copy over the contents of web/checkout to a suitable directory in your 
+	application. For example, web/checkout</li>
+	<li>Your application is now ready to use Google Checkout APIs.
+	Deploy it on tomcat or another application server to test the
+	integration.</li>
+</ol>
+
+<h3>Building the Source-code</h3>
+The source-code for Checkout SDK is included in the project/ directory.
+<ul>
+	<li>To run it from NetBeans, just load up the project/ directory
+	as a NetBeans project. Configure tomcat, and deploy the application to
+	run it.</li>
+	<li>To build the application from command-line, cd to the project/
+	directory and follow these steps:
+	<ol>
+		<li>Edit build.properties and adjust the value of tomcat.home to
+		point to your Tomcat installation. If you intend to use a different
+		application server, you can ignore the tomcat.home variable, and
+		instead adjust the servlet-api-jar.path property directly to point to
+		the location of servlet-api.jar</li>
+		<li>Make sure that you have ant installed, and run ant -f
+		standalone-build.xml</li>
+		<li>Check dist/ directory to see newly created checkout-sdk.jar
+		and checkout-war.jar</li>
+	</ol>
+	</li>
+</ul>
+</body>
+</html>
