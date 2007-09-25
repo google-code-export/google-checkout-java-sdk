@@ -98,7 +98,11 @@
       responseXml = "";
       redirectUrl = "";
     } else if (button.equals("Submit")) {
+      
       cart = (CheckoutShoppingCartRequest) session.getAttribute("cart");
+      cart = new CheckoutShoppingCartRequest(mi, request.getParameter("cart"));
+      session.setAttribute("cart", cart);
+      
       CheckoutResponse res = cart.send();
       prettyXml = cart.getXmlPretty();
       responseXml = res.getXmlPretty();
