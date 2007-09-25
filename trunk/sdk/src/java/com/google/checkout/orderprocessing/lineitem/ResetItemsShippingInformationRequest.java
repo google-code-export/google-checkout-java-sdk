@@ -25,10 +25,11 @@ import com.google.checkout.util.Constants;
 import com.google.checkout.util.Utils;
 
 /**
- * This class contains methods that construct &lt;reset-items-shipping-information&gt; API
- * requests.
+ * This class contains methods that construct
+ * &lt;reset-items-shipping-information&gt; API requests.
  */
-public class ResetItemsShippingInformationRequest extends AbstractCheckoutRequest {
+public class ResetItemsShippingInformationRequest extends
+    AbstractCheckoutRequest {
 
   private final Document document;
 
@@ -39,7 +40,8 @@ public class ResetItemsShippingInformationRequest extends AbstractCheckoutReques
 
     document = Utils.newEmptyDocument();
     root =
-        document.createElementNS(Constants.checkoutNamespace, "reset-items-shipping-information");
+        document.createElementNS(Constants.checkoutNamespace,
+            "reset-items-shipping-information");
     root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
         Constants.checkoutNamespace);
     document.appendChild(root);
@@ -48,12 +50,13 @@ public class ResetItemsShippingInformationRequest extends AbstractCheckoutReques
   /**
    * Constructor which takes an instance of mi and the Google Order Number.
    */
-  public ResetItemsShippingInformationRequest(MerchantInfo mi, String googleOrderNo) {
+  public ResetItemsShippingInformationRequest(MerchantInfo mi,
+      String googleOrderNo) {
 
     this(mi);
     this.setGoogleOrderNo(googleOrderNo);
   }
-  
+
   /**
    * Set the Google Order Number, which is the value of the google-order-number
    * attribute on the root tag.
@@ -102,7 +105,7 @@ public class ResetItemsShippingInformationRequest extends AbstractCheckoutReques
   public String getPostUrl() {
     return mi.getRequestUrl();
   }
-  
+
   /**
    * True if an email is to be sent to the buyer. This is the value of the
    * &lt;send-email&gt; tag.
@@ -112,7 +115,7 @@ public class ResetItemsShippingInformationRequest extends AbstractCheckoutReques
   public boolean isSendEmail() {
     return Utils.getElementBooleanValue(document, root, "send-email");
   }
-  
+
   /**
    * True if an email is to be sent to the buyer. This is the value of the
    * &lt;send-email&gt; tag.
@@ -124,7 +127,7 @@ public class ResetItemsShippingInformationRequest extends AbstractCheckoutReques
     Utils.findElementAndSetElseCreateAndSet(document, root, "send-email",
         sendEmail);
   }
-  
+
   /**
    * Add the merchantItemId which is to be reset.
    * 
@@ -133,6 +136,7 @@ public class ResetItemsShippingInformationRequest extends AbstractCheckoutReques
   public void addItem(String merchantItemId) {
     Element idsTag = Utils.findContainerElseCreate(document, root, "item-ids");
     Element idTag = Utils.createNewContainer(document, idsTag, "item-id");
-    Utils.createNewElementAndSet(document, idTag, "merchant-item-id", merchantItemId);    
+    Utils.createNewElementAndSet(document, idTag, "merchant-item-id",
+        merchantItemId);
   }
 }

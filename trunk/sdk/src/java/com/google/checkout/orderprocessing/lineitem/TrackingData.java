@@ -17,44 +17,43 @@
 package com.google.checkout.orderprocessing.lineitem;
 
 /**
- * This class encapsulates tracking data information used as part of the line item shipping API.
+ * This class encapsulates tracking data information used as part of the line
+ * item shipping API.
  * 
  * @author simonjsmith@google.com
  */
 public class TrackingData {
 
-    private final String carrier;
+  private final String carrier;
 
-    private final String trackingNumber;
+  private final String trackingNumber;
 
-    /**
-     * Constructor which takes the parameter carrier and trackingNumber.
-     * 
-     * @param carrier
-     *            The parameter carrier.
-     * @param trackingNumber
-     *            The parameter trackingNumber.
-     */
-    public TrackingData(String carrier, String trackingNumber) {
-        this.carrier = carrier;
-        this.trackingNumber = trackingNumber;
-    }
+  /**
+   * Constructor which takes the parameter carrier and trackingNumber.
+   * 
+   * @param carrier The parameter carrier.
+   * @param trackingNumber The parameter trackingNumber.
+   */
+  public TrackingData(String carrier, String trackingNumber) {
+    this.carrier = carrier;
+    this.trackingNumber = trackingNumber;
+  }
 
-    /**
-     * Get the carrier.
-     * 
-     * @return The carrier.
-     */
-    public String getCarrier() {
-        return carrier;
-    }
+  /**
+   * Get the carrier.
+   * 
+   * @return The carrier.
+   */
+  public String getCarrier() {
+    return carrier;
+  }
 
-    /**
-     * Get the tracking number.
-     * 
-     * @return The tracking number.
-     */
-    public String getTrackingNumber() {
-        return trackingNumber;
-    }
+  /**
+   * Get the tracking number.
+   * 
+   * @return The tracking number.
+   */
+  public String getTrackingNumber() {
+    return trackingNumber;
+  }
 }

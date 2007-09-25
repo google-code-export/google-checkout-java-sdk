@@ -30,9 +30,9 @@ import com.google.checkout.util.Utils;
  */
 public class AnonymousAddress {
 
-  private Document document;
+  private final Document document;
 
-  private Element element;
+  private final Element element;
 
   /**
    * A constructor which takes the document and element pointing to the
@@ -47,7 +47,7 @@ public class AnonymousAddress {
   }
 
   /**
-   * Retrive the contents of the &lt;city&gt; tag.
+   * Retrieve the contents of the &lt;city&gt; tag.
    * 
    * @return The city.
    */
@@ -56,7 +56,7 @@ public class AnonymousAddress {
   }
 
   /**
-   * Retrive the contents of the &lt;country-code&gt; tag.
+   * Retrieve the contents of the &lt;country-code&gt; tag.
    * 
    * @return The Country Code.
    */
@@ -65,7 +65,7 @@ public class AnonymousAddress {
   }
 
   /**
-   * Retrive the contents of the &lt;id&gt; tag.
+   * Retrieve the contents of the &lt;id&gt; tag.
    * 
    * @return The id.
    */
@@ -74,7 +74,7 @@ public class AnonymousAddress {
   }
 
   /**
-   * Retrive the contents of the &lt;postal-code&gt; tag.
+   * Retrieve the contents of the &lt;postal-code&gt; tag.
    * 
    * @return The Postal Code.
    */
@@ -83,7 +83,7 @@ public class AnonymousAddress {
   }
 
   /**
-   * Retrive the contents of the &lt;region&gt; tag.
+   * Retrieve the contents of the &lt;region&gt; tag.
    * 
    * @return The Region.
    */

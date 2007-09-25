@@ -25,8 +25,7 @@ import com.google.checkout.util.Constants;
 import com.google.checkout.util.Utils;
 
 /**
- * This class contains methods that construct &lt;ship-items&gt; API
- * requests.
+ * This class contains methods that construct &lt;ship-items&gt; API requests.
  */
 public class ShipItemsRequest extends AbstractCheckoutRequest {
 
@@ -38,8 +37,7 @@ public class ShipItemsRequest extends AbstractCheckoutRequest {
     super(mi);
 
     document = Utils.newEmptyDocument();
-    root =
-        document.createElementNS(Constants.checkoutNamespace, "ship-items");
+    root = document.createElementNS(Constants.checkoutNamespace, "ship-items");
     root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
         Constants.checkoutNamespace);
     document.appendChild(root);
@@ -53,7 +51,7 @@ public class ShipItemsRequest extends AbstractCheckoutRequest {
     this(mi);
     this.setGoogleOrderNo(googleOrderNo);
   }
-  
+
   /**
    * Set the Google Order Number, which is the value of the google-order-number
    * attribute on the root tag.
@@ -102,7 +100,7 @@ public class ShipItemsRequest extends AbstractCheckoutRequest {
   public String getPostUrl() {
     return mi.getRequestUrl();
   }
-  
+
   /**
    * True if an email is to be sent to the buyer. This is the value of the
    * &lt;send-email&gt; tag.
@@ -112,7 +110,7 @@ public class ShipItemsRequest extends AbstractCheckoutRequest {
   public boolean isSendEmail() {
     return Utils.getElementBooleanValue(document, root, "send-email");
   }
-  
+
   /**
    * True if an email is to be sent to the buyer. This is the value of the
    * &lt;send-email&gt; tag.
@@ -124,7 +122,7 @@ public class ShipItemsRequest extends AbstractCheckoutRequest {
     Utils.findElementAndSetElseCreateAndSet(document, root, "send-email",
         sendEmail);
   }
-  
+
   /**
    * Add the item shipping information.
    * 
@@ -132,11 +130,13 @@ public class ShipItemsRequest extends AbstractCheckoutRequest {
    * @param carrier
    * @param trackingNumber
    */
-  
-  public void addItemShippingInformation(String merchantItemId, String carrier, String trackingNumber) {
-    addItemShippingInformation(merchantItemId, new TrackingData[] {new TrackingData(carrier, trackingNumber)});  
+
+  public void addItemShippingInformation(String merchantItemId, String carrier,
+      String trackingNumber) {
+    addItemShippingInformation(merchantItemId,
+        new TrackingData[] {new TrackingData(carrier, trackingNumber)});
   }
-  
+
   /**
    * Add the item shipping information.
    * 
@@ -145,17 +145,27 @@ public class ShipItemsRequest extends AbstractCheckoutRequest {
    * 
    * @see TrackingData
    */
-  public void addItemShippingInformation(String merchantItemId, TrackingData[] trackingData) {
-    Element listTag = Utils.findContainerElseCreate(document, root, "item-shipping-information-list");
-    Element itemTag = Utils.createNewContainer(document, listTag, "item-shipping-information");
+  public void addItemShippingInformation(String merchantItemId,
+      TrackingData[] trackingData) {
+    Element listTag =
+        Utils.findContainerElseCreate(document, root,
+            "item-shipping-information-list");
+    Element itemTag =
+        Utils
+            .createNewContainer(document, listTag, "item-shipping-information");
     Element idTag = Utils.createNewContainer(document, itemTag, "item-id");
-    Utils.createNewElementAndSet(document, idTag, "merchant-item-id", merchantItemId);
-    
-    Element trackListTag = Utils.createNewContainer(document, itemTag, "tracking-data-list");   
+    Utils.createNewElementAndSet(document, idTag, "merchant-item-id",
+        merchantItemId);
+
+    Element trackListTag =
+        Utils.createNewContainer(document, itemTag, "tracking-data-list");
     for (int i = 0; i < trackingData.length; i++) {
-      Element trackTag = Utils.createNewContainer(document, trackListTag, "tracking-data");
-      Utils.createNewElementAndSet(document, trackTag, "carrier", trackingData[i].getCarrier());
-      Utils.createNewElementAndSet(document, trackTag, "tracking-number", trackingData[i].getTrackingNumber());
+      Element trackTag =
+          Utils.createNewContainer(document, trackListTag, "tracking-data");
+      Utils.createNewElementAndSet(document, trackTag, "carrier",
+          trackingData[i].getCarrier());
+      Utils.createNewElementAndSet(document, trackTag, "tracking-number",
+          trackingData[i].getTrackingNumber());
     }
-  }  
+  }
 }
