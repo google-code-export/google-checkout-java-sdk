@@ -241,22 +241,32 @@ public class NewOrderNotification extends CheckoutNotification {
         Utils.findElementOrContainer(document, root, "order-adjustment");
     Element shipping = Utils.findElementOrContainer(document, oa, "shipping");
 
-    Element e = Utils.findElementOrContainer(document, shipping,
+    Element e =
+        Utils.findElementOrContainer(document, shipping,
             "merchant-calculated-shipping-adjustment");
     if (e != null) {
       return new MerchantCalculatedShippingAdjustment(document, e);
     }
 
-    e = Utils.findElementOrContainer(document, shipping,
+    e =
+        Utils.findElementOrContainer(document, shipping,
             "flat-rate-shipping-adjustment");
     if (e != null) {
       return new FlatRateShippingAdjustment(document, e);
     }
 
-    e = Utils.findElementOrContainer(document, shipping,
+    e =
+        Utils.findElementOrContainer(document, shipping,
             "pickup-shipping-adjustment");
     if (e != null) {
       return new PickupShippingAdjustment(document, e);
+    }
+
+    e =
+        Utils.findElementOrContainer(document, shipping,
+            "carrier-calculated-shipping-adjustment");
+    if (e != null) {
+      return new CarrierCalculatedShippingAdjustment(document, e);
     }
 
     return null;

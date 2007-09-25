@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,6 +55,10 @@ import javax.xml.transform.stream.StreamSource;
  */
 
 public class Utils {
+
+  public static DecimalFormat decimalFormat =
+      new DecimalFormat("#,###,###,##0.00");
+  public static NumberFormat integerFormat = NumberFormat.getIntegerInstance();
 
   public static Document newEmptyDocument() {
     DocumentBuilderFactory factory = null;
@@ -135,8 +141,14 @@ public class Utils {
 
   public static Element findElementAndSetElseCreateAndSet(Document document,
       Element parent, String child, float value) {
-    return findElementAndSetElseCreateAndSet(document, parent, child, ""
-        + value);
+    return findElementAndSetElseCreateAndSet(document, parent, child,
+        decimalFormat.format(value));
+  }
+
+  public static Element findElementAndSetElseCreateAndSet(Document document,
+      Element parent, String child, int value) {
+    return findElementAndSetElseCreateAndSet(document, parent, child,
+        integerFormat.format(value));
   }
 
   public static Element createNewElementAndSet(Document document,
@@ -159,14 +171,14 @@ public class Utils {
 
   public static Element createNewElementAndSet(Document document,
       Element parent, String childElement, float childValue) {
-    return createNewElementAndSet(document, parent, childElement, ""
-        + childValue);
+    return createNewElementAndSet(document, parent, childElement, decimalFormat
+        .format(childValue));
   }
 
   public static Element createNewElementAndSet(Document document,
       Element parent, String childElement, int childValue) {
-    return createNewElementAndSet(document, parent, childElement, ""
-        + childValue);
+    return createNewElementAndSet(document, parent, childElement, integerFormat
+        .format(childValue));
   }
 
   public static Element createNewElementAndSet(Document document,
@@ -177,8 +189,8 @@ public class Utils {
 
   public static Element createNewElementAndSet(Document document,
       Element parent, String childElement, double childValue) {
-    return createNewElementAndSet(document, parent, childElement, ""
-        + childValue);
+    return createNewElementAndSet(document, parent, childElement, decimalFormat
+        .format(childValue));
   }
 
   public static String getElementStringValue(Document document, Element parent,

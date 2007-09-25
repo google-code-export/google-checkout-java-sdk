@@ -41,7 +41,7 @@ public class MerchantCodeString {
   }
 
   /**
-   * Retrive the contents of the code attribute.
+   * Retrieve the contents of the code attribute.
    * 
    * @return The code.
    */
@@ -59,7 +59,7 @@ public class MerchantCodeString {
   }
 
   /**
-   * Retrive the contents of the pin attribute.
+   * Retrieve the contents of the pin attribute.
    * 
    * @return The pin.
    */

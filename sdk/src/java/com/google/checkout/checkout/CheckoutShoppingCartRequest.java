@@ -40,13 +40,13 @@ import com.google.checkout.util.Utils;
  */
 public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
 
-  private Document document;
+  private final Document document;
 
-  private Element root;
+  private final Element root;
 
-  private Element shoppingCart;
+  private final Element shoppingCart;
 
-  private Element checkoutFlowSupport;
+  private final Element checkoutFlowSupport;
 
   /**
    * Constructor which takes an instance of mi.
@@ -264,6 +264,23 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
       Utils.createNewElementAndSet(document, item, "tax-table-selector",
           taxTableSelector);
     }
+  }
+
+  /**
+   * This method adds an item to an order. This method handles items that have
+   * &lt;merchant-private-item-data&gt; XML blocks associated with them.
+   * 
+   * @param item The Item object.
+   * 
+   * @see Item
+   */
+  public void addItem(Item item) {
+
+    Element items =
+        Utils.findContainerElseCreate(document, shoppingCart, "items");
+
+    Utils
+        .importElements(document, items, new Element[] {item.getRootElement()});
   }
 
   /**
@@ -1047,7 +1064,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
       eParam.setAttribute("type", param.getParamType().toString());
     }
   }
-  
+
   /**
    * Returns the document representing the CheckoutShoppingCartRequest
    */
@@ -1155,5 +1172,129 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
         .toString());
     Utils.findElementAndSetElseCreateAndSet(document, policy, "mode", mode
         .toString());
+  }
+
+  /**
+   * Add a &lt;carrier-calculated-shipping&gt; element. See the carrier
+   * calculated shipping docs for more information on this feature.
+   * 
+   * @param price The default price.
+   * @param shippingCompany The shipping company, see docs for supported
+   *        companies.
+   * @param carrierPickup The carrier pickup type.
+   * @param shippingType The shipping type, see docs for supported types.
+   * @param additionalFixedCharge An additional fixed charge.
+   * @param additionalVariableChargePercent A variable charge percent.
+   * 
+   * @see CarrierPickup
+   */
+  public void addCarrierCalculatedShippingOption(float price,
+      String shippingCompany, CarrierPickup carrierPickup, String shippingType,
+      float additionalFixedCharge, float additionalVariableChargePercent) {
+    Element mcfs =
+        Utils.findContainerElseCreate(document, checkoutFlowSupport,
+            "merchant-checkout-flow-support");
+    Element shippingMethods =
+        Utils.findContainerElseCreate(document, mcfs, "shipping-methods");
+
+    Element ccShip =
+        Utils.findContainerElseCreate(document, shippingMethods,
+            "carrier-calculated-shipping");
+
+    Element ccShipOps =
+        Utils.findContainerElseCreate(document, ccShip,
+            "carrier-calculated-shipping-options");
+
+    Element newShip =
+        Utils.createNewContainer(document, ccShipOps,
+            "carrier-calculated-shipping-option");
+
+    Element priceElement =
+        Utils.createNewElementAndSet(document, newShip, "price", price);
+    priceElement.setAttribute("currency", mi.getCurrencyCode());
+
+    Utils.createNewElementAndSet(document, newShip, "shipping-company",
+        shippingCompany);
+
+    if (carrierPickup != null) {
+      Utils.createNewElementAndSet(document, newShip, "carrier-pickup",
+          carrierPickup.toString());
+    }
+
+    Utils.createNewElementAndSet(document, newShip, "shipping-type",
+        shippingType);
+
+    Element fixedCharge =
+        Utils.createNewElementAndSet(document, newShip,
+            "additional-fixed-charge", additionalFixedCharge);
+    fixedCharge.setAttribute("currency", mi.getCurrencyCode());
+
+    Utils.createNewElementAndSet(document, newShip,
+        "additional-variable-charge-percent", additionalVariableChargePercent);
+  }
+
+  /**
+   * Add a &lt;shipping-package&gt; element. See the carrier calculated shipping
+   * docs for more information on this feature.
+   * 
+   * @param deliveryAddressCategory The delivery address category.
+   * @param heightUnit The height unit.
+   * @param heightValue The height value.
+   * @param widthUnit The width unit.
+   * @param widthValue The width value.
+   * @param lengthUnit The length unit.
+   * @param lengthValue The length value.
+   * @param packaging The packaging.
+   * @param shipFrom The ship from details.
+   * 
+   * @see DeliveryAddressCategory
+   * @see Packaging
+   * @see ShipFrom
+   */
+  public void addShippingPackage(
+      DeliveryAddressCategory deliveryAddressCategory, String heightUnit,
+      float heightValue, String widthUnit, float widthValue, String lengthUnit,
+      float lengthValue, Packaging packaging, ShipFrom shipFrom) {
+
+    Element mcfs =
+        Utils.findContainerElseCreate(document, checkoutFlowSupport,
+            "merchant-checkout-flow-support");
+    Element shippingMethods =
+        Utils.findContainerElseCreate(document, mcfs, "shipping-methods");
+
+    Element ccShip =
+        Utils.findContainerElseCreate(document, shippingMethods,
+            "carrier-calculated-shipping");
+
+    Element shipPackages =
+        Utils.findContainerElseCreate(document, ccShip, "shipping-packages");
+
+    Element newPack =
+        Utils.createNewContainer(document, shipPackages, "shipping-package");
+
+    if (deliveryAddressCategory != null) {
+      Utils.createNewElementAndSet(document, newPack,
+          "delivery-address-category", deliveryAddressCategory.toString());
+    }
+
+    Element height = Utils.createNewContainer(document, newPack, "height");
+    height.setAttribute("unit", heightUnit);
+    height.setAttribute("value", "" + heightValue);
+
+    Element length = Utils.createNewContainer(document, newPack, "length");
+    length.setAttribute("unit", lengthUnit);
+    length.setAttribute("value", "" + lengthValue);
+
+    Element width = Utils.createNewContainer(document, newPack, "width");
+    width.setAttribute("unit", widthUnit);
+    width.setAttribute("value", "" + widthValue);
+
+    if (packaging != null) {
+      Utils.createNewElementAndSet(document, newPack, "packaging", packaging
+          .toString());
+    }
+
+    Utils.importElements(document, newPack, new Element[] {shipFrom
+        .getRootElement()});
   }
 }

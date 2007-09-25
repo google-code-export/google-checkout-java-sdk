@@ -39,7 +39,8 @@ public class BackorderItemsRequest extends AbstractCheckoutRequest {
 
     document = Utils.newEmptyDocument();
     root =
-        document.createElementNS(Constants.checkoutNamespace, "backorder-items");
+        document
+            .createElementNS(Constants.checkoutNamespace, "backorder-items");
     root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
         Constants.checkoutNamespace);
     document.appendChild(root);
@@ -53,7 +54,7 @@ public class BackorderItemsRequest extends AbstractCheckoutRequest {
     this(mi);
     this.setGoogleOrderNo(googleOrderNo);
   }
-  
+
   /**
    * Set the Google Order Number, which is the value of the google-order-number
    * attribute on the root tag.
@@ -102,7 +103,7 @@ public class BackorderItemsRequest extends AbstractCheckoutRequest {
   public String getPostUrl() {
     return mi.getRequestUrl();
   }
-  
+
   /**
    * True if an email is to be sent to the buyer. This is the value of the
    * &lt;send-email&gt; tag.
@@ -112,7 +113,7 @@ public class BackorderItemsRequest extends AbstractCheckoutRequest {
   public boolean isSendEmail() {
     return Utils.getElementBooleanValue(document, root, "send-email");
   }
-  
+
   /**
    * True if an email is to be sent to the buyer. This is the value of the
    * &lt;send-email&gt; tag.
@@ -124,7 +125,7 @@ public class BackorderItemsRequest extends AbstractCheckoutRequest {
     Utils.findElementAndSetElseCreateAndSet(document, root, "send-email",
         sendEmail);
   }
-  
+
   /**
    * Add the merchantItemId which is on backorder.
    * 
@@ -133,7 +134,7 @@ public class BackorderItemsRequest extends AbstractCheckoutRequest {
   public void addItem(String merchantItemId) {
     Element idsTag = Utils.findContainerElseCreate(document, root, "item-ids");
     Element idTag = Utils.createNewContainer(document, idsTag, "item-id");
-    Utils.createNewElementAndSet(document, idTag, "merchant-item-id", merchantItemId);    
+    Utils.createNewElementAndSet(document, idTag, "merchant-item-id",
+        merchantItemId);
   }
 }
-

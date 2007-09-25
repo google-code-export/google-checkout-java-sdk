@@ -25,8 +25,7 @@ import com.google.checkout.util.Constants;
 import com.google.checkout.util.Utils;
 
 /**
- * This class contains methods that construct &lt;return-items&gt; API
- * requests.
+ * This class contains methods that construct &lt;return-items&gt; API requests.
  */
 public class ReturnItemsRequest extends AbstractCheckoutRequest {
 
@@ -53,7 +52,7 @@ public class ReturnItemsRequest extends AbstractCheckoutRequest {
     this(mi);
     this.setGoogleOrderNo(googleOrderNo);
   }
-  
+
   /**
    * Set the Google Order Number, which is the value of the google-order-number
    * attribute on the root tag.
@@ -102,7 +101,7 @@ public class ReturnItemsRequest extends AbstractCheckoutRequest {
   public String getPostUrl() {
     return mi.getRequestUrl();
   }
-  
+
   /**
    * True if an email is to be sent to the buyer. This is the value of the
    * &lt;send-email&gt; tag.
@@ -112,7 +111,7 @@ public class ReturnItemsRequest extends AbstractCheckoutRequest {
   public boolean isSendEmail() {
     return Utils.getElementBooleanValue(document, root, "send-email");
   }
-  
+
   /**
    * True if an email is to be sent to the buyer. This is the value of the
    * &lt;send-email&gt; tag.
@@ -124,7 +123,7 @@ public class ReturnItemsRequest extends AbstractCheckoutRequest {
     Utils.findElementAndSetElseCreateAndSet(document, root, "send-email",
         sendEmail);
   }
-  
+
   /**
    * Add the merchantItemId which has been returned.
    * 
@@ -133,6 +132,7 @@ public class ReturnItemsRequest extends AbstractCheckoutRequest {
   public void addItem(String merchantItemId) {
     Element idsTag = Utils.findContainerElseCreate(document, root, "item-ids");
     Element idTag = Utils.createNewContainer(document, idsTag, "item-id");
-    Utils.createNewElementAndSet(document, idTag, "merchant-item-id", merchantItemId);    
-  } 
+    Utils.createNewElementAndSet(document, idTag, "merchant-item-id",
+        merchantItemId);
+  }
 }
