@@ -74,6 +74,17 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
   }
 
   /**
+   * Constructor which takes an instance of and a cart XML.
+   */
+  public CheckoutShoppingCartRequest(MerchantInfo mi, String cartXml) {
+    super(mi);
+    document = Utils.newDocumentFromString(cartXml);
+    root = document.getDocumentElement();   
+    shoppingCart = Utils.findContainerElseCreate(document, root, "shopping-cart");
+    checkoutFlowSupport = Utils.findContainerElseCreate(document, root, "checkout-flow-support");
+  }
+
+  /**
    * Constructor which takes an instance of mi and the cart expiration.
    * 
    * @param expirationMinutesFromNow The number of minutes before the cart
