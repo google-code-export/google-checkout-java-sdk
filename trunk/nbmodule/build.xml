@@ -3,31 +3,46 @@
     <description>Builds, tests, and runs the project com.google.checkout.sdk.nbmodule.</description>
     <import file="nbproject/build-impl.xml"/>
     
+    <property file="build.properties"/>
+    <property name="checkout-sdk.home" value="../sdk/build/tmpdist/checkout-sdk-0.8"/>
+    
     <property name="build.dir" value="build"/>
     <property name="build.classes.dir" value="${build.dir}/classes"/>
-    <property name="sdk.dir.name" value="checkout-sdk-0.7"/>
+    <property name="sdk.dir.name" value="checkout-sdk-0.8"/>
     <property name="checkout-sdk-zip" value="${sdk.dir.name}.zip"/>
     <property name="checkout-sdk-dir" value="${build.dir}/${sdk.dir.name}"/>
     
-    <target name="check-sdk-zip-present" unless="${checkout-sdk-zip}">
-      <echo>Please download and copy ${checkout-sdk-zip} under the project root 
-      directory (nbmodule/) before building this module. You will also need to 
-      run setup target manually before building the nbmodule project, or 
-      everytime after running the clean target
-      </echo>
+    <target name="copy-checkout-sdk">
+      <copy todir=".">
+        <fileset dir="../sdk/dist/">
+          <include name="${checkout-sdk-zip}"/>
+        </fileset>
+      </copy>
     </target>
     
-    <target name="setup" depends="init,check-sdk-zip-present">
-      <echo> run setup-sdk target manually everytime after running the clean 
-      target</echo>
+    <target name="check-sdk-zip-present">
+      <available file="${sdk.dir.name}.zip" property="checkout-sdk-zip.exists"/>
+      <fail unless="checkout-sdk-zip.exists" 
+            message="${checkout-sdk-zip} does not exist under the root directory (nbmodule/)"/>
+    </target>
+    
+    <target name="setup" depends="init,copy-checkout-sdk,check-sdk-zip-present">
+      <echo> 
+You will need to run setup target manually before building the nbmodule project, 
+or everytime after running the clean target.
+      </echo>
       <mkdir dir="${build.classes.dir}"/>
       <unzip src="${checkout-sdk-zip}" dest="${build.dir}"/>
+      <mkdir dir="${build.classes.dir}/resources"/>
+      <copy todir="src/resources">
+        <fileset dir="${checkout-sdk.home}/web/WEB-INF/">
+          <include name="checkout-config.xml"/>
+        </fileset>
+      </copy>
       <jar basedir="${checkout-sdk-dir}/web/checkout" 
            jarfile="${build.classes.dir}/resources/samples.jar"/>
       <copy file="${checkout-sdk-dir}/checkout-sdk.jar" 
-            todir="${build.classes.dir}/resources"/>
+            todir="${build.classes.dir}/resources"/>  
     </target>
-    
-    <target name="all"/>
-
+    <target name="all" depends="setup"/>
 </project>

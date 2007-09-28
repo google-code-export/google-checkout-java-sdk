@@ -16,6 +16,10 @@
 
 package com.google.checkout.sdk.nbmodule.integrationwizard;
 
+import com.google.checkout.sdk.nbmodule.common.exceptions.CheckoutConfigException;
+import com.google.checkout.sdk.nbmodule.common.exceptions.CheckoutSdkException;
+import com.google.checkout.sdk.nbmodule.common.exceptions.SamplesJspException;
+import com.google.checkout.sdk.nbmodule.common.exceptions.WebXmlException;
 import com.google.checkout.sdk.nbmodule.handlermanager.HandlerManagerAction;
 import com.google.checkout.sdk.nbmodule.integrationwizard.panels.ConfigWizardPanel;
 import com.google.checkout.sdk.nbmodule.integrationwizard.panels.ConfirmationWizardPanel;
@@ -40,36 +44,44 @@ import org.openide.util.NbBundle;
 import org.openide.util.actions.CallableSystemAction;
 
 public final class IntegrationWizardAction extends CallableSystemAction {
+  private CheckoutIntegrationPanel [] panels;
   
-  private WizardDescriptor.Panel[] panels;
-  
+  private static HandlerManagerAction handlerManagerAction = new HandlerManagerAction();
   /**
    * Creates and shows the wizard when the action button is pressed.
    */
   public void performAction() {
     if (OpenProjects.getDefault().getOpenProjects().length <= 0) {
-      // No open projects, display error
-      String msg = "No open projects.\n" +
-          "Open your web application in NetBeans first,\n" +
-          "then run the Integration Wizard again.";
-      NotifyDescriptor d =
-          new NotifyDescriptor.Message(msg, NotifyDescriptor.ERROR_MESSAGE);
-      DialogDisplayer.getDefault().notify(d);
+      displayNoOpenProjectsDialog();
+    } else if (OpenProjects.getDefault().getMainProject() == null) {
+      displayNoMainProjectDialog();
     } else {
-      // Create and show the wizard
-      IntegrationWizardDescriptor wizardDescriptor = 
-          new IntegrationWizardDescriptor(getPanels());
+      createPanels();
+          
+      // Create the integration wizard
+      IntegrationWizardDescriptor wizardDescriptor =
+          new IntegrationWizardDescriptor(panels);
+      
+      // need to pass in the IntegrationWizardDescriptor to the panels so they
+      // can disable/enable the 'Next' button accordingly when their state changes
+      for (int i=0; i<panels.length; ++i)
+      {
+        panels[i].setIntegrationWizardDescriptor(wizardDescriptor);
+      }
+
       wizardDescriptor.setTitleFormat(new MessageFormat("{0}"));
       wizardDescriptor.setTitle("Google Checkout Integration Wizard");
-      Dialog dialog = 
+      
+      // Show the integration wizard
+      Dialog dialog =
           DialogDisplayer.getDefault().createDialog(wizardDescriptor);
       dialog.setVisible(true);
       dialog.toFront();
       
-      // Handle the integration after the wizard closes
-      boolean cancelled = wizardDescriptor.getValue() != 
-          WizardDescriptor.FINISH_OPTION;
-      if (!cancelled) {
+      // Handle the integration after the wizard closes      
+      if (!(wizardDescriptor.getValue() != WizardDescriptor.FINISH_OPTION)) {
+        // The user did not click on the 'Cancel' button
+        
         // Create the progress dialog
         ProgressPanel progressPanel = new ProgressPanel();
         DialogDescriptor desc = new DialogDescriptor(
@@ -87,38 +99,98 @@ public final class IntegrationWizardAction extends CallableSystemAction {
         dialog.setVisible(true);
         dialog.toFront();
         
-        // Create the integrator that does the actual integration work
-        Settings settings = wizardDescriptor.getSettings();
-        Integrator integrator = new Integrator(settings, progressPanel);
-        
-        // Integrate
-        boolean success = integrator.integrate();
-        
-        // Close the progress dialog
-        dialog.setVisible(false);
-        
-        if (success) {
-          // Refresh the file system to update changes in the IDE
-          try {
-            Project p = settings.getProject();
-            FileObject dir = p.getProjectDirectory();
-            dir.getFileSystem().refresh(false);
-          } catch (FileStateInvalidException ex) {
-            // Simply didn't refresh; this is okay
-          }
-          
-          // Launch handler manager if requested
-          if (settings.launchHandlerManager()) {
-            new HandlerManagerAction().performAction();
-          }
-        } else {
-          // Show error message
-          String msg = integrator.getErrorMessage();
-          NotifyDescriptor d = 
-              new NotifyDescriptor.Message(msg, NotifyDescriptor.ERROR_MESSAGE);
-          DialogDisplayer.getDefault().notify(d);
-        }
+        performIntegration(wizardDescriptor, dialog, progressPanel);
       }
+    }
+  }
+
+  public String getName() {
+    return NbBundle.getMessage(IntegrationWizardAction.class,
+        "CTL_IntegrationWizardAction");
+  }
+  
+  public HelpCtx getHelpCtx() {
+    return HelpCtx.DEFAULT_HELP;
+  }
+  
+  /**
+   * Display an error dialog notifying the user that no projects are currently 
+   * opened.
+   */
+  private void displayNoOpenProjectsDialog() {
+    // No open projects, display error
+    String msg = "No open projects.\n" +
+        "Open your web application in NetBeans first,\n" +
+        "then run the Integration Wizard again.";
+
+    NotifyDescriptor d =
+        new NotifyDescriptor.Message(msg, NotifyDescriptor.ERROR_MESSAGE);
+
+    DialogDisplayer.getDefault().notify(d);
+  }
+  
+  /**
+   * Display an error dialog notifying the user that no project has been set as
+   * the main project
+   */
+  private void displayNoMainProjectDialog() {
+    String msg = "Please set one of the open projects as \n" + 
+        "the main project";
+
+    NotifyDescriptor d =
+        new NotifyDescriptor.Message(msg, NotifyDescriptor.ERROR_MESSAGE);
+
+    DialogDisplayer.getDefault().notify(d);
+  }
+  
+  /**
+   * Launches the integrator that performs all required steps required to
+   * integrate a project with the Google Checkout API 
+   */
+  private void performIntegration(IntegrationWizardDescriptor wizardDescriptor, 
+      Dialog dialog, ProgressPanel progressPanel) {
+    
+    // Create the integrator that does the actual integration work
+    Settings settings = wizardDescriptor.getSettings();
+    Integrator integrator = new Integrator(settings, progressPanel);
+
+    String errorMsg = null;
+    // Integrate
+    try {
+      integrator.integrate();
+
+      // Close the progress dialog
+      dialog.setVisible(false);
+
+      // Refresh the file system to update changes in the IDE
+      try {
+        Project p = settings.getProject();
+        FileObject dir = p.getProjectDirectory();
+
+        // file events should not be marked as expected change
+        dir.getFileSystem().refresh(false);
+      } catch (FileStateInvalidException ex) {
+        // Simply didn't refresh; this is okay
+      }
+
+      // Launch handler manager if requested
+      if (settings.launchHandlerManager()) {
+        handlerManagerAction.performAction();
+      }
+    } catch (CheckoutSdkException ex) {
+      errorMsg = ex.getMessage();
+    } catch (WebXmlException ex) {
+      errorMsg = ex.getMessage();
+    } catch (CheckoutConfigException ex) {
+      errorMsg = ex.getMessage();
+    } catch (SamplesJspException ex) {
+      errorMsg = ex.getMessage();
+    }
+
+    if (errorMsg != null) {
+      NotifyDescriptor d =
+          new NotifyDescriptor.Message(errorMsg, NotifyDescriptor.ERROR_MESSAGE);
+      DialogDisplayer.getDefault().notify(d);
     }
   }
   
@@ -126,15 +198,16 @@ public final class IntegrationWizardAction extends CallableSystemAction {
    * Initialize panels representing individual wizard's steps and sets
    * various properties for them influencing wizard appearance.
    */
-  private WizardDescriptor.Panel[] getPanels() {
+  private void createPanels() {
     if (panels == null) {
-      panels = new WizardDescriptor.Panel[] {
+      panels = new CheckoutIntegrationPanel[] {
         new ProjectWizardPanel.Panel(),
         new WebXmlWizardPanel.Panel(),
         new ConfigWizardPanel.Panel(),
         new SamplesWizardPanel.Panel(),
         new ConfirmationWizardPanel.Panel()
       };
+      
       String[] steps = new String[panels.length];
       for (int i = 0; i < panels.length; i++) {
         Component c = panels[i].getComponent();
@@ -145,7 +218,7 @@ public final class IntegrationWizardAction extends CallableSystemAction {
         if (c instanceof JComponent) { // assume Swing components
           JComponent jc = (JComponent) c;
           // Sets step number of a component
-          jc.putClientProperty("WizardPanel_contentSelectedIndex", 
+          jc.putClientProperty("WizardPanel_contentSelectedIndex",
               new Integer(i));
           // Sets steps names for a panel
           jc.putClientProperty("WizardPanel_contentData", steps);
@@ -158,28 +231,9 @@ public final class IntegrationWizardAction extends CallableSystemAction {
         }
       }
     }
-    return panels;
-  }
-  
-  public String getName() {
-    return NbBundle.getMessage(IntegrationWizardAction.class, 
-        "CTL_IntegrationWizardAction");
-  }
-  
-  protected void initialize() {
-    super.initialize();
-    putValue("noIconInMenu", Boolean.TRUE);
-  }
-  
-  public HelpCtx getHelpCtx() {
-    return HelpCtx.DEFAULT_HELP;
   }
   
   protected boolean asynchronous() {
     return false;
   }
-  
-  
-  
-  
 }

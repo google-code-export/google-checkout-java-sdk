@@ -36,17 +36,12 @@ public class CheckoutFileReaderTest extends TestCase {
   public void testReadFileAsString() throws Exception {
     System.out.println("readFileAsString");
     
-    // Get the test file
-    URL url = getClass().getResource("/resources/test.txt");
-    if (url == null) {
-      fail("Could not find test.txt.");
-    }
-    File file = new File(url.getFile());
-    
-    // Verify that the correct contents are read from the file
+    // Get the test file and verify that the correct contents are 
+    // read from the file
     String expResult = "Test text\nTesting, 1... 2... 3...";
-    String result = CheckoutFileReader.readFileAsString(file);
+    String result = 
+        CheckoutFileReader.readFileAsString(
+          getClass().getResourceAsStream("/resources/test.txt"));
     assertEquals(expResult, result);
   }
-  
 }

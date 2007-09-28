@@ -17,9 +17,9 @@ package com.google.checkout.sdk.nbmodule.common;
 
 import junit.framework.*;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.Reader;
 import java.io.StringReader;
-import java.net.URL;
 
 /**
  * Unit tests for CheckoutFileWriter.
@@ -54,7 +54,8 @@ public class CheckoutFileWriterTest extends TestCase {
   }
 
   /**
-   * Test of writeFileFromReader method, of class com.google.checkout.sdk.nbmodule.common.CheckoutFileWriter.
+   * Test of writeFileFromReader method, of class 
+   * com.google.checkout.sdk.nbmodule.common.CheckoutFileWriter.
    */
   public void testWriteFileFromReader() throws Exception {
     System.out.println("writeFileFromReader");
@@ -64,7 +65,8 @@ public class CheckoutFileWriterTest extends TestCase {
     File dest = createTempFile("temp1.txt");
     
     CheckoutFileWriter.writeFileFromReader(source, dest);
-    String result = CheckoutFileReader.readFileAsString(dest);
+    
+    String result = CheckoutFileReader.readFileAsString(new FileInputStream(dest));
     
     assertEquals(text, result);
   }

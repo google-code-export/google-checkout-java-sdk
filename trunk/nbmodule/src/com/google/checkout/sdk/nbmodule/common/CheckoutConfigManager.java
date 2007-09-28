@@ -16,8 +16,9 @@
 
 package com.google.checkout.sdk.nbmodule.common;
 
-import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -35,7 +36,7 @@ import org.xml.sax.SAXException;
 public class CheckoutConfigManager {
   
   // The actual config file be read from and written to
-  private File file;
+  private String outputLocation;
   
   // Basic merchant info
   private String merchantId;
@@ -49,70 +50,37 @@ public class CheckoutConfigManager {
   private String requestSuffix;
   
   // The maps which store handlers
-  HashMap notificationHandlers;
-  HashMap callbackHandlers;
+  private HashMap notificationHandlers;
+  private HashMap callbackHandlers;
+  
+  public static final String CHECKOUT_CONFIG_LOCATION = "/resources/checkout-config.xml";
   
   /**
-   * Creates a new instance of CheckoutConfigManager, one that isn't bound
-   * to a specefic file
+   * Creates a new instance of CheckoutConfigManager that loads the data from the
+   * default checkout-config.xml
    */
   public CheckoutConfigManager() {
-    file = null;
-    
-    // Init handlers maps
-    initNotificationHandlers();
-    initCallbackHandlers();
-    
-    // Init fields to default values
-    // TODO: Read these from some type of config file
-    merchantId = "";
-    merchantKey = "";
-    env = "Sandbox";
-    currencyCode = "USD";
-    sandboxRoot = "https://sandbox.google.com/checkout/cws/v2/Merchant";
-    productionRoot = "https://checkout.google.com/cws/v2/Merchant";
-    checkoutSuffix = "checkout";
-    merchantCheckoutSuffix = "merchantCheckout";
-    requestSuffix = "request";
-    
-    notificationHandlers.put("new-order-notification",
-        "com.google.checkout.sdk.NewOrderNotificationHandler");
-    notificationHandlers.put("risk-information-notification",
-        "com.google.checkout.sdk.RiskInformationNotificationHandler");
-    notificationHandlers.put("order-state-change-notification",
-        "com.google.checkout.sdk.OrderStateChangeNotificationHandler");
-    notificationHandlers.put("charge-amount-notification",
-        "com.google.checkout.sdk.ChargeAmountNotificationHandler");
-    notificationHandlers.put("refund-amount-notification",
-        "com.google.checkout.sdk.RefundAmountNotificationHandler");
-    notificationHandlers.put("chargeback-amount-notification",
-        "com.google.checkout.sdk.ChargebackAmountNotificationHandler");
-    notificationHandlers.put("authorization-amount-notification",
-        "com.google.checkout.sdk.AuthorizationAmountNotificationHandler");
-    callbackHandlers.put("merchant-calculation-callback",
-        "com.google.checkout.sdk.MerchantCalculationCallbackHandler");
-    
+    this(CheckoutConfigManager.class.getResourceAsStream(CHECKOUT_CONFIG_LOCATION));
   }
   
   /**
-   * Creates a new instance of CheckoutConfigManager with the specified file.
+   * Creates a new instance of CheckoutConfigManager that loads the data from the 
+   * specified InputStream of an xml file.
    */
-  public CheckoutConfigManager(File file) {
-    this();
-    this.file = file;
-    readFile();
+  public CheckoutConfigManager(InputStream input) {
+    readContent(input);
   }
   
   /*************************************************************************/
   /*                             FIELD ACCESSORS                           */
   /*************************************************************************/
   
-  public File getFile() {
-    return file;
+  public String getOutputLocation() {
+    return outputLocation;
   }
   
-  public void setFile(File file) {
-    this.file = file;
+  public void setOutputLocation(String outputLocation) {
+    this.outputLocation = outputLocation;
   }
   
   public String getMerchantId() {
@@ -171,6 +139,10 @@ public class CheckoutConfigManager {
   /*                           MAP ACCESSORS                               */
   /*************************************************************************/
   
+  /**
+   * @returns The notification handler matched to the specified type; otherwise
+   *          null no matching handler is found  
+   */
   public Object getNotificationHandler(String type) {
     return notificationHandlers.get(type);
   }
@@ -181,7 +153,11 @@ public class CheckoutConfigManager {
     }
     notificationHandlers.put(type,name);
   }
-  
+
+  /**
+   * @returns The callback handler matched to the specified type; otherwise
+   *          null no matching handler is found  
+   */
   public Object getCallbackHandler(String type) {
     return callbackHandlers.get(type);
   }
@@ -197,38 +173,105 @@ public class CheckoutConfigManager {
   /*                         UTILITY METHODS                               */
   /*************************************************************************/
   
+  private void readMerchantInfo(Element merchantInfo) {
+    if (merchantInfo != null) {
+      merchantId = read(merchantInfo, "merchant-id");
+      merchantKey = read(merchantInfo, "merchant-key");
+      env = read(merchantInfo, "env");
+      currencyCode = read(merchantInfo, "currency-code");
+      sandboxRoot = read(merchantInfo, "sandbox-root");
+      productionRoot = read(merchantInfo, "production-root");
+      checkoutSuffix = read(merchantInfo, "checkout-suffix");
+      merchantCheckoutSuffix = read(merchantInfo, 
+          "merchant-checkout-suffix");
+      requestSuffix = read(merchantInfo, "request-suffix");
+    }
+  }
+  
+  private void readNotificationHandlers(Element notificationRoot) {
+    if (notificationHandlers == null) {
+      notificationHandlers = new HashMap();
+    }
+    
+    if (notificationRoot != null) {
+      NodeList nodes = 
+          notificationRoot.getElementsByTagName("notification-handler");
+      for( int i=0; i<nodes.getLength(); i++) {
+        Element elem = (Element) nodes.item(i);
+        String type = read(elem, "message-type");
+        String name = read(elem, "handler-class");
+        setNotificationHandler(type, name);
+      }
+    }
+  }
+  
+  private void readCallbackHandlers(Element callbackRoot) {
+    if (callbackHandlers == null) {
+      callbackHandlers = new HashMap();
+    }
+    
+    if (callbackRoot != null) {
+      NodeList nodes = 
+          callbackRoot.getElementsByTagName("callback-handler");
+      for( int i=0; i<nodes.getLength(); i++) {
+        Element elem = (Element) nodes.item(i);
+        String type = read(elem, "message-type");
+        String name = read(elem, "handler-class");
+        setCallbackHandler(type, name);
+      }
+    } 
+  }
+
+  private void initDefaultMerchantInfo() {
+    merchantId = "";
+    merchantKey = "";
+    env = "Sandbox";
+    currencyCode = "USD";
+    sandboxRoot = "https://sandbox.google.com/checkout/cws/v2/Merchant";
+    productionRoot = "https://checkout.google.com/cws/v2/Merchant";
+    checkoutSuffix = "checkout";
+    merchantCheckoutSuffix = "merchantCheckout";
+    requestSuffix = "request";
+  }
+  
   /**
-   * Creates the standard batch of notification handlers.
+   * Creates the default standard batch of notification handlers
    */
-  private void initNotificationHandlers() {
+  private void initDefaultNotificationHandlers() {
     if (notificationHandlers == null) {
       notificationHandlers = new HashMap();
     }
     
     // Insert a key-value pair for each message type
-    // TODO: Read these from some type of config file
-    notificationHandlers.put("new-order-notification", null);
-    notificationHandlers.put("risk-information-notification", null);
-    notificationHandlers.put("order-state-change-notification", null);
-    notificationHandlers.put("charge-amount-notification", null);
-    notificationHandlers.put("refund-amount-notification", null);
-    notificationHandlers.put("chargeback-amount-notification", null);
-    notificationHandlers.put("authorization-amount-notification", null);
+    notificationHandlers.put("new-order-notification",
+        "com.google.checkout.handlers.NewOrderNotificationHandler");
+    notificationHandlers.put("risk-information-notification",
+        "com.google.checkout.handlers.RiskInformationNotificationHandler");
+    notificationHandlers.put("order-state-change-notification",
+        "com.google.checkout.handlers.OrderStateChangeNotificationHandler");
+    notificationHandlers.put("charge-amount-notification",
+        "com.google.checkout.handlers.ChargeAmountNotificationHandler");
+    notificationHandlers.put("refund-amount-notification",
+        "com.google.checkout.handlers.RefundAmountNotificationHandler");
+    notificationHandlers.put("chargeback-amount-notification",
+        "com.google.checkout.handlers.ChargebackAmountNotificationHandler");
+    notificationHandlers.put("authorization-amount-notification",
+        "com.google.checkout.handlers.AuthorizationAmountNotificationHandler");
   }
   
   /**
-   * Creates the standard batch of callback handlers.
+   * Creates the default standard batch of callback handlers
    */
-  private void initCallbackHandlers() {
+  private void initDefaultCallbackHandlers() {
     if (callbackHandlers == null) {
       callbackHandlers = new HashMap();
     }
     
     // Insert a key-value pair for each message type
-    // TODO: Read these from some type of config file
-    callbackHandlers.put("merchant-calculation-callback", null);
+    callbackHandlers.put("merchant-calculation-callback",
+        "com.google.checkout.handlers.MerchantCalculationCallbackHandler");
   }
-  
+
   /**
    * Gets an array of notification message types.
    *
@@ -278,86 +321,68 @@ public class CheckoutConfigManager {
       return value.getNodeValue().trim();
     }
   }
-  
-  /*************************************************************************/
-  /*                            FILE METHODS                               */
-  /*************************************************************************/
-  
+
   /**
-   * Uses a simple SAX parser to read the checkout-config.xml file.  Reads
-   * only one element of each root type (merchant-info, notification-handlers,
-   * callback-handlers).
-   *
-   * @return true if read successfully
+   * Populates the Google Checkout configuration fields. If the InputStream is 
+   * null or there is an error parsing the xml file, the configuration fields
+   * will be populated with default values.
    */
-  public boolean readFile() {
+  private void readContent(final InputStream tempStream) {
+
     boolean success = true;
     
-    if (file != null) {
+    if (tempStream != null) {
       try {
         // Get the document
         DocumentBuilderFactory docBuilderFactory = 
             DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-        Document doc = docBuilder.parse(file);
-        doc.getDocumentElement().normalize();
-        
-        // Read merchant information
-        Element merchantInfo = 
-            (Element) doc.getElementsByTagName("merchant-info").item(0);
-        if (merchantInfo != null) {
-          merchantId = read(merchantInfo, "merchant-id");
-          merchantKey = read(merchantInfo, "merchant-key");
-          env = read(merchantInfo, "env");
-          currencyCode = read(merchantInfo, "currency-code");
-          sandboxRoot = read(merchantInfo, "sandbox-root");
-          productionRoot = read(merchantInfo, "production-root");
-          checkoutSuffix = read(merchantInfo, "checkout-suffix");
-          merchantCheckoutSuffix = read(merchantInfo, 
-              "merchant-checkout-suffix");
-          requestSuffix = read(merchantInfo, "request-suffix");
+        Document doc = null;
+        try { 
+          doc = docBuilder.parse(tempStream);
+        } catch (FileNotFoundException ex) {
+          success = false;
         }
-        
-        // Read notification handlers
-        Element notificationRoot = 
-            (Element) doc.getElementsByTagName("notification-handlers").item(0);
-        if (notificationRoot != null) {
-          NodeList nodes = 
-              notificationRoot.getElementsByTagName("notification-handler");
-          for( int i=0; i<nodes.getLength(); i++) {
-            Element elem = (Element) nodes.item(i);
-            String type = read(elem, "message-type");
-            String name = read(elem, "handler-class");
-            setNotificationHandler(type, name);
-          }
-        }
-        
-        // Read notification handlers
-        Element callbackRoot = 
-            (Element) doc.getElementsByTagName("callback-handlers").item(0);
-        if (callbackRoot != null) {
-          NodeList nodes = 
-              callbackRoot.getElementsByTagName("callback-handler");
-          for( int i=0; i<nodes.getLength(); i++) {
-            Element elem = (Element) nodes.item(i);
-            String type = read(elem, "message-type");
-            String name = read(elem, "handler-class");
-            setCallbackHandler(type, name);
-          }
+        if (success) {
+          doc.getDocumentElement().normalize();
+
+          // Read merchant information
+          readMerchantInfo(
+              (Element)doc.getElementsByTagName("merchant-info").item(0));
+
+          // Read notification handlers
+          readNotificationHandlers(
+              (Element)doc.getElementsByTagName("notification-handlers").item(0));
+
+          // Read callback handlers
+          readCallbackHandlers(
+              (Element)doc.getElementsByTagName("callback-handlers").item(0));
         }
       } catch (ParserConfigurationException ex) {
-        success = false;
+          success = false;
+          ex.printStackTrace();
       } catch (IOException ex) {
-        success = false;
+          success = false;
+          ex.printStackTrace();
       } catch (SAXException ex) {
-        success = false;
-      }
+          success = false;
+          ex.printStackTrace();
+      }   
     } else {
       success = false;
     }
     
-    return success;
+    if (!success) {
+      // read from default
+      initDefaultMerchantInfo();
+      initDefaultNotificationHandlers();
+      initDefaultCallbackHandlers();
+    }
   }
+  
+  /*************************************************************************/
+  /*                            FILE METHODS                               */
+  /*************************************************************************/
   
   /**
    * Generates the new body of checkout-config.xml based on all of this
