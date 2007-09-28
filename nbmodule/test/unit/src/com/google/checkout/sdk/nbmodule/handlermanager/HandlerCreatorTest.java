@@ -56,14 +56,10 @@ public class HandlerCreatorTest extends TestCase {
     assertNotNull(result);
     
     // Get the expected result
-    URL url = getClass().getResource("/resources/expected-temp-handler.txt");
-    if (url == null) {
-      fail("Could not find expected-temp-handler.txt.");
-    }
-    File expFile = new File(url.getFile());
     String expResult = null;
     try {
-      expResult = CheckoutFileReader.readFileAsString(expFile);
+      expResult = CheckoutFileReader.readFileAsString(
+          getClass().getResourceAsStream("/resources/expected-temp-handler.txt"));
     } catch (IOException ex) {
       fail("Could not read expected-temp-handler.txt.");
     }

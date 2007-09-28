@@ -16,7 +16,9 @@
 
 package com.google.checkout.sdk.nbmodule.handlermanager;
 
+import com.google.checkout.sdk.nbmodule.common.CheckoutConfigManager;
 import com.google.checkout.sdk.nbmodule.common.CheckoutFileWriter;
+import com.google.checkout.sdk.nbmodule.common.exceptions.HandlerCreationException;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,12 +31,14 @@ import java.util.HashMap;
  * @author David Rubel
  */
 public class HandlerCreator {
+  private CheckoutConfigManager configManager;
   
   /**
    * Default constructor.  This class must be constructed in order to use
    * the getResourceAsStream() method that reads the template files.
    */
   public HandlerCreator() {
+    configManager = new CheckoutConfigManager();
   }
   
   /**
@@ -42,28 +46,35 @@ public class HandlerCreator {
    * information from a HandlerCreationData object.
    *
    * @param handlerData Info used to create the handler
-   * @return True if successfully created and written
    */
-  public boolean createHandler(HandlerCreationData handlerData) {
-    boolean success = true;
+  public void createHandler(HandlerCreationData handlerData) 
+    throws HandlerCreationException {
     
+    String errorMsg = null;
     String handler = createHandlerAsString(handlerData);
     
     if (handler == null) {
-      success = false;
+      errorMsg = "Handler is null";
     } else {
       // Write the template to a file
       try {
         File file = new File(handlerData.getHandlerLocation());
         CheckoutFileWriter.writeFileFromString(handler, file);
       } catch (IOException ex) {
-        success = false;
+        errorMsg = "Problem writing handler to file";
       }  
     }
     
-    return success;
+    if (errorMsg != null) {
+      throw new HandlerCreationException(errorMsg);
+    }
   }
   
+  /**
+   *  Creates a string representation based on the HandlerCreationData
+   *
+   *  @return An xml formated string containing handler data
+   */
   public String createHandlerAsString(HandlerCreationData handlerData) {
     // Read template
     String template = readTemplate(getImplFile(handlerData));
@@ -73,7 +84,11 @@ public class HandlerCreator {
       String handlerName = handlerData.getHandlerName();
       String handlerPackage = handlerData.getHandlerPackage();
       String handlerTypePackage =
-          getNotificationClassFromType(handlerData.getHandlerType());
+          getClassFromHandlerType(handlerData.getHandlerType());
+      
+      // modify the path so it maps correctly to the handler we want to import
+      handlerTypePackage = replace("handlers", handlerData.getHandlerClass(), handlerTypePackage);
+      handlerTypePackage = replace("Handler", "", handlerTypePackage);
       
       // Build handler type from the handler type package name
       String handlerType = handlerTypePackage;
@@ -90,6 +105,15 @@ public class HandlerCreator {
     }
     
     return template;
+  }
+  
+  private String replace(String oldStr, String newStr, String s) {
+    int start = s.indexOf(oldStr);
+    StringBuffer sb = new StringBuffer();
+    sb.append(s.substring(0, start));
+    sb.append(newStr);
+    sb.append(s.substring(start+oldStr.length()));
+    return sb.toString();
   }
   
   /**
@@ -112,7 +136,10 @@ public class HandlerCreator {
       
       // Close streams
       source.close();
-    } catch (IOException ex) {}
+    } catch (IOException ex) {
+      System.err.println(ex.getMessage());
+      ex.printStackTrace();
+    }
     
     return builder.toString();
   }
@@ -125,7 +152,6 @@ public class HandlerCreator {
    * @return The path to the corresponding template
    */
   private static String getImplFile(HandlerCreationData handlerData) {
-    // TODO: Look this up from a config file
     String fileName = null;
     
     if (handlerData.getHandlerImpl().equals(HandlerCreationData.EMPTY_CLASS)) {
@@ -140,28 +166,19 @@ public class HandlerCreator {
    * message type.
    *
    * @param type The message type
-   * @return The Java notification class name
+   * @return The Java notification class name; returns null if no class matches 
+   *         the handler type 
    */
-  private String getNotificationClassFromType(String type) {
-    // TODO: Look this up from a config file
-    HashMap types = new HashMap();
-    types.put("new-order-notification", 
-        "com.google.checkout.notification.NewOrderNotification");
-    types.put("risk-information-notification", 
-        "com.google.checkout.notification.RiskInformationNotification");
-    types.put("order-state-change-notification", 
-        "com.google.checkout.notification.OrderStateChangeNotification");
-    types.put("charge-amount-notification", 
-        "com.google.checkout.notification.ChargeAmountNotification");
-    types.put("refund-amount-notification", 
-        "com.google.checkout.notification.RefundAmountNotification");
-    types.put("chargeback-amount-notification", 
-        "com.google.checkout.notification.ChargebackAmountNotification");
-    types.put("authorization-amount-notification", 
-        "com.google.checkout.notification.AuthorizationAmountNotification");
-    types.put("merchant-calculation-callback", 
-        "com.google.checkout.merchantcalculation.MerchantCalculationCallback");
-    
-    return (String) types.get(type);
+  private String getClassFromHandlerType(String type) {
+
+    // assume 'type' is of the format xxx-xxx-notification or xxx-xxx-callback
+    String handlerType = type.substring(type.lastIndexOf('-') + 1);
+
+    if (handlerType.equals("notification")) {
+      return (String)configManager.getNotificationHandler(type);
+    } else {
+      // assume handlerType is of type "callback"
+      return (String)configManager.getCallbackHandler(type);
+    }
   }
 }

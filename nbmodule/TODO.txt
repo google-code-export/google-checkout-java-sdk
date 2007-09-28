@@ -16,7 +16,6 @@ CheckoutConfigManager.java:228
 HandlerCreator.java:128
 HandlerCreator.java:146
 
-
 3. Add listeners to enable/disable the next button in the Checkout Integration
 Wizard panels, only allowing the user to continue if the panel is in a valid
 state (basically just error checking).
@@ -40,8 +39,8 @@ location is a valid directory
 4. There are a few places where I created a method that returns true or false
 to indicate success, but this should probably be handled by throwing custom
 exceptions.  The best example of this is Integrator.java, which could use
-these custom exceptions to generate error messages for the user.
-
+these custom exceptions to generate error messages for the user. 
+(Integrator.java:162)
 
 5. Look into getting the module signed, for ease of installation.
 NOTE: The version must be increased to allow users to update the modules

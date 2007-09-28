@@ -16,13 +16,13 @@
 
 package com.google.checkout.sdk.nbmodule.integrationwizard.panels;
 
+import com.google.checkout.sdk.nbmodule.integrationwizard.CheckoutIntegrationPanel;
 import com.google.checkout.sdk.nbmodule.integrationwizard.IntegrationWizardDescriptor;
 import com.google.checkout.sdk.nbmodule.integrationwizard.Settings;
 import java.awt.Component;
 import java.io.File;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeListener;
-import org.openide.WizardDescriptor;
 import org.openide.util.HelpCtx;
 
 public final class ConfirmationWizardPanel extends JPanel {
@@ -44,7 +44,7 @@ public final class ConfirmationWizardPanel extends JPanel {
    * @return Name of this panel
    */
   public String getName() {
-    return "Cofirm Changes";
+    return "Confirm Changes";
   }
   
   /** This method is called from within the constructor to
@@ -177,7 +177,7 @@ public final class ConfirmationWizardPanel extends JPanel {
     /*                       WIZARD DESCRIPTOR PANEL                         */
     /*************************************************************************/
     
-    static public class Panel implements WizardDescriptor.Panel {
+    static public class Panel implements CheckoutIntegrationPanel {
       // The visual component of this panel
       private ConfirmationWizardPanel component;
       
@@ -188,10 +188,21 @@ public final class ConfirmationWizardPanel extends JPanel {
         return component;
       }
       
+      public void setIntegrationWizardDescriptor(IntegrationWizardDescriptor iwd)
+      {
+      }
+      
       public HelpCtx getHelp() {
         return HelpCtx.DEFAULT_HELP;
       }
       
+      /**
+       *  Determines whether the Next and Finish buttons are enabled and 
+       *  disabled.
+       *
+       *  @return True if the Next and Finish buttons should be enabled;
+       *          otherwise false.
+       */
       public boolean isValid() {
         return true;
       }

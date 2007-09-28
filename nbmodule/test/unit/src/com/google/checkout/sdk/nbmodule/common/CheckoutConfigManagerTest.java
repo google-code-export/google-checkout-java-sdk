@@ -15,11 +15,10 @@
  ******************************************************************************/
 package com.google.checkout.sdk.nbmodule.common;
 
-import java.io.BufferedReader;
-import junit.framework.*;
+import junit.framework.TestCase;
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 
 /**
@@ -33,77 +32,133 @@ public class CheckoutConfigManagerTest extends TestCase {
     super(testName);
   }
 
-  /**
-   * Tests that readFile() properly reads the file and fills in the fields
-   * of CheckoutConfigManager.
-   */
-  public void testReadFile() {
-    System.out.println("readFile");
+  public void testEmptyCtor() {
+    CheckoutConfigManager c = new CheckoutConfigManager();
     
-    // Setup instance with a file name
-    CheckoutConfigManager instance = new CheckoutConfigManager();
-    URL url = getClass().getResource("/resources/test-checkout-config.xml");
-    if (url == null) {
-      fail("Could not find test-checkout-config.xml.");
-    }
-    File testXml = new File(url.getFile());
-    instance.setFile(testXml);
-    
-    // Verify that the read succeeded
-    boolean expResult = true;
-    boolean result = instance.readFile();
-    assertEquals(expResult, result);
-    
-    // Verify that all fields were read correctly
-    assertEquals(instance.getMerchantId(), "1234");
-    assertEquals(instance.getMerchantKey(), "5678");
-    assertEquals(instance.getEnv(), "Sandbox");
-    assertEquals(instance.getCurrencyCode(), "USD");
-    assertEquals(instance.getSandboxRoot(), 
-        "https://sandbox.google.com/checkout/cws/v2/Merchant");
-    assertEquals(instance.getProductionRoot(), 
-        "https://checkout.google.com/cws/v2/Merchant");
-    assertEquals(instance.getCheckoutSuffix(), "checkout");
-    assertEquals(instance.getMerchantCheckoutSuffix(), "merchantCheckout");
-    assertEquals(instance.getRequestSuffix(), "request");
-    
-    // Verify that handlers were read correctly
-    assertEquals(instance.getNotificationHandler("new-order-notification"), 
-        "com.google.checkout.sdk.NewOrderNotificationHandler");
-    assertEquals(instance.getCallbackHandler("merchant-calculation-callback"),
-        "com.google.checkout.sdk.MerchantCalculationCallbackHandler");
-  }
+    // verify the merchant info
+    assertEquals("812318588721976", c.getMerchantId());
+    assertEquals("c1YAeK6wMizfJ6BmZJG9Fg", c.getMerchantKey());
+    assertEquals("Sandbox", c.getEnv());
+    assertEquals("USD", c.getCurrencyCode());
+    assertEquals("https://sandbox.google.com/checkout/cws/v2/Merchant", c.getSandboxRoot());
+    assertEquals("https://checkout.google.com/cws/v2/Merchant", c.getProductionRoot());
+    assertEquals("checkout", c.getCheckoutSuffix());
+    assertEquals("merchantCheckout", c.getMerchantCheckoutSuffix());
+    assertEquals("request", c.getRequestSuffix());
 
-  /**
-   * Tests that the getBody() method returns the correct string.
-   */
+    // verify the notification handlers
+    assertEquals("com.google.checkout.handlers.NewOrderNotificationHandler", 
+        (String)c.getNotificationHandler("new-order-notification"));
+    
+    assertEquals("com.google.checkout.handlers.RiskInformationNotificationHandler", 
+        (String)c.getNotificationHandler("risk-information-notification"));
+    
+    assertEquals("com.google.checkout.handlers.OrderStateChangeNotificationHandler", 
+        (String)c.getNotificationHandler("order-state-change-notification"));
+    
+    assertEquals("com.google.checkout.handlers.ChargeAmountNotificationHandler", 
+        (String)c.getNotificationHandler("charge-amount-notification"));
+    
+    assertEquals("com.google.checkout.handlers.RefundAmountNotificationHandler", 
+        (String)c.getNotificationHandler("refund-amount-notification"));
+    
+    assertEquals("com.google.checkout.handlers.ChargebackAmountNotificationHandler", 
+        (String)c.getNotificationHandler("chargeback-amount-notification"));
+    
+    assertEquals("com.google.checkout.handlers.AuthorizationAmountNotificationHandler", 
+        (String)c.getNotificationHandler("authorization-amount-notification"));   
+
+    // verify the callback handlers
+    assertEquals("com.google.checkout.handlers.MerchantCalculationCallbackHandler",
+        (String)c.getCallbackHandler("merchant-calculation-callback"));
+  }
+  
+  public void testFileCtor_ExistingFile() {
+    CheckoutConfigManager c = new CheckoutConfigManager( 
+        getClass().getResourceAsStream("/resources/test-checkout-config.xml"));
+    
+    // verify the merchant info
+    assertEquals("1234", c.getMerchantId());
+    assertEquals("5678", c.getMerchantKey());
+    assertEquals("Sandbox", c.getEnv());
+    assertEquals("USD", c.getCurrencyCode());
+    assertEquals("https://sandbox.google.com/checkout/cws/v2/Merchant", c.getSandboxRoot());
+    assertEquals("https://checkout.google.com/cws/v2/Merchant", c.getProductionRoot());
+    assertEquals("checkout", c.getCheckoutSuffix());
+    assertEquals("merchantCheckout", c.getMerchantCheckoutSuffix());
+    assertEquals("request", c.getRequestSuffix());
+    
+    // verify the notification handlers
+    assertEquals("com.google.checkout.handlers.NewOrderNotificationHandler", 
+        (String)c.getNotificationHandler("new-order-notification"));
+    assertEquals(null, (String)c.getNotificationHandler("risk-information-notification"));
+    assertEquals(null, (String)c.getNotificationHandler("order-state-change-notification"));
+    assertEquals(null, (String)c.getNotificationHandler("charge-amount-notification"));
+    assertEquals(null, (String)c.getNotificationHandler("refund-amount-notification"));
+    assertEquals(null, (String)c.getNotificationHandler("chargeback-amount-notification"));
+    assertEquals(null, (String)c.getNotificationHandler("authorization-amount-notification"));
+    
+    // verify the callback handlers
+    assertEquals("com.google.checkout.handlers.MerchantCalculationCallbackHandler", 
+        (String)c.getCallbackHandler("merchant-calculation-callback"));
+  }
+  
+  public void testFileCtor_NonExistentFile() {    
+    CheckoutConfigManager c = new CheckoutConfigManager(
+        getClass().getResourceAsStream("/resources/non-existent-checkout-config.xml"));
+    
+    // verify the merchant info
+    assertEquals("", c.getMerchantId());
+    assertEquals("", c.getMerchantKey());
+    assertEquals("Sandbox", c.getEnv());
+    assertEquals("USD", c.getCurrencyCode());
+    assertEquals("https://sandbox.google.com/checkout/cws/v2/Merchant", c.getSandboxRoot());
+    assertEquals("https://checkout.google.com/cws/v2/Merchant", c.getProductionRoot());
+    assertEquals("checkout", c.getCheckoutSuffix());
+    assertEquals("merchantCheckout", c.getMerchantCheckoutSuffix());
+    assertEquals("request", c.getRequestSuffix());
+    
+    // verify the notification handlers
+    assertEquals("com.google.checkout.handlers.NewOrderNotificationHandler", 
+        (String)c.getNotificationHandler("new-order-notification"));
+    
+    assertEquals("com.google.checkout.handlers.RiskInformationNotificationHandler", 
+        (String)c.getNotificationHandler("risk-information-notification"));
+    
+    assertEquals("com.google.checkout.handlers.OrderStateChangeNotificationHandler", 
+        (String)c.getNotificationHandler("order-state-change-notification"));
+    
+    assertEquals("com.google.checkout.handlers.ChargeAmountNotificationHandler", 
+        (String)c.getNotificationHandler("charge-amount-notification"));
+    
+    assertEquals("com.google.checkout.handlers.RefundAmountNotificationHandler", 
+        (String)c.getNotificationHandler("refund-amount-notification"));
+    
+    assertEquals("com.google.checkout.handlers.ChargebackAmountNotificationHandler", 
+        (String)c.getNotificationHandler("chargeback-amount-notification"));
+    
+    assertEquals("com.google.checkout.handlers.AuthorizationAmountNotificationHandler", 
+        (String)c.getNotificationHandler("authorization-amount-notification"));
+
+    // verify the callback handlers
+    assertEquals("com.google.checkout.handlers.MerchantCalculationCallbackHandler", 
+        (String)c.getCallbackHandler("merchant-calculation-callback"));
+  }
+  
   public void testGetBody() {
-    System.out.println("getBody");
+    // Setup instance with a file name  
+    CheckoutConfigManager c1 = new CheckoutConfigManager(
+        getClass().getResourceAsStream( "/resources/test-checkout-config.xml"));
     
-    // Setup instance with a file name
-    CheckoutConfigManager instance = new CheckoutConfigManager();
-    URL url = getClass().getResource("/resources/test-checkout-config.xml");
-    if (url == null) {
-      fail("Could not find test-checkout-config.xml.");
-    }
-    File textXml = new File(url.getFile());
-    instance.setFile(textXml);
+    String result = c1.getBody();
     
-    // Setup expected result
-    url = getClass().getResource("/resources/expected-checkout-config.xml");
-    if (url == null) {
-      fail("Could not find expected-checkout-config.xml.");
-    }
-    File expXml = new File(url.getFile());
-    String expResult = null;
-    try {
-      expResult = CheckoutFileReader.readFileAsString(expXml);
-    } catch (IOException ex) {
-      fail("Could not read expected-checkout-config.xml.");
-    }
+    // Get the expected result
+    CheckoutConfigManager c2 = new CheckoutConfigManager(
+        getClass().getResourceAsStream("/resources/expected-checkout-config.xml"));
+        
+    String expResult = c2.getBody();
     
     // Verify that the expected result is returned by getBody()
-    String result = instance.getBody();
     assertEquals(expResult, result);
   }
 }

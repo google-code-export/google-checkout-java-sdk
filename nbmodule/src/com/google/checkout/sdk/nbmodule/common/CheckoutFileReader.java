@@ -17,9 +17,9 @@
 package com.google.checkout.sdk.nbmodule.common;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 /**
  * A simple file reader to reduce code duplication.
@@ -34,8 +34,9 @@ public class CheckoutFileReader {
    * @param file File to read
    * @return The contents of the file
    */
-  static public String readFileAsString(File file) throws IOException {
-    BufferedReader reader = new BufferedReader(new FileReader(file));
+  static public String readFileAsString(InputStream file) throws IOException {
+    
+    BufferedReader reader = new BufferedReader(new InputStreamReader(file));
     StringBuilder builder = new StringBuilder();
 
     // Read file
@@ -52,5 +53,4 @@ public class CheckoutFileReader {
 
     return contents;
   }
-  
 }
