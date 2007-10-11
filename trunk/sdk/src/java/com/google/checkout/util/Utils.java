@@ -56,8 +56,7 @@ import javax.xml.transform.stream.StreamSource;
 
 public class Utils {
 
-  public static DecimalFormat decimalFormat =
-      new DecimalFormat("#,###,###,##0.00");
+  public static DecimalFormat decimalFormat = new DecimalFormat("0.00");
   public static NumberFormat integerFormat = NumberFormat.getIntegerInstance();
 
   public static Document newEmptyDocument() {
