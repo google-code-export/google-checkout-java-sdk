@@ -34,6 +34,7 @@ import java.util.Iterator;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -51,7 +52,8 @@ public class CheckoutMessageHandlerServlet extends
    * Overrides servlet method to load notification processor configuration from
    * web.xml
    */
-  public void init(ServletConfig config) {
+  public void init(ServletConfig config) throws ServletException {
+    super.init(config);
     String handlerType = config.getInitParameter("handler-type");
     if (handlerType == null) {
       handlerType = DEFAULT_HANDLER_TYPE;
