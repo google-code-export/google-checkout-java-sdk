@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="checkout_eclipse" default="build.jars" basedir=".">
+
+  <!-- Project properties. -->
+  <property name="build.dir" value="bin"/>
+  <property name="sdk.dir.name" value="checkout-sdk-0.8"/>
+  <property name="checkout-sdk.home" value="../sdk/build/tmpdist/${sdk.dir.name}"/>
+  <property name="checkout-sdk-zip" value="${sdk.dir.name}.zip"/>
+  <property name="checkout-sdk-dir" value="${build.dir}/${sdk.dir.name}"/>
+  
+  <property name="basews" value="${ws}"/>
+  <property name="baseos" value="${os}"/>
+  <property name="basearch" value="${arch}"/>
+  <property name="basenl" value="${nl}"/>
+  <property name="bundleId" value="checkout_eclipse"/>
+  <property name="bundleVersion" value="1.0.0"/>
+
+  <!-- Compiler settings. -->
+  <property name="javacFailOnError" value="true"/>
+  <property name="javacDebugInfo" value="on"/>
+  <property name="javacVerbose" value="false"/>
+  <property name="logExtension" value=".log"/>
+  <property name="compilerArg" value=""/>
+  <property name="javacSource" value="1.5"/>
+  <property name="javacTarget" value="1.5"/>
+  <condition property="dir_bootclasspath" value="${java.home}/../Classes">
+    <os family="mac"/>
+  </condition>
+  <property name="dir_bootclasspath" value="${java.home}/lib"/>
+  <path id="path_bootclasspath">
+    <fileset dir="${dir_bootclasspath}">
+      <include name="*.jar"/>
+    </fileset>
+  </path>
+  <property name="bootclasspath" refid="path_bootclasspath"/>
+  <property name="bundleJavacSource" value="${javacSource}"/>
+  <property name="bundleJavacTarget" value="${javacTarget}"/>
+  <property name="bundleBootClasspath" value="${bootclasspath}"/>
+
+  <target name="init" depends="properties">
+    <condition property="pluginTemp" value="${buildTempFolder}/plugins">
+      <isset property="buildTempFolder"/>
+    </condition>
+    <property name="pluginTemp" value="${basedir}"/>
+    <condition property="build.result.folder" value="${pluginTemp}/checkout_eclipse_1.0.0">
+      <isset property="buildTempFolder"/>
+    </condition>
+    <property name="build.result.folder" value="${basedir}"/>
+    <property name="temp.folder" value="${basedir}/temp.folder"/>
+    <property name="plugin.destination" value="${basedir}"/>
+  </target>
+
+  <target name="properties" if="eclipse.running">
+    <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+  </target>
+  
+  <target name="copy-checkout-sdk">
+    <copy todir=".">
+      <fileset dir="../sdk/dist">
+        <include name="${checkout-sdk-zip}"/>
+      </fileset>
+    </copy>
+  </target>
+
+   <!-- eclipse-module setup: begin -->
+  <target name="check-sdk-zip-present">
+    <available file="${sdk.dir.name}.zip" property="checkout-sdk-zip.exists"/>
+    <fail unless="checkout-sdk-zip.exists" 
+          message="${checkout-sdk-zip} does not exist under the root directory (nbmodule/)"/>
+  </target>
+  
+  <target name="setup" depends="init,copy-checkout-sdk,check-sdk-zip-present">
+    <echo> 
+You will need to run setup target manually before building the nbmodule project, 
+or everytime after running the clean target.
+    </echo>
+    <mkdir dir="${build.dir}"/>
+    <unzip src="${checkout-sdk-zip}" dest="${build.dir}"/>
+    <mkdir dir="${build.dir}/resources"/>
+    <copy todir="src/resources">
+      <fileset dir="${checkout-sdk.home}/web/WEB-INF/">
+        <include name="checkout-config.xml"/>
+      </fileset>
+    </copy>
+    <jar basedir="${checkout-sdk-dir}/web/checkout" 
+         jarfile="${build.dir}/resources/samples.jar"/>
+    <copy file="${checkout-sdk-dir}/checkout-sdk.jar" 
+          todir="${build.dir}/resources"/>
+  	<!-- need to copy the two following jars to the following destinations for the zip.plugins target-->
+    <copy file="${build.dir}/resources/samples.jar" 
+          todir="src/resources"/>  
+    <copy file="${checkout-sdk-dir}/checkout-sdk.jar" 
+          todir="src/resources"/>  
+  </target>
+  <!-- eclipse-module setup: end -->
+  
+  <target name="build.update.jar" depends="init" description="Build the plug-in: checkout_eclipse for an update site.">
+    <delete dir="${temp.folder}"/>
+    <mkdir dir="${temp.folder}"/>
+    <antcall target="build.jars"/>
+    <antcall target="gather.bin.parts">
+      <param name="destination.temp.folder" value="${temp.folder}/"/>
+    </antcall>
+    <jar destfile="${plugin.destination}/checkout_eclipse_1.0.0.jar" basedir="${temp.folder}/checkout_eclipse_1.0.0" filesetmanifest="merge"/>
+    <delete dir="${temp.folder}"/>
+  </target>
+
+  <target name="@dot" depends="init" unless="@dot" description="Create jar: checkout_eclipse @dot.">
+    <delete dir="${temp.folder}/@dot.bin"/>
+    <mkdir dir="${temp.folder}/@dot.bin"/>
+    <path id="@dot.classpath">
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.ui_3.3.0.I20070614-0800.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.core.runtime_3.3.100.v20070530.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.osgi_3.3.0.v20070530.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.equinox.common_3.3.0.v20070426.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.core.jobs_3.3.0.v20070423.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.core.runtime.compatibility.registry_3.2.100.v20070316/runtime_registry_compatibility.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.core.runtime.compatibility.registry_3.2.100.v20070316"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.equinox.registry_3.3.0.v20070522.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.equinox.preferences_3.2.100.v20070522.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.core.runtime.compatibility.registry_3.2.100.v20070316/@dot"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.core.contenttype_3.2.100.v20070319.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.core.runtime.compatibility.auth_3.2.100.v20070502.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.equinox.app_1.0.0.v20070606.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.osgi.services_3.1.200.v20070605.jar"/>
+      <pathelement path="../../../../../opt/eclipse-ext/wtp/eclipse/plugins/javax.servlet_2.4.0.v200706111738.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.swt_3.3.0.v3346.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.swt.gtk.linux.x86_3.3.0.v3346.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.jface_3.3.0.I20070606-0010.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.core.commands_3.3.0.I20070605-0010.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.ui.workbench_3.3.0.I20070608-1100.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.ui.workbench.compatibility_3.2.0.I20070319-0010/@dot"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.ui.workbench.compatibility_3.2.0.I20070319-0010/compatibility.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/com.ibm.icu_3.6.1.v20070417.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.help_3.3.0.v20070524.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.core.expressions_3.3.0.v20070606-0010.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.jface.databinding_1.1.0.I20070606-0010.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.core.databinding_1.0.0.I20070606-0010.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.core.resources_3.3.0.v20070604.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.core.resources.compatibility_3.2.100.v20070502.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.ant.core_3.1.200.v20070522.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.core.variables_3.2.0.v20070426.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.core.filesystem_1.1.0.v20070606.jar"/>
+      <pathelement path="../../../../../opt/eclipse/plugins/org.eclipse.core.filesystem.linux.x86_1.1.0.v20070416.jar"/>
+    </path>
+    <!-- compile the source code -->
+    <javac destdir="${temp.folder}/@dot.bin" failonerror="${javacFailOnError}" verbose="${javacVerbose}" debug="${javacDebugInfo}" includeAntRuntime="no" bootclasspath="${bundleBootClasspath}" source="${bundleJavacSource}" target="${bundleJavacTarget}"    >
+      <compilerarg line="${compilerArg}" compiler="${build.compiler}"/>
+      <classpath refid="@dot.classpath"/>
+      <src path="src/"/>
+      <compilerarg value="@${basedir}/javaCompiler...args" compiler="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+      <compilerarg line="-log '${temp.folder}/@dot.bin${logExtension}'" compiler="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+    </javac>
+    <!-- Copy necessary resources -->
+    <copy todir="${temp.folder}/@dot.bin" failonerror="true" overwrite="false">
+      <fileset dir="src/">
+        <exclude name="**/*.java"/>
+        <exclude name="**/package.htm*"/>
+      </fileset>
+    </copy>
+    <!-- copy over the lib folder -->
+     <copy todir="${temp.folder}/@dot.bin/lib" failonerror="true" overwrite="false">
+       <fileset dir="lib/">
+         <include name="*.jar"/>
+         <include name="*.zip"/>
+       </fileset>
+     </copy>
+    <mkdir dir="${build.result.folder}"/>
+    <copy todir="${build.result.folder}/@dot" failonerror="true" overwrite="false">
+      <fileset dir="${temp.folder}/@dot.bin">
+      </fileset>
+    </copy>
+    <delete dir="${temp.folder}/@dot.bin"/>
+  </target>
+
+  <target name="src.zip" depends="init" unless="src.zip">
+    <mkdir dir="${build.result.folder}"/>
+    <zip destfile="${build.result.folder}/src.zip" filesonly="false" whenempty="skip" update="false">
+      <fileset dir="src/">
+        <include name="**/*.java"/>
+      </fileset>
+    </zip>
+  </target>
+
+  <target name="build.jars" depends="init" description="Compile classes and build nested jars for the plug-in: checkout_eclipse.">
+    <available property="@dot" file="${build.result.folder}/@dot"/>
+    <antcall target="@dot"/>
+  </target>
+
+  <target name="build.sources" depends="init">
+    <available property="src.zip" file="${build.result.folder}/src.zip"/>
+    <antcall target="src.zip"/>
+  </target>
+
+  <target name="gather.bin.parts" depends="init" if="destination.temp.folder">
+    <mkdir dir="${destination.temp.folder}/checkout_eclipse_1.0.0"/>
+    <copy todir="${destination.temp.folder}/checkout_eclipse_1.0.0" failonerror="true" overwrite="false">
+      <fileset dir="${build.result.folder}/@dot">
+        <include name="**"/>
+      </fileset>
+    </copy>
+    <copy todir="${destination.temp.folder}/checkout_eclipse_1.0.0" failonerror="true" overwrite="false">
+      <fileset dir="${basedir}">
+        <include name="plugin.xml"/>
+        <include name="META-INF/"/>
+        <include name="icons/"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="build.zips" depends="init">
+  </target>
+
+  <target name="gather.sources" depends="init" if="destination.temp.folder">
+    <mkdir dir="${destination.temp.folder}/checkout_eclipse_1.0.0"/>
+    <copy file="${build.result.folder}/src.zip" todir="${destination.temp.folder}/checkout_eclipse_1.0.0" failonerror="false" overwrite="false"/>
+  </target>
+
+  <target name="gather.logs" depends="init" if="destination.temp.folder">
+    <mkdir dir="${destination.temp.folder}/checkout_eclipse_1.0.0"/>
+    <copy todir="${destination.temp.folder}/checkout_eclipse_1.0.0" failonerror="false" overwrite="false">
+      <fileset dir="${temp.folder}">
+        <include name="@dot.bin${logExtension}"/>
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="clean" depends="init" description="Clean the plug-in: checkout_eclipse of all the zips, jars and logs created.">
+    <delete dir="${build.result.folder}/@dot"/>
+    <delete file="${build.result.folder}/src.zip"/>
+    <delete file="${plugin.destination}/checkout_eclipse_1.0.0.jar"/>
+    <delete file="${plugin.destination}/checkout_eclipse_1.0.0.zip"/>
+    <delete dir="${temp.folder}"/>
+  	<delete file="${checkout-sdk-zip}"/>
+  	<delete dir="${checkout-sdk-dir}"/>
+  	<!-- clean up the following jars from the setup target -->
+  	<delete file="${build.dir}/resources/samples.jar"/>
+  	<delete file="${checkout-sdk-dir}/checkout-sdk.jar"/>
+  </target>
+
+  <target name="refresh" depends="init" if="eclipse.running" description="Refresh this folder.">
+    <eclipse.convertPath fileSystemPath="/home/cdang/Desktop/google-checkout-java-sdk/checkout-eclipse" property="resourcePath"/>
+    <eclipse.refreshLocal resource="${resourcePath}" depth="infinite"/>
+  </target>
+
+  <target name="zip.plugin" depends="init" description="Create a zip containing all the elements for the plug-in: checkout_eclipse.">
+    <delete dir="${temp.folder}"/>
+    <mkdir dir="${temp.folder}"/>
+    <antcall target="build.jars"/>
+    <antcall target="build.sources"/>
+    <antcall target="gather.bin.parts">
+      <param name="destination.temp.folder" value="${temp.folder}/"/>
+    </antcall>
+    <antcall target="gather.sources">
+      <param name="destination.temp.folder" value="${temp.folder}/"/>
+    </antcall>
+    <delete>
+      <fileset dir="${temp.folder}">
+        <include name="**/*.bin${logExtension}"/>
+      </fileset>
+    </delete>
+    <zip destfile="${plugin.destination}/checkout_eclipse_1.0.0.zip" basedir="${temp.folder}" filesonly="true" whenempty="skip" update="false"/>
+    <delete dir="${temp.folder}"/>
+  </target>
+
+</project>
