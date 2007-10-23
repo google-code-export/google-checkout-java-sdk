@@ -19,10 +19,10 @@ package com.google.checkout.sdk.nbmodule.handlermanager;
 import com.google.checkout.sdk.nbmodule.common.CheckoutConfigManager;
 import com.google.checkout.sdk.nbmodule.common.CheckoutFileWriter;
 import com.google.checkout.sdk.nbmodule.common.exceptions.HandlerCreationException;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 
 /**
  * Handles the creation of java handler class, including loading a template

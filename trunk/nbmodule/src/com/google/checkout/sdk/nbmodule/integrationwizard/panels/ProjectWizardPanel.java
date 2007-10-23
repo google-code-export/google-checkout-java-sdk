@@ -75,38 +75,18 @@ public final class ProjectWizardPanel extends JPanel {
     return "Select Project";
   }
 
-  public boolean isValid()
-  {
+  public boolean isValid() {
     return (validSelectedProject && validWebInfPath);
   }
   
-  public void setIntegrationWizardDescriptor(IntegrationWizardDescriptor iwd)
-  {
+  public void setIntegrationWizardDescriptor(IntegrationWizardDescriptor iwd) {
     wizardDescriptor = iwd;
   }
   
   public void updateState() {
-    if (wizardDescriptor != null) 
-    {
+    if (wizardDescriptor != null) {
       wizardDescriptor.updateState();
     }
-  }
-  
-  public boolean hasValidWebInfPath(String path)
-  {
-    File temp = new File(path);
-    if (temp.exists()) {
-      // the text in the WEB-INF selector is a valid directory
-      validWebInfPath = true;
-      warningLabel.setForeground(getBackground());
-    }
-    else {
-      validWebInfPath = false;
-      warningLabel.setForeground(Color.RED);
-      warningLabel.setText("Please select a valid web-inf directory.");
-    }
-        
-    return validWebInfPath;
   }
     
   /** This method is called from within the constructor to
@@ -212,10 +192,10 @@ public final class ProjectWizardPanel extends JPanel {
         .addContainerGap())
     );
   }// </editor-fold>//GEN-END:initComponents
-    /*************************************************************************/
-    /*                           EVENT HANDLERS                              */
-    /*************************************************************************/
   
+  /*************************************************************************/
+  /*                           EVENT HANDLERS                              */
+  /*************************************************************************/
   private void webInfTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_webInfTextFieldKeyReleased
     hasValidWebInfPath(webInfTextField.getText());
     updateState();
@@ -242,12 +222,9 @@ public final class ProjectWizardPanel extends JPanel {
     }//GEN-LAST:event_browseButtonActionPerformed
     
     private void projectListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_projectListValueChanged
-      if (projectList.getSelectedIndex() >= 0)
-      {
+      if (projectList.getSelectedIndex() >= 0) {
         validSelectedProject = true;
-      }
-      else
-      {
+      } else {
         validSelectedProject = false;
       }
             
@@ -272,9 +249,9 @@ public final class ProjectWizardPanel extends JPanel {
       updateState();
     }//GEN-LAST:event_projectListValueChanged
     
-    /*************************************************************************/
-    /*                          SWING VARIABLES                              */
-    /*************************************************************************/
+  /*************************************************************************/
+  /*                          SWING VARIABLES                              */
+  /*************************************************************************/
     
   // Variables declaration - do not modify//GEN-BEGIN:variables
   private javax.swing.JButton browseButton;
@@ -288,174 +265,187 @@ public final class ProjectWizardPanel extends JPanel {
   private javax.swing.JTextField webInfTextField;
   // End of variables declaration//GEN-END:variables
     
-    /*************************************************************************/
-    /*                          UTILITY METHODS                              */
-    /*************************************************************************/
+  /*************************************************************************/
+  /*                          UTILITY METHODS                              */
+  /*************************************************************************/
     
-    /**
-     * Refreshes the project list with the list of currently opened projects.
-     * The "default project" (defined by NetBeans) is selected by default.
-     */
-    private void refreshProjectList() {
-      // Get a list of open projects
-      OpenProjects openProjects = OpenProjects.getDefault();
-      projects = openProjects.getOpenProjects();
-      
-      // Determine the selected projects name
-      String selectedName = null;
-      if (settings.getProject() != null) {
-        selectedName = settings.getProject().getProjectDirectory().getName();
-      } else if (openProjects.getMainProject() != null) {
-        selectedName = 
-            openProjects.getMainProject().getProjectDirectory().getName();
-      }
-      
-      // Add open projects to the project list
-      projectModel.clear();
-      for (int i=0; i<projects.length; i++) {
-        String name = projects[i].getProjectDirectory().getName();
-        projectModel.addElement(name);
-        
-        // If main project, set as selected
-        if (selectedName != null && name.equals(selectedName)) {
-          projectList.setSelectedIndex(i);
-        }
-      }
-      
-      // Refresh the WEB-INF text field
-      updateWebInfTextField();
-    }
-    
-    /**
-     * Checks whether the selected project has already been integrated (i.e. 
-     * already contains the checkout-config.xml)
-     */
-    private void checkIntegration() {
+  /**
+   * Refreshes the project list with the list of currently opened projects.
+   * The "default project" (defined by NetBeans) is selected by default.
+   */
+  private void refreshProjectList() {
+    // Get a list of open projects
+    OpenProjects openProjects = OpenProjects.getDefault();
+    projects = openProjects.getOpenProjects();
 
+    // Determine the selected projects name
+    String selectedName = null;
+    if (settings.getProject() != null) {
+      selectedName = settings.getProject().getProjectDirectory().getName();
+    } else if (openProjects.getMainProject() != null) {
+      selectedName = 
+          openProjects.getMainProject().getProjectDirectory().getName();
+    }
+
+    // Add open projects to the project list
+    projectModel.clear();
+    for (int i=0; i<projects.length; i++) {
+      String name = projects[i].getProjectDirectory().getName();
+      projectModel.addElement(name);
+
+      // If main project, set as selected
+      if (selectedName != null && name.equals(selectedName)) {
+        projectList.setSelectedIndex(i);
+      }
+    }
+
+    // Refresh the WEB-INF text field
+    updateWebInfTextField();
+  }
+
+  /**
+   * Checks whether the selected project has already been integrated (i.e. 
+   * already contains the checkout-config.xml)
+   */
+  private void checkIntegration() {
+    try {
+      FileObject projectDirectory = 
+          settings.getProject().getProjectDirectory();
+      URI uri = projectDirectory.getURL().toURI();
+      File file = new File(uri.resolve("web/WEB-INF/checkout-config.xml"));
+
+      if (!file.exists()) {
+        warningLabel.setForeground(getBackground());
+      }
+      else {
+        warningLabel.setForeground(Color.RED);
+        warningLabel.setText("Warning: the selected project has already been integrated.");
+      }
+    } 
+    catch (URISyntaxException ex) {
+        // Okay to not have a default
+    }          
+    catch (FileStateInvalidException ex) {
+        // Okay to not have a default
+    }
+  }
+
+  private void updateWebInfTextField() {
+    // Generate default WEB-INF directory if none provided
+    if (settings.getWebInfDirectory() == null) {
       try {
+        Project project = settings.getProject();
+
         FileObject projectDirectory = 
-            settings.getProject().getProjectDirectory();
+          project.getProjectDirectory();
+
         URI uri = projectDirectory.getURL().toURI();
-        File file = new File(uri.resolve("web/WEB-INF/checkout-config.xml"));
-        
-        if (!file.exists())
-        {
-          warningLabel.setForeground(getBackground());
-        }
-        else {
-          warningLabel.setForeground(Color.RED);
-          warningLabel.setText("Warning: the selected project has already been integrated.");
-        }
-      } 
-      catch (URISyntaxException ex) {
-          // Okay to not have a default
-      }          
-      catch (FileStateInvalidException ex) {
-          // Okay to not have a default
-      }
-    }
-    
-    private void updateWebInfTextField() {
-      // Generate default WEB-INF directory if none provided
-      if (settings.getWebInfDirectory() == null) {
-        try {
-          Project project = settings.getProject();
+        File file = new File(uri.resolve("web/WEB-INF/"));
+        settings.setWebInfDirectory(file);
 
-          FileObject projectDirectory = 
-            project.getProjectDirectory();
+        // Show the WEB-INF directory in the text field
+        webInfTextField.setText(settings.getWebInfDirectory().getPath());
 
-          URI uri = projectDirectory.getURL().toURI();
-          File file = new File(uri.resolve("web/WEB-INF/"));
-          settings.setWebInfDirectory(file);
+      } catch (URISyntaxException ex) {
+        // Okay to not have a default
+      } catch (FileStateInvalidException ex) {
+        // Okay to not have a default
+      }
+    }
+  }
 
-          // Show the WEB-INF directory in the text field
-          webInfTextField.setText(settings.getWebInfDirectory().getPath());
-          
-        } catch (URISyntaxException ex) {
-          // Okay to not have a default
-        } catch (FileStateInvalidException ex) {
-          // Okay to not have a default
-        }
-      }
+  private boolean hasValidWebInfPath(String path) {
+    File temp = new File(path);
+    if (temp.exists()) {
+      // the text in the WEB-INF selector is a valid directory
+      validWebInfPath = true;
+      warningLabel.setForeground(getBackground());
     }
-    
-    private void recordSettings() {
-      // Validate WEB-INF directory
-      File dir = new File(webInfTextField.getText());
-      if (dir.isDirectory()) {
-        settings.setWebInfDirectory(dir);
-      } 
+    else {
+      validWebInfPath = false;
+      warningLabel.setForeground(Color.RED);
+      warningLabel.setText("Please select a valid web-inf directory.");
     }
-    
-    /*************************************************************************/
-    /*                         SETTINGS ACCESSORS                            */
-    /*************************************************************************/
-    
-    public Settings getSettings() {
-      return settings;
+
+    return validWebInfPath;
+  }
+
+  private void recordSettings() {
+    // Validate WEB-INF directory
+    File dir = new File(webInfTextField.getText());
+    if (dir.isDirectory()) {
+      settings.setWebInfDirectory(dir);
+    } 
+  }
+
+  /*************************************************************************/
+  /*                         SETTINGS ACCESSORS                            */
+  /*************************************************************************/
+
+  public Settings getSettings() {
+    return settings;
+  }
+
+  public void setSettings(Settings settings) {
+    this.settings = settings;
+  }
+
+  /*************************************************************************/
+  /*                       WIZARD DESCRIPTOR PANEL                         */
+  /*************************************************************************/
+
+  public static class Panel implements CheckoutIntegrationPanel {
+    // The visual component of this panel
+    private ProjectWizardPanel component;
+
+    public Component getComponent() {
+      if (component == null) {
+        component = new ProjectWizardPanel();
+      }
+      return component;
     }
-    
-    public void setSettings(Settings settings) {
-      this.settings = settings;
+
+    public void setIntegrationWizardDescriptor(IntegrationWizardDescriptor iwd) {
+      component.setIntegrationWizardDescriptor(iwd);
     }
-    
-    /*************************************************************************/
-    /*                       WIZARD DESCRIPTOR PANEL                         */
-    /*************************************************************************/
-    
-    public static class Panel implements CheckoutIntegrationPanel {
-      // The visual component of this panel
-      private ProjectWizardPanel component;
-      
-      public Component getComponent() {
-        if (component == null) {
-          component = new ProjectWizardPanel();
-        }
-        return component;
-      }
-      
-      public void setIntegrationWizardDescriptor(IntegrationWizardDescriptor iwd)
-      {
-        component.setIntegrationWizardDescriptor(iwd);
-      }
-      
-      public HelpCtx getHelp() {
-        return HelpCtx.DEFAULT_HELP;
-      }
-      
-      /**
-       *  Determines whether the Next and Finish buttons are enabled and 
-       *  disabled.
-       *
-       *  @return True if the Next and Finish buttons should be enabled;
-       *          otherwise false.
-       */
-      public boolean isValid() {
-        return component.isValid();
-      }
-      
-      public final void addChangeListener(ChangeListener l) {}
-      public final void removeChangeListener(ChangeListener l) {}
-      
-      public void readSettings(Object settings) {
-        
-        // Read shared info from the wizard descriptor
-        IntegrationWizardDescriptor descriptor = 
-            (IntegrationWizardDescriptor) settings;
-        component.setSettings(descriptor.getSettings());
-        
-        // Refresh the panel
-        component.refreshProjectList();
-      }
-      
-      public void storeSettings(Object settings) {
-        // Record the page state into settings
-        component.recordSettings();
-        
-        // Write shared info to the wizard descriptor
-        IntegrationWizardDescriptor descriptor = 
-            (IntegrationWizardDescriptor) settings;
-        descriptor.setSettings(component.getSettings());
-      }
+
+    public HelpCtx getHelp() {
+      return HelpCtx.DEFAULT_HELP;
     }
+
+    /**
+     *  Determines whether the Next and Finish buttons are enabled and 
+     *  disabled.
+     *
+     *  @return True if the Next and Finish buttons should be enabled;
+     *          otherwise false.
+     */
+    public boolean isValid() {
+      return component.isValid();
+    }
+
+    public final void addChangeListener(ChangeListener l) {}
+    public final void removeChangeListener(ChangeListener l) {}
+
+    public void readSettings(Object settings) {
+
+      // Read shared info from the wizard descriptor
+      IntegrationWizardDescriptor descriptor = 
+          (IntegrationWizardDescriptor) settings;
+      component.setSettings(descriptor.getSettings());
+
+      // Refresh the panel
+      component.refreshProjectList();
+    }
+
+    public void storeSettings(Object settings) {
+      // Record the page state into settings
+      component.recordSettings();
+
+      // Write shared info to the wizard descriptor
+      IntegrationWizardDescriptor descriptor = 
+          (IntegrationWizardDescriptor) settings;
+      descriptor.setSettings(component.getSettings());
+    }
+  }
 }

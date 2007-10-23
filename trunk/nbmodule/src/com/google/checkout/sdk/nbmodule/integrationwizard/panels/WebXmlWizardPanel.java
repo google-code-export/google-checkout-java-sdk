@@ -61,14 +61,12 @@ public final class WebXmlWizardPanel extends JPanel {
     return (continueCheckBox.isSelected() || f.exists());
   }
   
-  public void setIntegrationWizardDescriptor(IntegrationWizardDescriptor iwd)
-  {
+  public void setIntegrationWizardDescriptor(IntegrationWizardDescriptor iwd) {
     wizardDescriptor = iwd;
   }
   
   public void updateState() {
-    if (wizardDescriptor != null) 
-    {
+    if (wizardDescriptor != null) {
       wizardDescriptor.updateState();
     }
   }
@@ -206,7 +204,7 @@ public final class WebXmlWizardPanel extends JPanel {
       // Set the web.xml field
       webXmlTextField.setText(settings.getWebXmlFile().getPath());
       
-      // Fill the preview area with a newly processed file or an modified file
+      // Fill the preview area with a newly processed file or a modified file
       if (settings.getModifiedWebXml() != null) {
         previewTextArea.setText(settings.getModifiedWebXml());
       } else {
@@ -287,16 +285,16 @@ public final class WebXmlWizardPanel extends JPanel {
     
     private void readWebFragment() {
       String loc = "/resources/webFragment.xml";
-      InputStream is = this.getClass().getResourceAsStream(loc);
-      if (is != null) {
+      InputStream source = getClass().getResourceAsStream(loc);
+      if (source != null) {
         try {
           StringBuilder buf = new StringBuilder();
           
           int ch;
-          while ((ch = is.read()) != -1) {
+          while ((ch = source.read()) != -1) {
             buf.append((char) ch);
           }
-          is.close();
+          source.close();
           
           webFragment = buf.toString();
         } catch (IOException ex) {

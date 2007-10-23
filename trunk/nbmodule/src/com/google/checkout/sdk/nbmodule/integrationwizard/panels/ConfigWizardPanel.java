@@ -50,23 +50,19 @@ public final class ConfigWizardPanel extends JPanel {
     
     if (valid) {
       warningLabel.setForeground(getBackground());
-    }
-    else
-    {
+    } else {
       warningLabel.setForeground(Color.RED);
     }
     
     return valid;
   }
 
-  public void setIntegrationWizardDescriptor(IntegrationWizardDescriptor iwd)
-  {
+  public void setIntegrationWizardDescriptor(IntegrationWizardDescriptor iwd) {
     wizardDescriptor = iwd;
   }
   
   public void updateState() {
-    if (wizardDescriptor != null) 
-    {
+    if (wizardDescriptor != null) {
       wizardDescriptor.updateState();
     }
   }

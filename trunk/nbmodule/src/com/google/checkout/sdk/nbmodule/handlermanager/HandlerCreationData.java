@@ -24,7 +24,7 @@ package com.google.checkout.sdk.nbmodule.handlermanager;
 public class HandlerCreationData {
   
   /*************************************************************************/
-  /*                           SPEDCIAL VALUES                             */
+  /*                           SPECIAL VALUES                              */
   /*************************************************************************/
   
   // Handlers classes
