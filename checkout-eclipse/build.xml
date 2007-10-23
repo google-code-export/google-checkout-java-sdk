@@ -235,7 +235,9 @@ or everytime after running the clean target.
   	<delete dir="${checkout-sdk-dir}"/>
   	<!-- clean up the following jars from the setup target -->
   	<delete file="${build.dir}/resources/samples.jar"/>
-  	<delete file="${checkout-sdk-dir}/checkout-sdk.jar"/>
+  	<delete file="${build.dir}/resources/checkout-sdk.jar"/>
+    <delete file="src/resources/samples.jar"/>
+    <delete file="src/resources/checkout-sdk.jar"/>
   </target>
 
   <target name="refresh" depends="init" if="eclipse.running" description="Refresh this folder.">
