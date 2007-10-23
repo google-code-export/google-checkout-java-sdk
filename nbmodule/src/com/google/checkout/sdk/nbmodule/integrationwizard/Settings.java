@@ -22,7 +22,7 @@ import org.netbeans.api.project.Project;
 
 /**
  * Stores all of the information required to perform the Checkout Integration.
- * This classs should be built by the Integration Wizard.
+ * This class should be built by the Integration Wizard.
  *
  * @author David Rubel
  */

@@ -64,8 +64,7 @@ public final class IntegrationWizardAction extends CallableSystemAction {
       
       // need to pass in the IntegrationWizardDescriptor to the panels so they
       // can disable/enable the 'Next' button accordingly when their state changes
-      for (int i=0; i<panels.length; ++i)
-      {
+      for (int i=0; i<panels.length; ++i) {
         panels[i].setIntegrationWizardDescriptor(wizardDescriptor);
       }
 

@@ -54,8 +54,7 @@ public class SamplesWizardPanel extends JPanel {
   }
   
   public void updateState() {
-    if (wizardDescriptor != null) 
-    {
+    if (wizardDescriptor != null) {
       wizardDescriptor.updateState();
     }
   }
