@@ -1,0 +1,27 @@
+{"name": "Image Browser",
+         "type": "jmaki",
+         'version' : '.9.7',
+         'jmakiVersion' : '.9.7',
+         'author' : 'Greg Murray',
+         'url' : 'https://ajax.dev.java.net',         
+         "image" : "images/jmaki-imagebrowser.jpg",
+         "description": "This widget allows you to browse a set of images that can be specified in a JSON file or by a flickr tag.",
+         "args": [
+             {'sourceType' : {
+               'type':'STRING', 
+               'description' : 'Where the images are pulled from.',
+               'defaultValue' : 'flickr',
+               'values': [
+                  {'name' : 'Flickr Source', 'value' : 'flickr', 'description' : 'Pull images from Flickr using JSONP.'},
+                  {'name' : 'JSON Source', 'value' : 'security', 'json' : 'Load image via a JSON formatted source file. Requires a URL specified using a url argument.'}
+                 ]
+               }
+             }, 
+             {"url":{"type":"STRING", "defaultValue": "", "description": "The url to a JSON Source."}},
+             {"tags":{"type":"STRING", "defaultValue": "thekt", "description": "One or more comma separated tag names that will be looked up. Only flickr images tags all tags are returned."}},
+             {"scaleIcons":{"type":"BOOLEAN", "defaultValue": false, "description": "Whether to resize the icons based on the size of the widget. This is useful when using small sizes."}},
+             {"width":{"type":"NUMBER", "defaultValue": 400, "description": "Width of the widget. If not set the widget will auto fill to the width of whatever container it is in."}},
+             {"height":{"type":"NUMBER", "defaultValue": 400, "description": "Width of the widget. If not set the widget will auto fill to the height of whatever container it is in."}},
+             {"apikey":{"type":"String", "description": "Api key used to retrieve flickr photos. You can limited to retrieve 20 photos without an API key set."}}
+             ]
+ }
