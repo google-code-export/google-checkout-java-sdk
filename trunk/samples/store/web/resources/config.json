@@ -1,0 +1,8 @@
+{"config": {
+    "logLevel": "all",
+    "glue": {"includes": [
+        "/glue.js",
+        "/resources/system-glue.js"
+    ]},
+    "version": "1.0"
+}}

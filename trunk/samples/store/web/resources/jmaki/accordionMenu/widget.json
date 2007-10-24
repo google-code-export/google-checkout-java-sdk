@@ -1,0 +1,50 @@
+{'name': 'Accordion Menu',
+         'type': 'jmaki',
+         'version' : '1.0',
+         'jmakiVersion' : '.1.0',
+         'author' : 'Greg Murray',
+         'url' : 'https://ajax.dev.java.net',         
+         'image' : 'images/jmaki-accordion-menu.jpg',
+         'dataModel' : 'http://wiki.java.net/bin/view/Projects/jMakiMenuDataModel',
+         'description':'An single level menu following the jMaki menu model.',
+         'value':{'type' : 'OBJECT',
+                'defaultValue':
+                {'menu' : [
+                     { 'label' : 'Sample',
+                     'action' :
+                     [
+                       {'topic': '/myview/select',
+                        'message': { 'targetId' : 'bar'}},
+                       {'topic': '/myview/setInclude',
+                        'message': { 'targetId' : 'bar', 'value' : 'bar.jsp'}}
+                        ]
+                     },
+                     { 'label' :'Documentation',
+                     'action' :{'topic': '/myview/setInclude',
+                     'message': { 'targetId' : 'bar', 'value' : 'p2.jsp'}}
+                     },
+                       { 'label' :'Code',
+                     'action' :{'topic': '/myview2/select',
+                     'message': { 'targetId' : 'p3'}}
+                     }
+                    ]
+                }
+      },
+      'config' : {
+          'type' :
+           { 'id' : 'jmaki',
+              'themes' : [
+                   {'id' : 'orange',
+                    'default' : true,
+                     'style' : '../resources/styles/themes/orange/theme.css'
+                   },
+                   {'id' : 'chocolate',
+                     'style' : '../resources/styles/themes/chocolate/theme.css'
+                   }
+               ],
+               'resources' : [
+                   '../resources/styles'
+               ]
+          }  
+    }
+}      
