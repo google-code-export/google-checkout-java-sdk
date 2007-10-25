@@ -2,7 +2,7 @@
  * Copyright (C) 2007 Google Inc.
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliancem with the License. You may obtain a copy of
+ * use this file except in compliance with the License. You may obtain a copy of
  * the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
@@ -14,32 +14,28 @@
  * the License.
  ******************************************************************************/
 
-package com.google.checkout.samples.store.model;
+package com.google.checkout.samples.store.web;
 
-import java.util.ArrayList;
+
+import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.conversion.annotations.Conversion;
+import com.opensymphony.xwork2.validator.annotations.Validation;
+
+
+import java.util.logging.Logger;
+
 
 /**
- * List of products
+ * Action that handles the incoming request for catalog JSON
  * @author inder@google.com (Inderjeet Singh)
  */
-public class ProductList extends ArrayList<Product> {
+@Validation()
+@Conversion()
+public class CatalogJsonAction extends ActionSupport {
 
-  private final Category category;
-
-  public ProductList(Category category) {
-    this(category, (Product) null);
-  }
-
-  public ProductList(Category category, Product... products) {
-    this.category = category;
-    if (products != null) {
-      for (Product product : products) {
-        this.add(product);
-      }
-    }
-  }
-
-  public Category getCategory() {
-    return category;
+  private static final Logger logger = Logger.getLogger(CatalogJsonAction.class.getName());
+  
+  public String execute() throws Exception {
+    return SUCCESS;
   }
 }

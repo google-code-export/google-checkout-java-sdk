@@ -18,7 +18,8 @@ jmaki.subscribe("/controller*", function(args) {
     jmaki.log("Controller : setting items to " + productId);
     if (!jmaki.data.catalog[productId]) {
       jmaki.doAjax( {
-            url : 'data-' + productId + '.json',
+            //url : 'data-' + productId + '.json',
+            url : 'control/catalog-json.action?category='+productId,
             callback : function(req) {
                 // clear the items in the browser
                 jmaki.publish('/ibrowse/clear', {});                
@@ -45,11 +46,10 @@ jmaki.subscribe("/controller*", function(args) {
 
 jmaki.subscribe("/jmaki/runtime/loadComplete", function(args) {
     // start with turtles
-    var productId = 'birds';
+    var productId = 'Cats';
     jmaki.log("Initialize : setting items to " + productId);
     jmaki.doAjax( {
-            /* url : 'data-' + productId + '.json', */
-            url : 'control/catalog-json.action?category=Cats',
+            url : 'control/catalog-json.action?category='+productId,
             callback : function(req) {
                 // clear the items in the browser
                 jmaki.publish('/ibrowse/clear', {});                

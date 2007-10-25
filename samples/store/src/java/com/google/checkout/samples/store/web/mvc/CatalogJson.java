@@ -14,8 +14,9 @@
  * the License.
  ******************************************************************************/
 
-package com.google.checkout.samples.store.web;
+package com.google.checkout.samples.store.web.mvc;
 
+import com.google.checkout.samples.store.web.*;
 import com.google.checkout.samples.store.model.ModelFacade;
 import com.google.checkout.samples.store.model.Category;
 import com.google.checkout.samples.store.model.DummyData;

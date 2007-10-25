@@ -24,7 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.*;
 import javax.servlet.http.*;
-import com.google.checkout.samples.store.web.CatalogJson;
+import com.google.checkout.samples.store.web.mvc.CatalogJson;
 import com.google.checkout.samples.store.web.WebHelper;
 
 /**
