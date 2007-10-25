@@ -2,7 +2,7 @@
 <project name="dist" default="zip" basedir=".">
   <description>builds the release distribution for this project.</description>
  
-  <property name="release.version" value="0.8" />
+  <property name="release.version" value="0.8.1" />
  
   <import file="standalone-build.xml"/>
   
