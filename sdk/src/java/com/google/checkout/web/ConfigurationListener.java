@@ -77,28 +77,35 @@ public class ConfigurationListener implements ServletContextListener {
         Utils.getElementStringValue(doc, miElement, "sandbox-root").trim();
     String productionRoot =
         Utils.getElementStringValue(doc, miElement, "production-root").trim();
-    String checkoutSuffix =
-        Utils.getElementStringValue(doc, miElement, "checkout-suffix").trim();
-    String merchantCheckoutSuffix =
-        Utils.getElementStringValue(doc, miElement, "merchant-checkout-suffix")
+    String checkoutCommand =
+        Utils.getElementStringValue(doc, miElement, "checkout-command").trim();
+    String merchantCheckoutCommand =
+        Utils
+            .getElementStringValue(doc, miElement, "merchant-checkout-command")
             .trim();
-    String requestSuffix =
-        Utils.getElementStringValue(doc, miElement, "request-suffix").trim();
+    String requestCommand =
+        Utils.getElementStringValue(doc, miElement, "request-command").trim();
 
     String checkoutUrl = "";
     String merchantCheckoutUrl = "";
     String requestUrl = "";
 
     if (EnvironmentType.Sandbox.equals(env)) {
-      checkoutUrl = sandboxRoot + "/" + merchantId + "/" + checkoutSuffix;
+      checkoutUrl =
+          sandboxRoot + "/" + checkoutCommand + "/Merchant/" + merchantId;
       merchantCheckoutUrl =
-          sandboxRoot + "/" + merchantId + "/" + merchantCheckoutSuffix;
-      requestUrl = sandboxRoot + "/" + merchantId + "/" + requestSuffix;
+          sandboxRoot + "/" + merchantCheckoutCommand + "/Merchant/"
+              + merchantId;
+      requestUrl =
+          sandboxRoot + "/" + requestCommand + "/Merchant/" + merchantId;
     } else if (EnvironmentType.Production.equals(env)) {
-      checkoutUrl = productionRoot + "/" + merchantId + "/" + checkoutSuffix;
+      checkoutUrl =
+          productionRoot + "/" + checkoutCommand + "/Merchant/" + merchantId;
       merchantCheckoutUrl =
-          productionRoot + "/" + merchantId + "/" + merchantCheckoutSuffix;
-      requestUrl = productionRoot + "/" + merchantId + "/" + requestSuffix;
+          productionRoot + "/" + merchantCheckoutCommand + "/Merchant/"
+              + merchantId;
+      requestUrl =
+          productionRoot + "/" + requestCommand + "/Merchant/" + merchantId;
     } else {
       throw new RuntimeException("Env must be one of "
           + EnvironmentType.Sandbox + " or " + EnvironmentType.Production + ".");

@@ -28,14 +28,14 @@
     <env>Sandbox</env>
     <currency-code>USD</currency-code>
     <sandbox-root>
-      https://sandbox.google.com/checkout/cws/v2/Merchant
+      https://sandbox.google.com/checkout/api/checkout/v2
     </sandbox-root>
     <production-root>
-      https://checkout.google.com/cws/v2/Merchant
+      https://checkout.google.com/api/checkout/v2
     </production-root>
-    <checkout-suffix>checkout</checkout-suffix>
-    <merchant-checkout-suffix>merchantCheckout</merchant-checkout-suffix>
-    <request-suffix>request</request-suffix>
+    <checkout-command>checkout</checkout-command>
+    <merchant-checkout-command>merchantCheckout</merchant-checkout-command>
+    <request-command>request</request-command>
   </merchant-info>
   
   <notification-handlers>

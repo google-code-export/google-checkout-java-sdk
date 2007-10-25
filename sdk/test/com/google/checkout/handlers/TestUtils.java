@@ -31,26 +31,32 @@ public class TestUtils {
     String merchantKey = "c1YAeK6wMizfJ6BmZJG9Fg";
     String env = "Sandbox";
     String currencyCode = "USD";
-    String sandboxRoot = "https://sandbox.google.com/checkout/cws/v2/Merchant";
-    String productionRoot = "https://checkout.google.com/cws/v2/Merchant";
-    String checkoutSuffix = "checkout";
-    String merchantCheckoutSuffix = "merchantCheckout";
-    String requestSuffix = "request";
+    String sandboxRoot = "https://sandbox.google.com/checkout/api/checkout/v2";
+    String productionRoot = "https://checkout.google.com/api/checkout/v2";
+    String checkoutCommand = "checkout";
+    String merchantCheckoutCommand = "merchantCheckout";
+    String requestCommand = "request";
 
     String checkoutUrl = "";
     String merchantCheckoutUrl = "";
     String requestUrl = "";
 
     if (EnvironmentType.Sandbox.equals(env)) {
-      checkoutUrl = sandboxRoot + "/" + merchantId + "/" + checkoutSuffix;
+      checkoutUrl =
+          sandboxRoot + "/" + checkoutCommand + "/Merchant/" + merchantId;
       merchantCheckoutUrl =
-          sandboxRoot + "/" + merchantId + "/" + merchantCheckoutSuffix;
-      requestUrl = sandboxRoot + "/" + merchantId + "/" + requestSuffix;
+          sandboxRoot + "/" + merchantCheckoutCommand + "/Merchant/"
+              + merchantId;
+      requestUrl =
+          sandboxRoot + "/" + requestCommand + "/Merchant/" + merchantId;
     } else if (EnvironmentType.Production.equals(env)) {
-      checkoutUrl = productionRoot + "/" + merchantId + "/" + checkoutSuffix;
+      checkoutUrl =
+          productionRoot + "/" + checkoutCommand + "/Merchant/" + merchantId;
       merchantCheckoutUrl =
-          productionRoot + "/" + merchantId + "/" + merchantCheckoutSuffix;
-      requestUrl = productionRoot + "/" + merchantId + "/" + requestSuffix;
+          productionRoot + "/" + merchantCheckoutCommand + "/Merchant/"
+              + merchantId;
+      requestUrl =
+          productionRoot + "/" + requestCommand + "/Merchant/" + merchantId;
     } else {
       throw new RuntimeException("Env must be one of "
           + EnvironmentType.Sandbox + " or " + EnvironmentType.Production + ".");
