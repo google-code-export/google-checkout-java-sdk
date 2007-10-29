@@ -106,9 +106,11 @@ public abstract class AbstractCheckoutRequest {
     }
     
     catch (MalformedURLException murle) {
-      System.err.println("MalformedURLException encountered.");
+      System.err.println("MalformedURLException encountered.  URL was: "+getPostUrl());
+      murle.printStackTrace();
     } catch (IOException ioe) {
       System.err.println("IOException encountered.");
+      ioe.printStackTrace();
     }
     return null;
   }
