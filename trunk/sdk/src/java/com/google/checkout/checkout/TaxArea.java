@@ -35,7 +35,7 @@ public class TaxArea {
   public TaxArea() {
 
     document = Utils.newEmptyDocument();
-    root = document.createElement("tax-area");
+    root = document.createElement("tax-areas");
     document.appendChild(root);
   }
 
