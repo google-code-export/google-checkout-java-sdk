@@ -31,34 +31,4 @@
            </description>
         </wizard>				
     </extension>
-    
-    <!-- 
-    <extension point="org.eclipse.ui.popupMenus">
-      <objectContribution objectClass="org.eclipse.core.resources.IProject" 
-        id="integrationWizard">
-        <action label="Google Checkout Integration Wizard" icon="icons/wizard.gif" 
-          class="com.google.checkout.sdk.eclipsemodule.integrationwizard.IntegrationWizardAction" 
-          id="com.google.checkout.sdk.eclipsemodule.integrationwizard.action1">
-        </action>
-      </objectContribution>
-    </extension>
-    <extension point="org.eclipse.ui.popupMenus">
-      <objectContribution objectClass="org.eclipse.core.resources.IProject" 
-        id="handlerWizard">
-        <action label="Google Handler Manager Wizard" icon="icons/wizard.gif" 
-          class="com.google.checkout.sdk.eclipsemodule.handlermanager.HandlerManagerAction" 
-          id="com.google.checkout.sdk.eclipsemodule.integrationwizard.action2">
-        </action>
-      </objectContribution>
-    </extension>
-    
-    
-    <requires>
-      <import plugin="checkout_module_eclipse"/>
-    </requires>
-    
-    <runtime>
-      <library name="/checkout-module-eclipse/module.jar"/>
-    </runtime>
-     -->
 </plugin>
