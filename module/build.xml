@@ -7,10 +7,12 @@
   <import file="nbproject/build-impl.xml"/>
   <target name="init">
     <property name="build.dir" value="bin"/>
-    <property name="sdk.dir.name" value="checkout-sdk-0.8"/>
+    <property name="sdk.dir.name" value="checkout-sdk-0.8.2"/>
     <property name="checkout-sdk.home" value="../sdk/build/tmpdist/${sdk.dir.name}"/>
     <property name="checkout-sdk-zip" value="${sdk.dir.name}.zip"/>
     <property name="checkout-sdk-dir" value="${build.dir}/${sdk.dir.name}"/>
+    <property name="netbeans-module-reference" value="../checkout-module-wrapper-netbeans/release/modules/ext"/>
+    <property name="eclipse-module-reference" value="../checkout-module-wrapper-eclipse/"/>
   </target>
 
   <target name="copy-checkout-sdk">
@@ -54,6 +56,10 @@
       todir="${build.dir}/resources"/>  
     <jar basedir="${build.dir}" 
         jarfile="module.jar"/>
+        
+    <!-- update the references in the netbeans and eclipse plugins -->
+    <copy file="module.jar" todir="${netbeans-module-reference}"/>
+    <copy file="module.jar" todir="${eclipse-module-reference}"/>
   </target>   
   
   <target name="clean" depends="init" description="Clean the plug-in: checkout_eclipse of all the zips, jars and logs created.">

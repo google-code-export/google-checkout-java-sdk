@@ -3,7 +3,7 @@
 
   <!-- Project properties. -->
   <property name="build.dir" value="bin"/>
-  <property name="sdk.dir.name" value="checkout-sdk-0.8"/>
+  <property name="sdk.dir.name" value="checkout-sdk-0.8.2"/>
   <property name="checkout-sdk.home" value="../sdk/build/tmpdist/${sdk.dir.name}"/>
   <property name="checkout-sdk-zip" value="${sdk.dir.name}.zip"/>
   <property name="checkout-sdk-dir" value="${build.dir}/${sdk.dir.name}"/>
