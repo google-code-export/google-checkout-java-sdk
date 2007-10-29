@@ -25,21 +25,23 @@ import org.openide.WizardDescriptor;
  * @author David Rubel
  */
 public class IntegrationWizardDescriptor extends WizardDescriptor {
-  private Settings settings;
-  
+
+  private NetbeansSettings settings;
+
   public IntegrationWizardDescriptor(WizardDescriptor.Panel[] panels) {
     super(panels);
-    settings = new Settings();
+    settings = new NetbeansSettings();
   }
-  
-  public Settings getSettings() {
+
+  public NetbeansSettings getSettings() {
     return settings;
   }
-  
-  public void setSettings(Settings settings) {
+
+  public void setSettings(NetbeansSettings settings) {
     this.settings = settings;
   }
 
+  @Override
   public void updateState() {
     super.updateState();
   }

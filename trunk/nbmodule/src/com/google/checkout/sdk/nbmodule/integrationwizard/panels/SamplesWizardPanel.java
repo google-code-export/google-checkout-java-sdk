@@ -18,7 +18,7 @@ package com.google.checkout.sdk.nbmodule.integrationwizard.panels;
 
 import com.google.checkout.sdk.nbmodule.integrationwizard.CheckoutIntegrationPanel;
 import com.google.checkout.sdk.nbmodule.integrationwizard.IntegrationWizardDescriptor;
-import com.google.checkout.sdk.nbmodule.integrationwizard.Settings;
+import com.google.checkout.sdk.nbmodule.integrationwizard.NetbeansSettings;
 import java.awt.Component;
 import java.io.File;
 import java.net.URI;
@@ -35,7 +35,7 @@ import org.openide.windows.WindowManager;
 public class SamplesWizardPanel extends JPanel {
   
   // Integration settings, built by this wizard
-  private Settings settings;
+  private NetbeansSettings settings;
   private IntegrationWizardDescriptor wizardDescriptor;
   
   /**
@@ -65,6 +65,7 @@ public class SamplesWizardPanel extends JPanel {
    *
    * @return Name of this panel
    */
+  @Override
   public String getName() {
     return "Add Sample Pages";
   }
@@ -223,11 +224,11 @@ public class SamplesWizardPanel extends JPanel {
     /*                         SETTINGS ACCESSORS                            */
     /*************************************************************************/
     
-    public Settings getSettings() {
+    public NetbeansSettings getSettings() {
       return settings;
     }
     
-    public void setSettings(Settings settings) {
+    public void setSettings(NetbeansSettings settings) {
       this.settings = settings;
     }
     

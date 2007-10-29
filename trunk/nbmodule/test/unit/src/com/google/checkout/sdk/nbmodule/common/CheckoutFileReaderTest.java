@@ -15,9 +15,7 @@
  ******************************************************************************/
 package com.google.checkout.sdk.nbmodule.common;
 
-import junit.framework.*;
-import java.io.File;
-import java.net.URL;
+import junit.framework.TestCase;
 
 /**
  * Unit tests for CheckoutFileReader.

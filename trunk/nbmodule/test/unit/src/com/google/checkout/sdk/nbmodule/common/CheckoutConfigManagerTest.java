@@ -15,11 +15,8 @@
  ******************************************************************************/
 package com.google.checkout.sdk.nbmodule.common;
 
+import com.google.checkout.sdk.module.common.CheckoutConfigManager;
 import junit.framework.TestCase;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 
 /**
  * Unit tests for CheckoutConfigManager.

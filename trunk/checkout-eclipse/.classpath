@@ -8,5 +8,6 @@
 			<attribute name="javadoc_location" value="jar:file:/home/cdang/Desktop/google-checkout-java-sdk/checkout-eclipse/lib/forms-javadoc.zip!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="/checkout-module-wrapper-eclipse/module.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

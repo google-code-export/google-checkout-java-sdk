@@ -16,8 +16,8 @@
 
 package com.google.checkout.sdk.eclipsemodule.integrationwizard.panels;
 
+import com.google.checkout.sdk.eclipsemodule.integrationwizard.EclipseSettings;
 import com.google.checkout.sdk.eclipsemodule.integrationwizard.IntegrationWizard;
-import com.google.checkout.sdk.eclipsemodule.integrationwizard.Settings;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -196,7 +196,7 @@ public class ProjectWizardPage extends WizardPage {
   
   private void updateWebInfTextField() {
     IntegrationWizard intWizard = (IntegrationWizard)getWizard();
-    Settings tempSettings = intWizard.getSettings();
+    EclipseSettings tempSettings = intWizard.getSettings();
     
     // Generate default WEB-INF directory if none are provided
     if (tempSettings.getWebInfDirectory() == null) {
@@ -263,7 +263,7 @@ public class ProjectWizardPage extends WizardPage {
   private void projectListValueChanged() {
     IProject newProject = projects[projectList.getSelectionIndex()];
     IntegrationWizard intWizard = (IntegrationWizard)getWizard();
-    Settings tempSettings = intWizard.getSettings();
+    EclipseSettings tempSettings = intWizard.getSettings();
     
     if (tempSettings.getProject() != newProject) {
       // Project selection has changed, so reset settings (to clear
@@ -302,7 +302,7 @@ public class ProjectWizardPage extends WizardPage {
    */
   private void checkIntegration() {
     IntegrationWizard intWizard = (IntegrationWizard)getWizard();
-    Settings tempSettings = intWizard.getSettings();
+    EclipseSettings tempSettings = intWizard.getSettings();
 
     String prefix = tempSettings.getProject().getLocationURI()
       .resolve(tempSettings.getProject().getName()).toASCIIString();

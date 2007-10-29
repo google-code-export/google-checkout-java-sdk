@@ -16,7 +16,8 @@
 
 package com.google.checkout.sdk.nbmodule.handlermanager;
 
-import com.google.checkout.sdk.nbmodule.common.CheckoutConfigManager;
+import com.google.checkout.sdk.module.common.CheckoutConfigManager;
+import com.google.checkout.sdk.module.handlermanager.HandlerCreationData;
 import java.io.File;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JFileChooser;
@@ -67,8 +68,7 @@ public class NewHandlerPanel extends javax.swing.JPanel {
   /*************************************************************************/
   
   private void initProject() {
-    ProjectInformation info = (ProjectInformation)
-        project.getLookup().lookup(ProjectInformation.class);
+    ProjectInformation info = (ProjectInformation)project.getLookup().lookup(ProjectInformation.class);
     projectTextField.setText(info.getDisplayName());
     locationTextField.setText(project.getProjectDirectory().getPath());
   }

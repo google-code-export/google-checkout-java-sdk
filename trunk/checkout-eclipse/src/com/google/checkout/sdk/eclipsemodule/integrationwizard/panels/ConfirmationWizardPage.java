@@ -17,8 +17,8 @@
 package com.google.checkout.sdk.eclipsemodule.integrationwizard.panels;
 
 import com.google.checkout.sdk.eclipsemodule.handlermanager.HandlerManagerPage;
+import com.google.checkout.sdk.eclipsemodule.integrationwizard.EclipseSettings;
 import com.google.checkout.sdk.eclipsemodule.integrationwizard.IntegrationWizard;
-import com.google.checkout.sdk.eclipsemodule.integrationwizard.Settings;
 
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
@@ -110,7 +110,7 @@ public class ConfirmationWizardPage extends WizardPage {
   
   private void launchHandlerManagerCheckBoxActionPerformed() {
     IntegrationWizard intWizard = (IntegrationWizard)getWizard();
-    Settings tempSettings = intWizard.getSettings();
+    EclipseSettings tempSettings = intWizard.getSettings();
     
     // Update settings
     boolean selected = launchHandlerManagerCheckBox.getSelection();
@@ -123,7 +123,7 @@ public class ConfirmationWizardPage extends WizardPage {
   
   public void onEnterPage() {
     IntegrationWizard intWizard = (IntegrationWizard)getWizard();
-    Settings tempSettings = intWizard.getSettings();
+    EclipseSettings tempSettings = intWizard.getSettings();
     
     // Update changes text area
     String changes = "";
@@ -136,7 +136,7 @@ public class ConfirmationWizardPage extends WizardPage {
     }
     changes += "- Create " + shorten(tempSettings.getWebInfDirectory()) + 
       "/checkout-config.xml\n";
-    if (tempSettings.getAddSamples()) {
+    if (tempSettings.addSamples()) {
       changes += "- Add sample JSPs to " + 
         shorten(tempSettings.getSamplesDirectory()) + "\n";
     }
@@ -149,7 +149,7 @@ public class ConfirmationWizardPage extends WizardPage {
   
   private String shorten(File file) {
     IntegrationWizard intWizard = (IntegrationWizard)getWizard();
-    Settings tempSettings = intWizard.getSettings();
+    EclipseSettings tempSettings = intWizard.getSettings();
     
     String prefix = tempSettings.getProject().getLocationURI()
       .resolve(tempSettings.getProject().getName()).toASCIIString();

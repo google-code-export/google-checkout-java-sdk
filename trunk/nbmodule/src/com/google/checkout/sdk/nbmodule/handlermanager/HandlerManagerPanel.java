@@ -16,10 +16,12 @@
 
 package com.google.checkout.sdk.nbmodule.handlermanager;
 
-import com.google.checkout.sdk.nbmodule.common.CheckoutConfigManager;
-import com.google.checkout.sdk.nbmodule.common.CheckoutFileWriter;
+import com.google.checkout.sdk.module.common.CheckoutConfigManager;
+import com.google.checkout.sdk.module.common.CheckoutFileWriter;
+import com.google.checkout.sdk.module.exceptions.HandlerCreationException;
+import com.google.checkout.sdk.module.handlermanager.HandlerCreationData;
+import com.google.checkout.sdk.module.handlermanager.HandlerCreator;
 import com.google.checkout.sdk.nbmodule.common.FileFinder;
-import com.google.checkout.sdk.nbmodule.common.exceptions.HandlerCreationException;
 import java.awt.Dialog;
 import java.io.File;
 import java.io.FileInputStream;
@@ -47,10 +49,10 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
   DefaultTableModel callbackTableModel;
   
   // Map of open projects
-  HashMap projects;
+  HashMap<String,Project> projects;
   
   // Map of checkout-config.xml managers
-  HashMap configManagers;
+  HashMap<String,CheckoutConfigManager> configManagers;
   
   // The name of the currently selected project
   String selectedProject;
@@ -60,8 +62,8 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
     projectModel = new DefaultComboBoxModel();
     notificationTableModel = new DefaultTableModel();
     callbackTableModel = new DefaultTableModel();
-    projects = new HashMap();
-    configManagers = new HashMap();
+    projects = new HashMap<String,Project>();
+    configManagers = new HashMap<String,CheckoutConfigManager>();
     selectedProject = null;
     
     initComponents();
@@ -83,8 +85,7 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
       // Get the project's directory and information
       Project p = openProjects[i];
       FileObject directory = p.getProjectDirectory();
-      ProjectInformation info =
-          (ProjectInformation)p.getLookup().lookup(ProjectInformation.class);
+      ProjectInformation info = (ProjectInformation)p.getLookup().lookup(ProjectInformation.class);
       
       // Find checkout-config.xml
       FileObject config = FileFinder.findFile("checkout-config.xml", directory);
@@ -136,8 +137,7 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
     Project defaultProject = OpenProjects.getDefault().getMainProject();
     if (defaultProject != null) {
       Lookup lookup = defaultProject.getLookup();
-      ProjectInformation info = 
-          (ProjectInformation) lookup.lookup(ProjectInformation.class);
+      ProjectInformation info = (ProjectInformation)lookup.lookup(ProjectInformation.class);
       return info.getDisplayName();
     } else {
       return null;
@@ -151,9 +151,8 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
   }
   
   private void readProjectFromTables(String projectName) {
-    Project p = (Project) projects.get(projectName);
-    CheckoutConfigManager config =
-        (CheckoutConfigManager) configManagers.get(projectName);
+    Project p = projects.get(projectName);
+    CheckoutConfigManager config = configManagers.get(projectName);
     
     // Save notification handlers
     for (int i=0; i<notificationTableModel.getRowCount(); i++) {
@@ -175,9 +174,8 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
   }
   
   private void writeProjectToTables(String projectName) {
-    Project p = (Project) projects.get(projectName);
-    CheckoutConfigManager config =
-        (CheckoutConfigManager) configManagers.get(projectName);
+    Project p = projects.get(projectName);
+    CheckoutConfigManager config = configManagers.get(projectName);
     
     // Write notification handlers
     removeAllRows(notificationTableModel);
@@ -348,7 +346,7 @@ public class HandlerManagerPanel extends javax.swing.JPanel {
     private void newHandlerButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newHandlerButtonActionPerformed
       // Create the new handler dialog
       NewHandlerPanel panel = 
-          new NewHandlerPanel((Project)projects.get(selectedProject));
+          new NewHandlerPanel(projects.get(selectedProject));
       DialogDescriptor desc = new DialogDescriptor(
           panel,  // panel to display
           "Create New Checkout Handler",  // dialog title

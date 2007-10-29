@@ -18,7 +18,7 @@ package com.google.checkout.sdk.nbmodule.integrationwizard.panels;
 
 import com.google.checkout.sdk.nbmodule.integrationwizard.CheckoutIntegrationPanel;
 import com.google.checkout.sdk.nbmodule.integrationwizard.IntegrationWizardDescriptor;
-import com.google.checkout.sdk.nbmodule.integrationwizard.Settings;
+import com.google.checkout.sdk.nbmodule.integrationwizard.NetbeansSettings;
 import java.awt.Color;
 import java.awt.Component;
 import java.io.File;
@@ -44,7 +44,7 @@ public final class ProjectWizardPanel extends JPanel {
   private Project[] projects;
   
   // Integration settings, built by this wizard
-  private Settings settings;
+  private NetbeansSettings settings;
   
   private boolean validWebInfPath;
   private boolean validSelectedProject;
@@ -382,11 +382,11 @@ public final class ProjectWizardPanel extends JPanel {
   /*                         SETTINGS ACCESSORS                            */
   /*************************************************************************/
 
-  public Settings getSettings() {
+  public NetbeansSettings getSettings() {
     return settings;
   }
 
-  public void setSettings(Settings settings) {
+  public void setSettings(NetbeansSettings settings) {
     this.settings = settings;
   }
 
