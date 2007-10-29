@@ -18,7 +18,7 @@ package com.google.checkout.sdk.nbmodule.integrationwizard.panels;
 
 import com.google.checkout.sdk.nbmodule.integrationwizard.CheckoutIntegrationPanel;
 import com.google.checkout.sdk.nbmodule.integrationwizard.IntegrationWizardDescriptor;
-import com.google.checkout.sdk.nbmodule.integrationwizard.Settings;
+import com.google.checkout.sdk.nbmodule.integrationwizard.NetbeansSettings;
 import java.awt.Color;
 import java.awt.Component;
 import java.io.BufferedReader;
@@ -41,7 +41,7 @@ public final class WebXmlWizardPanel extends JPanel {
   private boolean error = false;
   
   // Integration settings, built by this wizard
-  private Settings settings;
+  private NetbeansSettings settings;
   
   private IntegrationWizardDescriptor wizardDescriptor;
   
@@ -77,6 +77,7 @@ public final class WebXmlWizardPanel extends JPanel {
    *
    * @return Name of this panel
    */
+  @Override
   public String getName() {
     return "Modify web.xml";
   }
@@ -316,11 +317,11 @@ public final class WebXmlWizardPanel extends JPanel {
     /*                         SETTINGS ACCESSORS                            */
     /*************************************************************************/
     
-    public Settings getSettings() {
+    public NetbeansSettings getSettings() {
       return settings;
     }
     
-    public void setSettings(Settings settings) {
+    public void setSettings(NetbeansSettings settings) {
       this.settings = settings;
     }
     

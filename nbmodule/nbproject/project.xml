@@ -4,8 +4,26 @@
     <configuration>
         <data xmlns="http://www.netbeans.org/ns/nb-module-project/2">
             <code-name-base>com.google.checkout.sdk.nbmodule</code-name-base>
-            <standalone/>
+            <!--<public-packages/>-->
+            <suite-component/>
             <module-dependencies>
+                <dependency>
+                    <code-name-base>com.google.checkout.sdk.module</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>1.0</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
+                    <code-name-base>org.apache.tools.ant.module</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <release-version>3</release-version>
+                        <specification-version>3.27.0.2</specification-version>
+                    </run-dependency>
+                </dependency>
                 <dependency>
                     <code-name-base>org.jdesktop.layout</code-name-base>
                     <build-prerequisite/>
@@ -13,6 +31,15 @@
                     <run-dependency>
                         <release-version>1</release-version>
                         <specification-version>1.3.41</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
+                    <code-name-base>org.netbeans.lib.cvsclient</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <release-version>1</release-version>
+                        <specification-version>1.14.31</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -55,6 +82,14 @@
                     <run-dependency>
                         <release-version>1</release-version>
                         <specification-version>1.13.32.5</specification-version>
+                    </run-dependency>
+                </dependency>
+                <dependency>
+                    <code-name-base>org.openide.actions</code-name-base>
+                    <build-prerequisite/>
+                    <compile-dependency/>
+                    <run-dependency>
+                        <specification-version>6.5.31</specification-version>
                     </run-dependency>
                 </dependency>
                 <dependency>
@@ -106,7 +141,16 @@
                     </run-dependency>
                 </dependency>
             </module-dependencies>
-            <public-packages/>
+            <public-packages>
+                <package>com.google.checkout.sdk.module.common</package>
+                <package>com.google.checkout.sdk.module.exceptions</package>
+                <package>com.google.checkout.sdk.module.handlermanager</package>
+                <package>com.google.checkout.sdk.module.integrationwizard</package>
+            </public-packages>
+            <class-path-extension>
+                <runtime-relative-path>libs/module.jar</runtime-relative-path>
+                <binary-origin>release/libs/module.jar</binary-origin>
+            </class-path-extension>
         </data>
     </configuration>
 </project>

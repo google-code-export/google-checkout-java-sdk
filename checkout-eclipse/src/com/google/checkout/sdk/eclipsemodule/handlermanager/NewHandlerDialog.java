@@ -16,8 +16,9 @@
 
 package com.google.checkout.sdk.eclipsemodule.handlermanager;
 
-import com.google.checkout.sdk.eclipsemodule.common.CheckoutConfigManager;
 import com.google.checkout.sdk.eclipsemodule.integrationwizard.panels.WizardPageUtils;
+import com.google.checkout.sdk.module.common.CheckoutConfigManager;
+import com.google.checkout.sdk.module.handlermanager.HandlerCreationData;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.dialogs.Dialog;
@@ -72,7 +73,6 @@ public class NewHandlerDialog extends Dialog {
   private Text locationTextField;
   private Text packageTextField;
   private Text projectTextField;
-
 
   private final static String[] MESSAGE_CLASSES = {"Notification", "Callback"};
   private final static String[] IMPLEMENTATION = {"Empty Class"};

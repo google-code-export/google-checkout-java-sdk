@@ -16,9 +16,9 @@
 
 package com.google.checkout.sdk.eclipsemodule.integrationwizard.panels;
 
-import com.google.checkout.sdk.eclipsemodule.common.CheckoutConfigManager;
+import com.google.checkout.sdk.eclipsemodule.integrationwizard.EclipseSettings;
 import com.google.checkout.sdk.eclipsemodule.integrationwizard.IntegrationWizard;
-import com.google.checkout.sdk.eclipsemodule.integrationwizard.Settings;
+import com.google.checkout.sdk.module.common.CheckoutConfigManager;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -222,7 +222,7 @@ public class ConfigWizardPage extends WizardPage {
   
   public void onEnterPage() {
     IntegrationWizard intWizard = (IntegrationWizard)getWizard();
-    Settings tempSettings = intWizard.getSettings();
+    EclipseSettings tempSettings = intWizard.getSettings();
     
     // Get the default checkout-config.xml if one doesn't already exist
     if (tempSettings.getConfigManager().getOutputLocation() == null) {

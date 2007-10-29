@@ -16,17 +16,17 @@
 
 package com.google.checkout.sdk.eclipsemodule.integrationwizard;
 
-import com.google.checkout.sdk.eclipsemodule.common.CheckoutConfigManager;
-import com.google.checkout.sdk.eclipsemodule.common.exceptions.CheckoutConfigException;
-import com.google.checkout.sdk.eclipsemodule.common.exceptions.CheckoutSdkException;
-import com.google.checkout.sdk.eclipsemodule.common.exceptions.SamplesJspException;
-import com.google.checkout.sdk.eclipsemodule.common.exceptions.WebXmlException;
 import com.google.checkout.sdk.eclipsemodule.handlermanager.HandlerManagerPage;
 import com.google.checkout.sdk.eclipsemodule.integrationwizard.panels.ConfigWizardPage;
 import com.google.checkout.sdk.eclipsemodule.integrationwizard.panels.ConfirmationWizardPage;
 import com.google.checkout.sdk.eclipsemodule.integrationwizard.panels.ProjectWizardPage;
 import com.google.checkout.sdk.eclipsemodule.integrationwizard.panels.SamplesWizardPage;
 import com.google.checkout.sdk.eclipsemodule.integrationwizard.panels.WebXmlWizardPage;
+import com.google.checkout.sdk.module.exceptions.CheckoutConfigException;
+import com.google.checkout.sdk.module.exceptions.CheckoutSdkException;
+import com.google.checkout.sdk.module.exceptions.SamplesJspException;
+import com.google.checkout.sdk.module.exceptions.WebXmlException;
+import com.google.checkout.sdk.module.integrationwizard.Integrator;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -37,25 +37,21 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
-public class IntegrationWizard extends Wizard implements INewWizard {
-  private CheckoutConfigManager configManager;
-  
+public class IntegrationWizard extends Wizard implements INewWizard {  
   private ProjectWizardPage projectPage;
   private ConfigWizardPage configPage;
   private WebXmlWizardPage webXmlPage;
   private SamplesWizardPage samplesPage;
   private ConfirmationWizardPage confirmationPage;
-//  private HandlerManagerPage handlerPage;
   
-  private static Settings settings;
+  private static EclipseSettings settings;
   
   protected IStructuredSelection selection;
   protected IWorkbench workbench;
   
   public IntegrationWizard() {
     super();
-    configManager = new CheckoutConfigManager();
-    settings = new Settings();
+    settings = new EclipseSettings();
     
     projectPage = new ProjectWizardPage();
     webXmlPage = new WebXmlWizardPage();
@@ -136,7 +132,7 @@ public class IntegrationWizard extends Wizard implements INewWizard {
   /*                         SETTINGS ACCESSORS                            */
   /*************************************************************************/
   
-  public Settings getSettings() {
+  public EclipseSettings getSettings() {
     return settings;
   }
   
@@ -189,6 +185,4 @@ public class IntegrationWizard extends Wizard implements INewWizard {
     
     return false;
   }
-  
-  
 }

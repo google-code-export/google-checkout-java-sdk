@@ -15,7 +15,8 @@
  ******************************************************************************/
 package com.google.checkout.sdk.nbmodule.common;
 
-import junit.framework.*;
+import com.google.checkout.sdk.module.common.CheckoutFileWriter;
+import junit.framework.TestCase;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.Reader;

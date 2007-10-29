@@ -16,8 +16,9 @@
 
 package com.google.checkout.sdk.eclipsemodule.integrationwizard.panels;
 
+import com.google.checkout.sdk.eclipsemodule.integrationwizard.EclipseSettings;
 import com.google.checkout.sdk.eclipsemodule.integrationwizard.IntegrationWizard;
-import com.google.checkout.sdk.eclipsemodule.integrationwizard.Settings;
+import com.google.checkout.sdk.module.integrationwizard.Settings;
 
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
@@ -44,9 +45,6 @@ public class WebXmlWizardPage extends WizardPage {
   private Label previewLabel;
   private Label previewDescriptionLabel;
   private Text previewText;
-
-  // Whether there was an error reading the file or not
-  private boolean error = false;
 
   // The xml fragment to insert into web.xml
   private String webFragment;
@@ -134,7 +132,7 @@ public class WebXmlWizardPage extends WizardPage {
   @Override
   public boolean canFlipToNextPage() {
     IntegrationWizard intWizard = (IntegrationWizard)getWizard();
-    Settings tempSettings = intWizard.getSettings();
+    EclipseSettings tempSettings = intWizard.getSettings();
     
     File f = new File(tempSettings.getWebInfDirectory().toURI().resolve("web.xml"));
     return f.exists();
@@ -150,7 +148,7 @@ public class WebXmlWizardPage extends WizardPage {
    */
   private void processWebXmlFile() {
     IntegrationWizard intWizard = (IntegrationWizard)getWizard();
-    Settings tempSettings = intWizard.getSettings();
+    EclipseSettings tempSettings = intWizard.getSettings();
     
     String errorMsg = null;
 
@@ -159,8 +157,6 @@ public class WebXmlWizardPage extends WizardPage {
     } else if (tempSettings.getWebXmlFile() == null) {
       errorMsg = "No file selected.";
     } else {
-      // Reset error status
-      error = false;
       tempSettings.setModifiedWebXml(null);
 
       // Read the file and display it in the preview area
@@ -193,7 +189,6 @@ public class WebXmlWizardPage extends WizardPage {
 
       // Handle errors
       if (errorMsg != null) {
-        error = true;
         previewText.setText(errorMsg);
         tempSettings.setModifiedWebXml(null);
       }

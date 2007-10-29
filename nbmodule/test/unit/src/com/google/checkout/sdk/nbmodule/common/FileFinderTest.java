@@ -16,7 +16,7 @@
 package com.google.checkout.sdk.nbmodule.common;
 
 import java.io.IOException;
-import junit.framework.*;
+import junit.framework.TestCase;
 import org.openide.filesystems.FileObject;
 import org.openide.filesystems.FileSystem;
 import org.openide.filesystems.FileUtil;

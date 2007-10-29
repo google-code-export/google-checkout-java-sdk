@@ -16,6 +16,7 @@
 
 package com.google.checkout.sdk.eclipsemodule.integrationwizard;
 
+import com.google.checkout.sdk.eclipsemodule.integrationwizard.IntegrationWizard;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;

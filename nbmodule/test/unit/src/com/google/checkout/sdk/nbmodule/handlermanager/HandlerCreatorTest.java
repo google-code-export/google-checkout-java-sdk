@@ -16,10 +16,10 @@
 package com.google.checkout.sdk.nbmodule.handlermanager;
 
 import com.google.checkout.sdk.nbmodule.common.CheckoutFileReader;
-import junit.framework.*;
-import java.io.File;
+import com.google.checkout.sdk.module.handlermanager.HandlerCreationData;
+import com.google.checkout.sdk.module.handlermanager.HandlerCreator;
+import junit.framework.TestCase;
 import java.io.IOException;
-import java.net.URL;
 
 /**
  * Unit tests for HandlerCreator.

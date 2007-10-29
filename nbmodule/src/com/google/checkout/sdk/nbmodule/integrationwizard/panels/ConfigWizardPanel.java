@@ -16,10 +16,10 @@
 
 package com.google.checkout.sdk.nbmodule.integrationwizard.panels;
 
-import com.google.checkout.sdk.nbmodule.common.CheckoutConfigManager;
+import com.google.checkout.sdk.module.common.CheckoutConfigManager;
 import com.google.checkout.sdk.nbmodule.integrationwizard.CheckoutIntegrationPanel;
 import com.google.checkout.sdk.nbmodule.integrationwizard.IntegrationWizardDescriptor;
-import com.google.checkout.sdk.nbmodule.integrationwizard.Settings;
+import com.google.checkout.sdk.nbmodule.integrationwizard.NetbeansSettings;
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.DefaultComboBoxModel;
@@ -31,7 +31,7 @@ import org.openide.util.HelpCtx;
 public final class ConfigWizardPanel extends JPanel {
   
   // Integration settings, built by this wizard
-  private Settings settings;
+  private NetbeansSettings settings;
   
   private IntegrationWizardDescriptor wizardDescriptor;
   /**
@@ -73,6 +73,7 @@ public final class ConfigWizardPanel extends JPanel {
    *
    * @return Name of this panel
    */
+  @Override
   public String getName() {
     return "Create Config File";
   }
@@ -276,11 +277,11 @@ public final class ConfigWizardPanel extends JPanel {
     /*                         SETTINGS ACCESSORS                            */
     /*************************************************************************/
     
-    public Settings getSettings() {
+    public NetbeansSettings getSettings() {
       return settings;
     }
     
-    public void setSettings(Settings settings) {
+    public void setSettings(NetbeansSettings settings) {
       this.settings = settings;
     }
     

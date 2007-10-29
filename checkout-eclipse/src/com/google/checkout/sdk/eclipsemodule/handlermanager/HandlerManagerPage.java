@@ -16,9 +16,11 @@
 
 package com.google.checkout.sdk.eclipsemodule.handlermanager;
 
-import com.google.checkout.sdk.eclipsemodule.common.CheckoutConfigManager;
-import com.google.checkout.sdk.eclipsemodule.common.CheckoutFileWriter;
-import com.google.checkout.sdk.eclipsemodule.common.exceptions.HandlerCreationException;
+import com.google.checkout.sdk.module.common.CheckoutConfigManager;
+import com.google.checkout.sdk.module.common.CheckoutFileWriter;
+import com.google.checkout.sdk.module.exceptions.HandlerCreationException;
+import com.google.checkout.sdk.module.handlermanager.HandlerCreationData;
+import com.google.checkout.sdk.module.handlermanager.HandlerCreator;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -177,6 +179,23 @@ public class HandlerManagerPage extends WizardPage {
     
     tabFolder = new TabFolder(composite, SWT.BORDER);
     tabFolder.setLayoutData(gd);
+   
+    gd = new GridData(GridData.FILL_BOTH);
+    gd.horizontalSpan = ncol;
+    
+    // populate the stuff for the Notifications tab
+    notificationTable = new Table(tabFolder, SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL);
+    notificationTable.setHeaderVisible(true);
+    notificationTable.setLinesVisible(true);
+    notificationTable.setLayoutData(gd);
+    
+    // initialize the table for notification models
+    notificationMessageColumn = new TableColumn(notificationTable, SWT.NONE);
+    notificationMessageColumn.setText("Message Type");
+    notificationMessageColumn.setWidth(250);
+    notificationHandlerColumn = new TableColumn(notificationTable, SWT.NONE);
+    notificationHandlerColumn.setText("Handler Class");
+    notificationHandlerColumn.setWidth(600);
     
     gd = new GridData(GridData.FILL_BOTH);
     gd.horizontalSpan = ncol;
@@ -195,30 +214,13 @@ public class HandlerManagerPage extends WizardPage {
     callBackHandlerColumn.setText("Handler Class");
     callBackHandlerColumn.setWidth(500);
  
-    gd = new GridData(GridData.FILL_BOTH);
-    gd.horizontalSpan = ncol;
-    
-    // populate the stuff for the Notifications tab
-    notificationTable = new Table(tabFolder, SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION | SWT.H_SCROLL);
-    notificationTable.setHeaderVisible(true);
-    notificationTable.setLinesVisible(true);
-    notificationTable.setLayoutData(gd);
-    
-    // initialize the table for notification models
-    notificationMessageColumn = new TableColumn(notificationTable, SWT.NONE);
-    notificationMessageColumn.setText("Message Type");
-    notificationMessageColumn.setWidth(250);
-    notificationHandlerColumn = new TableColumn(notificationTable, SWT.NONE);
-    notificationHandlerColumn.setText("Handler Class");
-    notificationHandlerColumn.setWidth(600);
+    notificationItem = new TabItem(tabFolder, SWT.BORDER);
+    notificationItem.setText("Notification");
+    notificationItem.setControl(notificationTable);
     
     callbackItem = new TabItem(tabFolder, SWT.BORDER);
     callbackItem.setText("Callback");
     callbackItem.setControl(callbackTable);
-    
-    notificationItem = new TabItem(tabFolder, SWT.BORDER);
-    notificationItem.setText("Notification");
-    notificationItem.setControl(notificationTable);
     
     gd = new GridData();
     gd.horizontalSpan = 1;
