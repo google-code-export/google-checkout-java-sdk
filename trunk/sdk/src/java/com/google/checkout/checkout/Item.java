@@ -248,7 +248,7 @@ public class Item {
   public void setItemWeight(float itemWeight) {
     Element unitPrice =
         Utils.findContainerElseCreate(document, element, "item-weight");
-    unitPrice.setAttribute("value", Utils.decimalFormat.format(itemWeight));
+    unitPrice.setAttribute("value", ""+itemWeight);
   }
 
   /**
