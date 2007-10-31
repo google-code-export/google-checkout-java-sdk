@@ -6,7 +6,7 @@
 
 <struts>
   <package name="store" extends="struts-default">
-    <action name="/catalog-json" class="com.google.checkout.samples.store.web.CatalogJsonAction">
+    <action name="catalog-json" class="com.google.checkout.samples.store.web.CatalogJsonAction">
       <result>/WEB-INF/json/catalog-json.jsp</result>
     </action>
   </package>
