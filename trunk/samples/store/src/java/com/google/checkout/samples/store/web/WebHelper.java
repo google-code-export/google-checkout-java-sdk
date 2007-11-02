@@ -67,7 +67,8 @@ public class WebHelper {
   }
   
   public String getJsonForAccordianMenu() {
-    return getJsonForAccordianMenu(mf.getCategories());
+    String value = getJsonForAccordianMenu(mf.getCategories());
+    return value;
   }
   
   String getJsonForAccordianMenu(Collection<Category> categories) {

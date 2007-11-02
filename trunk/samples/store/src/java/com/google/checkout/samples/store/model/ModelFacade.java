@@ -27,11 +27,18 @@ public class ModelFacade {
   public ModelFacade() {
     
   }
+  
   public ProductList getProductsFor(Category category) {
-    return DummyData.getAllProductLists().get(category);
+    ProductList currentList = DummyData.getAllProductLists().get(category);
+     if (currentList != null)
+        return currentList;
+    return BaseDataPuller.getBaseData().get(category);
   }
   
   public Collection<Category> getCategories() {
-    return DummyData.getAllCategories();
+    Collection<Category> categories = DummyData.getAllCategories();
+    categories.add(BaseDataPuller.BASE_CATEGORY);
+    new BaseDataPuller().loadBaseData();
+    return categories;
   }
 }

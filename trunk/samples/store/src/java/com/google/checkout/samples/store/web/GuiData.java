@@ -17,6 +17,7 @@
 package com.google.checkout.samples.store.web;
 
 import com.google.checkout.samples.store.model.Category;
+import com.google.checkout.samples.store.model.BaseDataPuller;
 
 /**
  * GUI data associated with the data model.
@@ -25,17 +26,17 @@ import com.google.checkout.samples.store.model.Category;
 public class GuiData {
 
   public static String getActionFor(Category category) {
-    if (category.getName().equals("Turtles")) {
-      return "action : { topic: '/controller', message: { value : 'turtles'}}";
+    /*if (category.getName().equals("Turtles")) {
+      return "action : { topic: '/controller', message: { value : 'Turtles'}}";
     } else if (category.getName().equals("Birds 0")) {
-      return "action : { topic: '/controller', message: { value : 'birds0'}}";
+      return "action : { topic: '/controller', message: { value : 'Birds 0'}}";
     } else if (category.getName().equals("Birds 1")) {
-      return "action : { topic: '/controller', message: { value : 'birds1'}}";
-    }
-    return null;
+      return "action : { topic: '/controller', message: { value : 'Birds 1'}}";
+    }*/ 
+    return "action : { topic: '/controller', message: { value : '" + category.getName() + "'}}";
   }
 
   public static boolean isSelected(Category category) {
-    return category.getName().equals("Birds");
+    return category.getName().equals(BaseDataPuller.BASE_CATEGORY.getName());
   }
 }
