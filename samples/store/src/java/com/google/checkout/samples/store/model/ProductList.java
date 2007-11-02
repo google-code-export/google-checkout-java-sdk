@@ -34,7 +34,8 @@ public class ProductList extends ArrayList<Product> {
     this.category = category;
     if (products != null) {
       for (Product product : products) {
-        this.add(product);
+        if (product != null)
+          this.add(product);
       }
     }
   }

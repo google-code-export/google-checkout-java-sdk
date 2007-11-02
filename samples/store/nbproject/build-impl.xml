@@ -487,9 +487,13 @@
         <copy-ear-war file="${file.reference.struts2-core-2.0.9.jar}" propname="included.lib.file.reference.struts2-core-2.0.9.jar.X"/>
         <basename file="${file.reference.xwork-2.0.4.jar}" property="included.lib.file.reference.xwork-2.0.4.jar"/>
         <copy-ear-war file="${file.reference.xwork-2.0.4.jar}" propname="included.lib.file.reference.xwork-2.0.4.jar.X"/>
+        <basename file="${file.reference.gdata-base-1.0.jar}" property="included.lib.file.reference.gdata-base-1.0.jar"/>
+        <copy-ear-war file="${file.reference.gdata-base-1.0.jar}" propname="included.lib.file.reference.gdata-base-1.0.jar.X"/>
+        <basename file="${file.reference.gdata-client-1.0.jar}" property="included.lib.file.reference.gdata-client-1.0.jar"/>
+        <copy-ear-war file="${file.reference.gdata-client-1.0.jar}" propname="included.lib.file.reference.gdata-client-1.0.jar.X"/>
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update">
-            <attribute name="Class-Path" value="${included.lib.libs.jmakilibrary.classpath.1.X} ${included.lib.libs.jmakilibrary.classpath.2.X} ${included.lib.libs.jmakilibrary.classpath.3.X} ${included.lib.file.reference.commons-logging-1.0.4.jar} ${included.lib.file.reference.freemarker-2.3.8.jar} ${included.lib.file.reference.ognl-2.6.11.jar} ${included.lib.file.reference.struts2-core-2.0.9.jar} ${included.lib.file.reference.xwork-2.0.4.jar} "/>
+            <attribute name="Class-Path" value="${included.lib.libs.jmakilibrary.classpath.1.X} ${included.lib.libs.jmakilibrary.classpath.2.X} ${included.lib.libs.jmakilibrary.classpath.3.X} ${included.lib.file.reference.commons-logging-1.0.4.jar} ${included.lib.file.reference.freemarker-2.3.8.jar} ${included.lib.file.reference.ognl-2.6.11.jar} ${included.lib.file.reference.struts2-core-2.0.9.jar} ${included.lib.file.reference.xwork-2.0.4.jar} ${included.lib.file.reference.gdata-base-1.0.jar} ${included.lib.file.reference.gdata-client-1.0.jar} "/>
         </manifest>
         <delete dir="${dist.ear.dir}/temp"/>
     </target>
@@ -502,6 +506,8 @@
         <copy file="${file.reference.ognl-2.6.11.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copy file="${file.reference.struts2-core-2.0.9.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copy file="${file.reference.xwork-2.0.4.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copy file="${file.reference.gdata-base-1.0.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copy file="${file.reference.gdata-client-1.0.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
     </target>
     <target depends="init,compile,compile-jsps,-pre-dist,library-inclusion-in-manifest" name="do-ear-dist">
         <dirname file="${dist.ear.war}" property="dist.jar.dir"/>

@@ -22,7 +22,7 @@ package com.google.checkout.samples.store.web.mvc;
  */
 public class WebConstants {
 
-  public static final String CATEGORY = "Category";
+  public static final String CATEGORY = "category";
   
   /** prefix which is used for all actions directed at the controller */
   public static final String CONTROL_URL_PREFIX = "/control";
