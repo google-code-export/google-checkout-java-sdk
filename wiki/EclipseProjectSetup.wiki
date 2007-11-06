@@ -12,9 +12,7 @@ First download and install Eclipse Europa Java EE Developer edition. Then start 
   # Accept the license terms and press "Next" and then "Finish" to install subclipse. 
   # Accept any prompts for installation, and eclipse restart. 
   # Congratulations! You now have subversion support available in Eclipse. 
-  # Note: At this point you'll notice some errors including getServletContext() and getServletConfig() being undefined.
-This is because these functions require certain Apache Tomcat libraries.
-We'll fix these in creating the Checkout SDK below.
+  # Note: At this point you'll notice some errors including getServletContext() and getServletConfig() being undefined.  This is because these functions require certain Apache Tomcat libraries.  We'll fix these later in creating the Checkout SDK below.
 
 = Creating Checkout SDK in Eclipse =
   # Start Eclipse, and select "SVN repository Exploring" perspective in Window | Open Perspective | Other
