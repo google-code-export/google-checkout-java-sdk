@@ -2,7 +2,7 @@
 
 = Adding Subversion Support in Eclipse =
 
-First download and install '''Eclipse Europa Java EE Developer Edition'''. Then start eclipse, and create a new workspace. Then follow these steps to download and install Subversion plugin: 
+First download and install *Eclipse Europa Java EE Developer Edition*. Then start eclipse, and create a new workspace. Then follow these steps to download and install Subversion plugin: 
   # Open Help | Software Updates |Find and Install
   # Select "Search for new features to install"
   # Click on "New Remote Site"
