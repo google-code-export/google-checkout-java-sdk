@@ -30,3 +30,6 @@ First download and install Eclipse Europa Java EE Developer edition. Then start 
   # Clean and Rebuild the project by first going to Project | Build Automatically and then selecting Project | Build All.  Then re-enable automatic building by selecting Project | Build Automatically.  This should get rid of the errors we have seen before.
   # Congratulations, you now have the Checkout SDK project setup with Eclipse. 
   # To run the SDK, right click on the google-checkout-java-sdk node, select "Run As" | "Run On Server"
+
+= Other Notes =
+  # If you still encounter errors, right-click on the google-checkout-java-sdk node and select Properties... Select Java Build Path on the left and ensure that Apache Tomcat v6.0 is one of the libraries.  This includes necessary jars at "<APACHE_HOME_DIR>/lib" like the servlet-api.jar.
