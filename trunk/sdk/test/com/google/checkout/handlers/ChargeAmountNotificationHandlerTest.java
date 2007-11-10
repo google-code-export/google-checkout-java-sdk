@@ -30,7 +30,7 @@ public class ChargeAmountNotificationHandlerTest extends TestCase {
     MessageHandler handler = new ChargeAmountNotificationHandler();
     MerchantInfo mi = TestUtils.createMockMerchantInfo();
     String notificationMsg = TestUtils.readMessage(
-        "/com/google/checkout/handlers/charge-amount-notification-sample.xml");
+        "/resources/charge-amount-notification-sample.xml");
     String response = handler.process(mi, notificationMsg);
     //System.out.println(response);
     assertTrue(response.contains("notification-acknowledgment"));

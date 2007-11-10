@@ -33,7 +33,7 @@ public class MerchantCalculationCallbackHandlerTest extends TestCase {
     MessageHandler handler = new MerchantCalculationCallbackHandler();
     MerchantInfo mi = TestUtils.createMockMerchantInfo();
     String notificationMsg = TestUtils.readMessage(
-        "/com/google/checkout/handlers/merchant-calculation-callback-sample.xml");
+        "/resources/merchant-calculation-callback-sample.xml");
     String response = handler.process(mi, notificationMsg);
     //System.out.println(response);
     assertTrue(response.contains("merchant-calculation-results"));
@@ -47,7 +47,7 @@ public class MerchantCalculationCallbackHandlerTest extends TestCase {
     responseDoc.normalizeDocument();
     
     String expectedResponse = TestUtils.readMessage(
-    "/com/google/checkout/handlers/merchant-calculation-callback-response-sample.xml");
+    "/resources/merchant-calculation-callback-response-sample.xml");
     Document expectedDoc = Utils.newDocumentFromString(expectedResponse);
     expectedDoc.normalizeDocument();
     

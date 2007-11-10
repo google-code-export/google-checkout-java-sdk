@@ -31,7 +31,7 @@ public class RefundAmountNotificationHandlerTest extends TestCase {
     MessageHandler handler = new RefundAmountNotificationHandler();
     MerchantInfo mi = TestUtils.createMockMerchantInfo();
     String notificationMsg = TestUtils.readMessage(
-        "/com/google/checkout/handlers/refund-amount-notification-sample.xml");
+        "/resources/refund-amount-notification-sample.xml");
     String response = handler.process(mi, notificationMsg);
     //System.out.println(response);
     assertTrue(response.contains("notification-acknowledgment"));

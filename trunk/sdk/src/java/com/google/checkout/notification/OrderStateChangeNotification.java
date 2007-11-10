@@ -16,9 +16,11 @@
 
 package com.google.checkout.notification;
 
+import com.google.checkout.util.Utils;
+
 import java.io.InputStream;
 
-import com.google.checkout.util.Utils;
+import org.w3c.dom.Document;
 
 /**
  * This class encapsulates the &lt;order-state-change-notification&gt;
@@ -46,6 +48,16 @@ public class OrderStateChangeNotification extends CheckoutNotification {
    */
   public OrderStateChangeNotification(InputStream inputStream) {
     document = Utils.newDocumentFromInputStream(inputStream);
+    root = document.getDocumentElement();
+  }
+  
+  /**
+   * A constructor which takes in an xml document representation of the request.
+   * 
+   * @param xmlDocument
+   */
+  public OrderStateChangeNotification(Document xmlDocument) {
+    document = xmlDocument;
     root = document.getDocumentElement();
   }
 

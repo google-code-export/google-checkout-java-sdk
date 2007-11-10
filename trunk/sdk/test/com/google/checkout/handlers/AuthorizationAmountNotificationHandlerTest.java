@@ -30,7 +30,7 @@ public class AuthorizationAmountNotificationHandlerTest extends TestCase {
     MessageHandler handler = new AuthorizationAmountNotificationHandler();
     MerchantInfo mi = TestUtils.createMockMerchantInfo();
     String notificationMsg = TestUtils.readMessage(
-        "/com/google/checkout/handlers/authorization-amount-notification-sample.xml");
+        "/resources/authorization-amount-notification-sample.xml");
     String response = handler.process(mi, notificationMsg);
     //System.out.println(response);
     assertTrue(response.contains("notification-acknowledgment"));

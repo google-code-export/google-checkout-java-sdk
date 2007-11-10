@@ -30,7 +30,7 @@ public class ChargebackAmountNotificationHandlerTest extends TestCase {
     MessageHandler handler = new ChargebackAmountNotificationHandler();
     MerchantInfo mi = TestUtils.createMockMerchantInfo();
     String notificationMsg = TestUtils.readMessage(
-        "/com/google/checkout/handlers/chargeback-amount-notification-sample.xml");
+        "/resources/chargeback-amount-notification-sample.xml");
     String response = handler.process(mi, notificationMsg);
     //System.out.println(response);
     assertTrue(response.contains("notification-acknowledgment"));

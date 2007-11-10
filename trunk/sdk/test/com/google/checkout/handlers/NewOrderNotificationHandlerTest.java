@@ -30,7 +30,7 @@ public class NewOrderNotificationHandlerTest extends TestCase {
     MessageHandler handler = new NewOrderNotificationHandler();
     MerchantInfo mi = TestUtils.createMockMerchantInfo();
     String notificationMsg = TestUtils.readMessage(
-        "/com/google/checkout/handlers/new-order-notification-sample.xml");
+        "/resources/new-order-notification-sample.xml");
     String response = handler.process(mi, notificationMsg);
     //System.out.println(response);
     assertTrue(response.contains("notification-acknowledgment"));

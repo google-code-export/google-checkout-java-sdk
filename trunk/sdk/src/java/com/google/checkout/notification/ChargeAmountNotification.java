@@ -16,9 +16,11 @@
 
 package com.google.checkout.notification;
 
+import com.google.checkout.util.Utils;
+
 import java.io.InputStream;
 
-import com.google.checkout.util.Utils;
+import org.w3c.dom.Document;
 
 /**
  * This class encapsulates the &lt;charge-amount-notification&gt; notification.
@@ -45,6 +47,16 @@ public class ChargeAmountNotification extends CheckoutNotification {
    */
   public ChargeAmountNotification(InputStream inputStream) {
     document = Utils.newDocumentFromInputStream(inputStream);
+    root = document.getDocumentElement();
+  }
+  
+  /**
+   * A constructor which takes in an xml document representation of the request.
+   * 
+   * @param xmlDocument
+   */
+  public ChargeAmountNotification(Document xmlDocument) {
+    document = xmlDocument;
     root = document.getDocumentElement();
   }
 

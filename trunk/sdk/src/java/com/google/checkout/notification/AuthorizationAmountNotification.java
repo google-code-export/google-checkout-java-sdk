@@ -16,10 +16,12 @@
 
 package com.google.checkout.notification;
 
+import com.google.checkout.util.Utils;
+
 import java.io.InputStream;
 import java.util.Date;
 
-import com.google.checkout.util.Utils;
+import org.w3c.dom.Document;
 
 /**
  * This class encapsulates the &lt;authorization-amount-notification&gt;
@@ -47,6 +49,16 @@ public class AuthorizationAmountNotification extends CheckoutNotification {
    */
   public AuthorizationAmountNotification(InputStream inputStream) {
     document = Utils.newDocumentFromInputStream(inputStream);
+    root = document.getDocumentElement();
+  }
+  
+  /**
+   * A constructor which takes in an xml document representation of the request.
+   * 
+   * @param xmlDocument
+   */
+  public AuthorizationAmountNotification(Document xmlDocument) {
+    document = xmlDocument;
     root = document.getDocumentElement();
   }
 

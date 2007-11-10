@@ -30,7 +30,7 @@ public class OrderStateChangeNotificationHandlerTest extends TestCase {
     MessageHandler handler = new OrderStateChangeNotificationHandler();
     MerchantInfo mi = TestUtils.createMockMerchantInfo();
     String notificationMsg = TestUtils.readMessage(
-        "/com/google/checkout/handlers/order-state-change-notification-sample.xml");
+        "/resources/order-state-change-notification-sample.xml");
     String response = handler.process(mi, notificationMsg);
     //System.out.println(response);
     assertTrue(response.contains("notification-acknowledgment"));
