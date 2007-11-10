@@ -52,6 +52,15 @@ public abstract class CheckoutNotification {
   public Date getTimestamp() {
     return Utils.getElementDateValue(document, root, "timestamp");
   }
+  
+  /**
+   * Returns the type of the notification 
+   * 
+   * @return Notification type
+   */
+  public String getType() {
+    return getRootNodeName();
+  }
 
   /**
    * Retrieves the value of the serial-number attribute.

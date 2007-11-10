@@ -16,9 +16,11 @@
 
 package com.google.checkout.notification;
 
+import com.google.checkout.util.Utils;
+
 import java.io.InputStream;
 
-import com.google.checkout.util.Utils;
+import org.w3c.dom.Document;
 
 /**
  * This class encapsulates the &lt;chargeback-amount-notification&gt;
@@ -29,53 +31,61 @@ import com.google.checkout.util.Utils;
  */
 public class ChargebackAmountNotification extends CheckoutNotification {
 
-	/**
-	 * A constructor which takes the request as a String.
-	 * 
-	 * @param requestString
-	 */
-	public ChargebackAmountNotification(String requestString) {
-		document = Utils.newDocumentFromString(requestString);
-		root = document.getDocumentElement();
-	}
+  /**
+   * A constructor which takes the request as a String.
+   * 
+   * @param requestString
+   */
+  public ChargebackAmountNotification(String requestString) {
+    document = Utils.newDocumentFromString(requestString);
+    root = document.getDocumentElement();
+  }
 
-	/**
-	 * A constructor which takes the request as an InputStream.
-	 * 
-	 * @param inputStream
-	 */
-	public ChargebackAmountNotification(InputStream inputStream) {
-		document = Utils.newDocumentFromInputStream(inputStream);
-		root = document.getDocumentElement();
-	}
+  /**
+   * A constructor which takes the request as an InputStream.
+   * 
+   * @param inputStream
+   */
+  public ChargebackAmountNotification(InputStream inputStream) {
+    document = Utils.newDocumentFromInputStream(inputStream);
+    root = document.getDocumentElement();
+  }
+  
+  /**
+   * A constructor which takes in an xml document representation of the request.
+   * 
+   * @param xmlDocument
+   */
+  public ChargebackAmountNotification(Document xmlDocument) {
+    document = xmlDocument;
+    root = document.getDocumentElement();
+  }
 
-	/**
-	 * Retrieves the value of the &lt;latest-chargeback-amount&gt; tag.
-	 * 
-	 * @return The latest chargeback amount.
-	 */
-	public float getLatestChargebackAmount() {
-		return Utils.getElementFloatValue(document, root,
-				"latest-chargeback-amount");
-	}
+  /**
+   * Retrieves the value of the &lt;latest-chargeback-amount&gt; tag.
+   * 
+   * @return The latest chargeback amount.
+   */
+  public float getLatestChargebackAmount() {
+    return Utils.getElementFloatValue(document, root, "latest-chargeback-amount");
+  }
 
-	/**
-	 * Retrieves the value of the &lt;total-charge-amount&gt; tag.
-	 * 
-	 * @return The total chargeback amount.
-	 */
-	public float getTotalChargebackAmount() {
-		return Utils.getElementFloatValue(document, root,
-				"total-chargeback-amount");
-	}
+  /**
+   * Retrieves the value of the &lt;total-charge-amount&gt; tag.
+   * 
+   * @return The total chargeback amount.
+   */
+  public float getTotalChargebackAmount() {
+    return Utils.getElementFloatValue(document, root, "total-chargeback-amount");
+  }
 
-	/**
-	 * Retrieves the currency code.
-	 * 
-	 * @return The currency code.
-	 */
-	public String getCurrencyCode() {
-		return Utils.findElementOrContainer(document, root,
-				"latest-chargeback-amount").getAttribute("currency");
-	}
+  /**
+   * Retrieves the currency code.
+   * 
+   * @return The currency code.
+   */
+  public String getCurrencyCode() {
+    return Utils.findElementOrContainer(document, root, "latest-chargeback-amount")
+      .getAttribute("currency");
+  }
 }

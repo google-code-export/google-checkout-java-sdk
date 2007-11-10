@@ -30,7 +30,7 @@ public class RiskInformationNotificationHandlerTest extends TestCase {
     MessageHandler handler = new RiskInformationNotificationHandler();
     MerchantInfo mi = TestUtils.createMockMerchantInfo();
     String notificationMsg = TestUtils.readMessage(
-        "/com/google/checkout/handlers/risk-information-notification-sample.xml");
+        "/resources/risk-information-notification-sample.xml");
     String response = handler.process(mi, notificationMsg);
     //System.out.println(response);
     assertTrue(response.contains("notification-acknowledgment"));

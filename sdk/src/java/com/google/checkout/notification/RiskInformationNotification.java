@@ -16,11 +16,12 @@
 
 package com.google.checkout.notification;
 
+import com.google.checkout.util.Utils;
+
 import java.io.InputStream;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import com.google.checkout.util.Utils;
 
 /**
  * This class encapsulates the &lt;risk-information-notification&gt;
@@ -51,6 +52,17 @@ public class RiskInformationNotification extends CheckoutNotification {
    */
   public RiskInformationNotification(InputStream inputStream) {
     document = Utils.newDocumentFromInputStream(inputStream);
+    root = document.getDocumentElement();
+    riskInfo = Utils.findElementOrContainer(document, root, "risk-information");
+  }
+  
+  /**
+   * A constructor which takes in an xml document representation of the request.
+   * 
+   * @param xmlDocument
+   */
+  public RiskInformationNotification(Document xmlDocument) {
+    document = xmlDocument;
     root = document.getDocumentElement();
     riskInfo = Utils.findElementOrContainer(document, root, "risk-information");
   }

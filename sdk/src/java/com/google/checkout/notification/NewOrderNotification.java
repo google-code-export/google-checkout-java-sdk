@@ -16,15 +16,16 @@
 
 package com.google.checkout.notification;
 
+import com.google.checkout.checkout.Item;
+import com.google.checkout.util.Utils;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import com.google.checkout.checkout.Item;
-import com.google.checkout.util.Utils;
 
 /**
  * This class encapsulates the &lt;new-order-notification&gt; notification.
@@ -51,6 +52,16 @@ public class NewOrderNotification extends CheckoutNotification {
    */
   public NewOrderNotification(InputStream inputStream) {
     document = Utils.newDocumentFromInputStream(inputStream);
+    root = document.getDocumentElement();
+  }
+  
+  /**
+   * A constructor which takes in an xml document representation of the request.
+   * 
+   * @param xmlDocument
+   */
+  public NewOrderNotification(Document xmlDocument) {
+    document = xmlDocument;
     root = document.getDocumentElement();
   }
 
