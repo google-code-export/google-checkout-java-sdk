@@ -16,6 +16,7 @@
 
 package com.google.checkout.notification;
 
+import com.google.checkout.exceptions.CheckoutException;
 import com.google.checkout.util.Utils;
 
 import java.io.InputStream;
@@ -33,31 +34,32 @@ public class RefundAmountNotification extends CheckoutNotification {
   /**
    * A constructor which takes the request as a String.
    * 
-   * @param requestString
+   * @param requestString The request string
+   * @throws com.google.checkout.exceptions.CheckoutException if there was an 
+   * error reading the request string
    */
-  public RefundAmountNotification(String requestString) {
-    document = Utils.newDocumentFromString(requestString);
-    root = document.getDocumentElement();
+  public RefundAmountNotification(String requestString) throws CheckoutException {
+    this(Utils.newDocumentFromString(requestString));
   }
 
   /**
    * A constructor which takes the request as an InputStream.
    * 
    * @param inputStream
+   * @throws com.google.checkout.exceptions.CheckoutException if there was an 
+   * error readng the request from the InputStream
    */
-  public RefundAmountNotification(InputStream inputStream) {
-    document = Utils.newDocumentFromInputStream(inputStream);
-    root = document.getDocumentElement();
+  public RefundAmountNotification(InputStream inputStream) throws CheckoutException {
+    this(Utils.newDocumentFromInputStream(inputStream));
   }
   
   /**
    * A constructor which takes in an xml document representation of the request.
    * 
-   * @param xmlDocument
+   * @param document
    */
-  public RefundAmountNotification(Document xmlDocument) {
-    document = xmlDocument;
-    root = document.getDocumentElement();
+  public RefundAmountNotification(Document document) {
+    super(document);
   }
 
   /**
@@ -66,7 +68,7 @@ public class RefundAmountNotification extends CheckoutNotification {
    * @return The lates refund amount.
    */
   public float getLatestRefundAmount() {
-    return Utils.getElementFloatValue(document, root, "latest-refund-amount");
+    return Utils.getElementFloatValue(getDocument(), getRoot(), "latest-refund-amount");
   }
 
   /**
@@ -75,7 +77,7 @@ public class RefundAmountNotification extends CheckoutNotification {
    * @return The total refund amount.
    */
   public float getTotalRefundAmount() {
-    return Utils.getElementFloatValue(document, root, "total-refund-amount");
+    return Utils.getElementFloatValue(getDocument(), getRoot(), "total-refund-amount");
   }
 
   /**
@@ -84,7 +86,7 @@ public class RefundAmountNotification extends CheckoutNotification {
    * @return The currency code.
    */
   public String getCurrencyCode() {
-    return Utils.findElementOrContainer(document, root, "latest-refund-amount")
+    return Utils.findElementOrContainer(getDocument(), getRoot(), "latest-refund-amount")
         .getAttribute("currency");
   }
 }

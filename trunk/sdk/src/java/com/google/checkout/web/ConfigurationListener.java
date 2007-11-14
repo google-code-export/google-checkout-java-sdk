@@ -16,14 +16,19 @@
 
 package com.google.checkout.web;
 
+import com.google.checkout.exceptions.CheckoutException;
 import com.google.checkout.EnvironmentType;
 import com.google.checkout.MerchantInfo;
+import com.google.checkout.exceptions.CheckoutSystemException;
+import com.google.checkout.util.Utils;
+
+import java.io.InputStream;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+
 import org.w3c.dom.Document;
-import com.google.checkout.util.Utils;
-import java.io.InputStream;
-import javax.servlet.ServletContext;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -52,9 +57,14 @@ public class ConfigurationListener implements ServletContextListener {
       throw new IllegalArgumentException("web.xml must have "
           + "<checkout-config-file> init parameter!");
     }
-    Document doc = Utils.newDocumentFromInputStream(is);
-    context.setAttribute(WebConstants.MERCHANT_INFO_KEY,
+    
+    try {
+      Document doc = Utils.newDocumentFromInputStream(is);
+      context.setAttribute(WebConstants.MERCHANT_INFO_KEY,
         extractMerchantInfo(doc));
+    } catch (CheckoutException ex) {
+      throw new CheckoutSystemException("Could not initialize context.");
+    }
   }
 
   private MerchantInfo extractMerchantInfo(Document doc) {
@@ -107,8 +117,8 @@ public class ConfigurationListener implements ServletContextListener {
       requestUrl =
           productionRoot + "/" + requestCommand + "/Merchant/" + merchantId;
     } else {
-      throw new RuntimeException("Env must be one of "
-          + EnvironmentType.Sandbox + " or " + EnvironmentType.Production + ".");
+      throw new CheckoutSystemException("Env must be one of "
+        + EnvironmentType.Sandbox + " or " + EnvironmentType.Production + ".");
     }
     return new MerchantInfo(merchantId, merchantKey, env, currencyCode,
         checkoutUrl, merchantCheckoutUrl, requestUrl);

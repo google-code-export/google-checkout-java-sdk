@@ -1,6 +1,6 @@
 package com.google.checkout.checkout;
 
-import com.google.checkout.CheckoutException;
+import com.google.checkout.exceptions.CheckoutException;
 import com.google.checkout.CheckoutResponse;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.handlers.TestUtils;

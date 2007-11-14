@@ -16,6 +16,8 @@
 
 package com.google.checkout.notification;
 
+import com.google.checkout.exceptions.CheckoutSystemException;
+
 /**
  * This class represents the fulfillment status of an order. The valid states
  * are:
@@ -87,7 +89,7 @@ public class FulfillmentOrderState {
     } else if ("WILL_NOT_DELIVER".equals(state)) {
       return WILL_NOT_DELIVER;
     } else {
-      throw new RuntimeException("Invalid Fulfillment State: " + state);
+      throw new CheckoutSystemException("Invalid Fulfillment State: " + state);
     }
   }
 }

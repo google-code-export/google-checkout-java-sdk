@@ -16,10 +16,14 @@
 
 package com.google.checkout;
 
+import com.google.checkout.exceptions.CheckoutException;
+import com.google.checkout.exceptions.CheckoutSystemException;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
@@ -50,32 +54,51 @@ public class GoogleOrder implements Serializable {
   static File fDir = new File(dir);
   
   public static GoogleOrder findOrCreate(String merchantId, String orderNumber)
-      throws Exception {
+    throws CheckoutException {
     
     GoogleOrder ret;
-    File file = new File(fDir, "GCO_" + merchantId + "_" + orderNumber
-        + ".ser");
+    String fileName = "GCO_" + merchantId + "_" + orderNumber + ".ser";
+    File file = new File(fDir, fileName);
+    
     if (file.exists()) {
-      ObjectInputStream in = new ObjectInputStream(new FileInputStream(
-          file));
-      ret = (GoogleOrder) in.readObject();
-      in.close();
-      return ret;
+      return readFromFile(file);
     }
+    
     ret = new GoogleOrder(merchantId, orderNumber);
     return ret;
   }
   
-  public static GoogleOrder readFromFile(File file) throws Exception {
+  /**
+   * Read a GoogleOrder from a file
+   * 
+   * @param file The file from which to read the GoogleOrder
+   * @return A GoogleOrder containing the data read from file
+   * @throws com.google.checkout.exceptions.CheckoutException if there was an 
+   * error reading the file
+   */
+  public static GoogleOrder readFromFile(File file) throws CheckoutException {
     
     GoogleOrder ret;
-    ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
-    ret = (GoogleOrder) in.readObject();
-    in.close();
-    return ret;
+ 
+    String fileName = file.getName();
+ 
+    try {
+      ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+      ret = (GoogleOrder) in.readObject();
+      in.close();
+      return ret;
+    } catch (FileNotFoundException ex) {
+        throw new CheckoutException("Could not find file " + fileName);
+    } catch (IOException ex) {
+        throw new CheckoutException("Encountered the following error when attempting" +
+          "to read file " + fileName + ": " + ex.getMessage());
+    } catch (ClassNotFoundException ex) {
+        throw new CheckoutException("Encountered the following error when attempting" +
+          "to read file " + fileName + ": " + ex.getMessage());        
+    }
   }
   
-  public static GoogleOrder[] findAll(String merchantId) throws Exception {
+  public static GoogleOrder[] findAll(String merchantId) throws CheckoutException {
     
     File[] files = fDir.listFiles(new OrderFilter(merchantId));
     GoogleOrder[] ret = new GoogleOrder[files.length];
@@ -144,25 +167,38 @@ public class GoogleOrder implements Serializable {
   }
   
   public synchronized void addIncomingMessage(Date timestamp, String type,
-      String request, String response) throws Exception {
+      String request, String response) throws CheckoutException {
     
-    this.lastUpdateTime = timestamp;
+    lastUpdateTime = timestamp;
     events.add(new Message(true, timestamp, type, request, response));
     save();
   }
   
   public synchronized void addOutgoingMessage(Date timestamp, String type,
-      String request, String response) throws Exception {
+      String request, String response) throws CheckoutException {
     events.add(new Message(false, timestamp, type, request, response));
     save();
   }
   
-  private void save() throws Exception {
-    ObjectOutput out = new ObjectOutputStream(
-        new FileOutputStream(new File(dir, "GCO_" + merchantId + "_"
-        + orderNumber + ".ser")));
-    out.writeObject(this);
-    out.close();
+  /**
+   * 
+   * @throws com.google.checkout.exceptions.CheckoutException if the path,
+   * where the file is to be saved, is not valid
+   */
+  private void save() throws CheckoutException {
+    String fileName = "GCO_" + merchantId + "_" + orderNumber + ".ser";
+    
+    try {
+      ObjectOutput out = new ObjectOutputStream(
+        new FileOutputStream(new File(dir, fileName)));
+      out.writeObject(this);
+      out.close();
+    } catch (FileNotFoundException ex) {
+        throw new CheckoutException("Could not find file " + fileName);
+    } catch (IOException ex) {
+        throw new CheckoutSystemException("Encountered the following error when attempting" +
+          "to save file " + fileName + ": " + ex.getMessage());
+    }
   }
   
   public String getOrderNumber() {

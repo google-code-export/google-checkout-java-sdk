@@ -16,6 +16,7 @@
 
 package com.google.checkout;
 
+import com.google.checkout.exceptions.CheckoutException;
 import java.io.InputStream;
 
 import org.w3c.dom.Document;
@@ -36,28 +37,28 @@ public class CheckoutResponse {
   
   private Element root;
   
-  public CheckoutResponse() {
+  public CheckoutResponse() throws CheckoutException {
     this("");
   }
   
   /**
    * A constructor which takes the response String.
-   *
-   * @param response
-   *            The response String.
+   * 
+   * @param response The response string
+   * @throws com.google.checkout.exceptions.CheckoutException
    */
-  public CheckoutResponse(String response) {
+  public CheckoutResponse(String response) throws CheckoutException {
     document = Utils.newDocumentFromString(response);
     root = document.getDocumentElement();
   }
-  
+            
   /**
    * A constructor which takes the response as an InputStream.
-   *
-   * @param response
-   *            The response as an InputStream
+   * 
+   * @param response The response as an InputStream
+   * @throws com.google.checkout.exceptions.CheckoutException
    */
-  public CheckoutResponse(InputStream response) {
+  public CheckoutResponse(InputStream response) throws CheckoutException {
     document = Utils.newDocumentFromInputStream(response);
     root = document.getDocumentElement();
   }
@@ -115,7 +116,7 @@ public class CheckoutResponse {
    *
    * @return The XML response String.
    */
-  public String getXml() {
+  public String getXml() {    
     return Utils.documentToString(document);
   }
   
@@ -124,7 +125,7 @@ public class CheckoutResponse {
    *
    * @return The nicely formatted XML response String.
    */
-  public String getXmlPretty() {
+  public String getXmlPretty() {    
     return Utils.documentToStringPretty(document);
   }
 }

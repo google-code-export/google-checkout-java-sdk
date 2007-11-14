@@ -16,6 +16,8 @@
 
 package com.google.checkout.notification;
 
+import com.google.checkout.exceptions.CheckoutSystemException;
+
 /**
  * This class represents the financial status of an order. The valid states are:
  * 
@@ -116,7 +118,7 @@ public class FinancialOrderState {
 		} else if ("CANCELLED".equals(state)) {
 			return CANCELLED;
 		} else {
-			throw new RuntimeException("Invalid Financial State: " + state);
+			throw new CheckoutSystemException("Invalid Financial State: " + state);
 		}
 	}
 }

@@ -28,7 +28,7 @@ import org.w3c.dom.Element;
 
 import com.google.checkout.AbstractCheckoutRequest;
 import com.google.checkout.MerchantInfo;
-import com.google.checkout.util.Constants;
+import com.google.checkout.exceptions.CheckoutException;
 import com.google.checkout.util.Utils;
 
 /**
@@ -40,10 +40,6 @@ import com.google.checkout.util.Utils;
  */
 public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
 
-  private final Document document;
-
-  private final Element root;
-
   private final Element shoppingCart;
 
   private final Element checkoutFlowSupport;
@@ -52,16 +48,12 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * Constructor which takes an instance of mi.
    */
   public CheckoutShoppingCartRequest(MerchantInfo mi) {
-
-    super(mi);
-    document = Utils.newEmptyDocument();
-    root =
-        document.createElementNS(Constants.checkoutNamespace,
-            "checkout-shopping-cart");
-    root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
-        Constants.checkoutNamespace);
-    document.appendChild(root);
-
+    super(mi, "checkout-shopping-cart");
+    
+    // Document and root should be initialized after calling the super ctor
+    Document document = getDocument();
+    Element root = getRoot();
+    
     shoppingCart = document.createElement("shopping-cart");
     checkoutFlowSupport = document.createElement("checkout-flow-support");
 
@@ -74,12 +66,15 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
   }
 
   /**
-   * Constructor which takes an instance of and a cart XML.
+   * Constructor which takes an instance of mi and a cart XML.
    */
-  public CheckoutShoppingCartRequest(MerchantInfo mi, String cartXml) {
-    super(mi);
-    document = Utils.newDocumentFromString(cartXml);
-    root = document.getDocumentElement();   
+  public CheckoutShoppingCartRequest(MerchantInfo mi, String cartXml) throws CheckoutException{
+    super(mi, Utils.newDocumentFromString(cartXml));
+    
+    // Document and root should be initialized after caller the super ctor
+    Document document = getDocument();
+    Element root = getRoot();
+    
     shoppingCart = Utils.findContainerElseCreate(document, root, "shopping-cart");
     checkoutFlowSupport = Utils.findContainerElseCreate(document, root, "checkout-flow-support");
   }
@@ -114,6 +109,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
   public void addFlatRateShippingMethod(String name, float cost,
       ShippingRestrictions restrictions) {
 
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findContainerElseCreate(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -251,6 +248,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
       int quantity, String merchantItemID, Element[] merchantPrivateItemData,
       String taxTableSelector) {
 
+    Document document = getDocument();
+    
     Element items =
         Utils.findContainerElseCreate(document, shoppingCart, "items");
     Element item = Utils.createNewContainer(document, items, "item");
@@ -286,7 +285,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @see Item
    */
   public void addItem(Item item) {
-
+    Document document = getDocument();
+    
     Element items =
         Utils.findContainerElseCreate(document, shoppingCart, "items");
 
@@ -328,7 +328,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    */
   public void addMerchantCalculatedShippingMethod(String name,
       float defaultCost, ShippingRestrictions restrictions) {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findContainerElseCreate(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -373,7 +374,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
   public void addMerchantCalculatedShippingMethod(String name,
       float defaultCost, ShippingRestrictions restrictions,
       AddressFilters filters) {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findContainerElseCreate(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -409,7 +411,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @param cost The cost associated with the shipping method.
    */
   public void addPickupShippingMethod(String name, float cost) {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findContainerElseCreate(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -436,7 +439,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @return The &lt;analytics-data&gt; element value.
    */
   public String getAnalyticsData() {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findElementOrContainer(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -453,14 +457,19 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * 
    * @see Date
    */
-  public Date getCartExpiration() {
-
+  public Date getCartExpiration() throws CheckoutException {
+    Document document = getDocument();
+    
     Element expiration =
         Utils.findElementOrContainer(document, shoppingCart, "cart-expiration");
     if (expiration == null) {
       return null;
     }
-    return Utils.getElementDateValue(document, expiration, "good-until-date");
+    
+    Date goodUntilDate = 
+        Utils.getElementDateValue(document, expiration, "good-until-date");
+  
+    return goodUntilDate;
   }
 
   /**
@@ -471,7 +480,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @return The &lt;continue-shopping-url&gt; element value.
    */
   public String getContinueShoppingUrl() {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findElementOrContainer(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -490,7 +500,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @return The &lt;edit-cart-url&gt; element value.
    */
   public String getEditCartUrl() {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findElementOrContainer(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -509,7 +520,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @return The &lt;merchant-calculations-url&gt; element value.
    */
   public String getMerchantCalculationsUrl() {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findElementOrContainer(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -535,7 +547,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @return The &lt;analytics-data&gt; element value.
    */
   public long getPlatformID() {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findElementOrContainer(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -557,7 +570,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @return The boolean value.
    */
   public boolean isAcceptMerchantCoupons() {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findElementOrContainer(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -586,7 +600,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @return The boolean value.
    */
   public boolean isAcceptMerchantGiftCertificates() {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findElementOrContainer(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -612,7 +627,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    *         merchant has implemented the Merchant Calculations API. </value>
    */
   public boolean isMerchantCalculatedTax() {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findElementOrContainer(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -637,7 +653,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    *         the merchant, otherwise <c>false</c>.
    */
   public boolean isRequestBuyerPhoneNumber() {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findElementOrContainer(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -660,7 +677,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @param b The boolean value.
    */
   public void setAcceptMerchantCoupons(boolean b) {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findContainerElseCreate(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -683,7 +701,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @param b The boolean value.
    */
   public void setAcceptMerchantGiftCertificates(boolean b) {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findContainerElseCreate(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -703,7 +722,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @see CalculationMode
    */
   public void setCalculationMode(CalculationMode calcMode) {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findContainerElseCreate(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -724,7 +744,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @param data The &lt;analytics-data&gt; element value.
    */
   public void setAnalyticsData(String data) {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findContainerElseCreate(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -740,10 +761,10 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @see Date
    */
   public void setCartExpiration(Date date) {
-
+    Document document = getDocument();
+    
     Element expiration =
-        Utils
-            .findContainerElseCreate(document, shoppingCart, "cart-expiration");
+        Utils.findContainerElseCreate(document, shoppingCart, "cart-expiration");
     Utils.findElementAndSetElseCreateAndSet(document, expiration,
         "good-until-date", date);
   }
@@ -756,7 +777,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @param url The &lt;continue-shopping-url&gt; element value.
    */
   public void setContinueShoppingUrl(String url) {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findContainerElseCreate(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -773,7 +795,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @param url The &lt;edit-cart-url&gt; element value.
    */
   public void setEditCartUrl(String url) {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findContainerElseCreate(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -806,7 +829,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    *        has implemented the Merchant Calculations API. </value>
    */
   public void setMerchantCalculatedTax(boolean b) {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findContainerElseCreate(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -824,7 +848,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @param url The &lt;merchant-calculations-url&gt; element value.
    */
   public void setMerchantCalculationsUrl(String url) {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findContainerElseCreate(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -844,7 +869,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @param platformId The &lt;analytics-data&gt; element value.</value>
    */
   public void setPlatformID(long platformId) {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findContainerElseCreate(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -860,7 +886,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    *        the merchant, otherwise <c>false</c>.
    */
   public void setRequestBuyerPhoneNumber(boolean b) {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findContainerElseCreate(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -877,6 +904,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @see Element
    */
   public Element[] getMerchantPrivateDataNodes() {
+    Document document = getDocument();
+    
     Element mpd =
         Utils.findElementOrContainer(document, shoppingCart,
             "merchant-private-data");
@@ -894,19 +923,12 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @see Element
    */
   public void setMerchantPrivateDataNodes(Element[] nodes) {
+    Document document = getDocument();
+    
     Element mpd =
         Utils.findContainerElseCreate(document, shoppingCart,
             "merchant-private-data");
     Utils.importElements(document, mpd, nodes);
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.checkout.CheckoutRequest#getXml()
-   */
-  public String getXml() {
-    return Utils.documentToString(document);
   }
 
   /**
@@ -927,6 +949,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    */
   public void addAlternateTaxRule(String tableName, boolean standalone,
       double taxRate, TaxArea taxArea) {
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findContainerElseCreate(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -964,7 +988,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    */
   public void addDefaultTaxRule(double taxRate, boolean shippingTaxed,
       TaxArea taxArea) {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findContainerElseCreate(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -992,8 +1017,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @param url The UrlEncoded &lt;parameterized-url&gt; to add to the
    *        collection.
    */
-  public void addParameterizedUrl(String url) {
-
+  public void addParameterizedUrl(String url) throws UnsupportedEncodingException {
     addParameterizedUrl(url, false);
   }
 
@@ -1006,9 +1030,9 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * 
    * @param urlEncode Set to true if you need the url to be URL encoded.
    */
-  public void addParameterizedUrl(String url, boolean urlEncode) {
+  public void addParameterizedUrl(String url, boolean urlEncode)
+    throws UnsupportedEncodingException {
     addParameterizedUrl(url, urlEncode, null);
-
   }
 
   /**
@@ -1024,7 +1048,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * 
    * @see UrlParameter
    */
-  public void addParameterizedUrl(String url, Collection parameters) {
+  public void addParameterizedUrl(String url, Collection parameters) 
+    throws UnsupportedEncodingException {
     addParameterizedUrl(url, false, parameters);
 
   }
@@ -1043,15 +1068,16 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * 
    * @see UrlParameter
    */
-  public void addParameterizedUrl(String url, boolean urlEncode,
-      Collection parameters) {
+  public void addParameterizedUrl(String url, boolean urlEncode, Collection parameters) 
+    throws UnsupportedEncodingException {
     if (urlEncode) {
       try {
         url = URLEncoder.encode(url, "UTF-8");
-      } catch (UnsupportedEncodingException e) {
-        e.printStackTrace();
+      } catch (UnsupportedEncodingException ex) {
+        throw ex;
       }
     }
+    Document document = getDocument();
 
     Element mcfs =
         Utils.findContainerElseCreate(document, checkoutFlowSupport,
@@ -1076,27 +1102,12 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
     }
   }
 
-  /**
-   * Returns the document representing the CheckoutShoppingCartRequest
-   */
-  protected Document getDocument() {
-    return document;
-  }
-
   /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.checkout.CheckoutRequest#getXmlPretty()
-   */
-  public String getXmlPretty() {
-    return Utils.documentToStringPretty(document);
-  }
-
-  /*
-   * (non-Javadoc)
+   * Must override getPostUrl() functionality of AbstractCheckoutRequest
    * 
    * @see com.google.checkout.CheckoutRequest#getPostUrl()
    */
+  @Override
   public String getPostUrl() {
     return mi.getMerchantCheckoutUrl();
   }
@@ -1120,6 +1131,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @param node The &lt;merchant-private-data&gt; element.
    */
   public void addMerchantPrivateDataNode(Element node) {
+    Document document = getDocument();
+    
     Element mpd =
         Utils.findContainerElseCreate(document, shoppingCart,
             "merchant-private-data");
@@ -1136,6 +1149,9 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @return The &lt;request-initial-auth-details&gt; element value.
    */
   public boolean isRequestInitialAuthDetails() {
+    Document document = getDocument();
+    Element root = getRoot();
+    
     Element ops =
         Utils
             .findElementOrContainer(document, root, "order-processing-support");
@@ -1156,12 +1172,14 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @param b The boolean value.
    */
   public void setRequestInitialAuthDetails(boolean b) {
+    Document document = getDocument();
+    Element root = getRoot();
+    
     Element ops =
         Utils.findContainerElseCreate(document, root,
             "order-processing-support");
     Utils.findElementAndSetElseCreateAndSet(document, ops,
         "request-initial-auth-details", b);
-
   }
 
   /**
@@ -1174,6 +1192,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @see RoundingMode
    */
   public void setRoundingPolicy(RoundingRule rule, RoundingMode mode) {
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findContainerElseCreate(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -1202,6 +1222,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
   public void addCarrierCalculatedShippingOption(float price,
       String shippingCompany, CarrierPickup carrierPickup, String shippingType,
       float additionalFixedCharge, float additionalVariableChargePercent) {
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findContainerElseCreate(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");
@@ -1266,7 +1288,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
       DeliveryAddressCategory deliveryAddressCategory, String heightUnit,
       float heightValue, String widthUnit, float widthValue, String lengthUnit,
       float lengthValue, Packaging packaging, ShipFrom shipFrom) {
-
+    Document document = getDocument();
+    
     Element mcfs =
         Utils.findContainerElseCreate(document, checkoutFlowSupport,
             "merchant-checkout-flow-support");

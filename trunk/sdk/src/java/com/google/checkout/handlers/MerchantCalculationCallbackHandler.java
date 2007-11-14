@@ -16,7 +16,7 @@
 
 package com.google.checkout.handlers;
 
-import com.google.checkout.CheckoutException;
+import com.google.checkout.exceptions.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.merchantcalculation.AnonymousAddress;
 import com.google.checkout.merchantcalculation.CouponResult;
@@ -35,6 +35,13 @@ import java.util.Iterator;
  */
 public class MerchantCalculationCallbackHandler implements MessageHandler {
   
+  /**
+   * 
+   * @param mi
+   * @param notificationMsg
+   * @return
+   * @throws com.google.checkout.exceptions.CheckoutException
+   */
   public String process(MerchantInfo mi, String notificationMsg)
       throws CheckoutException {
     

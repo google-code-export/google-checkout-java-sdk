@@ -14,25 +14,26 @@
  * the License.
  ******************************************************************************/
 
-package com.google.checkout;
+package com.google.checkout.exceptions;
 
 /**
- * This class is the base for any Checkout specific exceptions.
- * 
- * @author simonjsmith
- * 
+ *
+ * @author Charles Dang (cdang@google.com)
  */
-public class CheckoutException extends Exception {
+public class CheckoutSystemException extends RuntimeException {
 
-  /**
-   * A constructor which takes a nested exception
-   * 
-   * @param e The exception
-   * 
-   * @see Exception
-   */
-  public CheckoutException(Exception e) {
-    super(e);
-  }
+    /**
+     * Creates a new instance of <code>CheckoutSystemException</code> without detail message.
+     */
+    public CheckoutSystemException() {
+    }
 
+
+    /**
+     * Constructs an instance of <code>CheckoutSystemException</code> with the specified detail message.
+     * @param msg the detail message.
+     */
+    public CheckoutSystemException(String msg) {
+        super(msg);
+    }
 }

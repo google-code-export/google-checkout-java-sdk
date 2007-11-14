@@ -16,6 +16,7 @@
 
 package com.google.checkout.notification;
 
+import com.google.checkout.exceptions.CheckoutException;
 import com.google.checkout.util.Utils;
 
 import java.io.InputStream;
@@ -34,31 +35,32 @@ public class ChargebackAmountNotification extends CheckoutNotification {
   /**
    * A constructor which takes the request as a String.
    * 
-   * @param requestString
+   * @param requestString The request string
+   * @throws com.google.checkout.exceptions.CheckoutException if there was an 
+   * error processing the request string
    */
-  public ChargebackAmountNotification(String requestString) {
-    document = Utils.newDocumentFromString(requestString);
-    root = document.getDocumentElement();
+  public ChargebackAmountNotification(String requestString) throws CheckoutException {
+    this(Utils.newDocumentFromString(requestString));
   }
 
   /**
    * A constructor which takes the request as an InputStream.
    * 
    * @param inputStream
+   * @throws com.google.checkout.exceptions.CheckoutException if there was an
+   * error prcessing the request from the InputStream
    */
-  public ChargebackAmountNotification(InputStream inputStream) {
-    document = Utils.newDocumentFromInputStream(inputStream);
-    root = document.getDocumentElement();
+  public ChargebackAmountNotification(InputStream inputStream) throws CheckoutException {
+    this(Utils.newDocumentFromInputStream(inputStream));
   }
   
   /**
    * A constructor which takes in an xml document representation of the request.
    * 
-   * @param xmlDocument
+   * @param document
    */
-  public ChargebackAmountNotification(Document xmlDocument) {
-    document = xmlDocument;
-    root = document.getDocumentElement();
+  public ChargebackAmountNotification(Document document) {
+    super(document);
   }
 
   /**
@@ -67,7 +69,7 @@ public class ChargebackAmountNotification extends CheckoutNotification {
    * @return The latest chargeback amount.
    */
   public float getLatestChargebackAmount() {
-    return Utils.getElementFloatValue(document, root, "latest-chargeback-amount");
+    return Utils.getElementFloatValue(getDocument(), getRoot(), "latest-chargeback-amount");
   }
 
   /**
@@ -76,7 +78,7 @@ public class ChargebackAmountNotification extends CheckoutNotification {
    * @return The total chargeback amount.
    */
   public float getTotalChargebackAmount() {
-    return Utils.getElementFloatValue(document, root, "total-chargeback-amount");
+    return Utils.getElementFloatValue(getDocument(), getRoot(), "total-chargeback-amount");
   }
 
   /**
@@ -85,7 +87,7 @@ public class ChargebackAmountNotification extends CheckoutNotification {
    * @return The currency code.
    */
   public String getCurrencyCode() {
-    return Utils.findElementOrContainer(document, root, "latest-chargeback-amount")
+    return Utils.findElementOrContainer(getDocument(), getRoot(), "latest-chargeback-amount")
       .getAttribute("currency");
   }
 }
