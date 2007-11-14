@@ -28,14 +28,14 @@ import org.w3c.dom.Document;
  * @author Charles Dang (cdang@google.com)
  */
 public class NotificationFactoryTest extends TestCase {
-  private NotificationFactory notificationFactory;
+  private CompositeNotificationParser notificationFactory;
   private String notificationMsg;
   private CheckoutNotification notification;
   private ArrayList<String> notificationTypes;
   
   @Override
   public void setUp() {
-    notificationFactory = new NotificationFactory();
+    notificationFactory = new CompositeNotificationParser();
     notificationMsg = "";
     notificationTypes = new ArrayList<String>();
     

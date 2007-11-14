@@ -26,13 +26,13 @@ import org.w3c.dom.Document;
 /**
  * @author Charles Dang (cdang@google.com)
  */
-public class NotificationFactory implements NotificationParser {
+public class CompositeNotificationParser implements NotificationParser {
   private HashMap<String, NotificationParser> notificationParsers;
   
   /**
    * Default constructor
    */
-  public NotificationFactory() {
+  public CompositeNotificationParser() {
     notificationParsers = new HashMap<String, NotificationParser>();
     
     registerDefaultParsers();
