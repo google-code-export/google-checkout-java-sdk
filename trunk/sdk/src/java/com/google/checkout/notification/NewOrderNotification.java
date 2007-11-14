@@ -137,15 +137,6 @@ public class NewOrderNotification extends CheckoutNotification {
   }
 
   /**
-   * Retrieves the Google Order Number for this notification.
-   * 
-   * @return The Google Order Number.
-   */
-  public String getGoogleOrderNo() {
-    return Utils.getElementStringValue(getDocument(), getRoot(), "google-order-number");
-  }
-
-  /**
    * Retrieves the value of the &lt;buyer-shipping-address&gt; element.
    * 
    * @return The buyer shipping address

@@ -39,8 +39,8 @@ public class CancelOrderRequest extends AbstractOrderProcessingRequest {
   public CancelOrderRequest(MerchantInfo mi, String googleOrderNo, 
       String reason) {
     this(mi);
-    this.setGoogleOrderNo(googleOrderNo);
-    this.setReason(reason);
+    setGoogleOrderNumber(googleOrderNo);
+    setReason(reason);
   }
 
   /**
@@ -54,9 +54,9 @@ public class CancelOrderRequest extends AbstractOrderProcessingRequest {
   public CancelOrderRequest(MerchantInfo mi, String googleOrderNo,
       String reason, String comment) {
     this(mi);
-    this.setGoogleOrderNo(googleOrderNo);
-    this.setReason(reason);
-    this.setComment(comment);
+    setGoogleOrderNumber(googleOrderNo);
+    setReason(reason);
+    setComment(comment);
   }
 
   /**

@@ -38,7 +38,7 @@ public class ShipItemsRequest extends AbstractOrderProcessingRequest {
   public ShipItemsRequest(MerchantInfo mi, String googleOrderNo) {
 
     this(mi);
-    this.setGoogleOrderNo(googleOrderNo);
+    setGoogleOrderNumber(googleOrderNo);
   }
 
   /**

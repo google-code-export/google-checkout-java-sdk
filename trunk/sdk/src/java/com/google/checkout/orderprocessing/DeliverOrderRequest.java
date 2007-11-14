@@ -37,7 +37,7 @@ public class DeliverOrderRequest extends AbstractOrderProcessingRequest {
   public DeliverOrderRequest(MerchantInfo mi, String googleOrderNo) {
 
     this(mi);
-    this.setGoogleOrderNo(googleOrderNo);
+    setGoogleOrderNumber(googleOrderNo);
   }
 
   /**
@@ -48,10 +48,10 @@ public class DeliverOrderRequest extends AbstractOrderProcessingRequest {
       String carrier, String trackingNo, boolean sendEmail) {
 
     this(mi);
-    this.setGoogleOrderNo(googleOrderNo);
-    this.setCarrier(carrier);
-    this.setTrackingNo(trackingNo);
-    this.setSendEmail(sendEmail);
+    setGoogleOrderNumber(googleOrderNo);
+    setCarrier(carrier);
+    setTrackingNumber(trackingNo);
+    setSendEmail(sendEmail);
   }
 
   /**
@@ -71,12 +71,27 @@ public class DeliverOrderRequest extends AbstractOrderProcessingRequest {
    * 
    * @return The tracking number.
    */
+  @Deprecated
   public String getTrackingNo() {
     Element trackingDataTag =
         Utils.findContainerElseCreate(getDocument(), getRoot(), "tracking-data");
     return Utils.getElementStringValue(getDocument(), trackingDataTag,
         "tracking-number");
   }
+  
+    /**
+   * Return the tracking number, which is the value of the
+   * &lt;tracking-number&gt; tag.
+   * 
+   * @return The tracking number.
+   */
+  public String getTrackingNumber() {
+    Element trackingDataTag =
+        Utils.findContainerElseCreate(getDocument(), getRoot(), "tracking-data");
+    return Utils.getElementStringValue(getDocument(), trackingDataTag,
+        "tracking-number");
+  }
+
 
   /**
    * True if an email is to be sent to the buyer. This is the value of the
@@ -120,7 +135,22 @@ public class DeliverOrderRequest extends AbstractOrderProcessingRequest {
    * 
    * @param trackingNo The tracking number.
    */
+  @Deprecated
   public void setTrackingNo(String trackingNo) {
+
+    Element trackingDataTag =
+        Utils.findContainerElseCreate(getDocument(), getRoot(), "tracking-data");
+    Utils.findElementAndSetElseCreateAndSet(getDocument(), trackingDataTag,
+        "tracking-number", trackingNo);
+  }
+  
+    /**
+   * Set the tracking number, which is the value of the &lt;tracking-number&gt;
+   * tag.
+   * 
+   * @param trackingNo The tracking number.
+   */
+  public void setTrackingNumber(String trackingNo) {
 
     Element trackingDataTag =
         Utils.findContainerElseCreate(getDocument(), getRoot(), "tracking-data");

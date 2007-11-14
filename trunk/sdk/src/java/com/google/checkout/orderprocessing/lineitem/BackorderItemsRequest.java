@@ -38,7 +38,7 @@ public class BackorderItemsRequest extends AbstractOrderProcessingRequest {
    */
   public BackorderItemsRequest(MerchantInfo mi, String googleOrderNo) {
     this(mi);
-    setGoogleOrderNo(googleOrderNo);
+    setGoogleOrderNumber(googleOrderNo);
   }
 
   /**

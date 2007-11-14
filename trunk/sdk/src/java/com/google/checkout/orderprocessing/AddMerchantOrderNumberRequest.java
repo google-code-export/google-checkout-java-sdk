@@ -35,8 +35,8 @@ public class AddMerchantOrderNumberRequest extends AbstractOrderProcessingReques
   public AddMerchantOrderNumberRequest(MerchantInfo mi, String googleOrderNo,
       String merchantOrderNo) {
     this(mi);
-    this.setGoogleOrderNo(googleOrderNo);
-    this.setMerchantOrderNo(merchantOrderNo);
+    setGoogleOrderNumber(googleOrderNo);
+    setMerchantOrderNumber(merchantOrderNo);
   }
 
   /**
@@ -45,17 +45,40 @@ public class AddMerchantOrderNumberRequest extends AbstractOrderProcessingReques
    * 
    * @return The Merchant Order Number.
    */
+  @Deprecated
   public String getMerchantOrderNo() {
     return Utils.getElementStringValue(getDocument(), getRoot(), "merchant-order-number");
   }
 
+  /**
+   * Return the Merchant Order Number, which is the value of the
+   * &lt;merchant-order-number&gt; tag.
+   * 
+   * @return The Merchant Order Number.
+   */
+  public String getMerchantOrderNumber() {
+    return Utils.getElementStringValue(getDocument(), getRoot(), "merchant-order-number");
+  }
+  
   /**
    * Set the Merchant Order Number, which is the value of the
    * &lt;merchant-order-number&gt; tag.
    * 
    * @param merchantOrderNo The Merchant Order Number.
    */
+  @Deprecated
   public void setMerchantOrderNo(String merchantOrderNo) {
+    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(),
+        "merchant-order-number", merchantOrderNo);
+  }
+  
+  /**
+   * Set the Merchant Order Number, which is the value of the
+   * &lt;merchant-order-number&gt; tag.
+   * 
+   * @param merchantOrderNo The Merchant Order Number.
+   */
+  public void setMerchantOrderNumber(String merchantOrderNo) {
     Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(),
         "merchant-order-number", merchantOrderNo);
   }

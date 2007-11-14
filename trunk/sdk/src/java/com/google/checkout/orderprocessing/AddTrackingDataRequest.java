@@ -41,9 +41,9 @@ public class AddTrackingDataRequest extends AbstractOrderProcessingRequest {
   public AddTrackingDataRequest(MerchantInfo mi, String googleOrderNo,
       String carrier, String trackingNo) {
     this(mi);
-    this.setGoogleOrderNo(googleOrderNo);
-    this.setCarrier(carrier);
-    this.setTrackingNo(trackingNo);
+    setGoogleOrderNumber(googleOrderNo);
+    setCarrier(carrier);
+    setTrackingNumber(trackingNo);
   }
 
   /**
@@ -63,7 +63,21 @@ public class AddTrackingDataRequest extends AbstractOrderProcessingRequest {
    * 
    * @return The tracking number.
    */
+  @Deprecated
   public String getTrackingNo() {
+    Element trackingDataTag =
+        Utils.findContainerElseCreate(getDocument(), getRoot(), "tracking-data");
+    return Utils.getElementStringValue(getDocument(), trackingDataTag,
+        "tracking-number");
+  }
+  
+  /**
+   * Return the tracking number, which is the value of the
+   * &lt;tracking-number&gt; tag.
+   * 
+   * @return The tracking number.
+   */
+  public String getTrackingNumber() {
     Element trackingDataTag =
         Utils.findContainerElseCreate(getDocument(), getRoot(), "tracking-data");
     return Utils.getElementStringValue(getDocument(), trackingDataTag,
@@ -88,7 +102,21 @@ public class AddTrackingDataRequest extends AbstractOrderProcessingRequest {
    * 
    * @param trackingNo The tracking number.
    */
+  @Deprecated
   public void setTrackingNo(String trackingNo) {
+    Element trackingDataTag =
+        Utils.findContainerElseCreate(getDocument(), getRoot(), "tracking-data");
+    Utils.findElementAndSetElseCreateAndSet(getDocument(), trackingDataTag,
+        "tracking-number", trackingNo);
+  }
+  
+  /**
+   * Set the tracking number, which is the value of the &lt;tracking-number&gt;
+   * tag.
+   * 
+   * @param trackingNo The tracking number.
+   */
+  public void setTrackingNumber(String trackingNo) {
     Element trackingDataTag =
         Utils.findContainerElseCreate(getDocument(), getRoot(), "tracking-data");
     Utils.findElementAndSetElseCreateAndSet(getDocument(), trackingDataTag,
