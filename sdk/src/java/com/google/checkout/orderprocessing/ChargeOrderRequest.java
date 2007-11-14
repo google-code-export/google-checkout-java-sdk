@@ -36,7 +36,7 @@ public class ChargeOrderRequest extends AbstractOrderProcessingRequest {
   public ChargeOrderRequest(MerchantInfo mi, String googleOrderNo) {
 
     this(mi);
-    this.setGoogleOrderNo(googleOrderNo);
+    setGoogleOrderNumber(googleOrderNo);
   }
 
   /**
@@ -46,8 +46,8 @@ public class ChargeOrderRequest extends AbstractOrderProcessingRequest {
   public ChargeOrderRequest(MerchantInfo mi, String googleOrderNo, float amt) {
 
     this(mi);
-    this.setGoogleOrderNo(googleOrderNo);
-    this.setAmount(amt);
+    setGoogleOrderNumber(googleOrderNo);
+    setAmount(amt);
   }
 
   /**

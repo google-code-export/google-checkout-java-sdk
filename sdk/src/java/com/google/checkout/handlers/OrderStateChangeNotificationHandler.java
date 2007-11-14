@@ -42,7 +42,7 @@ public class OrderStateChangeNotificationHandler implements MessageHandler {
         new OrderStateChangeNotification(notificationMsg);
       String ack = getAckString();
       GoogleOrder order = GoogleOrder.findOrCreate(mi.getMerchantId(),
-          notification.getGoogleOrderNo());
+          notification.getGoogleOrderNumber());
       order.setLastFulStatus(notification.getNewFulfillmentOrderState()
           .toString());
       order.setLastFinStatus(notification.getNewFinancialOrderState()

@@ -34,6 +34,6 @@ public class ArchiveOrderRequest extends AbstractOrderProcessingRequest {
    */
   public ArchiveOrderRequest(MerchantInfo mi, String googleOrderNo) {
     this(mi);
-    this.setGoogleOrderNo(googleOrderNo);
+    setGoogleOrderNumber(googleOrderNo);
   }
 }

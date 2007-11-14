@@ -35,6 +35,6 @@ public class UnarchiveOrderRequest extends AbstractOrderProcessingRequest {
   public UnarchiveOrderRequest(MerchantInfo mi, String googleOrderNo)
     throws CheckoutException {
     this(mi);
-    this.setGoogleOrderNo(googleOrderNo);
+    setGoogleOrderNumber(googleOrderNo);
   }
 }

@@ -40,7 +40,7 @@ public class ResetItemsShippingInformationRequest extends AbstractOrderProcessin
       String googleOrderNo) {
 
     this(mi);
-    this.setGoogleOrderNo(googleOrderNo);
+    setGoogleOrderNumber(googleOrderNo);
   }
 
   /**

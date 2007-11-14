@@ -41,8 +41,8 @@ public class RefundOrderRequest extends AbstractOrderProcessingRequest {
    */
   public RefundOrderRequest(MerchantInfo mi, String googleOrderNo, String reason) {
     this(mi);
-    this.setGoogleOrderNo(googleOrderNo);
-    this.setReason(reason);
+    setGoogleOrderNumber(googleOrderNo);
+    setReason(reason);
   }
 
   /**
@@ -58,10 +58,10 @@ public class RefundOrderRequest extends AbstractOrderProcessingRequest {
   public RefundOrderRequest(MerchantInfo mi, String googleOrderNo,
       String reason, float amount, String comment) {
     this(mi);
-    this.setGoogleOrderNo(googleOrderNo);
-    this.setReason(reason);
-    this.setAmount(amount);
-    this.setComment(comment);
+    setGoogleOrderNumber(googleOrderNo);
+    setReason(reason);
+    setAmount(amount);
+    setComment(comment);
   }
 
   /**

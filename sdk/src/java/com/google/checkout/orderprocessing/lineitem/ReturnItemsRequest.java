@@ -37,7 +37,7 @@ public class ReturnItemsRequest extends AbstractOrderProcessingRequest {
   public ReturnItemsRequest(MerchantInfo mi, String googleOrderNo) {
 
     this(mi);
-    this.setGoogleOrderNo(googleOrderNo);
+    setGoogleOrderNumber(googleOrderNo);
   }
 
   /**

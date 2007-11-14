@@ -28,13 +28,25 @@ public abstract class AbstractOrderProcessingRequest extends AbstractCheckoutReq
   public AbstractOrderProcessingRequest(MerchantInfo info, String requestType) {
     super(info, requestType);
   }
+  
   /**
    * Return the Google Order Number, which is the value of the
    * google-order-number attribute on the root tag.
    * 
    * @return The Google Order Number.
    */
+  @Deprecated
   public String getGoogleOrderNo() {
+    return getRoot().getAttribute("google-order-number");
+  }
+  
+    /**
+   * Return the Google Order Number, which is the value of the
+   * google-order-number attribute on the root tag.
+   * 
+   * @return The Google Order Number.
+   */
+  public String getGoogleOrderNumber() {
     return getRoot().getAttribute("google-order-number");
   }
   
@@ -44,7 +56,18 @@ public abstract class AbstractOrderProcessingRequest extends AbstractCheckoutReq
    * 
    * @param googleOrderNo The Google Order Number.
    */
+  @Deprecated
   public void setGoogleOrderNo(String googleOrderNo) {
+    getRoot().setAttribute("google-order-number", googleOrderNo);
+  }
+  
+    /**
+   * Set the Google Order Number, which is the value of the google-order-number
+   * attribute on the root tag.
+   * 
+   * @param googleOrderNo The Google Order Number.
+   */
+  public void setGoogleOrderNumber(String googleOrderNo) {
     getRoot().setAttribute("google-order-number", googleOrderNo);
   }
 }

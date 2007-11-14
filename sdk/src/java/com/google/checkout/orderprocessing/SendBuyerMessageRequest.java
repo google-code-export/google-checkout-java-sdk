@@ -37,8 +37,8 @@ public class SendBuyerMessageRequest extends AbstractOrderProcessingRequest {
   public SendBuyerMessageRequest(MerchantInfo mi, String googleOrderNo,
       String message) {
     this(mi);
-    this.setGoogleOrderNo(googleOrderNo);
-    this.setMessage(message);
+    setGoogleOrderNumber(googleOrderNo);
+    setMessage(message);
   }
 
   /**
@@ -48,9 +48,9 @@ public class SendBuyerMessageRequest extends AbstractOrderProcessingRequest {
   public SendBuyerMessageRequest(MerchantInfo mi, String googleOrderNo,
       String message, boolean sendEmail) {
     this(mi, googleOrderNo, message);
-    this.setGoogleOrderNo(googleOrderNo);
-    this.setMessage(message);
-    this.setSendEmail(sendEmail);
+    setGoogleOrderNumber(googleOrderNo);
+    setMessage(message);
+    setSendEmail(sendEmail);
   }
 
   /**

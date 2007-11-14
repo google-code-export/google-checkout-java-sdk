@@ -43,7 +43,7 @@ public class NewOrderNotificationHandler implements MessageHandler {
       String ack = getAckString();
       GoogleOrder order =
           GoogleOrder.findOrCreate(mi.getMerchantId(), notification
-              .getGoogleOrderNo());
+            .getGoogleOrderNumber());
 
       order
           .setLastFulStatus(notification.getFulfillmentOrderState().toString());

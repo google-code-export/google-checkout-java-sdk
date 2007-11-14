@@ -34,6 +34,6 @@ public class AuthorizeOrderRequest extends AbstractOrderProcessingRequest {
    */
   public AuthorizeOrderRequest(MerchantInfo mi, String googleOrderNo) {
     this(mi);
-    this.setGoogleOrderNo(googleOrderNo);
+    setGoogleOrderNumber(googleOrderNo);
   }
 }

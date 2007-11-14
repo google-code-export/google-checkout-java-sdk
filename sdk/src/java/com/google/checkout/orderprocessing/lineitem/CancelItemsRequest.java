@@ -38,7 +38,7 @@ public class CancelItemsRequest extends AbstractOrderProcessingRequest {
   public CancelItemsRequest(MerchantInfo mi, String googleOrderNo) {
 
     this(mi);
-    this.setGoogleOrderNo(googleOrderNo);
+    setGoogleOrderNumber(googleOrderNo);
   }
 
   /**

@@ -43,7 +43,7 @@ public class ChargebackAmountNotificationHandler implements MessageHandler {
       String ack = getAckString();
       GoogleOrder order =
           GoogleOrder.findOrCreate(mi.getMerchantId(), notification
-              .getGoogleOrderNo());
+            .getGoogleOrderNumber());
       order.addIncomingMessage(notification.getTimestamp(), notification
           .getRootNodeName(), notification.getXmlPretty(), ack);
       return ack;

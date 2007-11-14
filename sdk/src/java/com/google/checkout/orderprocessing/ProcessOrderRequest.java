@@ -34,6 +34,6 @@ public class ProcessOrderRequest extends AbstractOrderProcessingRequest {
    */
   public ProcessOrderRequest(MerchantInfo mi, String googleOrderNo) {
     this(mi);
-    this.setGoogleOrderNo(googleOrderNo);
+    setGoogleOrderNumber(googleOrderNo);
   }
 }
