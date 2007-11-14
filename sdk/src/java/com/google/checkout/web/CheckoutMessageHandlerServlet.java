@@ -16,7 +16,9 @@
 
 package com.google.checkout.web;
 
+import com.google.checkout.exceptions.CheckoutException;
 import com.google.checkout.MerchantInfo;
+import com.google.checkout.exceptions.CheckoutSystemException;
 import com.google.checkout.handlers.MessageHandler;
 import com.google.checkout.util.Utils;
 
@@ -48,10 +50,13 @@ public class CheckoutMessageHandlerServlet extends
 
   private static final String DEFAULT_HANDLER_TYPE = "notification-handler";
 
+  private final HashMap mhTable = new HashMap();
+  
   /**
    * Overrides servlet method to load notification processor configuration from
    * web.xml
    */
+  @Override
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
     String handlerType = config.getInitParameter("handler-type");
@@ -70,10 +75,16 @@ public class CheckoutMessageHandlerServlet extends
       throw new IllegalArgumentException(
           "web.xml must have <checkout-config-file> init parameter!");
     }
-    Document doc = Utils.newDocumentFromInputStream(is);
-    readAndConfigureHandlers(doc, handlerType);
+     
+    try {
+      Document doc = Utils.newDocumentFromInputStream(is);
+      readAndConfigureHandlers(doc, handlerType);
+    } catch (CheckoutException ex) {
+      throw new CheckoutSystemException("Unable to initialize servlet.");
+    }
   }
 
+  @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
     response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED,
@@ -82,6 +93,7 @@ public class CheckoutMessageHandlerServlet extends
             + "HTTP GET!");
   }
 
+  @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
 
@@ -102,19 +114,23 @@ public class CheckoutMessageHandlerServlet extends
       PrintWriter out = response.getWriter();
       out.print(ret);
 
-    } catch (Exception ex) {
+    } catch (CheckoutException ex) {
       ex.printStackTrace();
-      response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex
-          .getMessage());
+      response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, ex.getMessage());
     }
   }
-
 
   /**
    * Overrides base class method to load the configuration from web.xml
    * deployment descriptor
+   * 
+   * @param mi
+   * @param message
+   * @return
+   * @throws com.google.checkout.exceptions.CheckoutException if there was an
+   * error dispatching the processing the merchant's information
    */
-  protected String dispatch(MerchantInfo mi, String message) throws Exception {
+  protected String dispatch(MerchantInfo mi, String message) throws CheckoutException {
     MessageHandler mh = getMessageHandler(message);
     if (mh != null) {
       return mh.process(mi, message);
@@ -132,8 +148,12 @@ public class CheckoutMessageHandlerServlet extends
     return null;
   }
 
-  private void readAndConfigureHandlers(Document doc, String handlerType) {
+  private void readAndConfigureHandlers(Document doc, String handlerType) 
+    throws CheckoutException {
     NodeList elements = doc.getElementsByTagName(handlerType);
+    
+    String errorMsg = "";
+    
     for (int i = 0; i < elements.getLength(); ++i) {
       try {
         Element element = (Element) elements.item(i);
@@ -144,17 +164,21 @@ public class CheckoutMessageHandlerServlet extends
         Class c = Class.forName(className);
         Object obj = c.newInstance();
         mhTable.put(target, obj);
-      } catch (ClassNotFoundException e) {
-        e.printStackTrace(); // TBD: Fix
-      } catch (SecurityException e) {
-        e.printStackTrace(); // TBD: Fix
-      } catch (InstantiationException e) {
-        e.printStackTrace(); // TBD: Fix
-      } catch (IllegalAccessException e) {
-        e.printStackTrace(); // TBD: Fix
-      } catch (IllegalArgumentException e) {
-        e.printStackTrace(); // TBD: Fix
+      } catch (ClassNotFoundException ex) {
+        errorMsg = ex.getMessage();
+      } catch (SecurityException ex) {
+        errorMsg = ex.getMessage();
+      } catch (InstantiationException ex) {
+        errorMsg = ex.getMessage();
+      } catch (IllegalAccessException ex) {
+        errorMsg = ex.getMessage();
+      } catch (IllegalArgumentException ex) {
+        errorMsg = ex.getMessage();
       }
+    }
+    
+    if (!errorMsg.equals("")) {
+      throw new CheckoutException(errorMsg);
     }
   }
 
@@ -173,6 +197,4 @@ public class CheckoutMessageHandlerServlet extends
 
     return xml.toString();
   }
-
-  private final HashMap mhTable = new HashMap();
 }

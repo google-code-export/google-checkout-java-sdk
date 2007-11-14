@@ -16,6 +16,7 @@
 
 package com.google.checkout.notification;
 
+import com.google.checkout.exceptions.CheckoutException;
 import com.google.checkout.util.Utils;
 
 import java.io.InputStream;
@@ -39,10 +40,8 @@ public class RiskInformationNotification extends CheckoutNotification {
    * 
    * @param requestString
    */
-  public RiskInformationNotification(String requestString) {
-    document = Utils.newDocumentFromString(requestString);
-    root = document.getDocumentElement();
-    riskInfo = Utils.findElementOrContainer(document, root, "risk-information");
+  public RiskInformationNotification(String requestString) throws CheckoutException{
+    this(Utils.newDocumentFromString(requestString));
   }
 
   /**
@@ -50,21 +49,18 @@ public class RiskInformationNotification extends CheckoutNotification {
    * 
    * @param inputStream
    */
-  public RiskInformationNotification(InputStream inputStream) {
-    document = Utils.newDocumentFromInputStream(inputStream);
-    root = document.getDocumentElement();
-    riskInfo = Utils.findElementOrContainer(document, root, "risk-information");
+  public RiskInformationNotification(InputStream inputStream) throws CheckoutException {
+    this(Utils.newDocumentFromInputStream(inputStream));
   }
   
   /**
    * A constructor which takes in an xml document representation of the request.
    * 
-   * @param xmlDocument
+   * @param document
    */
-  public RiskInformationNotification(Document xmlDocument) {
-    document = xmlDocument;
-    root = document.getDocumentElement();
-    riskInfo = Utils.findElementOrContainer(document, root, "risk-information");
+  public RiskInformationNotification(Document document) {
+    super(document);
+    riskInfo = Utils.findElementOrContainer(getDocument(), getRoot(), "risk-information");
   }
 
   /**
@@ -73,7 +69,7 @@ public class RiskInformationNotification extends CheckoutNotification {
    * @return The eligible for protection flag.
    */
   public boolean isEligibleForProtection() {
-    return Utils.getElementBooleanValue(document, riskInfo,
+    return Utils.getElementBooleanValue(getDocument(), riskInfo,
         "eligible-for-protection");
   }
 
@@ -87,8 +83,8 @@ public class RiskInformationNotification extends CheckoutNotification {
    */
   public Address getBillingAddress() {
     Element address =
-        Utils.findElementOrContainer(document, riskInfo, "billing-address");
-    return new Address(document, address);
+        Utils.findElementOrContainer(getDocument(), riskInfo, "billing-address");
+    return new Address(getDocument(), address);
   }
 
   /**
@@ -97,7 +93,7 @@ public class RiskInformationNotification extends CheckoutNotification {
    * @return The AVS response.
    */
   public String getAvsResponse() {
-    return Utils.getElementStringValue(document, riskInfo, "avs-response");
+    return Utils.getElementStringValue(getDocument(), riskInfo, "avs-response");
   }
 
   /**
@@ -106,7 +102,7 @@ public class RiskInformationNotification extends CheckoutNotification {
    * @return The CVN response.
    */
   public String getCvnResponse() {
-    return Utils.getElementStringValue(document, riskInfo, "cvn-response");
+    return Utils.getElementStringValue(getDocument(), riskInfo, "cvn-response");
   }
 
   /**
@@ -115,7 +111,7 @@ public class RiskInformationNotification extends CheckoutNotification {
    * @return The partial credit card number.
    */
   public String getPartialCcNumber() {
-    return Utils.getElementStringValue(document, riskInfo, "partial-cc-number");
+    return Utils.getElementStringValue(getDocument(), riskInfo, "partial-cc-number");
   }
 
   /**
@@ -124,7 +120,7 @@ public class RiskInformationNotification extends CheckoutNotification {
    * @return The buyer account age.
    */
   public int getBuyerAccountAge() {
-    return Utils.getElementIntValue(document, riskInfo, "buyer-account-age");
+    return Utils.getElementIntValue(getDocument(), riskInfo, "buyer-account-age");
   }
 
   /**
@@ -133,6 +129,6 @@ public class RiskInformationNotification extends CheckoutNotification {
    * @return The IP address.
    */
   public String getIpAddress() {
-    return Utils.getElementStringValue(document, riskInfo, "ip-address");
+    return Utils.getElementStringValue(getDocument(), riskInfo, "ip-address");
   }
 }

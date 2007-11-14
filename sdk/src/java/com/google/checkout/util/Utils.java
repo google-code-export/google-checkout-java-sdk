@@ -16,6 +16,8 @@
 
 package com.google.checkout.util;
 
+import com.google.checkout.exceptions.CheckoutException;
+import com.google.checkout.exceptions.CheckoutSystemException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -65,8 +67,8 @@ public class Utils {
     try {
       factory = DocumentBuilderFactory.newInstance();
       builder = factory.newDocumentBuilder();
-    } catch (ParserConfigurationException e) {
-      e.printStackTrace();
+    } catch (ParserConfigurationException ex) {
+      throw new CheckoutSystemException("Could not create new empty document.");
     }
 
     ret = builder.newDocument();
@@ -183,8 +185,8 @@ public class Utils {
         + childValue);
   }
 
-  public static Element createNewElementAndSet(Document document,
-      Element parent, String childElement, double childValue) {
+  public static Element createNewElementAndSet(Document document, Element parent,
+      String childElement, double childValue) {
     return createNewElementAndSet(document, parent, childElement, ""+childValue);
   }
 
@@ -222,7 +224,7 @@ public class Utils {
   }
 
   public static Date getElementDateValue(Document document, Element parent,
-      String string) {
+      String string) throws CheckoutException {
     return parseDate(getElementStringValue(document, parent, string));
   }
 
@@ -335,17 +337,15 @@ public class Utils {
       StringWriter sw = new StringWriter();
       trans.transform(new DOMSource(document), new StreamResult(sw));
       return sw.toString();
-    } catch (TransformerException tEx) {
-      tEx.printStackTrace();
+    } catch (TransformerException ex) {
+      throw new CheckoutSystemException("Unable to convert document to string");
     }
-    return null;
   }
 
-  public static String documentToStringPretty(Document document) {
-
+  public static String documentToStringPretty(Document document) {    
     try {
       StreamSource stylesource =
-          new StreamSource(Utils.class.getResourceAsStream("indent.xsl"));
+        new StreamSource(Utils.class.getResourceAsStream("indent.xsl"));
 
       TransformerFactory tf = TransformerFactory.newInstance();
       Transformer trans = tf.newTransformer(stylesource);
@@ -354,14 +354,13 @@ public class Utils {
       trans.transform(new DOMSource(document), new StreamResult(sw));
 
       return sw.toString();
-
-    } catch (TransformerException tEx) {
-      tEx.printStackTrace();
+    } catch (TransformerException ex) {
+      throw new CheckoutSystemException("Unable to convert document to string");
     }
-    return null;
   }
 
-  public static Document newDocumentFromString(String xmlString) {
+  public static Document newDocumentFromString(String xmlString) 
+    throws CheckoutException {
     DocumentBuilderFactory factory = null;
     DocumentBuilder builder = null;
     Document ret = null;
@@ -369,21 +368,24 @@ public class Utils {
     try {
       factory = DocumentBuilderFactory.newInstance();
       builder = factory.newDocumentBuilder();
-    } catch (ParserConfigurationException e) {
-      e.printStackTrace();
+    } catch (ParserConfigurationException ex) {
+      throw new CheckoutSystemException(ex.getMessage());
     }
 
     try {
       ret = builder.parse(new InputSource(new StringReader(xmlString)));
-    } catch (SAXException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (SAXException ex) {
+      throw new CheckoutException("Got the following error when attempting to " +
+        "create new document from input stream." + ex.getMessage());
+    } catch (IOException ex) {
+      throw new CheckoutSystemException(ex.getMessage());
     }
+    
     return ret;
   }
 
-  public static Document newDocumentFromInputStream(InputStream in) {
+  public static Document newDocumentFromInputStream(InputStream in) 
+    throws CheckoutException {
     DocumentBuilderFactory factory = null;
     DocumentBuilder builder = null;
     Document ret = null;
@@ -391,30 +393,32 @@ public class Utils {
     try {
       factory = DocumentBuilderFactory.newInstance();
       builder = factory.newDocumentBuilder();
-    } catch (ParserConfigurationException e) {
-      e.printStackTrace();
+    } catch (ParserConfigurationException ex) {
+      throw new CheckoutSystemException(ex.getMessage());
     }
 
     try {
       ret = builder.parse(new InputSource(in));
-    } catch (SAXException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
+    } catch (SAXException ex) {
+      throw new CheckoutException("Got the following error when attempting to " + 
+        "create new document from input stream." + ex.getMessage());
+    } catch (IOException ex) {
+      throw new CheckoutSystemException(ex.getMessage());
     }
+    
     return ret;
   }
 
   private static SimpleDateFormat sdf =
       new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
-  public static Date parseDate(String date) {
+  public static Date parseDate(String date) throws CheckoutException {
     try {
       return sdf.parse(date);
-    } catch (ParseException e) {
-      e.printStackTrace();
+    } catch (ParseException ex) {
+      throw new CheckoutException("Could not parse date: " + date + 
+        ". The expected format is " + sdf.toPattern());
     }
-    return null;
   }
 
   public static String getDateString(Date date) {

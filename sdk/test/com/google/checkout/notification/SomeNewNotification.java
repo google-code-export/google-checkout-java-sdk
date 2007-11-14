@@ -16,10 +16,9 @@ public class SomeNewNotification extends CheckoutNotification {
   /**
    * A constructor which takes in an xml document representation of the request.
    * 
-   * @param xmlDocument
+   * @param document
    */
-  public SomeNewNotification(Document xmlDocument) {
-    document = xmlDocument;
-    root = document.getDocumentElement();
+  public SomeNewNotification(Document document) {
+    super(document);
   }
 }

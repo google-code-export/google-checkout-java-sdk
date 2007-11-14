@@ -16,6 +16,7 @@
 
 package com.google.checkout.notification;
 
+import com.google.checkout.exceptions.CheckoutException;
 import com.google.checkout.util.Utils;
 
 import java.io.InputStream;
@@ -36,30 +37,31 @@ public class AuthorizationAmountNotification extends CheckoutNotification {
    * A constructor which takes the request as a String.
    * 
    * @param requestString
+   * @throws com.google.checkout.exceptions.CheckoutException if there was an
+   * error prcessing the request string
    */
-  public AuthorizationAmountNotification(String requestString) {
-    document = Utils.newDocumentFromString(requestString);
-    root = document.getDocumentElement();
+  public AuthorizationAmountNotification(String requestString) throws CheckoutException {
+    this(Utils.newDocumentFromString(requestString));
   }
 
   /**
    * A constructor which takes the request as an InputStream.
    * 
    * @param inputStream
+   * @throws com.google.checkout.exceptions.CheckoutException if there was an
+   * error prcessing the request from the InputStream
    */
-  public AuthorizationAmountNotification(InputStream inputStream) {
-    document = Utils.newDocumentFromInputStream(inputStream);
-    root = document.getDocumentElement();
+  public AuthorizationAmountNotification(InputStream inputStream) throws CheckoutException {
+    this(Utils.newDocumentFromInputStream(inputStream));
   }
   
   /**
    * A constructor which takes in an xml document representation of the request.
    * 
-   * @param xmlDocument
+   * @param document
    */
-  public AuthorizationAmountNotification(Document xmlDocument) {
-    document = xmlDocument;
-    root = document.getDocumentElement();
+  public AuthorizationAmountNotification(Document document) {
+    super(document);
   }
 
   /**
@@ -68,7 +70,7 @@ public class AuthorizationAmountNotification extends CheckoutNotification {
    * @return The AVS response code.
    */
   public String getAvsResponse() {
-    return Utils.getElementStringValue(document, root, "avs-response");
+    return Utils.getElementStringValue(getDocument(), getRoot(), "avs-response");
   }
 
   /**
@@ -77,7 +79,7 @@ public class AuthorizationAmountNotification extends CheckoutNotification {
    * @return The CVN response code.
    */
   public String getCvnResponse() {
-    return Utils.getElementStringValue(document, root, "cvn-response");
+    return Utils.getElementStringValue(getDocument(), getRoot(), "cvn-response");
   }
 
   /**
@@ -86,7 +88,7 @@ public class AuthorizationAmountNotification extends CheckoutNotification {
    * @return The authorization amount.
    */
   public float getAuthorizationAmount() {
-    return Utils.getElementFloatValue(document, root, "authorization-amount");
+    return Utils.getElementFloatValue(getDocument(), getRoot(), "authorization-amount");
   }
 
   /**
@@ -95,7 +97,7 @@ public class AuthorizationAmountNotification extends CheckoutNotification {
    * @return The currency code.
    */
   public String getCurrentyCode() {
-    return Utils.findElementOrContainer(document, root, "authorization-amount")
+    return Utils.findElementOrContainer(getDocument(), getRoot(), "authorization-amount")
         .getAttribute("currency");
   }
 
@@ -104,10 +106,9 @@ public class AuthorizationAmountNotification extends CheckoutNotification {
    * 
    * @return The authorization expiration date.
    */
-  public Date getAuthorizationExpirationDate() {
+  public Date getAuthorizationExpirationDate() throws CheckoutException {
 
-    return Utils.getElementDateValue(document, root,
-        "authorization-expiration-date");
+    return Utils.getElementDateValue(getDocument(), getRoot(), "authorization-expiration-date");
   }
 
 }

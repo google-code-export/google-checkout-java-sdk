@@ -16,32 +16,17 @@
 
 package com.google.checkout.orderprocessing;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
-import com.google.checkout.AbstractCheckoutRequest;
 import com.google.checkout.MerchantInfo;
-import com.google.checkout.util.Constants;
-import com.google.checkout.util.Utils;
 
 /**
  * This class contains methods that construct &lt;process-order&gt; API
  * requests.
  */
-public class ProcessOrderRequest extends AbstractCheckoutRequest {
-
-  private final Document document;
-
-  private final Element root;
+public class ProcessOrderRequest extends AbstractOrderProcessingRequest {
 
   public ProcessOrderRequest(MerchantInfo mi) {
-    super(mi);
-    document = Utils.newEmptyDocument();
-    root = 
-      document.createElementNS(Constants.checkoutNamespace, "process-order");
-    root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
-        Constants.checkoutNamespace);
-    document.appendChild(root);
+    super(mi, "process-order");
   }
 
   /**
@@ -50,52 +35,5 @@ public class ProcessOrderRequest extends AbstractCheckoutRequest {
   public ProcessOrderRequest(MerchantInfo mi, String googleOrderNo) {
     this(mi);
     this.setGoogleOrderNo(googleOrderNo);
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.checkout.CheckoutRequest#getXml()
-   */
-  public String getXml() {
-    return Utils.documentToString(document);
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.checkout.CheckoutRequest#getXmlPretty()
-   */
-  public String getXmlPretty() {
-    return Utils.documentToStringPretty(document);
-  }
-
-  /**
-   * Return the Google Order Number, which is the value of the
-   * google-order-number attribute on the root tag.
-   * 
-   * @return The Google Order Number.
-   */
-  public String getGoogleOrderNo() {
-    return root.getAttribute("google-order-number");
-  }
-
-  /**
-   * Set the Google Order Number, which is the value of the google-order-number
-   * attribute on the root tag.
-   * 
-   * @param googleOrderNo The Google Order Number.
-   */
-  public void setGoogleOrderNo(String googleOrderNo) {
-    root.setAttribute("google-order-number", googleOrderNo);
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.checkout.CheckoutRequest#getPostUrl()
-   */
-  public String getPostUrl() {
-    return mi.getRequestUrl();
   }
 }

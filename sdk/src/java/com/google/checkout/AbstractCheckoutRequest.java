@@ -17,6 +17,10 @@
 package com.google.checkout;
 
 
+import com.google.checkout.exceptions.CheckoutException;
+import com.google.checkout.exceptions.CheckoutSystemException;
+import com.google.checkout.util.Constants;
+import com.google.checkout.util.Utils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -24,6 +28,9 @@ import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * The parent for all Checkout requests.
@@ -33,40 +40,87 @@ import java.net.URL;
 public abstract class AbstractCheckoutRequest {
   
   protected MerchantInfo mi;
+
+  private final Document document;
+  private final Element root;
   
-  public AbstractCheckoutRequest(MerchantInfo merchantInfo) {
+  /**
+   * @param merchantInfo The merchant's information
+   * @param requestType The request type
+   */
+  public AbstractCheckoutRequest(MerchantInfo merchantInfo, String requestType) {
     this.mi = merchantInfo;
+    
+    document = Utils.newEmptyDocument();
+    
+    root = document.createElementNS(Constants.checkoutNamespace, requestType);
+    root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
+      Constants.checkoutNamespace);
+    document.appendChild(root);
   }
   
   /**
-   * Return the URL to POST the request to.
-   *
-   * @return The POST URL.
+   * @param merchantInfo The merchant's info
+   * @param document A document that has already been constructed
    */
-  public abstract String getPostUrl();
+  public AbstractCheckoutRequest(MerchantInfo merchantInfo, Document document) {
+    this.mi = merchantInfo;
+    this.document = document;
+    this.root = document.getDocumentElement();   
+  }
   
   /**
+   * @return The document for this CheckoutRequest
+   */
+  protected Document getDocument() {
+    return document;
+  }
+  
+  /**
+   * @return The root of the document for this CheckoutRequest
+   */
+  protected Element getRoot() {
+    return root;
+  }
+  
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.google.checkout.CheckoutRequest#getPostUrl()
+   */
+  public String getPostUrl() {
+    return mi.getRequestUrl();
+  }
+  
+   /**
    * Return the XML request String.
-   *
+   * 
    * @return The XML request String.
    */
-  public abstract String getXml();
-  
+  public String getXml() {
+    return Utils.documentToString(document);
+  }
+
   /**
    * Return the nicely formatted XML request String.
    *
    * @return The nicely formatted XML request String.
    */
-  public abstract String getXmlPretty();
-  
+  public String getXmlPretty() {
+    return Utils.documentToStringPretty(document);
+  }
+
   /**
-   * Submit the request to the POST URL and return a CheckoutResonse.
-   *
+   * Submit the request to the POST URL and return a CheckoutResponse.
+   * 
    * @return The CheckoutResponse object.
-   *
+   * 
    * @see CheckoutResponse
+   * 
+   * @throws com.google.checkout.exceptions.CheckoutException if the post URL
+   * for the merchant info was invalid.
    */
-  public CheckoutResponse send() {
+  public CheckoutResponse send() throws CheckoutException {
     try {
       URL url = new URL(getPostUrl());
       HttpURLConnection connection = (HttpURLConnection) url
@@ -88,7 +142,7 @@ public abstract class AbstractCheckoutRequest {
       connection.setRequestProperty("accept", "application/xml");
       
       PrintWriter output = new PrintWriter(new OutputStreamWriter(
-          connection.getOutputStream(), "UTF8"));
+          connection.getOutputStream(), "UTF8"));      
       output.print(getXml());
       output.flush();
       output.close();
@@ -104,14 +158,10 @@ public abstract class AbstractCheckoutRequest {
       
       return new CheckoutResponse(inputStream);
     }
-    
-    catch (MalformedURLException murle) {
-      System.err.println("MalformedURLException encountered.  URL was: "+getPostUrl());
-      murle.printStackTrace();
-    } catch (IOException ioe) {
-      System.err.println("IOException encountered.");
-      ioe.printStackTrace();
+    catch (MalformedURLException ex) {
+      throw new CheckoutException("MalformedURLException encountered.  URL was: " + getPostUrl());
+    } catch (IOException ex) {
+      throw new CheckoutSystemException("IOException encountered.");
     }
-    return null;
   }
 }

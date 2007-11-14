@@ -17,6 +17,7 @@
 package com.google.checkout.notification;
 
 import com.google.checkout.checkout.Item;
+import com.google.checkout.exceptions.CheckoutException;
 import com.google.checkout.util.Utils;
 
 import java.io.InputStream;
@@ -39,30 +40,31 @@ public class NewOrderNotification extends CheckoutNotification {
    * A constructor which takes the request as a String.
    * 
    * @param requestString
+   * @throws com.google.checkout.exceptions.CheckoutException if there was an
+   * error prcessing the request string
    */
-  public NewOrderNotification(String requestString) {
-    document = Utils.newDocumentFromString(requestString);
-    root = document.getDocumentElement();
+  public NewOrderNotification(String requestString) throws CheckoutException {
+    this(Utils.newDocumentFromString(requestString));
   }
 
   /**
    * A constructor which takes the request as an InputStream.
    * 
    * @param inputStream
+   * @throws com.google.checkout.exceptions.CheckoutException if there was an
+   * error prcessing the request from the InputStream
    */
-  public NewOrderNotification(InputStream inputStream) {
-    document = Utils.newDocumentFromInputStream(inputStream);
-    root = document.getDocumentElement();
+  public NewOrderNotification(InputStream inputStream) throws CheckoutException {
+    this(Utils.newDocumentFromInputStream(inputStream));
   }
   
   /**
    * A constructor which takes in an xml document representation of the request.
    * 
-   * @param xmlDocument
+   * @param document
    */
-  public NewOrderNotification(Document xmlDocument) {
-    document = xmlDocument;
-    root = document.getDocumentElement();
+  public NewOrderNotification(Document document) {
+    super(document);
   }
 
   /**
@@ -74,6 +76,9 @@ public class NewOrderNotification extends CheckoutNotification {
    * @see Item
    */
   public Collection getItems() {
+    Document document = getDocument();
+    Element root = getRoot();
+    
     Element shoppingCart =
         Utils.findElementOrContainer(document, root, "shopping-cart");
     Element items =
@@ -96,6 +101,9 @@ public class NewOrderNotification extends CheckoutNotification {
    * @see Element
    */
   public Element[] getMerchantPrivateDataNodes() {
+    Document document = getDocument();
+    Element root = getRoot();
+    
     Element shoppingCart =
         Utils.findContainerElseCreate(document, root, "shopping-cart");
     Element mpd =
@@ -113,16 +121,19 @@ public class NewOrderNotification extends CheckoutNotification {
    * @return The cart expiration.
    * 
    * @see Date
+   * @throws com.google.checkout.exceptions.CheckoutException if there was an
+   * error retrieving the cart expiration date
    */
-  public Date getCartExpiration() {
+  public Date getCartExpiration() throws CheckoutException {
+    Document document = getDocument();
+    Element root = getRoot();   
+ 
     Element shoppingCart =
         Utils.findContainerElseCreate(document, root, "shopping-cart");
-    Element cartExpiration =
-        Utils
-            .findContainerElseCreate(document, shoppingCart, "cart-expiration");
+    Element cartExpiration = Utils
+      .findContainerElseCreate(document, shoppingCart, "cart-expiration");
 
-    return Utils.getElementDateValue(document, cartExpiration,
-        "good-until-date");
+    return Utils.getElementDateValue(document, cartExpiration, "good-until-date");
   }
 
   /**
@@ -131,7 +142,7 @@ public class NewOrderNotification extends CheckoutNotification {
    * @return The Google Order Number.
    */
   public String getGoogleOrderNo() {
-    return Utils.getElementStringValue(document, root, "google-order-number");
+    return Utils.getElementStringValue(getDocument(), getRoot(), "google-order-number");
   }
 
   /**
@@ -142,6 +153,9 @@ public class NewOrderNotification extends CheckoutNotification {
    * @see Address
    */
   public Address getBuyerShippingAddress() {
+    Document document = getDocument();
+    Element root = getRoot();
+    
     Element address =
         Utils.findElementOrContainer(document, root, "buyer-shipping-address");
     return new Address(document, address);
@@ -155,6 +169,9 @@ public class NewOrderNotification extends CheckoutNotification {
    * @see Address
    */
   public Address getBuyerBillingAddress() {
+    Document document = getDocument();
+    Element root = getRoot();
+    
     Element address =
         Utils.findElementOrContainer(document, root, "buyer-billing-address");
     return new Address(document, address);
@@ -166,6 +183,9 @@ public class NewOrderNotification extends CheckoutNotification {
    * @return The marketing preferences flag.
    */
   public boolean isMarketingEmailAllowed() {
+    Document document = getDocument();
+    Element root = getRoot();
+    
     Element buyerMarketingPreferences =
         Utils.findElementOrContainer(document, root,
             "buyer-marketing-preferences");
@@ -179,6 +199,9 @@ public class NewOrderNotification extends CheckoutNotification {
    * @return The merchant calculation successful flag.
    */
   public boolean isMerchantCalculationSuccessful() {
+    Document document = getDocument();
+    Element root = getRoot();
+ 
     Element orderAdjustment =
         Utils.findElementOrContainer(document, root, "order-adjustment");
     return Utils.getElementBooleanValue(document, orderAdjustment,
@@ -196,6 +219,9 @@ public class NewOrderNotification extends CheckoutNotification {
    * @see CouponAdjustment
    */
   public Collection getMerchantCodes() {
+    Document document = getDocument();
+    Element root = getRoot(); 
+    
     Element oa =
         Utils.findElementOrContainer(document, root, "order-adjustment");
     Element mc = Utils.findElementOrContainer(document, oa, "merchant-codes");
@@ -223,6 +249,9 @@ public class NewOrderNotification extends CheckoutNotification {
    * @return The total tax.
    */
   public float getTotalTax() {
+    Document document = getDocument();
+    Element root = getRoot();
+    
     Element orderAdjustment =
         Utils.findElementOrContainer(document, root, "order-adjustment");
     return Utils.getElementFloatValue(document, orderAdjustment, "total-tax");
@@ -234,6 +263,9 @@ public class NewOrderNotification extends CheckoutNotification {
    * @return The adjustment total amount.
    */
   public float getAdjustmentTotal() {
+    Document document = getDocument();
+    Element root = getRoot();
+    
     Element orderAdjustment =
         Utils.findElementOrContainer(document, root, "order-adjustment");
     return Utils.getElementFloatValue(document, orderAdjustment,
@@ -248,6 +280,9 @@ public class NewOrderNotification extends CheckoutNotification {
    * @see Shipping
    */
   public Shipping getShipping() {
+    Document document = getDocument();
+    Element root = getRoot();
+    
     Element oa =
         Utils.findElementOrContainer(document, root, "order-adjustment");
     Element shipping = Utils.findElementOrContainer(document, oa, "shipping");
@@ -289,7 +324,7 @@ public class NewOrderNotification extends CheckoutNotification {
    * @return The order total.
    */
   public float getOrderTotal() {
-    return Utils.getElementFloatValue(document, root, "order-total");
+    return Utils.getElementFloatValue(getDocument(), getRoot(), "order-total");
   }
 
   /**
@@ -298,7 +333,7 @@ public class NewOrderNotification extends CheckoutNotification {
    * @return The currency code.
    */
   public String getOrderCurrencyCode() {
-    return Utils.findElementOrContainer(document, root, "order-total")
+    return Utils.findElementOrContainer(getDocument(), getRoot(), "order-total")
         .getAttribute("currency");
   }
 
@@ -311,7 +346,7 @@ public class NewOrderNotification extends CheckoutNotification {
    */
   public FulfillmentOrderState getFulfillmentOrderState() {
     String state =
-        Utils.getElementStringValue(document, root, "fulfillment-order-state");
+        Utils.getElementStringValue(getDocument(), getRoot(), "fulfillment-order-state");
     return FulfillmentOrderState.getState(state);
   }
 
@@ -324,7 +359,7 @@ public class NewOrderNotification extends CheckoutNotification {
    */
   public FinancialOrderState getFinancialOrderState() {
     String state =
-        Utils.getElementStringValue(document, root, "financial-order-state");
+        Utils.getElementStringValue(getDocument(), getRoot(), "financial-order-state");
     return FinancialOrderState.getState(state);
   }
 
@@ -334,7 +369,7 @@ public class NewOrderNotification extends CheckoutNotification {
    * @return The buyer id.
    */
   public long getBuyerId() {
-    return Utils.getElementLongValue(document, root, "buyer-id");
+    return Utils.getElementLongValue(getDocument(), getRoot(), "buyer-id");
   }
 
 }

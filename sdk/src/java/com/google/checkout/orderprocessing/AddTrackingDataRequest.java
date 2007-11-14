@@ -16,33 +16,18 @@
 
 package com.google.checkout.orderprocessing;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.google.checkout.AbstractCheckoutRequest;
 import com.google.checkout.MerchantInfo;
-import com.google.checkout.util.Constants;
 import com.google.checkout.util.Utils;
 
 /**
  * This class contains methods that construct &lt;add-tracking-data&gt; API
  * requests.
  */
-public class AddTrackingDataRequest extends AbstractCheckoutRequest {
-
-  private final Document document;
-
-  private final Element root;
-
+public class AddTrackingDataRequest extends AbstractOrderProcessingRequest {
   public AddTrackingDataRequest(MerchantInfo mi) {
-    super(mi);
-
-    document = Utils.newEmptyDocument();
-    root = document.createElementNS(Constants.checkoutNamespace,
-        "add-tracking-data");
-    root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
-        Constants.checkoutNamespace);
-    document.appendChild(root);
+    super(mi, "add-tracking-data");
   }
 
   /**
@@ -61,33 +46,6 @@ public class AddTrackingDataRequest extends AbstractCheckoutRequest {
     this.setTrackingNo(trackingNo);
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.checkout.CheckoutRequest#getXml()
-   */
-  public String getXml() {
-    return Utils.documentToString(document);
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.checkout.CheckoutRequest#getXmlPretty()
-   */
-  public String getXmlPretty() {
-    return Utils.documentToStringPretty(document);
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.checkout.CheckoutRequest#getPostUrl()
-   */
-  public String getPostUrl() {
-    return mi.getRequestUrl();
-  }
-
   /**
    * Return the carrier String, which is the value of the &lt;carrier&gt; tag.
    * 
@@ -95,18 +53,8 @@ public class AddTrackingDataRequest extends AbstractCheckoutRequest {
    */
   public String getCarrier() {
     Element trackingDataTag =
-        Utils.findContainerElseCreate(document, root, "tracking-data");
-    return Utils.getElementStringValue(document, trackingDataTag, "carrier");
-  }
-
-  /**
-   * Return the Google Order Number, which is the value of the
-   * google-order-number attribute on the root tag.
-   * 
-   * @return The Google Order Number.
-   */
-  public String getGoogleOrderNo() {
-    return Utils.getElementStringValue(document, root, "google-order-number");
+        Utils.findContainerElseCreate(getDocument(), getRoot(), "tracking-data");
+    return Utils.getElementStringValue(getDocument(), trackingDataTag, "carrier");
   }
 
   /**
@@ -117,8 +65,8 @@ public class AddTrackingDataRequest extends AbstractCheckoutRequest {
    */
   public String getTrackingNo() {
     Element trackingDataTag =
-        Utils.findContainerElseCreate(document, root, "tracking-data");
-    return Utils.getElementStringValue(document, trackingDataTag,
+        Utils.findContainerElseCreate(getDocument(), getRoot(), "tracking-data");
+    return Utils.getElementStringValue(getDocument(), trackingDataTag,
         "tracking-number");
   }
 
@@ -129,19 +77,9 @@ public class AddTrackingDataRequest extends AbstractCheckoutRequest {
    */
   public void setCarrier(String carrier) {
     Element trackingDataTag =
-        Utils.findContainerElseCreate(document, root, "tracking-data");
-    Utils.findElementAndSetElseCreateAndSet(document, trackingDataTag,
+        Utils.findContainerElseCreate(getDocument(), getRoot(), "tracking-data");
+    Utils.findElementAndSetElseCreateAndSet(getDocument(), trackingDataTag,
         "carrier", carrier);
-  }
-
-  /**
-   * Set the Google Order Number, which is the value of the google-order-number
-   * attribute on the root tag.
-   * 
-   * @param googleOrderNo The Google Order Number.
-   */
-  public void setGoogleOrderNo(String googleOrderNo) {
-    root.setAttribute("google-order-number", googleOrderNo);
   }
 
   /**
@@ -152,8 +90,8 @@ public class AddTrackingDataRequest extends AbstractCheckoutRequest {
    */
   public void setTrackingNo(String trackingNo) {
     Element trackingDataTag =
-        Utils.findContainerElseCreate(document, root, "tracking-data");
-    Utils.findElementAndSetElseCreateAndSet(document, trackingDataTag,
+        Utils.findContainerElseCreate(getDocument(), getRoot(), "tracking-data");
+    Utils.findElementAndSetElseCreateAndSet(getDocument(), trackingDataTag,
         "tracking-number", trackingNo);
   }
 }

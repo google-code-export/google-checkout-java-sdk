@@ -16,6 +16,7 @@
 
 package com.google.checkout.notification;
 
+import com.google.checkout.exceptions.CheckoutException;
 import com.google.checkout.util.Utils;
 
 import java.io.InputStream;
@@ -35,30 +36,31 @@ public class OrderStateChangeNotification extends CheckoutNotification {
    * A constructor which takes the request as a String.
    * 
    * @param requestString
+   * @throws com.google.checkout.exceptions.CheckoutException if there was an
+   * error prcessing the request string
    */
-  public OrderStateChangeNotification(String requestString) {
-    document = Utils.newDocumentFromString(requestString);
-    root = document.getDocumentElement();
+  public OrderStateChangeNotification(String requestString) throws CheckoutException {
+    this(Utils.newDocumentFromString(requestString));
   }
 
   /**
    * A constructor which takes the request as an InputStream.
    * 
    * @param inputStream
+   * @throws com.google.checkout.exceptions.CheckoutException if there was an
+   * error prcessing the request from the InputStream
    */
-  public OrderStateChangeNotification(InputStream inputStream) {
-    document = Utils.newDocumentFromInputStream(inputStream);
-    root = document.getDocumentElement();
+  public OrderStateChangeNotification(InputStream inputStream) throws CheckoutException {
+    this(Utils.newDocumentFromInputStream(inputStream));
   }
   
   /**
    * A constructor which takes in an xml document representation of the request.
    * 
-   * @param xmlDocument
+   * @param document
    */
-  public OrderStateChangeNotification(Document xmlDocument) {
-    document = xmlDocument;
-    root = document.getDocumentElement();
+  public OrderStateChangeNotification(Document document) {
+    super(document);
   }
 
   /**
@@ -69,9 +71,8 @@ public class OrderStateChangeNotification extends CheckoutNotification {
    * @see FulfillmentOrderState
    */
   public FulfillmentOrderState getNewFulfillmentOrderState() {
-    String state =
-        Utils.getElementStringValue(document, root,
-            "new-fulfillment-order-state");
+    String state = Utils.getElementStringValue(getDocument(), getRoot(),
+      "new-fulfillment-order-state");
     return FulfillmentOrderState.getState(state);
   }
 
@@ -83,9 +84,8 @@ public class OrderStateChangeNotification extends CheckoutNotification {
    * @see FinancialOrderState
    */
   public FinancialOrderState getNewFinancialOrderState() {
-    String state =
-        Utils
-            .getElementStringValue(document, root, "new-financial-order-state");
+    String state = Utils
+      .getElementStringValue(getDocument(), getRoot(), "new-financial-order-state");
     return FinancialOrderState.getState(state);
   }
 
@@ -98,8 +98,8 @@ public class OrderStateChangeNotification extends CheckoutNotification {
    * @see FulfillmentOrderState
    */
   public FulfillmentOrderState getPreviousFulfillmentOrderState() {
-    String state = Utils.getElementStringValue(document, root,
-            "previous-fulfillment-order-state");
+    String state = Utils.getElementStringValue(getDocument(), getRoot(),
+      "previous-fulfillment-order-state");
     return FulfillmentOrderState.getState(state);
   }
 
@@ -111,8 +111,8 @@ public class OrderStateChangeNotification extends CheckoutNotification {
    * @see FinancialOrderState
    */
   public FinancialOrderState getPreviousFinancialOrderState() {
-    String state = Utils.getElementStringValue(document, root,
-            "previous-financial-order-state");
+    String state = Utils.getElementStringValue(getDocument(), getRoot(),
+      "previous-financial-order-state");
     return FinancialOrderState.getState(state);
   }
 

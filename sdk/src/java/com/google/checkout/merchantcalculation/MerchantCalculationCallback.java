@@ -25,6 +25,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.google.checkout.checkout.Item;
+import com.google.checkout.exceptions.CheckoutException;
 import com.google.checkout.util.Utils;
 
 /**
@@ -42,20 +43,29 @@ public class MerchantCalculationCallback {
    * A constructor which takes the request as a String.
    * 
    * @param requestString
+   * @throws com.google.checkout.exceptions.CheckoutException
    */
-  public MerchantCalculationCallback(String requestString) {
-    document = Utils.newDocumentFromString(requestString);
-    root = document.getDocumentElement();
+  public MerchantCalculationCallback(String requestString) throws CheckoutException {
+    this(Utils.newDocumentFromString(requestString));
   }
 
   /**
    * A constructor which takes the request as an InputStream.
    * 
    * @param inputStream
+   * @throws com.google.checkout.exceptions.CheckoutException
    */
-  public MerchantCalculationCallback(InputStream inputStream) {
-    document = Utils.newDocumentFromInputStream(inputStream);
-    root = document.getDocumentElement();
+  public MerchantCalculationCallback(InputStream inputStream) throws CheckoutException {
+    this(Utils.newDocumentFromInputStream(inputStream));
+  }
+  
+  /**
+   * 
+   * @param document An document containing callback information
+   */
+  public MerchantCalculationCallback(Document document) {
+    this.document = document;
+    this.root = document.getDocumentElement();
   }
 
   /**
@@ -106,8 +116,11 @@ public class MerchantCalculationCallback {
    * @return The cart expiration.
    * 
    * @see Date
+   * 
+   * @throws com.google.checkout.exceptions.CheckoutException if there was an
+   * error reading the cart expiration date
    */
-  public Date getCartExpiration() {
+  public Date getCartExpiration() throws CheckoutException {
     Element shoppingCart = Utils.findContainerElseCreate(document, root,
         "shopping-cart");
     Element cartExpiration = Utils.findContainerElseCreate(document,

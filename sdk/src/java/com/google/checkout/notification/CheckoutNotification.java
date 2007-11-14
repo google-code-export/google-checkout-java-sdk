@@ -16,12 +16,13 @@
 
 package com.google.checkout.notification;
 
+import com.google.checkout.exceptions.CheckoutException;
+import com.google.checkout.util.Utils;
+
 import java.util.Date;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import com.google.checkout.util.Utils;
 
 /**
  * This class is the parent for all the notification classes.
@@ -31,10 +32,27 @@ import com.google.checkout.util.Utils;
  */
 public abstract class CheckoutNotification {
 
-  protected Document document;
+  private Document document;
+  private Element root;
 
-  protected Element root;
-
+  /**
+   * Takes a document that contains info on the notification
+   * 
+   * @param document The notification document
+   */
+  public CheckoutNotification(Document document) {
+    this.document = document;
+    this.root = document.getDocumentElement();
+  }
+  
+  public Document getDocument() {
+    return document;
+  }
+  
+  public Element getRoot() {
+    return root;
+  }
+  
   /**
    * Return the Google Order Number for this notification.
    * 
@@ -43,13 +61,13 @@ public abstract class CheckoutNotification {
   public String getGoogleOrderNo() {
     return Utils.getElementStringValue(document, root, "google-order-number");
   }
-
+  
   /**
    * Retrieves the value of the &lt;timestamp&gt; tag.
    * 
    * @return The timestamp.
    */
-  public Date getTimestamp() {
+  public Date getTimestamp() throws CheckoutException {
     return Utils.getElementDateValue(document, root, "timestamp");
   }
   
@@ -76,7 +94,7 @@ public abstract class CheckoutNotification {
    * 
    * @return The XML request String.
    */
-  public String getXml() {
+  public String getXml() {    
     return Utils.documentToString(document);
   }
 
@@ -85,7 +103,7 @@ public abstract class CheckoutNotification {
    * 
    * @return The nicely formatted XML request String.
    */
-  public String getXmlPretty() {
+  public String getXmlPretty() {    
     return Utils.documentToStringPretty(document);
   }
 

@@ -16,92 +16,29 @@
 
 package com.google.checkout.orderprocessing.lineitem;
 
+import com.google.checkout.MerchantInfo;
+import com.google.checkout.orderprocessing.AbstractOrderProcessingRequest;
+import com.google.checkout.util.Utils;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-
-import com.google.checkout.AbstractCheckoutRequest;
-import com.google.checkout.MerchantInfo;
-import com.google.checkout.util.Constants;
-import com.google.checkout.util.Utils;
 
 /**
  * This class contains methods that construct &lt;backorder-items&gt; API
  * requests.
  */
-public class BackorderItemsRequest extends AbstractCheckoutRequest {
-
-  private final Document document;
-
-  private final Element root;
+public class BackorderItemsRequest extends AbstractOrderProcessingRequest {
 
   public BackorderItemsRequest(MerchantInfo mi) {
-    super(mi);
-
-    document = Utils.newEmptyDocument();
-    root =
-        document
-            .createElementNS(Constants.checkoutNamespace, "backorder-items");
-    root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
-        Constants.checkoutNamespace);
-    document.appendChild(root);
+    super(mi, "backorder-items");
   }
 
   /**
    * Constructor which takes an instance of mi and the Google Order Number.
    */
   public BackorderItemsRequest(MerchantInfo mi, String googleOrderNo) {
-
     this(mi);
-    this.setGoogleOrderNo(googleOrderNo);
-  }
-
-  /**
-   * Set the Google Order Number, which is the value of the google-order-number
-   * attribute on the root tag.
-   * 
-   * @param googleOrderNo The Google Order Number.
-   */
-  public void setGoogleOrderNo(String googleOrderNo) {
-
-    root.setAttribute("google-order-number", googleOrderNo);
-  }
-
-  /**
-   * Return the Google Order Number, which is the value of the
-   * google-order-number attribute on the root tag.
-   * 
-   * @return The Google Order Number.
-   */
-  public String getGoogleOrderNo() {
-    return root.getAttribute("google-order-number");
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.checkout.CheckoutRequest#getXml()
-   */
-  public String getXml() {
-    return Utils.documentToString(document);
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.checkout.CheckoutRequest#getXmlPretty()
-   */
-  public String getXmlPretty() {
-    return Utils.documentToStringPretty(document);
-
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.checkout.CheckoutRequest#getPostUrl()
-   */
-  public String getPostUrl() {
-    return mi.getRequestUrl();
+    setGoogleOrderNo(googleOrderNo);
   }
 
   /**
@@ -111,7 +48,7 @@ public class BackorderItemsRequest extends AbstractCheckoutRequest {
    * @return The boolean value.
    */
   public boolean isSendEmail() {
-    return Utils.getElementBooleanValue(document, root, "send-email");
+    return Utils.getElementBooleanValue(getDocument(), getRoot(), "send-email");
   }
 
   /**
@@ -122,7 +59,7 @@ public class BackorderItemsRequest extends AbstractCheckoutRequest {
    */
   public void setSendEmail(boolean sendEmail) {
 
-    Utils.findElementAndSetElseCreateAndSet(document, root, "send-email",
+    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), "send-email",
         sendEmail);
   }
 
@@ -132,6 +69,9 @@ public class BackorderItemsRequest extends AbstractCheckoutRequest {
    * @param merchantItemId
    */
   public void addItem(String merchantItemId) {
+    Document document = getDocument();
+    Element root = getRoot();
+    
     Element idsTag = Utils.findContainerElseCreate(document, root, "item-ids");
     Element idTag = Utils.createNewContainer(document, idsTag, "item-id");
     Utils.createNewElementAndSet(document, idTag, "merchant-item-id",

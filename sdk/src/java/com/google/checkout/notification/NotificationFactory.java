@@ -16,6 +16,7 @@
 
 package com.google.checkout.notification;
 
+import com.google.checkout.exceptions.CheckoutException;
 import com.google.checkout.util.Utils;
 
 import java.util.HashMap;
@@ -49,10 +50,13 @@ public class NotificationFactory implements NotificationParser {
    * 
    * @param xmlString
    * @return A notification object of the specified type
-   * @throws com.google.checkout.notification.UnknownNotificationException
+   * @throws com.google.checkout.notification.UnknownNotificationException if the
+   * notification type was not recognized
+   * @throws com.google.checkout.notification.exceptions.CheckoutException if 
+   * there was an error parsing the request string
    */
   public CheckoutNotification parse(String xmlString) 
-    throws UnknownNotificationException {
+    throws CheckoutException, UnknownNotificationException {
       return parse(Utils.newDocumentFromString(xmlString));
   }
 

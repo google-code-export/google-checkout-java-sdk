@@ -16,7 +16,7 @@
 
 package com.google.checkout.handlers;
 
-import com.google.checkout.CheckoutException;
+import com.google.checkout.exceptions.CheckoutException;
 import com.google.checkout.GoogleOrder;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.notification.OrderStateChangeNotification;
@@ -28,6 +28,13 @@ import com.google.checkout.notification.OrderStateChangeNotification;
  */
 public class OrderStateChangeNotificationHandler implements MessageHandler {
 
+  /**
+   * 
+   * @param mi
+   * @param notificationMsg
+   * @return
+   * @throws com.google.checkout.exceptions.CheckoutException
+   */
   public String process(MerchantInfo mi, String notificationMsg)
       throws CheckoutException {
     try {

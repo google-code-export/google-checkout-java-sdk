@@ -3,6 +3,7 @@ package com.google.checkout.handlers;
 import com.google.checkout.EnvironmentType;
 import com.google.checkout.MerchantInfo;
 
+import com.google.checkout.exceptions.CheckoutSystemException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
@@ -21,7 +22,7 @@ public class TestUtils {
       sw.write(is.read());
     }
     } catch (IOException ioe) {
-      throw new RuntimeException("Can not read file: " + ioe.getMessage());
+      throw new CheckoutSystemException("Can not read file: " + ioe.getMessage());
     }
     return sw.toString();
   }
@@ -58,7 +59,7 @@ public class TestUtils {
       requestUrl =
           productionRoot + "/" + requestCommand + "/Merchant/" + merchantId;
     } else {
-      throw new RuntimeException("Env must be one of "
+      throw new CheckoutSystemException("Env must be one of "
           + EnvironmentType.Sandbox + " or " + EnvironmentType.Production + ".");
     }
     return new MerchantInfo(merchantId, merchantKey, env, currencyCode,

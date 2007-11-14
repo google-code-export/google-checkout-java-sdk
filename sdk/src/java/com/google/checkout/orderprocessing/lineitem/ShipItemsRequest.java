@@ -16,31 +16,20 @@
 
 package com.google.checkout.orderprocessing.lineitem;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.google.checkout.AbstractCheckoutRequest;
 import com.google.checkout.MerchantInfo;
-import com.google.checkout.util.Constants;
+import com.google.checkout.orderprocessing.AbstractOrderProcessingRequest;
 import com.google.checkout.util.Utils;
+import org.w3c.dom.Document;
 
 /**
  * This class contains methods that construct &lt;ship-items&gt; API requests.
  */
-public class ShipItemsRequest extends AbstractCheckoutRequest {
-
-  private final Document document;
-
-  private final Element root;
+public class ShipItemsRequest extends AbstractOrderProcessingRequest {
 
   public ShipItemsRequest(MerchantInfo mi) {
-    super(mi);
-
-    document = Utils.newEmptyDocument();
-    root = document.createElementNS(Constants.checkoutNamespace, "ship-items");
-    root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
-        Constants.checkoutNamespace);
-    document.appendChild(root);
+    super(mi, "ship-items");
   }
 
   /**
@@ -53,62 +42,13 @@ public class ShipItemsRequest extends AbstractCheckoutRequest {
   }
 
   /**
-   * Set the Google Order Number, which is the value of the google-order-number
-   * attribute on the root tag.
-   * 
-   * @param googleOrderNo The Google Order Number.
-   */
-  public void setGoogleOrderNo(String googleOrderNo) {
-
-    root.setAttribute("google-order-number", googleOrderNo);
-  }
-
-  /**
-   * Return the Google Order Number, which is the value of the
-   * google-order-number attribute on the root tag.
-   * 
-   * @return The Google Order Number.
-   */
-  public String getGoogleOrderNo() {
-    return root.getAttribute("google-order-number");
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.checkout.CheckoutRequest#getXml()
-   */
-  public String getXml() {
-    return Utils.documentToString(document);
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.checkout.CheckoutRequest#getXmlPretty()
-   */
-  public String getXmlPretty() {
-    return Utils.documentToStringPretty(document);
-
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.checkout.CheckoutRequest#getPostUrl()
-   */
-  public String getPostUrl() {
-    return mi.getRequestUrl();
-  }
-
-  /**
    * True if an email is to be sent to the buyer. This is the value of the
    * &lt;send-email&gt; tag.
    * 
    * @return The boolean value.
    */
   public boolean isSendEmail() {
-    return Utils.getElementBooleanValue(document, root, "send-email");
+    return Utils.getElementBooleanValue(getDocument(), getRoot(), "send-email");
   }
 
   /**
@@ -119,7 +59,7 @@ public class ShipItemsRequest extends AbstractCheckoutRequest {
    */
   public void setSendEmail(boolean sendEmail) {
 
-    Utils.findElementAndSetElseCreateAndSet(document, root, "send-email",
+    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), "send-email",
         sendEmail);
   }
 
@@ -147,6 +87,9 @@ public class ShipItemsRequest extends AbstractCheckoutRequest {
    */
   public void addItemShippingInformation(String merchantItemId,
       TrackingData[] trackingData) {
+    Document document = getDocument();
+    Element root = getRoot();
+    
     Element listTag =
         Utils.findContainerElseCreate(document, root,
             "item-shipping-information-list");

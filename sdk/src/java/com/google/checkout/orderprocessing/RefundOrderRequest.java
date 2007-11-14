@@ -16,10 +16,8 @@
 
 package com.google.checkout.orderprocessing;
 
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.google.checkout.AbstractCheckoutRequest;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.Constants;
 import com.google.checkout.util.Utils;
@@ -27,19 +25,10 @@ import com.google.checkout.util.Utils;
 /**
  * This class contains methods that construct &lt;refund-order&gt; API requests.
  */
-public class RefundOrderRequest extends AbstractCheckoutRequest {
-  private final Document document;
-
-  private final Element root;
+public class RefundOrderRequest extends AbstractOrderProcessingRequest {
 
   public RefundOrderRequest(MerchantInfo mi) {
-    super(mi);
-    document = Utils.newEmptyDocument();
-    root =
-        document.createElementNS(Constants.checkoutNamespace, "refund-order");
-    root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
-        Constants.checkoutNamespace);
-    document.appendChild(root);
+    super(mi, "refund-order");
   }
 
   /**
@@ -95,40 +84,13 @@ public class RefundOrderRequest extends AbstractCheckoutRequest {
       return false;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.checkout.CheckoutRequest#getXml()
-   */
-  public String getXml() {
-    return Utils.documentToString(document);
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.checkout.CheckoutRequest#getXmlPretty()
-   */
-  public String getXmlPretty() {
-    return Utils.documentToStringPretty(document);
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.checkout.CheckoutRequest#getPostUrl()
-   */
-  public String getPostUrl() {
-    return mi.getRequestUrl();
-  }
-
   /**
    * Return the refund amount, which is value of the &lt;amount&gt; tag.
    * 
    * @return The refund amount.
    */
   public float getAmount() {
-    return Utils.getElementFloatValue(document, root, "amount");
+    return Utils.getElementFloatValue(getDocument(), getRoot(), "amount");
   }
 
   /**
@@ -138,17 +100,7 @@ public class RefundOrderRequest extends AbstractCheckoutRequest {
    * @return The refund comment String.
    */
   public String getComment() {
-    return Utils.getElementStringValue(document, root, "comment");
-  }
-
-  /**
-   * Return the Google Order Number, which is the value of the
-   * google-order-number attribute on the root tag.
-   * 
-   * @return The Google Order Number.
-   */
-  public String getGoogleOrderNo() {
-    return Utils.getElementStringValue(document, root, "google-order-number");
+    return Utils.getElementStringValue(getDocument(), getRoot(), "comment");
   }
 
   /**
@@ -158,7 +110,7 @@ public class RefundOrderRequest extends AbstractCheckoutRequest {
    * @return The refund reason String.
    */
   public String getReason() {
-    return Utils.getElementStringValue(document, root, "reason");
+    return Utils.getElementStringValue(getDocument(), getRoot(), "reason");
   }
 
   /**
@@ -167,7 +119,7 @@ public class RefundOrderRequest extends AbstractCheckoutRequest {
    * @param amount The refund amount.
    */
   public void setAmount(float amount) {
-    Element e = Utils.findElementAndSetElseCreateAndSet(document, root, 
+    Element e = Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), 
         "amount", amount);
     e.setAttribute("currency", mi.getCurrencyCode());
   }
@@ -184,17 +136,7 @@ public class RefundOrderRequest extends AbstractCheckoutRequest {
       System.err.println(Constants.refundErrorString);
     }
 
-    Utils.findElementAndSetElseCreateAndSet(document, root, "comment", comment);
-  }
-
-  /**
-   * Set the Google Order Number, which is the value of the google-order-number
-   * attribute on the root tag.
-   * 
-   * @param googleOrderNo The Google Order Number.
-   */
-  public void setGoogleOrderNo(String googleOrderNo) {
-    root.setAttribute("google-order-number", googleOrderNo);
+    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), "comment", comment);
   }
 
   /**
@@ -207,6 +149,6 @@ public class RefundOrderRequest extends AbstractCheckoutRequest {
       reason = "";
       System.err.println(Constants.refundErrorString);
     }
-    Utils.findElementAndSetElseCreateAndSet(document, root, "reason", reason);
+    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), "reason", reason);
   }
 }

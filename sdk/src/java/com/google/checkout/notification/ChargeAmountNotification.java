@@ -16,6 +16,7 @@
 
 package com.google.checkout.notification;
 
+import com.google.checkout.exceptions.CheckoutException;
 import com.google.checkout.util.Utils;
 
 import java.io.InputStream;
@@ -34,30 +35,31 @@ public class ChargeAmountNotification extends CheckoutNotification {
    * A constructor which takes the request as a String.
    * 
    * @param requestString
+   * @throws com.google.checkout.exceptions.CheckoutException if there was an
+   * error prcessing the request string
    */
-  public ChargeAmountNotification(String requestString) {
-    document = Utils.newDocumentFromString(requestString);
-    root = document.getDocumentElement();
+  public ChargeAmountNotification(String requestString) throws CheckoutException {
+    this(Utils.newDocumentFromString(requestString));
   }
 
   /**
    * A constructor which takes the request as an InputStream.
    * 
    * @param inputStream
+   * @throws com.google.checkout.exceptions.CheckoutException if there was an
+   * error prcessing the request from the InputStream
    */
-  public ChargeAmountNotification(InputStream inputStream) {
-    document = Utils.newDocumentFromInputStream(inputStream);
-    root = document.getDocumentElement();
+  public ChargeAmountNotification(InputStream inputStream) throws CheckoutException {
+    this(Utils.newDocumentFromInputStream(inputStream));
   }
   
   /**
    * A constructor which takes in an xml document representation of the request.
    * 
-   * @param xmlDocument
+   * @param document
    */
-  public ChargeAmountNotification(Document xmlDocument) {
-    document = xmlDocument;
-    root = document.getDocumentElement();
+  public ChargeAmountNotification(Document document) {
+    super(document);
   }
 
   /**
@@ -66,7 +68,7 @@ public class ChargeAmountNotification extends CheckoutNotification {
    * @return The latest charge amount.
    */
   public float getLatestChargeAmount() {
-    return Utils.getElementFloatValue(document, root, "latest-charge-amount");
+    return Utils.getElementFloatValue(getDocument(), getRoot(), "latest-charge-amount");
   }
 
   /**
@@ -75,7 +77,7 @@ public class ChargeAmountNotification extends CheckoutNotification {
    * @return The total charge amount.
    */
   public float getTotalChargeAmount() {
-    return Utils.getElementFloatValue(document, root, "total-charge-amount");
+    return Utils.getElementFloatValue(getDocument(), getRoot(), "total-charge-amount");
   }
 
   /**
@@ -84,7 +86,7 @@ public class ChargeAmountNotification extends CheckoutNotification {
    * @return The currency code.
    */
   public String getCurrencyCode() {
-    return Utils.findElementOrContainer(document, root, "latest-charge-amount")
+    return Utils.findElementOrContainer(getDocument(), getRoot(), "latest-charge-amount")
         .getAttribute("currency");
   }
 

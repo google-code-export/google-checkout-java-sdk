@@ -13,26 +13,35 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package com.google.checkout.handlers;
 
-import com.google.checkout.exceptions.CheckoutException;
-import com.google.checkout.MerchantInfo;
-
-import junit.framework.TestCase;
+package com.google.checkout.exceptions;
 
 /**
- * small test for NewOrderNotificationHandler
- * @author inder
+ * This class is the base for any Checkout specific exceptions.
+ * 
+ * @author simonjsmith
+ * 
  */
-public class NewOrderNotificationHandlerTest extends TestCase {
+public class CheckoutException extends Exception {
 
-  public void testProcess() throws CheckoutException {
-    MessageHandler handler = new NewOrderNotificationHandler();
-    MerchantInfo mi = TestUtils.createMockMerchantInfo();
-    String notificationMsg = TestUtils.readMessage(
-        "/resources/new-order-notification-sample.xml");
-    String response = handler.process(mi, notificationMsg);
-    //System.out.println(response);
-    assertTrue(response.contains("notification-acknowledgment"));
+  /**
+   * A constructor which takes a nested exception
+   * 
+   * @param e The exception
+   * 
+   * @see Exception
+   */
+  public CheckoutException(Exception e) {
+    super(e);
   }
+  
+  /**
+   * A constructor which takes an error message
+   * 
+   * @param msg The error message
+   */
+  public CheckoutException(String msg) {
+    super(msg);
+  }
+
 }

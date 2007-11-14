@@ -16,6 +16,7 @@
 
 package com.google.checkout.notification;
 
+import com.google.checkout.exceptions.CheckoutException;
 import com.google.checkout.handlers.TestUtils;
 
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class NotificationFactoryTest extends TestCase {
   /**
    * Testing parse() for NotificationParsers of existing types
    */
-  public void testParseExistingNotifications() {    
+  public void testParseExistingNotifications() throws CheckoutException{
     try {      
       for (String type : notificationTypes) {
         notificationMsg = TestUtils.readMessage(
@@ -63,7 +64,6 @@ public class NotificationFactoryTest extends TestCase {
         assertEquals(notification.getType(), type);
       }
     } catch (UnknownNotificationException ex) {
-      System.err.println(ex.getMessage());
       fail();
     }
   }
@@ -71,7 +71,7 @@ public class NotificationFactoryTest extends TestCase {
   /**
    * Testing parse() for NotificationParsers of non-existing type
    */
-  public void testParseNonExistingNotification() {
+  public void testParseNonExistingNotification() throws CheckoutException {
     // test some-new-notification will cause factory to throw exception since a
     // parser has not been registered with it.
     try {
@@ -89,11 +89,11 @@ public class NotificationFactoryTest extends TestCase {
   /**
    * Testing register() correctly registers a NotificationParser
    */
-  public void testRegister() {
+  public void testRegister() throws CheckoutException {
     try {
       notificationFactory.register("some-new-notification", new NotificationParser() {
-        public CheckoutNotification parse(Document xmlDocument) {
-           return new SomeNewNotification(xmlDocument);
+        public CheckoutNotification parse(Document document) {
+           return new SomeNewNotification(document);
         }
       });
       

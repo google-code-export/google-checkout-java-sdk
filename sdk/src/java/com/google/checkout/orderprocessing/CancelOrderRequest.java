@@ -16,10 +16,6 @@
 
 package com.google.checkout.orderprocessing;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
-import com.google.checkout.AbstractCheckoutRequest;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.Constants;
 import com.google.checkout.util.Utils;
@@ -27,20 +23,10 @@ import com.google.checkout.util.Utils;
 /**
  * This class contains methods that construct &lt;cancel-order&gt; API requests.
  */
-public class CancelOrderRequest extends AbstractCheckoutRequest {
-  private final Document document;
-
-  private final Element root;
-
+public class CancelOrderRequest extends AbstractOrderProcessingRequest {
+  
   public CancelOrderRequest(MerchantInfo mi) {
-    super(mi);
-
-    document = Utils.newEmptyDocument();
-    root =
-        document.createElementNS(Constants.checkoutNamespace, "cancel-order");
-    root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
-        Constants.checkoutNamespace);
-    document.appendChild(root);
+    super(mi, "cancel-order");
   }
 
   /**
@@ -91,34 +77,7 @@ public class CancelOrderRequest extends AbstractCheckoutRequest {
     else
       return false;
   }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.checkout.CheckoutRequest#getXml()
-   */
-  public String getXml() {
-    return Utils.documentToString(document);
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.checkout.CheckoutRequest#getXmlPretty()
-   */
-  public String getXmlPretty() {
-    return Utils.documentToStringPretty(document);
-  }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.google.checkout.CheckoutRequest#getPostUrl()
-   */
-  public String getPostUrl() {
-    return mi.getRequestUrl();
-  }
-
+  
   /**
    * Return the cancel order comment String, which is the value of the
    * &lt;comment&gt; tag.
@@ -126,17 +85,7 @@ public class CancelOrderRequest extends AbstractCheckoutRequest {
    * @return The cancel order comment String.
    */
   public String getComment() {
-    return Utils.getElementStringValue(document, root, "comment");
-  }
-
-  /**
-   * Return the Google Order Number, which is the value of the
-   * google-order-number attribute on the root tag.
-   * 
-   * @return The Google Order Number.
-   */
-  public String getGoogleOrderNo() {
-    return root.getAttribute("google-order-number");
+    return Utils.getElementStringValue(getDocument(), getRoot(), "comment");
   }
 
   /**
@@ -146,7 +95,7 @@ public class CancelOrderRequest extends AbstractCheckoutRequest {
    * @return The cancel order reason String.
    */
   public String getReason() {
-    return Utils.getElementStringValue(document, root, "reason");
+    return Utils.getElementStringValue(getDocument(), getRoot(), "reason");
   }
 
   /**
@@ -161,17 +110,7 @@ public class CancelOrderRequest extends AbstractCheckoutRequest {
       System.err.println(Constants.cancelErrorString);
     }
 
-    Utils.findElementAndSetElseCreateAndSet(document, root, "comment", comment);
-  }
-
-  /**
-   * Set the Google Order Number, which is the value of the google-order-number
-   * attribute on the root tag.
-   * 
-   * @param googleOrderNo The Google Order Number.
-   */
-  public void setGoogleOrderNo(String googleOrderNo) {
-    root.setAttribute("google-order-number", googleOrderNo);
+    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), "comment", comment);
   }
 
   /**
@@ -186,6 +125,6 @@ public class CancelOrderRequest extends AbstractCheckoutRequest {
       System.err.println(Constants.cancelErrorString);
     }
 
-    Utils.findElementAndSetElseCreateAndSet(document, root, "reason", reason);
+    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), "reason", reason);
   }
 }
