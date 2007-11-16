@@ -69,9 +69,9 @@ public class DeliverOrderRequest extends AbstractOrderProcessingRequest {
    * Return the tracking number, which is the value of the
    * &lt;tracking-number&gt; tag.
    * 
+   * @deprecated
    * @return The tracking number.
    */
-  @Deprecated
   public String getTrackingNo() {
     Element trackingDataTag =
         Utils.findContainerElseCreate(getDocument(), getRoot(), "tracking-data");
@@ -133,9 +133,9 @@ public class DeliverOrderRequest extends AbstractOrderProcessingRequest {
    * Set the tracking number, which is the value of the &lt;tracking-number&gt;
    * tag.
    * 
+   * @deprecated
    * @param trackingNo The tracking number.
    */
-  @Deprecated
   public void setTrackingNo(String trackingNo) {
 
     Element trackingDataTag =
@@ -150,11 +150,11 @@ public class DeliverOrderRequest extends AbstractOrderProcessingRequest {
    * 
    * @param trackingNo The tracking number.
    */
-  public void setTrackingNumber(String trackingNo) {
+  public void setTrackingNumber(String trackingNumber) {
 
     Element trackingDataTag =
         Utils.findContainerElseCreate(getDocument(), getRoot(), "tracking-data");
     Utils.findElementAndSetElseCreateAndSet(getDocument(), trackingDataTag,
-        "tracking-number", trackingNo);
+        "tracking-number", trackingNumber);
   }
 }

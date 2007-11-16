@@ -25,6 +25,13 @@ package com.google.checkout.exceptions;
 public class CheckoutException extends Exception {
 
   /**
+   * 
+   */
+  public CheckoutException() {
+    super();
+  }
+  
+  /**
    * A constructor which takes a nested exception
    * 
    * @param e The exception

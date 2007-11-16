@@ -58,7 +58,6 @@ public abstract class CheckoutNotification {
    * 
    * @return The Google Order Number.
    */
-  @Deprecated
   public String getGoogleOrderNo() {
     return Utils.getElementStringValue(document, root, "google-order-number");
   }

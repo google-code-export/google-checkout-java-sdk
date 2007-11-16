@@ -43,9 +43,9 @@ public class AddMerchantOrderNumberRequest extends AbstractOrderProcessingReques
    * Return the Merchant Order Number, which is the value of the
    * &lt;merchant-order-number&gt; tag.
    * 
+   * @deprecated
    * @return The Merchant Order Number.
    */
-  @Deprecated
   public String getMerchantOrderNo() {
     return Utils.getElementStringValue(getDocument(), getRoot(), "merchant-order-number");
   }
@@ -64,9 +64,9 @@ public class AddMerchantOrderNumberRequest extends AbstractOrderProcessingReques
    * Set the Merchant Order Number, which is the value of the
    * &lt;merchant-order-number&gt; tag.
    * 
+   * @deprecated
    * @param merchantOrderNo The Merchant Order Number.
    */
-  @Deprecated
   public void setMerchantOrderNo(String merchantOrderNo) {
     Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(),
         "merchant-order-number", merchantOrderNo);
@@ -78,8 +78,8 @@ public class AddMerchantOrderNumberRequest extends AbstractOrderProcessingReques
    * 
    * @param merchantOrderNo The Merchant Order Number.
    */
-  public void setMerchantOrderNumber(String merchantOrderNo) {
+  public void setMerchantOrderNumber(String merchantOrderNumber) {
     Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(),
-        "merchant-order-number", merchantOrderNo);
+        "merchant-order-number", merchantOrderNumber);
   }
 }

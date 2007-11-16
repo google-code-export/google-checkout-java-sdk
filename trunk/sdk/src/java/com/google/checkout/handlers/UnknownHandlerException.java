@@ -14,30 +14,28 @@
  * the License.
  ******************************************************************************/
 
-package com.google.checkout.notification;
+package com.google.checkout.handlers;
 
 import com.google.checkout.exceptions.CheckoutException;
 
 /**
  *
- * @author Charles Dang (cdang@google.com)
+ * @author charlesdang
  */
-public class UnknownNotificationException extends CheckoutException {
+public class UnknownHandlerException extends CheckoutException {
 
     /**
-     * Creates a new instance of <code>UnknownNotificationException</code> 
-     * without detail message.
+     * Creates a new instance of <code>UnknownHandlerException</code> without detail message.
      */
-    public UnknownNotificationException() {
+    public UnknownHandlerException() {
     }
 
 
     /**
-     * Constructs an instance of <code>UnknownNotificationException</code> with 
-     * the specified detail message.
+     * Constructs an instance of <code>UnknownHandlerException</code> with the specified detail message.
      * @param msg the detail message.
      */
-    public UnknownNotificationException(String msg) {
+    public UnknownHandlerException(String msg) {
         super(msg);
     }
 }

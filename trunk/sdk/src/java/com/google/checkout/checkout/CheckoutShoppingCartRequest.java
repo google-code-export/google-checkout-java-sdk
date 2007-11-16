@@ -1107,7 +1107,6 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * 
    * @see com.google.checkout.CheckoutRequest#getPostUrl()
    */
-  @Override
   public String getPostUrl() {
     return mi.getMerchantCheckoutUrl();
   }
