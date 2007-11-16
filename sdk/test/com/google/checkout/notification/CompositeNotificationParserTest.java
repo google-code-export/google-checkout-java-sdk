@@ -27,17 +27,16 @@ import org.w3c.dom.Document;
  *
  * @author Charles Dang (cdang@google.com)
  */
-public class NotificationFactoryTest extends TestCase {
-  private CompositeNotificationParser notificationFactory;
+public class CompositeNotificationParserTest extends TestCase {
+  private CompositeNotificationParser compositeNotificationParser;
   private String notificationMsg;
   private CheckoutNotification notification;
-  private ArrayList<String> notificationTypes;
+  private ArrayList notificationTypes;
   
-  @Override
   public void setUp() {
-    notificationFactory = new CompositeNotificationParser();
+    compositeNotificationParser = new CompositeNotificationParser();
     notificationMsg = "";
-    notificationTypes = new ArrayList<String>();
+    notificationTypes = new ArrayList();
     
     addNotificationTypes();
   }
@@ -57,10 +56,10 @@ public class NotificationFactoryTest extends TestCase {
    */
   public void testParseExistingNotifications() throws CheckoutException{
     try {      
-      for (String type : notificationTypes) {
-        notificationMsg = TestUtils.readMessage(
-          "/resources/" + type + "-sample.xml");
-        notification = notificationFactory.parse(notificationMsg);
+      for (int i=0; i < notificationTypes.size(); ++i) {
+        String type = (String)notificationTypes.get(i);
+        notificationMsg = TestUtils.readMessage("/resources/" + type + "-sample.xml");
+        notification = compositeNotificationParser.parse(notificationMsg);
         assertEquals(notification.getType(), type);
       }
     } catch (UnknownNotificationException ex) {
@@ -77,7 +76,7 @@ public class NotificationFactoryTest extends TestCase {
     try {
       notificationMsg = TestUtils.readMessage(
         "/resources/some-new-notification-sample.xml");
-      notification = notificationFactory.parse(notificationMsg);
+      notification = compositeNotificationParser.parse(notificationMsg);
     } catch (UnknownNotificationException ex) {
       // parse correctly threw an UnknownNotificationException
       return;
@@ -91,7 +90,7 @@ public class NotificationFactoryTest extends TestCase {
    */
   public void testRegister() throws CheckoutException {
     try {
-      notificationFactory.register("some-new-notification", new NotificationParser() {
+      compositeNotificationParser.register("some-new-notification", new NotificationParser() {
         public CheckoutNotification parse(Document document) {
            return new SomeNewNotification(document);
         }
@@ -99,7 +98,7 @@ public class NotificationFactoryTest extends TestCase {
       
       notificationMsg = TestUtils.readMessage(
         "/resources/some-new-notification-sample.xml");
-      notification = notificationFactory.parse(notificationMsg);
+      notification = compositeNotificationParser.parse(notificationMsg);
       assertEquals(notification.getType(), "some-new-notification");
     } catch (UnknownNotificationException ex) {
       fail();

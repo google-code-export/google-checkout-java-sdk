@@ -1,4 +1,4 @@
-/*******************************************************************************
+ /*******************************************************************************
  * Copyright (C) 2007 Google Inc.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
@@ -56,7 +56,6 @@ public class CheckoutMessageHandlerServlet extends
    * Overrides servlet method to load notification processor configuration from
    * web.xml
    */
-  @Override
   public void init(ServletConfig config) throws ServletException {
     super.init(config);
     String handlerType = config.getInitParameter("handler-type");
@@ -84,7 +83,6 @@ public class CheckoutMessageHandlerServlet extends
     }
   }
 
-  @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
     response.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED,
@@ -93,7 +91,6 @@ public class CheckoutMessageHandlerServlet extends
             + "HTTP GET!");
   }
 
-  @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response)
       throws IOException {
 
@@ -106,7 +103,7 @@ public class CheckoutMessageHandlerServlet extends
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
             "Authentication Failed.");
         return;
-      }
+      } 
 
       String notification = getNotificationBody(request.getInputStream());
       String ret = dispatch(mi, notification);

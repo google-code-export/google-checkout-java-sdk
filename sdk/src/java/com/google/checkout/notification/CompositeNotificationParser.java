@@ -16,6 +16,7 @@
 
 package com.google.checkout.notification;
 
+import com.google.checkout.MessageTypes;
 import com.google.checkout.exceptions.CheckoutException;
 import com.google.checkout.util.Utils;
 
@@ -27,13 +28,13 @@ import org.w3c.dom.Document;
  * @author Charles Dang (cdang@google.com)
  */
 public class CompositeNotificationParser implements NotificationParser {
-  private HashMap<String, NotificationParser> notificationParsers;
+  private HashMap notificationParsers;
   
   /**
    * Default constructor
    */
   public CompositeNotificationParser() {
-    notificationParsers = new HashMap<String, NotificationParser>();
+    notificationParsers = new HashMap();
     
     registerDefaultParsers();
   }
@@ -72,7 +73,7 @@ public class CompositeNotificationParser implements NotificationParser {
     throws UnknownNotificationException {
       String type = xmlDocument.getDocumentElement().getNodeName();
       
-      NotificationParser parser = notificationParsers.get(type);
+      NotificationParser parser = (NotificationParser)notificationParsers.get(type);
 
       if (parser == null) {
         throw new UnknownNotificationException("Parser for type (" + type + ") " +
@@ -96,44 +97,44 @@ public class CompositeNotificationParser implements NotificationParser {
    * Registers the default parsers.
    */
   private void registerDefaultParsers() {
-    register("new-order-notification", new NotificationParser() {
-      public NewOrderNotification parse(Document xmlDocument) {
+    register(MessageTypes.NEW_ORDER_NOTIFICATION, new NotificationParser() {
+      public CheckoutNotification parse(Document xmlDocument) {
          return new NewOrderNotification(xmlDocument);
       }
     });
     
-    register("risk-information-notification", new NotificationParser() {
-      public RiskInformationNotification parse(Document xmlDocument) {
+    register(MessageTypes.RISK_INFORMATION_NOTIFICATION, new NotificationParser() {
+      public CheckoutNotification parse(Document xmlDocument) {
         return new RiskInformationNotification(xmlDocument);
       }
     });
     
-    register("order-state-change-notification", new NotificationParser() {
-      public OrderStateChangeNotification parse(Document xmlDocument) {
+    register(MessageTypes.ORDER_STATE_CHANGE_NOTIFICATION, new NotificationParser() {
+      public CheckoutNotification parse(Document xmlDocument) {
         return new OrderStateChangeNotification(xmlDocument);
       }
     });
     
-    register("charge-amount-notification", new NotificationParser() {
-      public ChargeAmountNotification parse(Document xmlDocument) {
+    register(MessageTypes.CHARGE_AMOUNT_NOTIFICATION, new NotificationParser() {
+      public CheckoutNotification parse(Document xmlDocument) {
         return new ChargeAmountNotification(xmlDocument);
       }
     });
     
-    register("refund-amount-notification", new NotificationParser() {
-      public RefundAmountNotification parse(Document xmlDocument) {
+    register(MessageTypes.REFUND_AMOUNT_NOTIFICATION, new NotificationParser() {
+      public CheckoutNotification parse(Document xmlDocument) {
         return new RefundAmountNotification(xmlDocument);
       }
     });
     
-    register("chargeback-amount-notification", new NotificationParser() {
-      public ChargebackAmountNotification parse(Document xmlDocument) {
+    register(MessageTypes.CHARGEBACK_AMOUNT_NOTIFICATION, new NotificationParser() {
+      public CheckoutNotification parse(Document xmlDocument) {
         return new ChargebackAmountNotification(xmlDocument);
       }
     });
     
-    register("authorization-amount-notification", new NotificationParser() {
-      public AuthorizationAmountNotification parse(Document xmlDocument) {
+    register(MessageTypes.AUTHORIZATION_AMOUNT_NOTIFICATION, new NotificationParser() {
+      public CheckoutNotification parse(Document xmlDocument) {
         return new AuthorizationAmountNotification(xmlDocument);
       }
     });

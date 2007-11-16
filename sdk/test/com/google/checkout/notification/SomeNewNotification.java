@@ -5,6 +5,8 @@
 
 package com.google.checkout.notification;
 
+import com.google.checkout.exceptions.CheckoutException;
+import com.google.checkout.util.Utils;
 import org.w3c.dom.Document;
 
 /**
@@ -20,5 +22,9 @@ public class SomeNewNotification extends CheckoutNotification {
    */
   public SomeNewNotification(Document document) {
     super(document);
+  }
+  
+  public SomeNewNotification(String requestString) throws CheckoutException {
+    this(Utils.newDocumentFromString(requestString));
   }
 }
