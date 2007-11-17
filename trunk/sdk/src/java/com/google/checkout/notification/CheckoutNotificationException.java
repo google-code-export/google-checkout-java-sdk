@@ -1,0 +1,63 @@
+/*******************************************************************************
+ * Copyright (C) 2007 Google Inc.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ ******************************************************************************/
+
+package com.google.checkout.notification;
+
+/**
+ *
+ * @author Charles Dang (cdang@google.com)
+ */
+public class CheckoutNotificationException extends Exception {
+
+    /**
+     * Creates a new instance of <code>CheckoutNotificationException</code> 
+     * without detail message.
+     */
+    public CheckoutNotificationException() {
+    }
+
+
+    /**
+     * Constructs an instance of <code>CheckoutNotificationException</code> with
+     * the specified detail message.
+     * 
+     * @param msg The detail message.
+     */
+    public CheckoutNotificationException(String msg) {
+      super(msg);
+    }
+    
+    /**
+     * Constructs an instance of <code>CheckoutNotificationException</code> with
+     * the specified nested exception.
+     * 
+     * @param e The nested exception
+     */
+    public CheckoutNotificationException(Exception e) {
+      super(e);
+    }
+    
+    /**
+     * Constructs an instance of <code>CheckoutNotificationException</code> with
+     * the specified detail message and the nested exception.
+     * 
+     * @param msg The error message
+     * @param e The nested exception
+     */
+    public CheckoutNotificationException(String msg, Exception e) {
+      super(msg, e);
+    }
+}

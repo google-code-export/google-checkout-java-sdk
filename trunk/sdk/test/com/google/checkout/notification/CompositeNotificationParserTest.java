@@ -16,7 +16,6 @@
 
 package com.google.checkout.notification;
 
-import com.google.checkout.exceptions.CheckoutException;
 import com.google.checkout.handlers.TestUtils;
 
 import java.util.ArrayList;
@@ -54,7 +53,8 @@ public class CompositeNotificationParserTest extends TestCase {
   /**
    * Testing parse() for NotificationParsers of existing types
    */
-  public void testParseExistingNotifications() throws CheckoutException{
+  public void testParseExistingNotifications() {
+    CompositeNotificationParser.registerDefaultNotificationParsers(compositeNotificationParser);
     try {      
       for (int i=0; i < notificationTypes.size(); ++i) {
         String type = (String)notificationTypes.get(i);
@@ -62,7 +62,7 @@ public class CompositeNotificationParserTest extends TestCase {
         notification = compositeNotificationParser.parse(notificationMsg);
         assertEquals(notification.getType(), type);
       }
-    } catch (UnknownNotificationException ex) {
+    } catch (CheckoutNotificationException ex) {
       fail();
     }
   }
@@ -70,14 +70,14 @@ public class CompositeNotificationParserTest extends TestCase {
   /**
    * Testing parse() for NotificationParsers of non-existing type
    */
-  public void testParseNonExistingNotification() throws CheckoutException {
+  public void testParseNonExistingNotification() {
     // test some-new-notification will cause factory to throw exception since a
     // parser has not been registered with it.
     try {
       notificationMsg = TestUtils.readMessage(
         "/resources/some-new-notification-sample.xml");
       notification = compositeNotificationParser.parse(notificationMsg);
-    } catch (UnknownNotificationException ex) {
+    } catch (CheckoutNotificationException ex) {
       // parse correctly threw an UnknownNotificationException
       return;
     }
@@ -88,7 +88,7 @@ public class CompositeNotificationParserTest extends TestCase {
   /**
    * Testing register() correctly registers a NotificationParser
    */
-  public void testRegister() throws CheckoutException {
+  public void testRegister() {
     try {
       compositeNotificationParser.register("some-new-notification", new NotificationParser() {
         public CheckoutNotification parse(Document document) {
@@ -100,7 +100,7 @@ public class CompositeNotificationParserTest extends TestCase {
         "/resources/some-new-notification-sample.xml");
       notification = compositeNotificationParser.parse(notificationMsg);
       assertEquals(notification.getType(), "some-new-notification");
-    } catch (UnknownNotificationException ex) {
+    } catch (CheckoutNotificationException ex) {
       fail();
     }
   }

@@ -14,7 +14,7 @@
  * the License.
  ******************************************************************************/
 
-package com.google.checkout.exceptions;
+package com.google.checkout;
 
 /**
  *
@@ -23,17 +23,40 @@ package com.google.checkout.exceptions;
 public class CheckoutSystemException extends RuntimeException {
 
     /**
-     * Creates a new instance of <code>CheckoutSystemException</code> without detail message.
+     * Creates a new instance of <code>CheckoutSystemException</code> without 
+     * detail message.
      */
     public CheckoutSystemException() {
     }
 
-
     /**
-     * Constructs an instance of <code>CheckoutSystemException</code> with the specified detail message.
-     * @param msg the detail message.
+     * Constructs an instance of <code>CheckoutSystemException</code> with the 
+     * specified detail message.
+     * 
+     * @param msg The detail message.
      */
     public CheckoutSystemException(String msg) {
-        super(msg);
+      super(msg);
+    }
+    
+    /**
+     * Constructs an instance of <code>CheckoutSystemException</code> with the 
+     * specified nested exception.
+     * 
+     * @param e The nested exception.
+     */
+    public CheckoutSystemException(Exception e) {
+      
+    }
+    
+    /**
+     * Constructs an instance of <code>CheckoutSystemException</code> with the 
+     * specified nested exception and the detail message.
+     * 
+     * @param msg The detail message.
+     * @param e The nested exception
+     */
+    public CheckoutSystemException(String msg, Exception e) {
+      super(msg, e);
     }
 }

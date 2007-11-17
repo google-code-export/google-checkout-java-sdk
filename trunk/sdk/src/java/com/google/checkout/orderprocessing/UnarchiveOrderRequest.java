@@ -16,7 +16,7 @@
 
 package com.google.checkout.orderprocessing;
 
-import com.google.checkout.exceptions.CheckoutException;
+import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 
 /**

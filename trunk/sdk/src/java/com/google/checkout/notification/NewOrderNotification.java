@@ -17,7 +17,7 @@
 package com.google.checkout.notification;
 
 import com.google.checkout.checkout.Item;
-import com.google.checkout.exceptions.CheckoutException;
+import com.google.checkout.CheckoutException;
 import com.google.checkout.util.Utils;
 
 import java.io.InputStream;
@@ -40,7 +40,7 @@ public class NewOrderNotification extends CheckoutNotification {
    * A constructor which takes the request as a String.
    * 
    * @param requestString
-   * @throws com.google.checkout.exceptions.CheckoutException if there was an
+   * @throws com.google.checkout.CheckoutException if there was an
    * error prcessing the request string
    */
   public NewOrderNotification(String requestString) throws CheckoutException {
@@ -51,7 +51,7 @@ public class NewOrderNotification extends CheckoutNotification {
    * A constructor which takes the request as an InputStream.
    * 
    * @param inputStream
-   * @throws com.google.checkout.exceptions.CheckoutException if there was an
+   * @throws com.google.checkout.CheckoutException if there was an
    * error prcessing the request from the InputStream
    */
   public NewOrderNotification(InputStream inputStream) throws CheckoutException {
@@ -72,7 +72,7 @@ public class NewOrderNotification extends CheckoutNotification {
    * objects.
    * 
    * @return The Collection of Item objects.
-   * 
+   * @deprecated Use getShoppingCart().getItems()
    * @see Item
    */
   public Collection getItems() {
@@ -91,13 +91,27 @@ public class NewOrderNotification extends CheckoutNotification {
     }
     return ret;
   }
+  
+  /**
+   * Retrieves the shopping cart
+   * 
+   * @return A shopping cart containing buyer items
+   */
+  public ShoppingCart getShoppingCart() {
+    Document document = getDocument();
+    Element root = getRoot();
+    
+    Element shoppingCart =
+        Utils.findElementOrContainer(document, root, "shopping-cart");
+    return new ShoppingCart(document, shoppingCart);
+  }
 
   /**
    * Retrieves the contents of the &lt;merchant-private-data&gt; element as an
-   * array of Elements.
+   * array of Elements. 
    * 
    * @return The contents &lt;merchant-private-data&gt; element value.
-   * 
+   * @deprecated Use getShoppingCart().getMerchantPrivateDataNodes()
    * @see Element
    */
   public Element[] getMerchantPrivateDataNodes() {
@@ -116,12 +130,13 @@ public class NewOrderNotification extends CheckoutNotification {
   }
 
   /**
+   * 
    * Retrieves the value of the &lt;good-until-date&gt; element.
    * 
    * @return The cart expiration.
-   * 
+   * @deprecated Use getShoppingCart().getCartExpiration()
    * @see Date
-   * @throws com.google.checkout.exceptions.CheckoutException if there was an
+   * @throws com.google.checkout.CheckoutException if there was an
    * error retrieving the cart expiration date
    */
   public Date getCartExpiration() throws CheckoutException {

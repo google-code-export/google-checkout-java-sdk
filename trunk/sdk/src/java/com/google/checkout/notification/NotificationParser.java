@@ -31,5 +31,5 @@ public interface NotificationParser {
    * @return A CheckoutNotification object created by parsing the xml
    */
   public CheckoutNotification parse(Document xmlDocument) 
-    throws UnknownNotificationException;
+    throws CheckoutNotificationException;
 }

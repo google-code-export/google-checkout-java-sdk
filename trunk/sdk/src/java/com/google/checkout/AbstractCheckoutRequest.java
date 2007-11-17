@@ -17,8 +17,8 @@
 package com.google.checkout;
 
 
-import com.google.checkout.exceptions.CheckoutException;
-import com.google.checkout.exceptions.CheckoutSystemException;
+import com.google.checkout.CheckoutException;
+import com.google.checkout.CheckoutSystemException;
 import com.google.checkout.util.Constants;
 import com.google.checkout.util.Utils;
 import java.io.IOException;
@@ -159,7 +159,8 @@ public abstract class AbstractCheckoutRequest {
       return new CheckoutResponse(inputStream);
     }
     catch (MalformedURLException ex) {
-      throw new CheckoutException("MalformedURLException encountered.  URL was: " + getPostUrl());
+      throw new CheckoutException(
+        "MalformedURLException encountered.  URL was: " + getPostUrl(), ex);
     } catch (IOException ex) {
       throw new CheckoutSystemException("IOException encountered.");
     }

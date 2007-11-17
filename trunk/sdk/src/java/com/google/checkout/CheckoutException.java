@@ -14,7 +14,7 @@
  * the License.
  ******************************************************************************/
 
-package com.google.checkout.exceptions;
+package com.google.checkout;
 
 /**
  * This class is the base for any Checkout specific exceptions.
@@ -25,7 +25,7 @@ package com.google.checkout.exceptions;
 public class CheckoutException extends Exception {
 
   /**
-   * 
+   * Creates a new instance of <code>CheckoutException</code> without detail message.
    */
   public CheckoutException() {
     super();
@@ -40,6 +40,16 @@ public class CheckoutException extends Exception {
    */
   public CheckoutException(Exception e) {
     super(e);
+  }
+  
+  /**
+   * A constructor which takes an error message and a nested exception
+   * 
+   * @param msg The error message
+   * @param e The exception
+   */
+  public CheckoutException(String msg, Exception e) {
+    super(msg, e);
   }
   
   /**

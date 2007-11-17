@@ -17,7 +17,7 @@
 package com.google.checkout.handlers;
 
 import com.google.checkout.MerchantInfo;
-import com.google.checkout.exceptions.CheckoutException;
+import com.google.checkout.CheckoutException;
 import com.google.checkout.merchantcalculation.MerchantCalculationCallback;
 import com.google.checkout.merchantcalculation.MerchantCalculationResults;
 

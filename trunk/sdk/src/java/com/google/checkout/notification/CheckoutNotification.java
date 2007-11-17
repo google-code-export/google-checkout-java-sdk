@@ -16,7 +16,7 @@
 
 package com.google.checkout.notification;
 
-import com.google.checkout.exceptions.CheckoutException;
+import com.google.checkout.CheckoutException;
 import com.google.checkout.util.Utils;
 
 import java.util.Date;
@@ -45,10 +45,16 @@ public abstract class CheckoutNotification {
     this.root = document.getDocumentElement();
   }
   
+  /**
+   * @return The document for this CheckoutNotification
+   */
   public Document getDocument() {
     return document;
   }
-  
+
+  /**
+   * @return The root of the document for this CheckoutNotification
+   */
   public Element getRoot() {
     return root;
   }
@@ -56,6 +62,7 @@ public abstract class CheckoutNotification {
   /**
    * Return the Google Order Number for this notification.
    * 
+   * @deprecated User getGoogleOrderNumber()
    * @return The Google Order Number.
    */
   public String getGoogleOrderNo() {

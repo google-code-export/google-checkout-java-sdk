@@ -16,8 +16,8 @@
 
 package com.google.checkout.util;
 
-import com.google.checkout.exceptions.CheckoutException;
-import com.google.checkout.exceptions.CheckoutSystemException;
+import com.google.checkout.CheckoutException;
+import com.google.checkout.CheckoutSystemException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

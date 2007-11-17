@@ -33,7 +33,7 @@ public abstract class AbstractOrderProcessingRequest extends AbstractCheckoutReq
    * Return the Google Order Number, which is the value of the
    * google-order-number attribute on the root tag.
    * 
-   * @deprecated
+   * @deprecated Use getGoogleOrderNumber()
    * @return The Google Order Number.
    */
   public String getGoogleOrderNo() {
@@ -54,7 +54,7 @@ public abstract class AbstractOrderProcessingRequest extends AbstractCheckoutReq
    * Set the Google Order Number, which is the value of the google-order-number
    * attribute on the root tag.
    * 
-   * @deprecated
+   * @deprecated Use setGoogleOrderNumber()
    * @param googleOrderNo The Google Order Number.
    */
   public void setGoogleOrderNo(String googleOrderNo) {

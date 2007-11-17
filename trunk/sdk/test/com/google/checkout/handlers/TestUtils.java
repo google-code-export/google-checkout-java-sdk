@@ -3,7 +3,7 @@ package com.google.checkout.handlers;
 import com.google.checkout.EnvironmentType;
 import com.google.checkout.MerchantInfo;
 
-import com.google.checkout.exceptions.CheckoutSystemException;
+import com.google.checkout.CheckoutSystemException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;

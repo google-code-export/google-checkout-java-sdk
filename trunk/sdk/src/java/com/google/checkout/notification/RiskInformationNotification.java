@@ -16,7 +16,7 @@
 
 package com.google.checkout.notification;
 
-import com.google.checkout.exceptions.CheckoutException;
+import com.google.checkout.CheckoutException;
 import com.google.checkout.util.Utils;
 
 import java.io.InputStream;

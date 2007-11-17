@@ -17,7 +17,6 @@
 package com.google.checkout.handlers;
 
 import com.google.checkout.MerchantInfo;
-import com.google.checkout.exceptions.CheckoutException;
 import com.google.checkout.notification.CheckoutNotification;
 import java.util.HashMap;
 
@@ -30,16 +29,25 @@ public class CompositeNotificationHandler implements NotificationHandler {
   
   public CompositeNotificationHandler() {
     notificationHandlers = new HashMap();
-//    registerDefaultHandlers();
   }
   
+  /**
+   * 
+   * @param mi The merchant info
+   * @param notification The notification message
+   * @throws com.google.checkout.handlers.CheckoutHandlerException if an error occured
+   * while processing the notification
+   */
   public void process(MerchantInfo mi, CheckoutNotification notification) 
-    throws CheckoutException, UnknownHandlerException {
+    throws CheckoutHandlerException {
    
-    NotificationHandler handler = (NotificationHandler)notificationHandlers.get(notification.getType());
+    NotificationHandler handler = 
+      (NotificationHandler)notificationHandlers.get(notification.getType());
     
     if (handler == null) {
-      throw new UnknownHandlerException();
+      throw new 
+        CheckoutHandlerException("Could not find handler for the notification type: " 
+        + notification.getType());
     }
     
     handler.process(mi, notification);

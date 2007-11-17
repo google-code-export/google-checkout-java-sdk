@@ -16,8 +16,7 @@
 
 package com.google.checkout.notification;
 
-import com.google.checkout.MessageTypes;
-import com.google.checkout.exceptions.CheckoutException;
+import com.google.checkout.CheckoutException;
 import com.google.checkout.util.Utils;
 
 import java.util.HashMap;
@@ -35,8 +34,6 @@ public class CompositeNotificationParser implements NotificationParser {
    */
   public CompositeNotificationParser() {
     notificationParsers = new HashMap();
-    
-    registerDefaultParsers();
   }
   
   /**
@@ -53,12 +50,19 @@ public class CompositeNotificationParser implements NotificationParser {
    * @return A notification object of the specified type
    * @throws com.google.checkout.notification.UnknownNotificationException if the
    * notification type was not recognized
-   * @throws com.google.checkout.notification.exceptions.CheckoutException if 
+   * @throws com.google.checkout.notification.CheckoutException if 
    * there was an error parsing the request string
    */
   public CheckoutNotification parse(String xmlString) 
-    throws CheckoutException, UnknownNotificationException {
-      return parse(Utils.newDocumentFromString(xmlString));
+    throws CheckoutNotificationException {
+      CheckoutNotification notification;
+      try { 
+        notification = parse(Utils.newDocumentFromString(xmlString));
+      } catch (CheckoutException ex) {
+        throw new CheckoutNotificationException(ex);
+      }
+  
+      return notification;
   }
 
   /**
@@ -70,13 +74,13 @@ public class CompositeNotificationParser implements NotificationParser {
    * @throws com.google.checkout.notification.UnknownNotificationException
    */
   public CheckoutNotification parse(Document xmlDocument) 
-    throws UnknownNotificationException {
+    throws CheckoutNotificationException {
       String type = xmlDocument.getDocumentElement().getNodeName();
       
       NotificationParser parser = (NotificationParser)notificationParsers.get(type);
 
       if (parser == null) {
-        throw new UnknownNotificationException("Parser for type (" + type + ") " +
+        throw new CheckoutNotificationException("Parser for type (" + type + ") " +
           "could not be found.");
       }
       
@@ -94,46 +98,46 @@ public class CompositeNotificationParser implements NotificationParser {
   }
   
   /**
-   * Registers the default parsers.
+   * Registers the default notification parsers.
    */
-  private void registerDefaultParsers() {
-    register(MessageTypes.NEW_ORDER_NOTIFICATION, new NotificationParser() {
+  public static void registerDefaultNotificationParsers(CompositeNotificationParser parser) {
+    parser.register(NotificationTypes.NEW_ORDER_NOTIFICATION, new NotificationParser() {
       public CheckoutNotification parse(Document xmlDocument) {
          return new NewOrderNotification(xmlDocument);
       }
     });
     
-    register(MessageTypes.RISK_INFORMATION_NOTIFICATION, new NotificationParser() {
+    parser.register(NotificationTypes.RISK_INFORMATION_NOTIFICATION, new NotificationParser() {
       public CheckoutNotification parse(Document xmlDocument) {
         return new RiskInformationNotification(xmlDocument);
       }
     });
     
-    register(MessageTypes.ORDER_STATE_CHANGE_NOTIFICATION, new NotificationParser() {
+    parser.register(NotificationTypes.ORDER_STATE_CHANGE_NOTIFICATION, new NotificationParser() {
       public CheckoutNotification parse(Document xmlDocument) {
         return new OrderStateChangeNotification(xmlDocument);
       }
     });
     
-    register(MessageTypes.CHARGE_AMOUNT_NOTIFICATION, new NotificationParser() {
+    parser.register(NotificationTypes.CHARGE_AMOUNT_NOTIFICATION, new NotificationParser() {
       public CheckoutNotification parse(Document xmlDocument) {
         return new ChargeAmountNotification(xmlDocument);
       }
     });
     
-    register(MessageTypes.REFUND_AMOUNT_NOTIFICATION, new NotificationParser() {
+    parser.register(NotificationTypes.REFUND_AMOUNT_NOTIFICATION, new NotificationParser() {
       public CheckoutNotification parse(Document xmlDocument) {
         return new RefundAmountNotification(xmlDocument);
       }
     });
     
-    register(MessageTypes.CHARGEBACK_AMOUNT_NOTIFICATION, new NotificationParser() {
+    parser.register(NotificationTypes.CHARGEBACK_AMOUNT_NOTIFICATION, new NotificationParser() {
       public CheckoutNotification parse(Document xmlDocument) {
         return new ChargebackAmountNotification(xmlDocument);
       }
     });
     
-    register(MessageTypes.AUTHORIZATION_AMOUNT_NOTIFICATION, new NotificationParser() {
+    parser.register(NotificationTypes.AUTHORIZATION_AMOUNT_NOTIFICATION, new NotificationParser() {
       public CheckoutNotification parse(Document xmlDocument) {
         return new AuthorizationAmountNotification(xmlDocument);
       }
