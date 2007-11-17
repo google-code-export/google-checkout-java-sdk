@@ -43,7 +43,7 @@ public class AddMerchantOrderNumberRequest extends AbstractOrderProcessingReques
    * Return the Merchant Order Number, which is the value of the
    * &lt;merchant-order-number&gt; tag.
    * 
-   * @deprecated
+   * @deprecated Use getMerchantOrderNumber
    * @return The Merchant Order Number.
    */
   public String getMerchantOrderNo() {
@@ -64,7 +64,7 @@ public class AddMerchantOrderNumberRequest extends AbstractOrderProcessingReques
    * Set the Merchant Order Number, which is the value of the
    * &lt;merchant-order-number&gt; tag.
    * 
-   * @deprecated
+   * @deprecated Use setMerchantOrderNumber
    * @param merchantOrderNo The Merchant Order Number.
    */
   public void setMerchantOrderNo(String merchantOrderNo) {

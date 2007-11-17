@@ -6,13 +6,13 @@
 package com.google.checkout.handlers;
 
 import com.google.checkout.MerchantInfo;
-import com.google.checkout.MessageTypes;
-import com.google.checkout.exceptions.CheckoutException;
+import com.google.checkout.notification.NotificationTypes;
+import com.google.checkout.CheckoutException;
 import com.google.checkout.notification.CheckoutNotification;
+import com.google.checkout.notification.CheckoutNotificationException;
 import com.google.checkout.notification.CompositeNotificationParser;
 import com.google.checkout.notification.NotificationParser;
 import com.google.checkout.notification.SomeNewNotification;
-import com.google.checkout.notification.UnknownNotificationException;
 import java.util.ArrayList;
 import junit.framework.TestCase;
 import org.w3c.dom.Document;
@@ -42,13 +42,13 @@ public class CompositeNotificationHandlerTest extends TestCase {
   }
   
   public void addNotificationTypes() {
-    notificationTypes.add(MessageTypes.NEW_ORDER_NOTIFICATION);
-    notificationTypes.add(MessageTypes.RISK_INFORMATION_NOTIFICATION);
-    notificationTypes.add(MessageTypes.ORDER_STATE_CHANGE_NOTIFICATION);
-    notificationTypes.add(MessageTypes.CHARGE_AMOUNT_NOTIFICATION);
-    notificationTypes.add(MessageTypes.REFUND_AMOUNT_NOTIFICATION);
-    notificationTypes.add(MessageTypes.CHARGEBACK_AMOUNT_NOTIFICATION);
-    notificationTypes.add(MessageTypes.AUTHORIZATION_AMOUNT_NOTIFICATION);
+    notificationTypes.add(NotificationTypes.NEW_ORDER_NOTIFICATION);
+    notificationTypes.add(NotificationTypes.RISK_INFORMATION_NOTIFICATION);
+    notificationTypes.add(NotificationTypes.ORDER_STATE_CHANGE_NOTIFICATION);
+    notificationTypes.add(NotificationTypes.CHARGE_AMOUNT_NOTIFICATION);
+    notificationTypes.add(NotificationTypes.REFUND_AMOUNT_NOTIFICATION);
+    notificationTypes.add(NotificationTypes.CHARGEBACK_AMOUNT_NOTIFICATION);
+    notificationTypes.add(NotificationTypes.AUTHORIZATION_AMOUNT_NOTIFICATION);
   }
   
   public void testNonExistingHandlers() {
@@ -61,13 +61,14 @@ public class CompositeNotificationHandlerTest extends TestCase {
       
       notificationMsg = TestUtils.readMessage(
         "/resources/some-new-notification-sample.xml");
-      compositeHandler.process(mi, compositeParser.parse(notificationMsg));
       
-    } catch (UnknownHandlerException ex) {
+      CheckoutNotification notification = compositeParser.parse(notificationMsg);
+              
+      compositeHandler.process(mi, notification);
+      
+    } catch (CheckoutHandlerException ex) {
       return;
-    } catch (UnknownNotificationException ex) {
-      fail();
-    } catch (CheckoutException ex) {
+    } catch (CheckoutNotificationException ex) {
       fail();
     }
     
@@ -83,19 +84,23 @@ public class CompositeNotificationHandlerTest extends TestCase {
       });
       
       compositeHandler.register("some-new-notification", new NotificationHandler() {
-        public void process(MerchantInfo mi, CheckoutNotification notification) throws CheckoutException {
-          (new SomeNewNotificationHandler()).process(mi, notification.getXml());
+        public void process(MerchantInfo mi, CheckoutNotification notification) {
+            String msg = notification.getXml();
+            SomeNewNotificationHandler newHandler = new SomeNewNotificationHandler();
+            try {
+              newHandler.process(mi, msg);
+            } catch (CheckoutException ex) {
+              fail();
+            }
         }
       });
       
       notificationMsg = TestUtils.readMessage(
         "/resources/some-new-notification-sample.xml");
       compositeHandler.process(mi, compositeParser.parse(notificationMsg));
-    } catch (UnknownNotificationException ex) {
+    } catch (CheckoutHandlerException ex) {
       fail();
-    } catch (UnknownHandlerException ex) {
-      fail();
-    } catch (CheckoutException ex) {
+    } catch (CheckoutNotificationException ex) {
       fail();
     }
   }

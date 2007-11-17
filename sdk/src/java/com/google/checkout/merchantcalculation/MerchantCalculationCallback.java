@@ -25,7 +25,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import com.google.checkout.checkout.Item;
-import com.google.checkout.exceptions.CheckoutException;
+import com.google.checkout.CheckoutException;
+import com.google.checkout.notification.ShoppingCart;
 import com.google.checkout.util.Utils;
 
 /**
@@ -73,7 +74,7 @@ public class MerchantCalculationCallback {
    * objects.
    * 
    * @return The Collection of Item objects.
-   * 
+   * @deprecated Use getShoppingCart().getItems()
    * @see Item
    */
   public Collection getItems() {
@@ -90,13 +91,24 @@ public class MerchantCalculationCallback {
 
     return ret;
   }
+  
+  /**
+   * Retrieves the shopping cart
+   * 
+   * @return A shopping cart containing buyer items
+   */
+  public ShoppingCart getShoppingCart() {    
+    Element shoppingCart =
+        Utils.findElementOrContainer(document, root, "shopping-cart");
+    return new ShoppingCart(document, shoppingCart);
+  }
 
   /**
    * Retrieves the contents of the &lt;merchant-private-data&gt; element as an
    * array of Elements.
    * 
    * @return The contents &lt;merchant-private-data&gt; element value.
-   * 
+   * @deprecated Use getShoppingCart().getMerchantPrivateDataNodes()
    * @see Element
    */
   public Element[] getMerchantPrivateDataNodes() {
@@ -116,7 +128,7 @@ public class MerchantCalculationCallback {
    * @return The cart expiration.
    * 
    * @see Date
-   * 
+   * @deprecated Use getShoppingCart().getCartExpiration()
    * @throws com.google.checkout.exceptions.CheckoutException if there was an
    * error reading the cart expiration date
    */

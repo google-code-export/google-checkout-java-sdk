@@ -16,7 +16,7 @@
 
 package com.google.checkout.handlers;
 
-import com.google.checkout.exceptions.CheckoutException;
+import com.google.checkout.CheckoutException;
 import com.google.checkout.GoogleOrder;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.notification.ChargeAmountNotification;
@@ -29,11 +29,12 @@ public class ChargeAmountNotificationHandler implements MessageHandler {
 
   /**
    * 
-   * @param mi
-   * @param notificationMsg
-   * @return
-   * @throws com.google.checkout.exceptions.CheckoutException if an error
-   * occured while processing the merchant's information
+   * @param mi The merchant info
+   * @param notificationMsg The notification message
+   * @return An acknowledgement string indicating whether the notificationMsg
+   * was successfully processed.
+   * @throws com.google.checkout.CheckoutException if an error occured
+   * while processing the notificationMsg
    */
   public String process(MerchantInfo mi, String notificationMsg)
       throws CheckoutException {

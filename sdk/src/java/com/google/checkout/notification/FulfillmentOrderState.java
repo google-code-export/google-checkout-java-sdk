@@ -16,7 +16,7 @@
 
 package com.google.checkout.notification;
 
-import com.google.checkout.exceptions.CheckoutSystemException;
+import com.google.checkout.CheckoutSystemException;
 
 /**
  * This class represents the fulfillment status of an order. The valid states

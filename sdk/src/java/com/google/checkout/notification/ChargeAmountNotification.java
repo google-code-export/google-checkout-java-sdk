@@ -16,7 +16,7 @@
 
 package com.google.checkout.notification;
 
-import com.google.checkout.exceptions.CheckoutException;
+import com.google.checkout.CheckoutException;
 import com.google.checkout.util.Utils;
 
 import java.io.InputStream;
@@ -35,7 +35,7 @@ public class ChargeAmountNotification extends CheckoutNotification {
    * A constructor which takes the request as a String.
    * 
    * @param requestString
-   * @throws com.google.checkout.exceptions.CheckoutException if there was an
+   * @throws com.google.checkout.CheckoutException if there was an
    * error prcessing the request string
    */
   public ChargeAmountNotification(String requestString) throws CheckoutException {
@@ -46,7 +46,7 @@ public class ChargeAmountNotification extends CheckoutNotification {
    * A constructor which takes the request as an InputStream.
    * 
    * @param inputStream
-   * @throws com.google.checkout.exceptions.CheckoutException if there was an
+   * @throws com.google.checkout.CheckoutException if there was an
    * error prcessing the request from the InputStream
    */
   public ChargeAmountNotification(InputStream inputStream) throws CheckoutException {

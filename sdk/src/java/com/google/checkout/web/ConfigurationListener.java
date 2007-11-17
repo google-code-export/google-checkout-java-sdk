@@ -16,10 +16,10 @@
 
 package com.google.checkout.web;
 
-import com.google.checkout.exceptions.CheckoutException;
+import com.google.checkout.CheckoutException;
 import com.google.checkout.EnvironmentType;
 import com.google.checkout.MerchantInfo;
-import com.google.checkout.exceptions.CheckoutSystemException;
+import com.google.checkout.CheckoutSystemException;
 import com.google.checkout.util.Utils;
 
 import java.io.InputStream;

@@ -69,7 +69,7 @@ public class DeliverOrderRequest extends AbstractOrderProcessingRequest {
    * Return the tracking number, which is the value of the
    * &lt;tracking-number&gt; tag.
    * 
-   * @deprecated
+   * @deprecated Use getTrackingNumber()
    * @return The tracking number.
    */
   public String getTrackingNo() {
@@ -133,7 +133,7 @@ public class DeliverOrderRequest extends AbstractOrderProcessingRequest {
    * Set the tracking number, which is the value of the &lt;tracking-number&gt;
    * tag.
    * 
-   * @deprecated
+   * @deprecated Use setTrackingNumber()
    * @param trackingNo The tracking number.
    */
   public void setTrackingNo(String trackingNo) {

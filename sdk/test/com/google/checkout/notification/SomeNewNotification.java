@@ -5,7 +5,7 @@
 
 package com.google.checkout.notification;
 
-import com.google.checkout.exceptions.CheckoutException;
+import com.google.checkout.CheckoutException;
 import com.google.checkout.util.Utils;
 import org.w3c.dom.Document;
 

@@ -28,7 +28,7 @@ import org.w3c.dom.Element;
 
 import com.google.checkout.AbstractCheckoutRequest;
 import com.google.checkout.MerchantInfo;
-import com.google.checkout.exceptions.CheckoutException;
+import com.google.checkout.CheckoutException;
 import com.google.checkout.util.Utils;
 
 /**
@@ -894,7 +894,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
     Utils.findElementAndSetElseCreateAndSet(document, mcfs,
         "request-buyer-phone-number", b);
   }
-
+  
   /**
    * Retrieves the contents of the &lt;merchant-private-data&gt; element as an
    * array of Elements.

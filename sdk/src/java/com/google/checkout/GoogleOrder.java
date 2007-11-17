@@ -16,8 +16,8 @@
 
 package com.google.checkout;
 
-import com.google.checkout.exceptions.CheckoutException;
-import com.google.checkout.exceptions.CheckoutSystemException;
+import com.google.checkout.CheckoutException;
+import com.google.checkout.CheckoutSystemException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

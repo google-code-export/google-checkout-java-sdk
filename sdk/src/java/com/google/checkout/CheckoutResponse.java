@@ -16,7 +16,7 @@
 
 package com.google.checkout;
 
-import com.google.checkout.exceptions.CheckoutException;
+import com.google.checkout.CheckoutException;
 import java.io.InputStream;
 
 import org.w3c.dom.Document;
