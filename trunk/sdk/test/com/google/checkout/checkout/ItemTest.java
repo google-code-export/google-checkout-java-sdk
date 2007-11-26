@@ -16,18 +16,31 @@
 
 package com.google.checkout.checkout;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
+import com.google.checkout.util.Utils;
+import junit.framework.TestCase;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
-public class AllTests {
+/**
+ *
+ * @author Charles Dang (cdang@google.com)
+ */
+public class ItemTest extends TestCase {
 
-  public static Test suite() {
-    TestSuite suite = new TestSuite("Test for com.google.checkout.checkout");
-    // $JUnit-BEGIN$
-    suite.addTestSuite(TestDigitalDelivery.class);
-    suite.addTestSuite(TestCarrierCalculatedShipping.class);
-    // $JUnit-END$
-    return suite;
+  /**
+   * 
+   */
+  public void testSetMerchantPrivateDataNodesWithEmptyDocument() {
+    Item tempItem = new Item();
+    Document doc = Utils.newEmptyDocument();
+    Element [] itemData = new Element[1];
+    itemData[0] = doc.createElement("item-data");
+ 
+    itemData[0].setTextContent("Popular item - order more if needed");
+    tempItem.setMerchantPrivateItemData(itemData);
+
+    Element [] ret = tempItem.getMerchantPrivateItemData();
+    assertNotNull(ret);
+    assertEquals(1, ret.length);
   }
-
 }

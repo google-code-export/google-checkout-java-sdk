@@ -329,6 +329,19 @@ public class Utils {
 
     return e;
   }
+  
+  public static String nodeToString(Node node) {
+    try {
+      TransformerFactory tf = TransformerFactory.newInstance();
+      Transformer trans = tf.newTransformer();
+      StringWriter sw = new StringWriter();
+      trans.transform(new DOMSource(node), new StreamResult(sw));
+      return sw.toString();
+    } catch (TransformerException ex) {
+      throw new CheckoutSystemException("Unable to convert document to string");
+    }
+  }
+  
 
   public static String documentToString(Document document) {
     try {

@@ -190,13 +190,17 @@ public class Item {
    */
   public void setMerchantPrivateItemData(Element[] elements) {
     Element privateData =
-        Utils.findElementOrContainer(document, element,
-            "merchant-private-item-data");
+      Utils.findElementOrContainer(document, element,
+        "merchant-private-item-data");
 
     if (privateData != null) {
       element.removeChild(privateData);
+    } 
+    else {
+      privateData = document.createElement("merchant-private-item-data");
     }
     Utils.importElements(document, privateData, elements);
+    element.appendChild(privateData);
   }
 
   /**

@@ -68,7 +68,18 @@ public class ChargeAmountNotification extends CheckoutNotification {
    * @return The latest charge amount.
    */
   public float getLatestChargeAmount() {
-    return Utils.getElementFloatValue(getDocument(), getRoot(), "latest-charge-amount");
+    return Utils.getElementFloatValue(getDocument(), getRoot(), 
+      "latest-charge-amount");
+  }
+  
+  /**
+   * Retrieves the value of the &lt;latest-promotion-charge-amount&gt; tag
+   * 
+   * @return The latest promotion charge amount
+   */
+  public float getLatestPromotionChargeAmount() {
+    return Utils.getElementFloatValue(getDocument(), getRoot(), 
+      "latest-promotion-charge-amount");
   }
 
   /**
@@ -77,7 +88,8 @@ public class ChargeAmountNotification extends CheckoutNotification {
    * @return The total charge amount.
    */
   public float getTotalChargeAmount() {
-    return Utils.getElementFloatValue(getDocument(), getRoot(), "total-charge-amount");
+    return Utils.getElementFloatValue(getDocument(), getRoot(), 
+      "total-charge-amount");
   }
 
   /**
@@ -86,8 +98,8 @@ public class ChargeAmountNotification extends CheckoutNotification {
    * @return The currency code.
    */
   public String getCurrencyCode() {
-    return Utils.findElementOrContainer(getDocument(), getRoot(), "latest-charge-amount")
-        .getAttribute("currency");
+    return Utils.findElementOrContainer(getDocument(), getRoot(), 
+      "latest-charge-amount").getAttribute("currency");
   }
 
 }

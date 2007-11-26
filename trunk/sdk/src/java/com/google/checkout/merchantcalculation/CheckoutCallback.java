@@ -14,18 +14,30 @@
  * the License.
  ******************************************************************************/
 
-package com.google.checkout.handlers;
+package com.google.checkout.merchantcalculation;
 
-import com.google.checkout.MerchantInfo;
-import com.google.checkout.CheckoutException;
-import com.google.checkout.merchantcalculation.MerchantCalculationCallback;
-import com.google.checkout.merchantcalculation.MerchantCalculationResults;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  *
- * @author charlesdang
+ * @author Charles Dang (cdang@google.com)
  */
-public interface MerchantCalculationHandler {
-  public MerchantCalculationResults process(MerchantInfo mi, MerchantCalculationCallback callback) 
-    throws CheckoutException;
+public class CheckoutCallback {
+  
+  protected Document document;
+  protected Element root;
+  
+  public String getType() {
+    return document.getDocumentElement().getNodeName();
+  }
+  
+  /**
+   * Retrieves the value of the &lt;serial-number&gt; attribute.
+   * 
+   * @return The serial number.
+   */
+  public String getSerialNumber() {
+    return root.getAttribute("serial-number");
+  }
 }

@@ -54,12 +54,12 @@ public class CompositeNotificationParser implements NotificationParser {
    * there was an error parsing the request string
    */
   public CheckoutNotification parse(String xmlString) 
-    throws CheckoutNotificationException {
+    throws CheckoutParserException {
       CheckoutNotification notification;
       try { 
         notification = parse(Utils.newDocumentFromString(xmlString));
       } catch (CheckoutException ex) {
-        throw new CheckoutNotificationException(ex);
+        throw new CheckoutParserException(ex);
       }
   
       return notification;
@@ -74,13 +74,13 @@ public class CompositeNotificationParser implements NotificationParser {
    * @throws com.google.checkout.notification.UnknownNotificationException
    */
   public CheckoutNotification parse(Document xmlDocument) 
-    throws CheckoutNotificationException {
+    throws CheckoutParserException {
       String type = xmlDocument.getDocumentElement().getNodeName();
       
       NotificationParser parser = (NotificationParser)notificationParsers.get(type);
 
       if (parser == null) {
-        throw new CheckoutNotificationException("Parser for type (" + type + ") " +
+        throw new CheckoutParserException("Parser for type (" + type + ") " +
           "could not be found.");
       }
       

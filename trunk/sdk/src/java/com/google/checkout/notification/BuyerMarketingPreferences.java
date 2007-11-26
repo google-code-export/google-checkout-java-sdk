@@ -16,20 +16,33 @@
 
 package com.google.checkout.notification;
 
+import com.google.checkout.util.Utils;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
- * The interface for parsing notifications of a specified type
- * 
+ *
  * @author Charles Dang (cdang@google.com)
  */
-public interface NotificationParser {
-  
+public class BuyerMarketingPreferences {
+  private Document document;
+  private Element element;
+
+  public BuyerMarketingPreferences(Document document, Element element) {
+    this.document = document;
+    this.element = element;
+  }
+
   /**
+   * Retrieves the value of the &lt;email-allowed&gt; element.
    * 
-   * @param xml The xml string to be parsed
-   * @return A CheckoutNotification object created by parsing the xml
+   * @return The marketing preferences flag.
    */
-  public CheckoutNotification parse(Document xmlDocument) 
-    throws CheckoutParserException;
+  public boolean isMarketingEmailAllowed() {
+    Element buyerMarketingPreferences =
+        Utils.findElementOrContainer(document, element,
+            "buyer-marketing-preferences");
+    return Utils.getElementBooleanValue(document, buyerMarketingPreferences,
+        "email-allowed");
+  }
 }

@@ -9,7 +9,7 @@ import com.google.checkout.MerchantInfo;
 import com.google.checkout.notification.NotificationTypes;
 import com.google.checkout.CheckoutException;
 import com.google.checkout.notification.CheckoutNotification;
-import com.google.checkout.notification.CheckoutNotificationException;
+import com.google.checkout.notification.CheckoutParserException;
 import com.google.checkout.notification.CompositeNotificationParser;
 import com.google.checkout.notification.NotificationParser;
 import com.google.checkout.notification.SomeNewNotification;
@@ -64,11 +64,11 @@ public class CompositeNotificationHandlerTest extends TestCase {
       
       CheckoutNotification notification = compositeParser.parse(notificationMsg);
               
-      compositeHandler.process(mi, notification);
+      compositeHandler.handle(mi, notification);
       
     } catch (CheckoutHandlerException ex) {
       return;
-    } catch (CheckoutNotificationException ex) {
+    } catch (CheckoutParserException ex) {
       fail();
     }
     
@@ -84,7 +84,7 @@ public class CompositeNotificationHandlerTest extends TestCase {
       });
       
       compositeHandler.register("some-new-notification", new NotificationHandler() {
-        public void process(MerchantInfo mi, CheckoutNotification notification) {
+        public void handle(MerchantInfo mi, CheckoutNotification notification) {
             String msg = notification.getXml();
             SomeNewNotificationHandler newHandler = new SomeNewNotificationHandler();
             try {
@@ -97,10 +97,10 @@ public class CompositeNotificationHandlerTest extends TestCase {
       
       notificationMsg = TestUtils.readMessage(
         "/resources/some-new-notification-sample.xml");
-      compositeHandler.process(mi, compositeParser.parse(notificationMsg));
+      compositeHandler.handle(mi, compositeParser.parse(notificationMsg));
     } catch (CheckoutHandlerException ex) {
       fail();
-    } catch (CheckoutNotificationException ex) {
+    } catch (CheckoutParserException ex) {
       fail();
     }
   }

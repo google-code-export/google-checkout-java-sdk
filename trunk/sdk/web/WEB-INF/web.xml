@@ -55,13 +55,11 @@
     <load-on-startup>0</load-on-startup>
   </servlet>
 
-  <servlet>
-    <servlet-name>CheckoutCallbackHandlerServlet</servlet-name>
-    <servlet-class>com.google.checkout.web.CheckoutCallbackHandlerServlet</servlet-class>
-  </servlet>
+  
+
   <servlet>
     <servlet-name>CheckoutNotificationHandlerServlet</servlet-name>
-    <servlet-class>com.google.checkout.web.CheckoutNotificationHandlerServlet</servlet-class>
+    <servlet-class>com.google.checkout.web.CheckoutHandlerServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
@@ -74,10 +72,8 @@
     <url-pattern>/callback</url-pattern>
   </servlet-mapping>
   
-  <servlet-mapping>
-    <servlet-name>CheckoutCallbackHandlerServlet</servlet-name>
-    <url-pattern>/CheckoutCallbackHandlerServlet</url-pattern>
-  </servlet-mapping>
+  
+  
   <servlet-mapping>
     <servlet-name>CheckoutNotificationHandlerServlet</servlet-name>
     <url-pattern>/CheckoutNotificationHandlerServlet</url-pattern>

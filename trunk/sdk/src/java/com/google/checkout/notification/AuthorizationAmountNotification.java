@@ -96,7 +96,7 @@ public class AuthorizationAmountNotification extends CheckoutNotification {
    * 
    * @return The currency code.
    */
-  public String getCurrentyCode() {
+  public String getCurrencyCode() {
     return Utils.findElementOrContainer(getDocument(), getRoot(), "authorization-amount")
         .getAttribute("currency");
   }

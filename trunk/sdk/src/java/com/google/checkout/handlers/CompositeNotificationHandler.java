@@ -32,13 +32,15 @@ public class CompositeNotificationHandler implements NotificationHandler {
   }
   
   /**
+   * Processes each CheckoutNotification as required.
    * 
    * @param mi The merchant info
    * @param notification The notification message
-   * @throws com.google.checkout.handlers.CheckoutHandlerException if an error occured
+   * @throws com.google.checkout.handlers.CheckoutHandlerException if an error 
+   * occured
    * while processing the notification
    */
-  public void process(MerchantInfo mi, CheckoutNotification notification) 
+  public void handle(MerchantInfo mi, CheckoutNotification notification) 
     throws CheckoutHandlerException {
    
     NotificationHandler handler = 
@@ -46,15 +48,25 @@ public class CompositeNotificationHandler implements NotificationHandler {
     
     if (handler == null) {
       throw new 
-        CheckoutHandlerException("Could not find handler for the notification type: " 
-        + notification.getType());
+        CheckoutHandlerException("Could not find handler for the notification " 
+        + "type: " + notification.getType());
     }
     
-    handler.process(mi, notification);
+    handler.handle(mi, notification);
   }
   
-  public void register(String notificationType, NotificationHandler nh) {
-    notificationHandlers.put(notificationType, nh);
+  /**
+   * Associates the NotificationHandler with the specified notificationType. If 
+   * there is an existing NotificationHandler, it is replaced with the new
+   * NotificationHandler.
+   * 
+   * @param notificationType The notification type
+   * @param notificationHandler The handler that will handle notifications of 
+   * the specified notificationType
+   */
+  public void register(String notificationType, NotificationHandler 
+    notificationHandler) {
+    notificationHandlers.put(notificationType, notificationHandler);
   }
 }
 

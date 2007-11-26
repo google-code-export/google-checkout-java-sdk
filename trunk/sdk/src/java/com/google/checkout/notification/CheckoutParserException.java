@@ -20,44 +20,44 @@ package com.google.checkout.notification;
  *
  * @author Charles Dang (cdang@google.com)
  */
-public class CheckoutNotificationException extends Exception {
+public class CheckoutParserException extends Exception {
 
     /**
-     * Creates a new instance of <code>CheckoutNotificationException</code> 
+     * Creates a new instance of <code>CheckoutParserException</code> 
      * without detail message.
      */
-    public CheckoutNotificationException() {
+    public CheckoutParserException() {
     }
 
 
     /**
-     * Constructs an instance of <code>CheckoutNotificationException</code> with
+     * Constructs an instance of <code>CheckoutParserException</code> with
      * the specified detail message.
      * 
      * @param msg The detail message.
      */
-    public CheckoutNotificationException(String msg) {
+    public CheckoutParserException(String msg) {
       super(msg);
     }
     
     /**
-     * Constructs an instance of <code>CheckoutNotificationException</code> with
+     * Constructs an instance of <code>CheckoutParserException</code> with
      * the specified nested exception.
      * 
      * @param e The nested exception
      */
-    public CheckoutNotificationException(Exception e) {
+    public CheckoutParserException(Exception e) {
       super(e);
     }
     
     /**
-     * Constructs an instance of <code>CheckoutNotificationException</code> with
+     * Constructs an instance of <code>CheckoutParserException</code> with
      * the specified detail message and the nested exception.
      * 
      * @param msg The error message
      * @param e The nested exception
      */
-    public CheckoutNotificationException(String msg, Exception e) {
+    public CheckoutParserException(String msg, Exception e) {
       super(msg, e);
     }
 }
