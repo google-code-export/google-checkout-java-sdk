@@ -24,6 +24,6 @@ import com.google.checkout.notification.CheckoutNotification;
  * @author Charles Dang (cdang@google.com)
  */
 public interface NotificationHandler {
-  public void process(MerchantInfo mi, CheckoutNotification notification) 
+  public void handle(MerchantInfo mi, CheckoutNotification notification) 
     throws CheckoutHandlerException;
 }

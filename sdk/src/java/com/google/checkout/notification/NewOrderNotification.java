@@ -186,6 +186,7 @@ public class NewOrderNotification extends CheckoutNotification {
   /**
    * Retrieves the value of the &lt;email-allowed&gt; element.
    * 
+   * @deprecated Use getBuyerMarketingPreferences().isMarketingEmailAllowed()
    * @return The marketing preferences flag.
    */
   public boolean isMarketingEmailAllowed() {
@@ -202,6 +203,7 @@ public class NewOrderNotification extends CheckoutNotification {
   /**
    * Retrieves the value of the &lt;merchant-calculation-successful&gt; element.
    * 
+   * @deprecated Use getOrderAdjustment().isMerchantCalculationSuccessful()
    * @return The merchant calculation successful flag.
    */
   public boolean isMerchantCalculationSuccessful() {
@@ -219,6 +221,8 @@ public class NewOrderNotification extends CheckoutNotification {
    * collection of MerchantCodes objects.
    * 
    * @return The merchant codes.
+   * 
+   * @deprecated Use getOrderAdjustment().getMerchantCodes()
    * 
    * @see MerchantCodes
    * @see GiftCertificateAdjustment
@@ -266,6 +270,7 @@ public class NewOrderNotification extends CheckoutNotification {
   /**
    * Retrieves the value of the &lt;adjustment-total&gt; element.
    * 
+   * @deprecated Use getOrderAdjustment().getAdjustmentTotal();
    * @return The adjustment total amount.
    */
   public float getAdjustmentTotal() {
@@ -282,6 +287,8 @@ public class NewOrderNotification extends CheckoutNotification {
    * Retrieves the value of the &lt;shipping&gt; element as a Shipping object.
    * 
    * @return The shipping.
+   * 
+   * @deprecated Use getOrderAdjustment().getShipping()
    * 
    * @see Shipping
    */

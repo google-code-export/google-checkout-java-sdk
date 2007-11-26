@@ -115,5 +115,14 @@ public class OrderStateChangeNotification extends CheckoutNotification {
       "previous-financial-order-state");
     return FinancialOrderState.getState(state);
   }
-
+  
+  /**
+   * Retrieves the value of the &lt;reason&gt; element if it exists; otherwise
+   * null.
+   * 
+   * @return The reason for the change in the order's state
+   */
+  public String getReason() {
+    return Utils.getElementStringValue(getDocument(), getRoot(), "reason");
+  }
 }

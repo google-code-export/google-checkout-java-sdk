@@ -62,7 +62,7 @@ public class CompositeNotificationParserTest extends TestCase {
         notification = compositeNotificationParser.parse(notificationMsg);
         assertEquals(notification.getType(), type);
       }
-    } catch (CheckoutNotificationException ex) {
+    } catch (CheckoutParserException ex) {
       fail();
     }
   }
@@ -77,7 +77,7 @@ public class CompositeNotificationParserTest extends TestCase {
       notificationMsg = TestUtils.readMessage(
         "/resources/some-new-notification-sample.xml");
       notification = compositeNotificationParser.parse(notificationMsg);
-    } catch (CheckoutNotificationException ex) {
+    } catch (CheckoutParserException ex) {
       // parse correctly threw an UnknownNotificationException
       return;
     }
@@ -100,7 +100,7 @@ public class CompositeNotificationParserTest extends TestCase {
         "/resources/some-new-notification-sample.xml");
       notification = compositeNotificationParser.parse(notificationMsg);
       assertEquals(notification.getType(), "some-new-notification");
-    } catch (CheckoutNotificationException ex) {
+    } catch (CheckoutParserException ex) {
       fail();
     }
   }

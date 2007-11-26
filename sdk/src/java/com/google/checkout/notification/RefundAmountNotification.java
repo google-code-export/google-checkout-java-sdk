@@ -61,14 +61,26 @@ public class RefundAmountNotification extends CheckoutNotification {
   public RefundAmountNotification(Document document) {
     super(document);
   }
+  
+  /**
+   * Retrieves te value of the &lt;latest-promotion-chargeback-amount&gt; tag if 
+   * it exists; otherwise null.
+   * 
+   * @return The latest promotion refund amount
+   */
+  public float getLatestPromotionRefundAmount() {
+    return Utils.getElementFloatValue(getDocument(), getRoot(), 
+      "latest-promotion-chargeback-amount");
+  }
 
   /**
    * Retrieves the value of the &lt;latest-refund-amount&gt; tag.
    * 
-   * @return The lates refund amount.
+   * @return The latest refund amount.
    */
   public float getLatestRefundAmount() {
-    return Utils.getElementFloatValue(getDocument(), getRoot(), "latest-refund-amount");
+    return Utils.getElementFloatValue(getDocument(), getRoot(), 
+      "latest-refund-amount");
   }
 
   /**
@@ -77,7 +89,8 @@ public class RefundAmountNotification extends CheckoutNotification {
    * @return The total refund amount.
    */
   public float getTotalRefundAmount() {
-    return Utils.getElementFloatValue(getDocument(), getRoot(), "total-refund-amount");
+    return Utils.getElementFloatValue(getDocument(), getRoot(), 
+      "total-refund-amount");
   }
 
   /**
@@ -86,7 +99,7 @@ public class RefundAmountNotification extends CheckoutNotification {
    * @return The currency code.
    */
   public String getCurrencyCode() {
-    return Utils.findElementOrContainer(getDocument(), getRoot(), "latest-refund-amount")
-        .getAttribute("currency");
+    return Utils.findElementOrContainer(getDocument(), getRoot(), 
+      "latest-refund-amount").getAttribute("currency");
   }
 }

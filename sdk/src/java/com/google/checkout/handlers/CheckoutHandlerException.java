@@ -23,7 +23,8 @@ import com.google.checkout.CheckoutException;
  * @author Charles Dang (cdang@google.com)
  */
 public class CheckoutHandlerException extends CheckoutException {
-
+    private int errorCode;
+  
     /**
      * Creates a new instance of <code>CheckoutHandlerException</code> without 
      * detail message.
@@ -40,6 +41,14 @@ public class CheckoutHandlerException extends CheckoutException {
      */
     public CheckoutHandlerException(String msg) {
       super(msg);
+    }
+    
+    /**
+     * 
+     * @param errorCode
+     */
+    public CheckoutHandlerException(int errorCode) {
+      this.errorCode = errorCode;
     }
     
     /**
@@ -61,5 +70,15 @@ public class CheckoutHandlerException extends CheckoutException {
      */
     public CheckoutHandlerException(String msg, Exception e) {
       super(msg, e);
+    }
+    
+    /**
+     * Constructs an instance of <code>CheckoutHandlerException</code> with the 
+     * specified error code.
+     * 
+     * @return The error code associated with this exception
+     */
+    public int getErrorCode() {
+      return this.errorCode;
     }
 }

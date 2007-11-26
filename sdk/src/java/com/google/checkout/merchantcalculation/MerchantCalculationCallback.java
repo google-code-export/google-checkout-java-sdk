@@ -34,19 +34,16 @@ import com.google.checkout.util.Utils;
  * 
  * @author simonjsmith@google.com
  */
-public class MerchantCalculationCallback {
-
-  private Document document;
-
-  private Element root;
+public class MerchantCalculationCallback extends CheckoutCallback {
 
   /**
    * A constructor which takes the request as a String.
    * 
-   * @param requestString
+   * @param requestString The xml string containing the callback data
    * @throws com.google.checkout.exceptions.CheckoutException
    */
-  public MerchantCalculationCallback(String requestString) throws CheckoutException {
+  public MerchantCalculationCallback(String requestString) throws 
+    CheckoutException {
     this(Utils.newDocumentFromString(requestString));
   }
 
@@ -56,7 +53,8 @@ public class MerchantCalculationCallback {
    * @param inputStream
    * @throws com.google.checkout.exceptions.CheckoutException
    */
-  public MerchantCalculationCallback(InputStream inputStream) throws CheckoutException {
+  public MerchantCalculationCallback(InputStream inputStream) throws 
+    CheckoutException {
     this(Utils.newDocumentFromInputStream(inputStream));
   }
   
@@ -158,15 +156,6 @@ public class MerchantCalculationCallback {
    */
   public String getBuyerLanguage() {
     return Utils.getElementStringValue(document, root, "buyer-language");
-  }
-
-  /**
-   * Retrieves the value of the &lt;serial-number&gt; attribute.
-   * 
-   * @return The serial number.
-   */
-  public String getSerialNumber() {
-    return root.getAttribute("serial-number");
   }
 
   /**

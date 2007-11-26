@@ -33,14 +33,15 @@ import org.w3c.dom.Element;
  */
 public class RiskInformationNotification extends CheckoutNotification {
 
-  Element riskInfo;
+  private Element riskInfo;
 
   /**
    * A constructor which takes the request as a String.
    * 
    * @param requestString
    */
-  public RiskInformationNotification(String requestString) throws CheckoutException{
+  public RiskInformationNotification(String requestString) 
+    throws CheckoutException{
     this(Utils.newDocumentFromString(requestString));
   }
 
@@ -49,7 +50,8 @@ public class RiskInformationNotification extends CheckoutNotification {
    * 
    * @param inputStream
    */
-  public RiskInformationNotification(InputStream inputStream) throws CheckoutException {
+  public RiskInformationNotification(InputStream inputStream) 
+    throws CheckoutException {
     this(Utils.newDocumentFromInputStream(inputStream));
   }
   
@@ -60,12 +62,24 @@ public class RiskInformationNotification extends CheckoutNotification {
    */
   public RiskInformationNotification(Document document) {
     super(document);
-    riskInfo = Utils.findElementOrContainer(getDocument(), getRoot(), "risk-information");
+    riskInfo = Utils.findElementOrContainer(getDocument(), getRoot(), 
+      "risk-information");
+  }
+  
+  public RiskInfo getRiskInfo() {
+    Document document = getDocument();
+    Element root = getRoot();
+    
+    Element riskInformation =
+        Utils.findElementOrContainer(document, root, "risk-information");
+    return new RiskInfo(document, riskInformation);
+   
   }
 
   /**
    * Retrieves the value of the &lt;eligible-for-protection&gt; tag.
    * 
+   * @deprecated Use getRiskInfo().isEligibleForProtection()
    * @return The eligible for protection flag.
    */
   public boolean isEligibleForProtection() {
@@ -78,12 +92,13 @@ public class RiskInformationNotification extends CheckoutNotification {
    * object.
    * 
    * @return The billing address.
-   * 
+   * @deprecated Use getRiskInfo().getBillingAddress()
    * @see Address
    */
   public Address getBillingAddress() {
     Element address =
-        Utils.findElementOrContainer(getDocument(), riskInfo, "billing-address");
+      Utils.findElementOrContainer(getDocument(), riskInfo, 
+      "billing-address");
     return new Address(getDocument(), address);
   }
 
@@ -91,6 +106,7 @@ public class RiskInformationNotification extends CheckoutNotification {
    * Retrieves the value of the &lt;avs-response&gt; tag.
    * 
    * @return The AVS response.
+   * @deprecated Use getRiskInfo().getAvsResponse()
    */
   public String getAvsResponse() {
     return Utils.getElementStringValue(getDocument(), riskInfo, "avs-response");
@@ -100,6 +116,7 @@ public class RiskInformationNotification extends CheckoutNotification {
    * Retrieves the value of the &lt;cvn-response&gt; tag.
    * 
    * @return The CVN response.
+   * @deprecated Use getRiskInfo().getCvsResponse()
    */
   public String getCvnResponse() {
     return Utils.getElementStringValue(getDocument(), riskInfo, "cvn-response");
@@ -109,24 +126,29 @@ public class RiskInformationNotification extends CheckoutNotification {
    * Retrieves the value of the &lt;partial-cc-number&gt; tag.
    * 
    * @return The partial credit card number.
+   * @deprecated Use getRiskInfo().getPartialCcNumber()
    */
   public String getPartialCcNumber() {
-    return Utils.getElementStringValue(getDocument(), riskInfo, "partial-cc-number");
+    return Utils.getElementStringValue(getDocument(), riskInfo, 
+      "partial-cc-number");
   }
 
   /**
    * Retrieves the value of the &lt;buyer-account-age&gt; tag.
    * 
    * @return The buyer account age.
+   * @deprecated getRiskInfo().getBuyerAccountAge()
    */
   public int getBuyerAccountAge() {
-    return Utils.getElementIntValue(getDocument(), riskInfo, "buyer-account-age");
+    return Utils.getElementIntValue(getDocument(), riskInfo, 
+      "buyer-account-age");
   }
 
   /**
    * Retrieves the value of the &lt;ip-address&gt; tag.
    * 
    * @return The IP address.
+   * @deprecated getRiskInfo().getIpAddress()
    */
   public String getIpAddress() {
     return Utils.getElementStringValue(getDocument(), riskInfo, "ip-address");
