@@ -5,14 +5,14 @@
 <html>
     <head>
         <link rel="stylesheet" href="jmaki-standard-footer.css" type="text/css"></link>
-        <title>My Pet Store</title>
+        <title>My Store</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     </head>
     <body>
         <div id="outerBorder">
             
             <div id="header">
-                <div id="banner">My Pet Store</div>
+                <div id="banner">My Store</div>
                 
                 <div id="subheader">                    
                     <div>
