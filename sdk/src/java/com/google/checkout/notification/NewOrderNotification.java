@@ -182,6 +182,24 @@ public class NewOrderNotification extends CheckoutNotification {
         Utils.findElementOrContainer(document, root, "buyer-billing-address");
     return new Address(document, address);
   }
+  
+  public BuyerMarketingPreferences getBuyerMarketingPreferences() {
+    Document document = getDocument();
+    Element root = getRoot();
+    
+    Element buyerMarketingPreferences = 
+      Utils.findElementOrContainer(document, root, "buyer-marketing-preferences");
+    return new BuyerMarketingPreferences(document, buyerMarketingPreferences);
+  }
+  
+  public OrderAdjustment getOrderAdjustment() {
+    Document document = getDocument();
+    Element root = getRoot();
+    
+    Element orderAdjustment = 
+      Utils.findElementOrContainer(document, root, "order-adjustment");
+    return new OrderAdjustment(document, orderAdjustment);
+  }
 
   /**
    * Retrieves the value of the &lt;email-allowed&gt; element.
@@ -348,6 +366,23 @@ public class NewOrderNotification extends CheckoutNotification {
   public String getOrderCurrencyCode() {
     return Utils.findElementOrContainer(getDocument(), getRoot(), "order-total")
         .getAttribute("currency");
+  }
+  
+  /**
+   * Retrieves the promotions.
+   * 
+   * @return The promotions associated with this NewOrderNotification
+   */
+  public Element[] getPromotions() {
+    Document document = getDocument();
+    Element root = getRoot();
+    
+    Element promotions =
+        Utils.findElementOrContainer(document, root, "promotions");
+    if (promotions == null) {
+      return null;
+    }
+    return Utils.getElements(document, promotions); 
   }
 
   /**
