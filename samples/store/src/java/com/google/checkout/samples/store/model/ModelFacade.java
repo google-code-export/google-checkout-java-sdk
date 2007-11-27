@@ -16,6 +16,7 @@
 
 package com.google.checkout.samples.store.model;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -24,21 +25,20 @@ import java.util.Collection;
  */
 public class ModelFacade {
   
+  private static BaseSnippetPuller puller = new BaseSnippetPuller();
+    
   public ModelFacade() {
     
   }
   
   public ProductList getProductsFor(Category category) {
-    ProductList currentList = DummyData.getAllProductLists().get(category);
-     if (currentList != null)
-        return currentList;
-    return BaseDataPuller.getBaseData().get(category);
+    return BaseSnippetPuller.getBaseData().get(category);
   }
   
   public Collection<Category> getCategories() {
-    Collection<Category> categories = DummyData.getAllCategories();
-    categories.add(BaseDataPuller.BASE_CATEGORY);
-    new BaseDataPuller().loadBaseData();
+    Collection<Category> categories = new ArrayList<Category>();
+    puller.loadBaseData();
+    categories.add(BaseSnippetPuller.BASE_CATEGORY);
     return categories;
   }
 }

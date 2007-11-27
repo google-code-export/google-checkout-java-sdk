@@ -68,6 +68,7 @@ public class WebHelper {
   
   public String getJsonForAccordianMenu() {
     String value = getJsonForAccordianMenu(mf.getCategories());
+    System.out.println(value);
     return value;
   }
   

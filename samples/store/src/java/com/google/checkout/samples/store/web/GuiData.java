@@ -17,7 +17,7 @@
 package com.google.checkout.samples.store.web;
 
 import com.google.checkout.samples.store.model.Category;
-import com.google.checkout.samples.store.model.BaseDataPuller;
+import com.google.checkout.samples.store.model.BaseSnippetPuller;
 
 /**
  * GUI data associated with the data model.
@@ -37,6 +37,6 @@ public class GuiData {
   }
 
   public static boolean isSelected(Category category) {
-    return category.getName().equals(BaseDataPuller.BASE_CATEGORY.getName());
+    return category.getName().equals(BaseSnippetPuller.BASE_CATEGORY.getName());
   }
 }

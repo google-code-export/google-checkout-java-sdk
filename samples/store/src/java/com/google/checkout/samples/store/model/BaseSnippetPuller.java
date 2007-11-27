@@ -30,70 +30,43 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.StringTokenizer;
 
-/**
- * Display all items of a specific customer.
- */
-public class BaseDataPuller {
+public class BaseSnippetPuller {
   /**
-   * URL of the authenticated customer feed.
+   * Url of the Google Base data API snippet feed.
    */
-  private static final String ITEMS_FEED = "http://base.google.com/base/feeds/items";
+  private static final String SNIPPETS_FEED = "http://base.google.com/base/feeds/snippets";
 
   /**
-   * Insert here the developer key obtained for an "installed application" at
-   * http://code.google.com/apis/base/signup.html
+   * The query that is sent over to the Google Base data API server.
    */
-  private static final String DEVELOPER_KEY = 
-      "";
+  private static final String QUERY = "[customer id:2828467]";
+  
+  public static Category BASE_CATEGORY = null;
+  
+  private static HashMap<Category, ProductList> products = null;
   
   /**
-   * URL used for authenticating and obtaining an authentication token. 
-   * More details about how it works:
-   * <code>http://code.google.com/apis/accounts/AuthForInstalledApps.html<code>
-   */
-  private static final String AUTHENTICATION_URL = "";
-
-  /**
-   * Fill in your Google Account email here.
-   */
-  private static final String EMAIL = "";
-  
-  /**
-   * Fill in your Google Account password here.
-   */
-  private static final String PASSWORD = "";
-  
-  public static final Category BASE_CATEGORY = Category.getCategory("Base Stuff");
-  
-  private static HashMap<Category, ProductList> products = new HashMap<Category, ProductList>();
-  
-  /**
-   * Create a <code>QueryExample3</code> instance and call
+   * Create a <code>QueryExa
+  private static HashMapmple3</code> instance and call
    * <code>displayMyItems</code>, which displays all items that belong to the
    * currently authenticated user.
    */
   public static HashMap<Category, ProductList> getBaseData() {
     return products;
   }
-  
+
   public void loadBaseData() {
     try {
-      //BASE_CATEGORY = Category.getCategory("Base Data"); 
-      //products = new HashMap<Category, ProductList>();
-      String token = authenticate();
-      displayMyItems(token);
+      BASE_CATEGORY = Category.getCategory("Base Data"); 
+      products = new HashMap<Category, ProductList>();
+      displayItems();
     } catch (IOException e) {
       e.printStackTrace();
     } catch (SAXException e) {
@@ -102,79 +75,28 @@ public class BaseDataPuller {
       e.printStackTrace();
     }  
   }
-
-  /**
-   * Retrieves the authentication token for the provided set of credentials.
-   * @return the authorization token that can be used to access authenticated
-   *         Google Base data API feeds
-   */
-  public String authenticate() {
-    // create the login request
-    String postOutput = null;
-    try {
-      URL url = new URL(AUTHENTICATION_URL);
-      postOutput = makeLoginRequest(url);
-    } catch (IOException e) {
-      System.out.println("Could not connect to authentication server: " 
-          + e.toString());
-      System.exit(1);
-    }
   
-    // Parse the result of the login request. If everything went fine, the 
-    // response will look like
-    //      HTTP/1.0 200 OK
-    //      Server: GFE/1.3
-    //      Content-Type: text/plain 
-    //      SID=DQAAAGgA...7Zg8CTN
-    //      LSID=DQAAAGsA...lk8BBbG
-    //      Auth=DQAAAGgA...dk3fA5N
-    // so all we need to do is look for "Auth" and get the token that comes after it
-  
-    StringTokenizer tokenizer = new StringTokenizer(postOutput, "=\n ");
-    String token = null;
-    
-    while (tokenizer.hasMoreElements()) {
-      if (tokenizer.nextToken().equals("Auth")) {
-        if (tokenizer.hasMoreElements()) {
-          token = tokenizer.nextToken(); 
-        }
-        break;
-      }
-    }
-    if (token == null) {
-      System.out.println("Authentication error. Response from server:\n" + postOutput);
-      System.exit(1);
-    }
-    return token;
+  public void reloadData(String username, String password) {
+    loadBaseData();
   }
-
+  
   /**
-   * Displays the "items" feed, that is the feed that contains the items that
-   * belong to the currently authenticated user.
-   * 
-   * @param token the authorization token, as returned by
-   *        <code>authenticate<code>
-   * @throws IOException if an IOException occurs while creating/reading the 
-   *         request
+   * Connect to the Google Base data API server, retrieve the items that match
+   * <code>QUERY</code> and call <code>DisplayTitlesHandler</code> to extract
+   * and display the titles from the XML response.
    */
-  public void displayMyItems(String token) throws IOException, SAXException,
-          ParserConfigurationException, MalformedURLException {
-    HttpURLConnection connection = (HttpURLConnection)(new URL(ITEMS_FEED)).openConnection() ;
-    // Set properties of the connection
-    connection.setRequestMethod("GET");
-    connection.setRequestProperty("Authorization", "GoogleLogin auth=" + token);
-    connection.setRequestProperty("X-Google-Key", "key=" + DEVELOPER_KEY);
-    
-    int responseCode = connection.getResponseCode();
-    InputStream inputStream;
-    if (responseCode == HttpURLConnection.HTTP_OK) {
-      inputStream = connection.getInputStream();
-    } else {
-      inputStream = connection.getErrorStream();
-    }
-    
-    //System.out.println(toString(inputStream));
-    
+  public void displayItems() throws IOException, SAXException,
+          ParserConfigurationException {
+    /*
+     * Create a URL object, open an Http connection on it and get the input
+     * stream that reads the Http response.
+     */
+    URL url = new URL(SNIPPETS_FEED + "?bq=" + 
+        URLEncoder.encode(QUERY, "UTF-8"));
+    System.out.println(url);
+    HttpURLConnection httpConnection = (HttpURLConnection) url.openConnection();
+    InputStream inputStream = httpConnection.getInputStream();
+    System.out.println(inputStream);
     /*
      * Create a SAX XML parser and pass in the input stream to the parser.
      * The parser will use DisplayTitleHandler to extract the titles from the 
@@ -183,58 +105,6 @@ public class BaseDataPuller {
     SAXParserFactory factory = SAXParserFactory.newInstance();
     SAXParser parser = factory.newSAXParser();
     parser.parse(inputStream, new DisplayDataHandler());
-   }
-  
-  /**
-   * Makes a HTTP POST request to the provided {@code url} given the provided
-   * {@code parameters}. It returns the output from the POST handler as a
-   * String object.
-   * 
-   * @param url the URL to post the request
-   * @return the output from the Google Accounts server, as string
-   * @throws IOException if an I/O exception occurs while
-   *           creating/writing/reading the request
-   */
-  private String makeLoginRequest(URL url)
-      throws IOException {
-    // Create a login request. A login request is a POST request that looks like
-    // POST /accounts/ClientLogin HTTP/1.0
-    // Content-type: application/x-www-form-urlencoded
-    // Email=johndoe@gmail.com&Passwd=north23AZ&service=gbase&source=Insert Example
-
-    // Open connection
-    HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-  
-    
-    // Set properties of the connection
-    urlConnection.setRequestMethod("POST");
-    urlConnection.setDoInput(true);
-    urlConnection.setDoOutput(true);
-    urlConnection.setUseCaches(false);
-    urlConnection.setRequestProperty("Content-Type",
-                                     "application/x-www-form-urlencoded");
-  
-    // Form the POST parameters
-    StringBuilder content = new StringBuilder();
-    content.append("Email=").append(URLEncoder.encode(EMAIL, "UTF-8"));
-    content.append("&Passwd=").append(URLEncoder.encode(PASSWORD, "UTF-8"));
-    content.append("&service=").append(URLEncoder.encode("gbase", "UTF-8"));
-    content.append("&source=").append(URLEncoder.encode("Google Base data API example", "UTF-8"));
-
-    OutputStream outputStream = urlConnection.getOutputStream();
-    outputStream.write(content.toString().getBytes("UTF-8"));
-    outputStream.close();
-  
-    // Retrieve the output
-    int responseCode = urlConnection.getResponseCode();
-    InputStream inputStream;
-    if (responseCode == HttpURLConnection.HTTP_OK) {
-      inputStream = urlConnection.getInputStream();
-    } else {
-      inputStream = urlConnection.getErrorStream();
-    }
-  
-    return toString(inputStream);
   }
   
   /**
@@ -354,21 +224,5 @@ public class BaseDataPuller {
         productItemType = value;
       }
     }
-  }
-  
-  /**
-   * Writes the content of the input stream to a <code>String<code>.
-   */
-  private String toString(InputStream inputStream) throws IOException {
-    String string;
-    StringBuilder outputBuilder = new StringBuilder();
-    if (inputStream != null) {
-      BufferedReader reader =
-          new BufferedReader(new InputStreamReader(inputStream));
-      while (null != (string = reader.readLine())) {
-        outputBuilder.append(string).append('\n');
-      }
-    }
-    return outputBuilder.toString();
   }
 }
