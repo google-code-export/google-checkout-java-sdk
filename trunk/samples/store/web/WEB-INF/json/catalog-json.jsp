@@ -4,12 +4,8 @@
 <%
   String category = "Simon Stuff";
   if (request != null) {
-    /*String[] params = request.getQueryString().split("=");
-    if (params[0].equals("category"))
-      category = params[1];
-    */
     category = request.getParameter(WebConstants.CATEGORY);
-  }  
+  }
   Category cat = Category.getCategory(category);
   
   if (cat != null) {
