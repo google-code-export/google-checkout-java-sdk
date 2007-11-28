@@ -29,10 +29,21 @@ public class Packaging {
   public static final Packaging Box = new Packaging("Box");
 
   /**
+   * An instance of the Packaging class with value: Card.
+   */
+  public static final Packaging Card = new Packaging("Card");
+  
+  /**
    * An instance of the Packaging class with value: Carrier_Box.
    */
   public static final Packaging Carrier_Box = new Packaging("Carrier_Box");
 
+  /**
+   * An instance of the Packaging class with value: Carrier_Envelope.
+   */
+  public static final Packaging Carrier_Envelope = 
+    new Packaging("Carrier_Envelope");
+  
   /**
    * An instance of the Packaging class with value: Carrier_Pak.
    */
@@ -42,17 +53,6 @@ public class Packaging {
    * An instance of the Packaging class with value: Carrier_Tube.
    */
   public static final Packaging Carrier_Tube = new Packaging("Carrier_Tube");
-
-  /**
-   * An instance of the Packaging class with value: Carrier_Envelope.
-   */
-  public static final Packaging Carrier_Envelope =
-      new Packaging("Carrier_Envelope");
-
-  /**
-   * An instance of the Packaging class with value: Card.
-   */
-  public static final Packaging Card = new Packaging("Card");
 
   /**
    * An instance of the Packaging class with value: Letter.

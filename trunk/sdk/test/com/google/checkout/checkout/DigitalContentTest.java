@@ -16,33 +16,26 @@
 
 package com.google.checkout.checkout;
 
+import com.google.checkout.util.Utils;
+import junit.framework.TestCase;
+
 /**
- * This class represents the &lt;delivery-address-category&gt; tag in the
- * Checkout API.
- * 
- * @author simonjsmith
+ *
+ * @author cdang
  */
-public class DeliveryAddressCategory {
-
-  /**
-   * An instance of the DeliveryAddressCategory class with value: RESIDENTIAL.
-   */
-  public static final DeliveryAddressCategory RESIDENTIAL =
-      new DeliveryAddressCategory("RESIDENTIAL");
-
-  /**
-   * An instance of the DeliveryAddressCategory class with value: COMMERCIAL.
-   */
-  public static final DeliveryAddressCategory COMMERCIAL =
-      new DeliveryAddressCategory("COMMERCIAL");
-
-  private final String value;
-
-  private DeliveryAddressCategory(String value) {
-    this.value = value;
-  }
-
-  public String toString() {
-    return value;
+public class DigitalContentTest extends TestCase {
+  public void testDigitalContentNodeNames() {
+    DigitalContent digitalContent = new DigitalContent();
+    digitalContent.setEmailDelivery(true);
+    digitalContent.setDescription("description");
+    digitalContent.setKey("0123456abcdef");
+    digitalContent.setUrl("http://checkout.google.com");
+    
+    assertEquals(
+      "<?xml version=\"1.0\" encoding=\"UTF-8\"?><digital-content>" + 
+      "<email-delivery>true</email-delivery><description>description" + 
+      "</description><key>0123456abcdef</key><url>http://checkout.google.com" + 
+      "</url></digital-content>", 
+      Utils.nodeToString(digitalContent.getRootElement()));
   }
 }

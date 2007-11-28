@@ -30,7 +30,14 @@ package com.google.checkout.checkout;
  * For additional information on third party tracking
  */
 public class UrlParameterType {
-
+  /**
+   * A Google-assigned value that uniquely identifies an order. This value is
+   * displayed in the Merchant Center for each order. If you have implemented
+   * the Notification API, you will also see this value in all Google Checkout
+   * notifications.
+   */
+  public static UrlParameterType OrderID = new UrlParameterType("order-id");
+  
   /** The city associated with the order's billing address. */
   public static UrlParameterType billingCity = 
     new UrlParameterType("billing-city");
@@ -59,14 +66,6 @@ public class UrlParameterType {
   /** The total amount of all coupons factored into the order total. */
   public static UrlParameterType couponAmount = 
     new UrlParameterType("coupon-amount");
-
-  /**
-   * A Google-assigned value that uniquely identifies an order. This value is
-   * displayed in the Merchant Center for each order. If you have implemented
-   * the Notification API, you will also see this value in all Google Checkout
-   * notifications.
-   */
-  public static UrlParameterType OrderID = new UrlParameterType("order-id");
 
   /**
    * The total cost for all of the items in the order including coupons and

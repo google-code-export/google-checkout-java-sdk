@@ -2,7 +2,7 @@
 <project name="sdk" default="default" basedir=".">
   <description>Builds, tests, and runs the project sdk.</description>
   <import file="nbproject/build-impl.xml" />
-  <property name="release.version" value="0.8.3" />
+  <property name="release.version" value="0.8.4" />
   
   <target name="zip" depends="init,dist,javadoc">
     <property name="zipdist.dir" value="${build.dir}/tmpdist" />

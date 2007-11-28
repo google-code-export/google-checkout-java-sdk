@@ -16,33 +16,15 @@
 
 package com.google.checkout.checkout;
 
+import junit.framework.TestCase;
+
 /**
- * This class represents the &lt;delivery-address-category&gt; tag in the
- * Checkout API.
- * 
- * @author simonjsmith
+ *
+ * @author Charles Dang (cdang@google.com)
  */
-public class DeliveryAddressCategory {
-
-  /**
-   * An instance of the DeliveryAddressCategory class with value: RESIDENTIAL.
-   */
-  public static final DeliveryAddressCategory RESIDENTIAL =
-      new DeliveryAddressCategory("RESIDENTIAL");
-
-  /**
-   * An instance of the DeliveryAddressCategory class with value: COMMERCIAL.
-   */
-  public static final DeliveryAddressCategory COMMERCIAL =
-      new DeliveryAddressCategory("COMMERCIAL");
-
-  private final String value;
-
-  private DeliveryAddressCategory(String value) {
-    this.value = value;
-  }
-
-  public String toString() {
-    return value;
+public class DeliveryAddressCategoryTest extends TestCase {
+  public void testDeliveryAddressCategoryConstants() {
+    assertEquals("COMMERCIAL", DeliveryAddressCategory.COMMERCIAL.toString());
+    assertEquals("RESIDENTIAL", DeliveryAddressCategory.RESIDENTIAL.toString());
   }
 }
