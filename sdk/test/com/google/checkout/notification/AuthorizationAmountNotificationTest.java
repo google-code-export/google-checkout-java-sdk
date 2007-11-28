@@ -69,13 +69,30 @@ public class AuthorizationAmountNotificationTest extends TestCase {
     try {
       Date expirationDate = 
         authorizationNotification.getAuthorizationExpirationDate();
-      assertEquals(expirationDate.toString(), "2006-03-18T20:25:31");
+      assertEquals(expirationDate.toString(), "Sat Mar 18 20:25:31 PST 2006");
     } catch (CheckoutException ex) {
       fail();
     }
   }
   
-  public void testGetAuthorizationExpirationDateInvalid() {
-    // TODO(cdang)
+  public void testGetAuthorizationExpirationDateInvalid() 
+    throws CheckoutException {
+    String aanMessage = TestUtils
+      .readMessage("/resources/authorization-amount-notification-invalid-" + 
+      "expdate-sample.xml");
+    
+    try {
+      Document doc = Utils.newDocumentFromString(aanMessage);
+      authorizationNotification = new AuthorizationAmountNotification(doc);
+    } catch (CheckoutException ex) {
+      fail();
+    }
+    
+    try {
+      authorizationNotification.getAuthorizationExpirationDate();
+      fail();
+    } catch (CheckoutException ex) {
+      // test case passes
+    }
   }
 }

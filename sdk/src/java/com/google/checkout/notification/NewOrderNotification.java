@@ -122,7 +122,7 @@ public class NewOrderNotification extends CheckoutNotification {
         Utils.findContainerElseCreate(document, root, "shopping-cart");
     Element mpd =
         Utils.findElementOrContainer(document, shoppingCart,
-            "merchant-private-data");
+        "merchant-private-data");
     if (mpd == null) {
       return null;
     }

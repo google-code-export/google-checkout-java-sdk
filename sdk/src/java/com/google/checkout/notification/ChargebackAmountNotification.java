@@ -71,6 +71,15 @@ public class ChargebackAmountNotification extends CheckoutNotification {
   public float getLatestChargebackAmount() {
     return Utils.getElementFloatValue(getDocument(), getRoot(), "latest-chargeback-amount");
   }
+  
+  /**
+   * Retrieves the value of the &lt;latest-chargeback-amount&gt; tag.
+   * 
+   * @return The latest promotion chargeback amount
+   */
+  public float getLatestPromotionChargebackAmount() {
+    return Utils.getElementFloatValue(getDocument(), getRoot(), "latest-promotion-chargeback-amount");
+  }
 
   /**
    * Retrieves the value of the &lt;total-charge-amount&gt; tag.

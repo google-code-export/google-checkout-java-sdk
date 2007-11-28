@@ -28,11 +28,11 @@ import org.w3c.dom.Element;
  */
 public class OrderAdjustment {
   private Document document;
-  private Element element;
+  private Element orderAdjustment;
 
-  public OrderAdjustment(Document document, Element element) {
+  public OrderAdjustment(Document document, Element orderAdjustment) {
     this.document = document;
-    this.element = element;
+    this.orderAdjustment = orderAdjustment;
   }
   
   /**
@@ -41,8 +41,6 @@ public class OrderAdjustment {
    * @return The merchant calculation successful flag.
    */
   public boolean isMerchantCalculationSuccessful() { 
-    Element orderAdjustment =
-        Utils.findElementOrContainer(document, element, "order-adjustment");
     return Utils.getElementBooleanValue(document, orderAdjustment,
         "merchant-calculation-successful");
   }
@@ -53,8 +51,6 @@ public class OrderAdjustment {
    * @return The adjustment total amount.
    */
   public float getAdjustmentTotal() {    
-    Element orderAdjustment =
-        Utils.findElementOrContainer(document, element, "order-adjustment");
     return Utils.getElementFloatValue(document, orderAdjustment,
         "adjustment-total");
   }
@@ -70,9 +66,8 @@ public class OrderAdjustment {
    * @see CouponAdjustment
    */
   public Collection getMerchantCodes() {
-    Element oa =
-        Utils.findElementOrContainer(document, element, "order-adjustment");
-    Element mc = Utils.findElementOrContainer(document, oa, "merchant-codes");
+    Element mc = Utils.findElementOrContainer(document, orderAdjustment, 
+      "merchant-codes");
 
     Element[] elements = Utils.getElements(document, mc);
     Collection ret = new ArrayList();
@@ -99,9 +94,8 @@ public class OrderAdjustment {
    * @see Shipping
    */
   public Shipping getShipping() {    
-    Element oa = Utils.findElementOrContainer(document, element, 
-      "order-adjustment");
-    Element shipping = Utils.findElementOrContainer(document, oa, "shipping");
+    Element shipping = Utils.findElementOrContainer(document, orderAdjustment, 
+      "shipping");
 
     Element e = Utils.findElementOrContainer(document, shipping, 
       "merchant-calculated-shipping-adjustment");

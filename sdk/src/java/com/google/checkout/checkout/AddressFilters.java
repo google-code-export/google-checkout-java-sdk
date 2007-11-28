@@ -31,7 +31,6 @@ import com.google.checkout.util.Utils;
 public class AddressFilters {
 
   private final Document document;
-
   private final Element root;
 
   /**

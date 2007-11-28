@@ -31,42 +31,40 @@ package com.google.checkout.checkout;
  */
 public class UrlParameter {
 
-	private String name;
+  private String name;
 
-	private UrlParameterType type;
+  private UrlParameterType type;
 
-	/**
-	 * Constructor which takes the parameter name and type.
-	 * 
-	 * @param name
-	 *            The parameter name.
-	 * @param type
-	 *            The parameter type.
-	 * 
-	 * @see UrlParameterType
-	 */
-	public UrlParameter(String name, UrlParameterType type) {
-		this.name = name;
-		this.type = type;
-	}
+  /**
+   * Constructor which takes the parameter name and type.
+   * 
+   * @param name The parameter name.
+   * @param type The parameter type.
+   * 
+   * @see UrlParameterType
+   */
+  public UrlParameter(String name, UrlParameterType type) {
+    this.name = name;
+    this.type = type;
+  }
 
-	/**
-	 * Get the URL parameter name.
-	 * 
-	 * @return The URL parameter name.
-	 */
-	public String getName() {
-		return name;
-	}
+  /**
+   * Get the URL parameter name.
+   * 
+   * @return The URL parameter name.
+   */
+  public String getName() {
+    return name;
+  }
 
-	/**
-	 * Get the URL parameter type.
-	 * 
-	 * @return The URL parameter type.
-	 * 
-	 * @see UrlParameterType
-	 */
-	public UrlParameterType getParamType() {
-		return type;
-	}
+  /**
+   * Get the URL parameter type.
+   * 
+   * @return The URL parameter type.
+   * 
+   * @see UrlParameterType
+   */
+  public UrlParameterType getParamType() {
+    return type;
+  }
 }

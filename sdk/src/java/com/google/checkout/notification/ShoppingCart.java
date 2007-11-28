@@ -33,11 +33,11 @@ import org.w3c.dom.Element;
  */
 public class ShoppingCart {
   private final Document document;
-  private final Element element;
+  private final Element shoppingCart;
 
-  public ShoppingCart(Document document, Element element) {
+  public ShoppingCart(Document document, Element shoppingCart) {
     this.document = document;
-    this.element = element;
+    this.shoppingCart = shoppingCart;
   }
   
   /**
@@ -51,7 +51,7 @@ public class ShoppingCart {
    */
   public Date getCartExpiration() throws CheckoutException { 
     Element cartExpiration = 
-      Utils.findContainerElseCreate(document, element, "cart-expiration");
+      Utils.findContainerElseCreate(document, shoppingCart, "cart-expiration");
 
     return Utils.getElementDateValue(document, cartExpiration, "good-until-date");
   }
@@ -65,7 +65,7 @@ public class ShoppingCart {
    */
   public Collection getItems() {
     Element items =
-        Utils.findElementOrContainer(document, element, "items");
+        Utils.findElementOrContainer(document, shoppingCart, "items");
     Element[] elements = Utils.getElements(document, items);
     Collection ret = new ArrayList();
 
@@ -84,11 +84,15 @@ public class ShoppingCart {
    * @see Element
    */
   public Element[] getMerchantPrivateDataNodes() {    
-    Element mpd = Utils.findElementOrContainer(document, element,
+    Element mpd = Utils.findElementOrContainer(document, shoppingCart,
       "merchant-private-data");
     if (mpd == null) {
       return null;
     }
     return Utils.getElements(document, mpd);
+  }
+  
+  public void setMerchantPrivateDataNodes(Element[] elements) {
+    
   }
 }

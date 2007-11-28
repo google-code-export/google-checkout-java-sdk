@@ -23,30 +23,30 @@ package com.google.checkout.checkout;
  */
 public class USArea {
 
-	/**
-	 * An instance of the USArea class with the country-area attribute as:
-	 * CONTINENTAL_48.
-	 */
-	public static final USArea CONTINENTAL_48 = new USArea("CONTINENTAL_48");
+  /**
+   * An instance of the USArea class with the country-area attribute as: ALL.
+   */
+  public static final USArea ALL = new USArea("ALL");
+  
+  /**
+   * An instance of the USArea class with the country-area attribute as:
+   * CONTINENTAL_48.
+   */
+  public static final USArea CONTINENTAL_48 = new USArea("CONTINENTAL_48");
 
-	/**
-	 * An instance of the USArea class with the country-area attribute as:
-	 * FULL_50_STATES.
-	 */
-	public static final USArea FULL_50_STATES = new USArea("FULL_50_STATES");
+  /**
+   * An instance of the USArea class with the country-area attribute as:
+   * FULL_50_STATES.
+   */
+  public static final USArea FULL_50_STATES = new USArea("FULL_50_STATES");
 
-	/**
-	 * An instance of the USArea class with the country-area attribute as: ALL.
-	 */
-	public static final USArea ALL = new USArea("ALL");
+  private String value;
 
-	private String value;
+  private USArea(String value) {
+          this.value = value;
+  }
 
-	private USArea(String value) {
-		this.value = value;
-	}
-
-	public String toString() {
-		return value;
-	}
+  public String toString() {
+          return value;
+  }
 }

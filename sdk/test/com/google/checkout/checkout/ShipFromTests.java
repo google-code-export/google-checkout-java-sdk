@@ -14,12 +14,28 @@
  * the License.
  ******************************************************************************/
 
-package com.google.checkout.notification;
+package com.google.checkout.checkout;
+
+import com.google.checkout.util.Utils;
+import junit.framework.TestCase;
 
 /**
  *
  * @author Charles Dang (cdang@google.com)
  */
-public class MerchantPrivateData {
-
+public class ShipFromTests extends TestCase {
+  public void testShipFromNodeNames() {
+    ShipFrom shipFrom = new ShipFrom();
+    shipFrom.setCity("Mountain View");
+    shipFrom.setCountryCode("USA");
+    shipFrom.setId("123456");
+    shipFrom.setPostalCode("94043");
+    shipFrom.setRegion("SW*");
+    
+    assertEquals(
+      "<?xml version=\"1.0\" encoding=\"UTF-8\"?><ship-from id=\"123456\">" + 
+      "<city>Mountain View</city><country-code>USA</country-code>" + 
+      "<postal-code>94043</postal-code><region>SW*</region></ship-from>", 
+      Utils.nodeToString(shipFrom.getRootElement()));
+  }
 }

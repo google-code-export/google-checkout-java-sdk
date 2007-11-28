@@ -41,7 +41,6 @@ import com.google.checkout.util.Utils;
 public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
 
   private final Element shoppingCart;
-
   private final Element checkoutFlowSupport;
 
   /**
