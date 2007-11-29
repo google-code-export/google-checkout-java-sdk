@@ -213,8 +213,8 @@ public class MerchantCalculationCallback extends CheckoutCallback {
   }
 
   /**
-   * Returns a Collection of Strings representing the &lt;anonymous-address&gt;
-   * tags in the request.
+   * Returns a Collection of AnonymousAddress objects representing the 
+   * &lt;anonymous-address&gt tags in the request.
    * 
    * @return A Collection of AnonymousAddress objects.
    * 

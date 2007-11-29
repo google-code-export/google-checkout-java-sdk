@@ -16,8 +16,8 @@
 
 package com.google.checkout.notification;
 
-import com.google.checkout.handlers.TestUtils;
 
+import com.google.checkout.util.TestUtils;
 import java.util.ArrayList;
 import junit.framework.TestCase;
 import org.w3c.dom.Document;

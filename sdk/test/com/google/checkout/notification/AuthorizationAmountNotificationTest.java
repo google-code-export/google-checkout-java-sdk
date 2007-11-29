@@ -17,7 +17,7 @@
 package com.google.checkout.notification;
 
 import com.google.checkout.CheckoutException;
-import com.google.checkout.handlers.TestUtils;
+import com.google.checkout.util.TestUtils;
 import com.google.checkout.util.Utils;
 import java.util.Date;
 import junit.framework.TestCase;
@@ -28,15 +28,16 @@ import org.w3c.dom.Document;
  * @author Charles Dang (cdang@google.com)
  */
 public class AuthorizationAmountNotificationTest extends TestCase {
-  private String authorizationNotificationString;
+  private String authorizationNotificationMessage;
   private AuthorizationAmountNotification authorizationNotification;
   
   public void setUp() {
-    authorizationNotificationString = TestUtils.
+    authorizationNotificationMessage = TestUtils.
       readMessage("/resources/authorization-amount-notification-sample.xml"); 
    
     try {
-      Document doc = Utils.newDocumentFromString(authorizationNotificationString);
+      Document doc = Utils
+        .newDocumentFromString(authorizationNotificationMessage);
       authorizationNotification = new AuthorizationAmountNotification(doc);
     } catch (CheckoutException ex) {
       fail();

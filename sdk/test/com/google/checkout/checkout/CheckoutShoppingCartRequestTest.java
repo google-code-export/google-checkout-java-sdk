@@ -17,7 +17,7 @@
 package com.google.checkout.checkout;
 
 import com.google.checkout.MerchantInfo;
-import com.google.checkout.handlers.TestUtils;
+import com.google.checkout.util.TestUtils;
 import java.io.UnsupportedEncodingException;
 import junit.framework.TestCase;
 

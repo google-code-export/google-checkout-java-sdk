@@ -13,28 +13,26 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
-package com.google.checkout.handlers;
 
-import com.google.checkout.util.TestUtils;
-import com.google.checkout.CheckoutException;
-import com.google.checkout.MerchantInfo;
+package com.google.checkout.merchantcalculation;
 
 import junit.framework.TestCase;
 
 /**
- * small test for ChargeAmountNotificationHandler
- * @author inder
+ *
+ * @author Charles Dang (cdang@google.com)
  */
-public class ChargeAmountNotificationHandlerTest extends TestCase {
-
-  public void testProcess() throws CheckoutException {
-    MessageHandler handler = new ChargeAmountNotificationHandler();
-    MerchantInfo mi = TestUtils.createMockMerchantInfo();
-    String notificationMsg = TestUtils.readMessage(
-        "/resources/charge-amount-notification-sample.xml");
-    String response = handler.process(mi, notificationMsg);
-    //System.out.println(response);
-    assertTrue(response.contains("notification-acknowledgment"));
+public class GiftCertificateResultTest extends TestCase {
+  public void testDefaultConstructor() {
+    GiftCertificateResult result = 
+      new GiftCertificateResult(true, 100.50f, "USD", "GiftCert012345", 
+      "Congratulations! You saved $5.00 on your first visit!");
+    
+    assertEquals("gift-certificate-result", result.getType());
+    assertTrue(result.isValid());
+    assertEquals(100.50f, result.getCalculatedAmount(), 0); // delta = 0
+    assertEquals("USD", result.getCurrency());
+    assertEquals("GiftCert012345", result.getCode());
+    assertEquals("Congratulations! You saved $5.00 on your first visit!", result);
   }
-
 }

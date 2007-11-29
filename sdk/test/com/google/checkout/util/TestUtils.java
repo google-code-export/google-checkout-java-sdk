@@ -1,4 +1,4 @@
-package com.google.checkout.handlers;
+package com.google.checkout.util;
 
 import com.google.checkout.EnvironmentType;
 import com.google.checkout.MerchantInfo;
