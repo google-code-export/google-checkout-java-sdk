@@ -25,18 +25,15 @@ package com.google.checkout.merchantcalculation;
  */
 public abstract class MerchantCodeResult {
 
-  private String type;
-
   private boolean valid;
-
+  
   private float calculatedAmount;
-
+  
+  private String type;
   private String currency;
-
   private String code;
-
   private String message;
-
+  
   /**
    * Retrieves the value of the &lt;calculated-amount&gt; tag.
    * 

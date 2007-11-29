@@ -19,7 +19,7 @@ package com.google.checkout.checkout;
 import com.google.checkout.CheckoutException;
 import com.google.checkout.CheckoutResponse;
 import com.google.checkout.MerchantInfo;
-import com.google.checkout.handlers.TestUtils;
+import com.google.checkout.util.TestUtils;
 import com.google.checkout.notification.CarrierCalculatedShippingAdjustment;
 import com.google.checkout.notification.NewOrderNotification;
 

@@ -5,6 +5,7 @@
 
 package com.google.checkout.handlers;
 
+import com.google.checkout.util.TestUtils;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.notification.NotificationTypes;
 import com.google.checkout.CheckoutException;

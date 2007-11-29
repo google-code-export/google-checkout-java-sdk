@@ -1,8 +1,8 @@
 package com.google.checkout.orderprocessing.lineitem;
 
 import com.google.checkout.MerchantInfo;
-import com.google.checkout.handlers.TestUtils;
 
+import com.google.checkout.util.TestUtils;
 import junit.framework.TestCase;
 
 public class BackorderItemsRequestTest extends TestCase {

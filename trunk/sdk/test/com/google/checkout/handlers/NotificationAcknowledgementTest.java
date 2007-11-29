@@ -13,28 +13,30 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  ******************************************************************************/
+
 package com.google.checkout.handlers;
 
-import com.google.checkout.util.TestUtils;
-import com.google.checkout.CheckoutException;
-import com.google.checkout.MerchantInfo;
-
+import com.google.checkout.util.Constants;
+import com.google.checkout.util.Utils;
 import junit.framework.TestCase;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
- * small test for ChargeAmountNotificationHandler
- * @author inder
+ *
+ * @author Charles Dang (cdang@google.com)
  */
-public class ChargeAmountNotificationHandlerTest extends TestCase {
-
-  public void testProcess() throws CheckoutException {
-    MessageHandler handler = new ChargeAmountNotificationHandler();
-    MerchantInfo mi = TestUtils.createMockMerchantInfo();
-    String notificationMsg = TestUtils.readMessage(
-        "/resources/charge-amount-notification-sample.xml");
-    String response = handler.process(mi, notificationMsg);
-    //System.out.println(response);
-    assertTrue(response.contains("notification-acknowledgment"));
+public class NotificationAcknowledgementTest extends TestCase {
+  public void testGetAckString() {
+    
+    Document document = Utils.newEmptyDocument();
+    Element root = document.createElementNS(Constants.checkoutNamespace,
+        "notification-acknowledgment");
+    root.setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns",
+        Constants.checkoutNamespace);
+    document.appendChild(root);
+    
+    assertEquals(Utils.documentToStringPretty(document), 
+      NotificationAcknowledgment.getAckString());
   }
-
 }
