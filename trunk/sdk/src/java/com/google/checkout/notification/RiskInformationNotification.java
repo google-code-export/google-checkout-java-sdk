@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
  */
 public class RiskInformationNotification extends CheckoutNotification {
 
-  private Element riskInfo;
+  private final Element riskInfo;
 
   /**
    * A constructor which takes the request as a String.
@@ -66,13 +66,13 @@ public class RiskInformationNotification extends CheckoutNotification {
       "risk-information");
   }
   
-  public RiskInfo getRiskInfo() {
+  public RiskInformation getRiskInfo() {
     Document document = getDocument();
     Element root = getRoot();
     
     Element riskInformation =
         Utils.findElementOrContainer(document, root, "risk-information");
-    return new RiskInfo(document, riskInformation);
+    return new RiskInformation(document, riskInformation);
    
   }
 

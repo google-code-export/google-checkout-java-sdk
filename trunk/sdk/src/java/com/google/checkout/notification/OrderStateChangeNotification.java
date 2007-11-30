@@ -66,7 +66,7 @@ public class OrderStateChangeNotification extends CheckoutNotification {
   /**
    * Retrieves the value of the &lt;new-fulfillment-order-state&gt; element.
    * 
-   * @return The new fulfillment order state.
+   * @return The new fulfillment order state or null if no state could be found.
    * 
    * @see FulfillmentOrderState
    */
@@ -79,7 +79,7 @@ public class OrderStateChangeNotification extends CheckoutNotification {
   /**
    * Retrieves the value of the &lt;new-financial-order-state&gt; element.
    * 
-   * @return The new financial order state.
+   * @return The new financial order state or null if no state could be found.
    * 
    * @see FinancialOrderState
    */
@@ -93,7 +93,7 @@ public class OrderStateChangeNotification extends CheckoutNotification {
    * Retrieves the value of the &lt;previous-fulfillment-order-state&gt;
    * element.
    * 
-   * @return The previous fulfillment order state.
+   * @return The previous fulfillment order state or null if no state could be found.
    * 
    * @see FulfillmentOrderState
    */
@@ -106,7 +106,7 @@ public class OrderStateChangeNotification extends CheckoutNotification {
   /**
    * Retrieves the value of the &lt;previous-financial-order-state&gt; element.
    * 
-   * @return The previous financial order state.
+   * @return The previous financial order state or null if no state could be found.
    * 
    * @see FinancialOrderState
    */

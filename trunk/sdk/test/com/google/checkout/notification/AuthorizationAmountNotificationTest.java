@@ -19,8 +19,9 @@ package com.google.checkout.notification;
 import com.google.checkout.CheckoutException;
 import com.google.checkout.util.TestUtils;
 import com.google.checkout.util.Utils;
-import java.util.Date;
+
 import junit.framework.TestCase;
+
 import org.w3c.dom.Document;
 
 /**
@@ -45,39 +46,32 @@ public class AuthorizationAmountNotificationTest extends TestCase {
   }
           
   public void testGetAvsResponse() {
-    String avsResponse = authorizationNotification.getAvsResponse();
-    assertEquals(avsResponse, "Y");
+    assertEquals("Y", authorizationNotification.getAvsResponse());
   }
   
   public void testGetCvnResponse() {
-    String cvnResponse = authorizationNotification.getCvnResponse();
-    assertEquals(cvnResponse, "Y");
+    assertEquals("Y", authorizationNotification.getCvnResponse());
   }
   
   public void testGetAuthorizationAmount() {
-    float authorizationAmount = 
-      authorizationNotification.getAuthorizationAmount();
-    assertEquals(authorizationAmount, 226.06f, 0);  // specify a 0 delta error
+    // specify a 0 delta error
+    assertEquals(226.06f, authorizationNotification.getAuthorizationAmount(), 0);  
   }
   
   public void testGetCurrencyCode() {
-    String currencyCode = 
-      authorizationNotification.getCurrencyCode();
-    assertEquals(currencyCode, "USD");
+    assertEquals("USD", authorizationNotification.getCurrencyCode());
   }
   
   public void testGetAuthorizationExpirationDateValid() {
     try {
-      Date expirationDate = 
-        authorizationNotification.getAuthorizationExpirationDate();
-      assertEquals(expirationDate.toString(), "Sat Mar 18 20:25:31 PST 2006");
+      assertEquals(authorizationNotification.getAuthorizationExpirationDate()
+          .toString(), "Sat Mar 18 20:25:31 PST 2006");
     } catch (CheckoutException ex) {
       fail();
     }
   }
   
-  public void testGetAuthorizationExpirationDateInvalid() 
-    throws CheckoutException {
+  public void testGetAuthorizationExpirationDateInvalid() {
     String aanMessage = TestUtils
       .readMessage("/resources/authorization-amount-notification-invalid-" + 
       "expdate-sample.xml");

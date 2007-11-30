@@ -55,12 +55,17 @@
     <load-on-startup>0</load-on-startup>
   </servlet>
 
+<<<<<<< .mine
+  <!--
+=======
   
 
+>>>>>>> .r233
   <servlet>
     <servlet-name>CheckoutNotificationHandlerServlet</servlet-name>
     <servlet-class>com.google.checkout.web.CheckoutHandlerServlet</servlet-class>
   </servlet>
+  -->
   
   <servlet-mapping>
     <servlet-name>CheckoutNotificationServlet</servlet-name>
@@ -72,12 +77,17 @@
     <url-pattern>/callback</url-pattern>
   </servlet-mapping>
   
+<<<<<<< .mine
+  <!--
+=======
   
   
+>>>>>>> .r233
   <servlet-mapping>
     <servlet-name>CheckoutNotificationHandlerServlet</servlet-name>
     <url-pattern>/CheckoutNotificationHandlerServlet</url-pattern>
   </servlet-mapping>
+  -->
 
   <!-- location of configuration file for checkout with respect to context 
     root. Using the default path here. -->

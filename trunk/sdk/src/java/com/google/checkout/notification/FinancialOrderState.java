@@ -16,7 +16,7 @@
 
 package com.google.checkout.notification;
 
-import com.google.checkout.CheckoutSystemException;
+import com.google.checkout.CheckoutException;
 
 /**
  * This class represents the financial status of an order. The valid states are:
@@ -34,13 +34,19 @@ import com.google.checkout.CheckoutSystemException;
  * 
  */
 public class FinancialOrderState {
-
   /**
-   * An instance of the FinancialOrderState class representing REVIEWING.
+   * An instance of the FinancialOrderState class representing CANCELLED.
    */
-  public static final FinancialOrderState REVIEWING = 
-    new FinancialOrderState("REVIEWING");
-
+  public static final FinancialOrderState CANCELLED = 
+    new FinancialOrderState("CANCELLED");
+  
+  /**
+   * An instance of the FinancialOrderState class representing
+   * CANCELLED_BY_GOOGLE.
+   */
+  public static final FinancialOrderState CANCELLED_BY_GOOGLE = 
+    new FinancialOrderState("CANCELLED_BY_GOOGLE");
+  
   /**
    * An instance of the FinancialOrderState class representing CHARGEABLE.
    */
@@ -48,38 +54,31 @@ public class FinancialOrderState {
     new FinancialOrderState("CHARGEABLE");
 
   /**
-   * An instance of the FinancialOrderState class representing CHARGING.
-   */
-  public static final FinancialOrderState CHARGING = 
-    new FinancialOrderState("CHARGING");
-
-  /**
    * An instance of the FinancialOrderState class representing CHARGED.
    */
   public static final FinancialOrderState CHARGED = 
     new FinancialOrderState("CHARGED");
-
+  /**
+   * An instance of the FinancialOrderState class representing CHARGING.
+   */
+  public static final FinancialOrderState CHARGING = 
+    new FinancialOrderState("CHARGING");
+  
   /**
    * An instance of the FinancialOrderState class representing
    * PAYMENT_DECLINED.
    */
   public static final FinancialOrderState PAYMENT_DECLINED = 
     new FinancialOrderState("PAYMENT_DECLINED");
-
+  
   /**
-   * An instance of the FinancialOrderState class representing
-   * CANCELLED_BY_GOOGLE.
+   * An instance of the FinancialOrderState class representing REVIEWING.
    */
-  public static final FinancialOrderState CANCELLED_BY_GOOGLE = 
-    new FinancialOrderState("CANCELLED_BY_GOOGLE");
+  public static final FinancialOrderState REVIEWING = 
+    new FinancialOrderState("REVIEWING");
 
-  /**
-   * An instance of the FinancialOrderState class representing CANCELLED.
-   */
-  public static final FinancialOrderState CANCELLED = 
-    new FinancialOrderState("CANCELLED");
 
-  private String value;
+  private final String value;
 
   private FinancialOrderState(String value) {
     this.value = value;
@@ -98,9 +97,9 @@ public class FinancialOrderState {
    * Get an instance of the FinancialOrderState based on the string value
    * passed in.
    * 
-   * @param state
-   *            The string value of the state.
-   * @return The FinancialOrderState instance.
+   * @param state The string value of the state.
+   * @return The FinancialOrderState instance or null if no matching state could
+   * be found. 
    */
   public static FinancialOrderState getState(String state) {
     if ("REVIEWING".equals(state)) {
@@ -118,7 +117,7 @@ public class FinancialOrderState {
     } else if ("CANCELLED".equals(state)) {
       return CANCELLED;
     } else {
-      throw new CheckoutSystemException("Invalid Financial State: " + state);
+      return null;
     }
   }
 }

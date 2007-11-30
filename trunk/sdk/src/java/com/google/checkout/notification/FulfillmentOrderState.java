@@ -16,8 +16,6 @@
 
 package com.google.checkout.notification;
 
-import com.google.checkout.CheckoutSystemException;
-
 /**
  * This class represents the fulfillment status of an order. The valid states
  * are:
@@ -31,6 +29,11 @@ import com.google.checkout.CheckoutSystemException;
  * 
  */
 public class FulfillmentOrderState {
+  /**
+   * An instance of the FulfillmentOrderState class representing DELIVERED.
+   */
+  public static final FulfillmentOrderState DELIVERED =
+      new FulfillmentOrderState("DELIVERED");
 
   /**
    * An instance of the FulfillmentOrderState class representing NEW.
@@ -43,12 +46,6 @@ public class FulfillmentOrderState {
    */
   public static final FulfillmentOrderState PROCESSING =
       new FulfillmentOrderState("PROCESSING");
-
-  /**
-   * An instance of the FulfillmentOrderState class representing DELIVERED.
-   */
-  public static final FulfillmentOrderState DELIVERED =
-      new FulfillmentOrderState("DELIVERED");
 
   /**
    * An instance of the FulfillmentOrderState class representing
@@ -77,7 +74,8 @@ public class FulfillmentOrderState {
    * passed in.
    * 
    * @param state The string value of the state.
-   * @return The FulfillmentOrderState instance.
+   * @return The FulfillmentOrderState instance or null if no matching state
+   * could be found.
    */
   public static FulfillmentOrderState getState(String state) {
     if ("NEW".equals(state)) {
@@ -89,7 +87,7 @@ public class FulfillmentOrderState {
     } else if ("WILL_NOT_DELIVER".equals(state)) {
       return WILL_NOT_DELIVER;
     } else {
-      throw new CheckoutSystemException("Invalid Fulfillment State: " + state);
+      return null;
     }
   }
 }

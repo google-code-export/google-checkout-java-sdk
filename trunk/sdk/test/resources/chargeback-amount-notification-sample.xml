@@ -3,6 +3,7 @@
     serial-number="bea6bc1b-e1e2-44fe-80ff-0180e33a2614">
     <google-order-number>841171949013218</google-order-number>
     <latest-chargeback-amount currency="USD">226.06</latest-chargeback-amount>
+    <latest-promotion-chargeback-amount currency="USD">10.00</latest-promotion-chargeback-amount>
     <total-chargeback-amount currency="USD">226.06</total-chargeback-amount>
     <timestamp>2006-03-18T20:25:31</timestamp>
 </chargeback-amount-notification>

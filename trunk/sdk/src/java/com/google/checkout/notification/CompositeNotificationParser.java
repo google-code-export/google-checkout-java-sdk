@@ -27,7 +27,7 @@ import org.w3c.dom.Document;
  * @author Charles Dang (cdang@google.com)
  */
 public class CompositeNotificationParser implements NotificationParser {
-  private HashMap notificationParsers;
+  private final HashMap notificationParsers;
   
   /**
    * Default constructor
@@ -71,7 +71,7 @@ public class CompositeNotificationParser implements NotificationParser {
    * 
    * @param xmlDocument
    * @return CheckoutNotification of the type specified in xmlDocument
-   * @throws com.google.checkout.notification.UnknownNotificationException
+   * @throws com.google.checkout.notification.CheckoutParserException
    */
   public CheckoutNotification parse(Document xmlDocument) 
     throws CheckoutParserException {

@@ -24,11 +24,12 @@ import org.w3c.dom.Element;
  *
  * @author Charles Dang (cdang@google.com)
  */
-public class RiskInfo {
+public class RiskInformation {
   private final Document document;
+  
   private final Element element;
 
-  public RiskInfo(Document document, Element element) {
+  public RiskInformation(Document document, Element element) {
     this.document = document;
     this.element = element;
   }

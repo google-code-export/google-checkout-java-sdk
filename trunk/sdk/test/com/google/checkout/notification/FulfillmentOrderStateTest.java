@@ -14,23 +14,20 @@
  * the License.
  ******************************************************************************/
 
-package com.google.checkout.checkout;
+package com.google.checkout.notification;
 
 import junit.framework.TestCase;
 
-/**
- *
- * @author Charles Dang (cdang@google.com)
- */
-public class RoundingModeTests extends TestCase {
-  public void testRoundingModeConstants() {
-    assertEquals("CEILING", RoundingMode.CEILING.toString());
-    assertEquals("DOWN", RoundingMode.DOWN.toString());
-    assertEquals("FLOOR", RoundingMode.FLOOR.toString());
-    assertEquals("HALF_DOWN", RoundingMode.HALF_DOWN.toString());
-    assertEquals("HALF_EVEN", RoundingMode.HALF_EVEN.toString());
-    assertEquals("HALF_UP", RoundingMode.HALF_UP.toString());
-    assertEquals("UNECESSARY", RoundingMode.UNNECESSARY.toString());
-    assertEquals("UP", RoundingMode.UP.toString());
+public class FulfillmentOrderStateTest extends TestCase {
+  public void testGetState() {
+    assertEquals("DELIVERED", FulfillmentOrderState.getState("DELIVERED").toString());
+    assertEquals("NEW", FulfillmentOrderState.getState("NEW").toString());
+    assertEquals("PROCESSING", FulfillmentOrderState.getState("PROCESSING").toString());
+    assertEquals("WILL_NOT_DELIVER", 
+      FulfillmentOrderState.getState("WILL_NOT_DELIVER").toString());
+  }
+  
+  public void testGetStateNullValue() {
+    assertNull(FulfillmentOrderState.getState(null));
   }
 }

@@ -25,12 +25,12 @@ import org.w3c.dom.Element;
  * @author Charles Dang (cdang@google.com)
  */
 public class BuyerMarketingPreferences {
-  private Document document;
-  private Element element;
+  private final Document document;
+  private final Element buyerMarketingPreferences;
 
-  public BuyerMarketingPreferences(Document document, Element element) {
+  public BuyerMarketingPreferences(Document document, Element buyerMarketingPreferences) {
     this.document = document;
-    this.element = element;
+    this.buyerMarketingPreferences = buyerMarketingPreferences;
   }
 
   /**
@@ -39,9 +39,6 @@ public class BuyerMarketingPreferences {
    * @return The marketing preferences flag.
    */
   public boolean isMarketingEmailAllowed() {
-    Element buyerMarketingPreferences =
-        Utils.findElementOrContainer(document, element,
-            "buyer-marketing-preferences");
     return Utils.getElementBooleanValue(document, buyerMarketingPreferences,
         "email-allowed");
   }
