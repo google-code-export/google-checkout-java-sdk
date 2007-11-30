@@ -416,7 +416,8 @@ public class Utils {
       throw new CheckoutException("Got the following error when attempting to " + 
         "create new document from input stream." + ex.getMessage());
     } catch (IOException ex) {
-      throw new CheckoutSystemException(ex.getMessage());
+      throw new CheckoutSystemException("Error creating new document from the " +
+        "specified input stream. Error message: " + ex.getMessage());
     }
     
     return ret;

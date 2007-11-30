@@ -47,7 +47,7 @@ public class RefundAmountNotification extends CheckoutNotification {
    * 
    * @param inputStream
    * @throws com.google.checkout.CheckoutException if there was an 
-   * error readng the request from the InputStream
+   * error reading the request from the InputStream
    */
   public RefundAmountNotification(InputStream inputStream) throws CheckoutException {
     this(Utils.newDocumentFromInputStream(inputStream));
@@ -63,7 +63,7 @@ public class RefundAmountNotification extends CheckoutNotification {
   }
   
   /**
-   * Retrieves te value of the &lt;latest-promotion-chargeback-amount&gt; tag if 
+   * Retrieves the value of the &lt;latest-promotion-chargeback-amount&gt; tag if 
    * it exists; otherwise null.
    * 
    * @return The latest promotion refund amount

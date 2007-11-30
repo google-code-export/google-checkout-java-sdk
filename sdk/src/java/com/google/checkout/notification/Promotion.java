@@ -14,18 +14,37 @@
  * the License.
  ******************************************************************************/
 
-package com.google.checkout.checkout;
 
-import junit.framework.TestCase;
+package com.google.checkout.notification;
+
+import com.google.checkout.util.Utils;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
- *
- * @author Charles Dang (cdang@google.com)
+ * 
+ * @author (Charles Dang) cdang@google.com
  */
-public class USAreaTest extends TestCase {
-  public void testUSAreaNodeNames() {
-    assertEquals("ALL", USArea.ALL.toString());
-    assertEquals("CONTINENTAL_48", USArea.CONTINENTAL_48.toString());
-    assertEquals("FULL_50_STATES", USArea.FULL_50_STATES.toString());
+public class Promotion {
+  private final Document document;
+  
+  private final Element promotion;
+  
+  public Promotion(Document document, Element promotion) {
+    this.document = document;
+    this.promotion = promotion;
+  }
+  
+  public String getDescription() {
+    return Utils.getElementStringValue(document, promotion, "description");
+  }
+  
+  public String getName() {
+    return Utils.getElementStringValue(document, promotion, "name");    
+  }
+  
+  public float getTotalAmount() {
+    return Utils.getElementFloatValue(document, promotion, "total-amount");   
   }
 }

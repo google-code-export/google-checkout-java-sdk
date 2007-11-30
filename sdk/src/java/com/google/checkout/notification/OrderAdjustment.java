@@ -27,8 +27,8 @@ import org.w3c.dom.Element;
  * @author Charles Dang (cdang@google.com)
  */
 public class OrderAdjustment {
-  private Document document;
-  private Element orderAdjustment;
+  private final Document document;
+  private final Element orderAdjustment;
 
   public OrderAdjustment(Document document, Element orderAdjustment) {
     this.document = document;
@@ -122,5 +122,9 @@ public class OrderAdjustment {
     }
 
     return null;
+  }
+  
+  public float getTotalTax() {    
+    return Utils.getElementFloatValue(document, orderAdjustment, "total-tax");
   }
 }

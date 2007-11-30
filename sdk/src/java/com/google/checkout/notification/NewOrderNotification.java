@@ -274,6 +274,7 @@ public class NewOrderNotification extends CheckoutNotification {
   /**
    * Retrieves the value of the &lt;total-tax&gt; element.
    * 
+   * @deprecated Use getOrderAdjustment().getTotalTax();
    * @return The total tax.
    */
   public float getTotalTax() {
@@ -369,11 +370,12 @@ public class NewOrderNotification extends CheckoutNotification {
   }
   
   /**
-   * Retrieves the promotions.
+   * Retrieves the promotions or null if no promotions are found
    * 
-   * @return The promotions associated with this NewOrderNotification
+   * @return The promotions associated with this NewOrderNotification or null
+   * if no promotions are found
    */
-  public Element[] getPromotions() {
+  public Collection getPromotions() {
     Document document = getDocument();
     Element root = getRoot();
     
@@ -382,13 +384,22 @@ public class NewOrderNotification extends CheckoutNotification {
     if (promotions == null) {
       return null;
     }
-    return Utils.getElements(document, promotions); 
+    
+    Element[] elements = Utils.getElements(document, promotions);
+    Collection ret = new ArrayList();
+    
+    for (int i=0; i < elements.length; i++) {
+      Element e = elements[i];
+      ret.add(new Promotion(document, e));
+    }
+    
+    return ret; 
   }
 
   /**
    * Retrieves the value of the &lt;fulfillment-order-state&gt; element.
    * 
-   * @return The fulfillment order state.
+   * @return The fulfillment order state or null if no state could be found.
    * 
    * @see FulfillmentOrderState
    */
@@ -396,12 +407,13 @@ public class NewOrderNotification extends CheckoutNotification {
     String state =
         Utils.getElementStringValue(getDocument(), getRoot(), "fulfillment-order-state");
     return FulfillmentOrderState.getState(state);
+    
   }
 
   /**
    * Retrieves the value of the &lt;financial-order-state&gt; element.
    * 
-   * @return The financial order state.
+   * @return The financial order state or null if no state could be found.
    * 
    * @see FinancialOrderState
    */
