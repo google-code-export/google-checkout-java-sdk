@@ -16,8 +16,13 @@
 
 package com.google.checkout.checkout;
 
+import com.google.checkout.CheckoutException;
+import com.google.checkout.MerchantInfo;
+import com.google.checkout.util.TestUtils;
 import com.google.checkout.util.Utils;
+
 import junit.framework.TestCase;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -27,7 +32,8 @@ import org.w3c.dom.Element;
  */
 public class ItemTest extends TestCase {
 
-  public void testSetMerchantPrivateDataNodesWithEmptyDocument() {
+  public void testSetMerchantPrivateDataNodesWithEmptyDocument() 
+    throws CheckoutException {
     Item tempItem = new Item();
     Document doc = Utils.newEmptyDocument();
     Element [] itemData = new Element[1];
@@ -39,6 +45,41 @@ public class ItemTest extends TestCase {
     Element [] ret = tempItem.getMerchantPrivateItemData();
     assertNotNull(ret);
     assertEquals(1, ret.length);
+  }
+  
+  public void testSetMerchantPrivateDataNodesMultipleTimesWithEmptyDocument() 
+    throws CheckoutException {
+    MerchantInfo mi = TestUtils.createMockMerchantInfo();
+    
+    CheckoutShoppingCartRequest request = new CheckoutShoppingCartRequest(mi);
+    
+    Item tempItem = new Item();
+    Document doc = Utils.newEmptyDocument();
+    Element [] itemData = new Element[1];
+    itemData[0] = doc.createElement("item-data");
+ 
+    itemData[0].setTextContent("Popular item - order more if needed");
+    tempItem.setMerchantPrivateItemData(itemData);
+    
+    Element [] itemData2 = new Element[1];
+    itemData2[0] = doc.createElement("item-data");
+    
+    itemData2[0].setTextContent("NEW Popular item - order more if needed");
+    tempItem.setMerchantPrivateItemData(itemData2);
+
+    Element [] ret = tempItem.getMerchantPrivateItemData();
+    assertNotNull(ret);
+    assertEquals(1, ret.length);
+    
+    request.addItem(tempItem);
+    assertEquals(
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+        "<checkout-shopping-cart xmlns=\"http://checkout.google.com/schema/2\">" +
+        "<shopping-cart><items><item><merchant-private-item-data><item-data>" +
+        "NEW Popular item - order more if needed</item-data>" +
+        "</merchant-private-item-data></item></items></shopping-cart>" +
+        "<checkout-flow-support><merchant-checkout-flow-support/>" +
+        "</checkout-flow-support></checkout-shopping-cart>", request.getXml());
   }
   
   public void testItemNodeNames() {
