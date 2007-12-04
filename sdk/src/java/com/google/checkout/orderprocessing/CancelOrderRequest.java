@@ -16,44 +16,61 @@
 
 package com.google.checkout.orderprocessing;
 
+import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
-import com.google.checkout.util.Constants;
 import com.google.checkout.util.Utils;
 
 /**
  * This class contains methods that construct &lt;cancel-order&gt; API requests.
+ * 
+ * @author Charles Dang (cdang@google.com)
  */
 public class CancelOrderRequest extends AbstractOrderProcessingRequest {
+  public static final int CANCEL_STRING_LIMIT = 140;
   
-  public CancelOrderRequest(MerchantInfo mi) {
-    super(mi, "cancel-order");
+  public static final String CANCEL_ERROR_STRING = "The cancel string limits " +
+    "have been exceeded. The reason and comment cannot exceed " + 
+    CANCEL_STRING_LIMIT + "characters.";
+  
+  /**
+   * Constructor which takes an instance of MerchantInfo
+   * 
+   * @param merchantInfo The merchant's information.
+   */
+  public CancelOrderRequest(MerchantInfo merchantInfo) 
+    throws CheckoutException {
+    super(merchantInfo, "cancel-order");
   }
 
   /**
-   * Constructor which takes an instance of mi, Google Order Number and Reason
-   * String.
+   * Constructor which takes an instance of MerchantInfo, Google order number 
+   * and the reason for the cancellation.
    * 
-   * @param googleOrderNo The Google Order Number.
-   * @param reason The Reason String.
+   * @param googleOrderNumber The Google order number.
+   * @param reason The reason for the cancellation.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
    */
-  public CancelOrderRequest(MerchantInfo mi, String googleOrderNo, 
-      String reason) {
-    this(mi);
-    setGoogleOrderNumber(googleOrderNo);
+  public CancelOrderRequest(MerchantInfo merchantInfo, String googleOrderNumber, 
+      String reason) throws CheckoutException {
+    this(merchantInfo);
+    setGoogleOrderNumber(googleOrderNumber);
     setReason(reason);
   }
 
   /**
-   * Constructor which takes an instance of mi, Google Order Number, Reason
-   * String and Comment String.
+   * Constructor which takes an instance of merchantInfo, Google order number, 
+   * reason for cancellation and comment.
    * 
-   * @param googleOrderNo The Google Order Number.
-   * @param reason The Reason String.
-   * @param comment The Comment String.
+   * @param googleOrderNo The Google order number.
+   * @param reason The reason for cancellation.
+   * @param comment An additional comment.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
    */
-  public CancelOrderRequest(MerchantInfo mi, String googleOrderNo,
-      String reason, String comment) {
-    this(mi);
+  public CancelOrderRequest(MerchantInfo merchantInfo, String googleOrderNo,
+      String reason, String comment) throws CheckoutException {
+    this(merchantInfo);
     setGoogleOrderNumber(googleOrderNo);
     setReason(reason);
     setComment(comment);
@@ -61,21 +78,25 @@ public class CancelOrderRequest extends AbstractOrderProcessingRequest {
 
   /**
    * Determine whether the reason and comment are within the string length
-   * limits.
+   * limits. See CancelOrderRequest.CANCEL_STRING_LIMIT for the maximum allowed 
+   * length for reason and comment.
    * 
-   * @param reason The Reason.
-   * @param comment The Comment.
-   * @return True or false.
+   * @param reason The reason for cancellation.
+   * @param comment An additional comment.
+   * 
+   * @return True if the cancellation reason and the additional comment are
+   * within the allowed limits.
+   * 
+   * @throws CheckoutException if reason is null or if comment if null.
    */
-  public boolean isWithinCancelStringLimits(String reason, String comment) {
-    int lenStrReason = reason.length();
-    int lenStrComment = comment.length();
+  public boolean isWithinCancelStringLimits(String reason, String comment) 
+    throws CheckoutException {
+    if (reason == null || comment == null) {
+      throw new CheckoutException(CANCEL_ERROR_STRING);
+    }
 
-    if (lenStrReason <= Constants.cancelStrLimit
-        && lenStrComment <= Constants.cancelStrLimit)
-      return true;
-    else
-      return false;
+    return ((reason.length() <= CANCEL_STRING_LIMIT) && 
+      (comment.length() <= CANCEL_STRING_LIMIT));
   }
   
   /**
@@ -100,31 +121,37 @@ public class CancelOrderRequest extends AbstractOrderProcessingRequest {
 
   /**
    * Set the cancel order comment String, which is the value of the
-   * &lt;comment&gt; tag.
+   * &lt;comment&gt; tag. Comment will be truncated if it exceeds the cancel 
+   * string limit. See CancelOrderRequest.CANCEL_STRING_LIMIT.
    * 
-   * @param comment The cancel order comment String.
+   * @param comment A comment associated with the cancellation.
+   * 
+   * @throws CheckoutException if comment is null.
    */
-  public void setComment(String comment) {
+  public void setComment(String comment) throws CheckoutException {
     if (!isWithinCancelStringLimits("", comment)) {
-      comment = "";
-      System.err.println(Constants.cancelErrorString);
+      comment = comment.substring(0, CANCEL_STRING_LIMIT);
     }
 
-    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), "comment", comment);
+    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), "comment", 
+      comment);
   }
 
   /**
    * Set the cancel order reason String, which is the value of the
-   * &lt;reason&gt; tag.
+   * &lt;reason&gt; tag. Reason will be truncated if it exceeds the reason 
+   * string limit. See CancelOrderRequest.CANCEL_STRING_LIMIT.
    * 
-   * @param reason The cancel order reason String.
+   * @param reason The reason for cancellation.
+   * 
+   * @throws CheckoutException if reason is null.
    */
-  public void setReason(String reason) {
+  public void setReason(String reason) throws CheckoutException {
     if (!isWithinCancelStringLimits(reason, "")) {
-      reason = "";
-      System.err.println(Constants.cancelErrorString);
+      reason = reason.substring(0, CANCEL_STRING_LIMIT);
     }
 
-    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), "reason", reason);
+    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), "reason", 
+      reason);
   }
 }

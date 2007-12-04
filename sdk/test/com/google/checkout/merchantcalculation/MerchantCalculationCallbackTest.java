@@ -18,13 +18,14 @@ package com.google.checkout.merchantcalculation;
 
 import com.google.checkout.CheckoutException;
 import com.google.checkout.util.TestUtils;
-import com.google.checkout.notification.ShoppingCart;
 import com.google.checkout.util.Utils;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
+
 import junit.framework.TestCase;
+
 import org.w3c.dom.Document;
+
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  *
@@ -63,10 +64,10 @@ public class MerchantCalculationCallbackTest extends TestCase {
     // verify the second anonymous address
     AnonymousAddress address2 = (AnonymousAddress)it.next();
     assertEquals("New York", address2.getCity());
-    assertEquals("US", address1.getCountryCode());
-    assertEquals("421273450774618", address1.getId());
-    assertEquals("10022", address1.getPostalCode());
-    assertEquals("NY", address1.getRegion());
+    assertEquals("US", address2.getCountryCode());
+    assertEquals("421273450774618", address2.getId());
+    assertEquals("10022", address2.getPostalCode());
+    assertEquals("NY", address2.getRegion());
   }
   
   public void testBuyerId() {

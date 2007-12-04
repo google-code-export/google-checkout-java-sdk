@@ -18,6 +18,7 @@ package com.google.checkout.orderprocessing.lineitem;
 
 import org.w3c.dom.Element;
 
+import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.orderprocessing.AbstractOrderProcessingRequest;
 import com.google.checkout.util.Utils;
@@ -25,19 +26,36 @@ import org.w3c.dom.Document;
 
 /**
  * This class contains methods that construct &lt;return-items&gt; API requests.
+ * 
+ * @author Charles Dang (cdang@google.com)
  */
 public class ReturnItemsRequest extends AbstractOrderProcessingRequest {
-  public ReturnItemsRequest(MerchantInfo mi) {
-    super(mi, "return-items");
+  
+  /**
+   * Constructor which takes an instance of MerchantInfo.
+   * 
+   * @param merchantInfo The merchant's information.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
+   */
+  public ReturnItemsRequest(MerchantInfo merchantInfo) 
+    throws CheckoutException {
+    super(merchantInfo, "return-items");
   }
 
   /**
-   * Constructor which takes an instance of mi and the Google Order Number.
+   * Constructor which takes an instance of MerchantInfo and the Google order 
+   * number.
+   * 
+   * @param merchantInfo The merchant's information.
+   * @param googleOrderNumber The Google order number
+   * 
+   * @throws CheckoutException if merchantInfo is null.
    */
-  public ReturnItemsRequest(MerchantInfo mi, String googleOrderNo) {
-
-    this(mi);
-    setGoogleOrderNumber(googleOrderNo);
+  public ReturnItemsRequest(MerchantInfo merchantInfo, String googleOrderNumber) 
+    throws CheckoutException {
+    this(merchantInfo);
+    setGoogleOrderNumber(googleOrderNumber);
   }
 
   /**
@@ -58,8 +76,8 @@ public class ReturnItemsRequest extends AbstractOrderProcessingRequest {
    */
   public void setSendEmail(boolean sendEmail) {
 
-    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), "send-email",
-        sendEmail);
+    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), 
+      "send-email", sendEmail);
   }
 
   /**

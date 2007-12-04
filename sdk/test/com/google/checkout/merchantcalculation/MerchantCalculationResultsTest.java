@@ -45,18 +45,18 @@ public class MerchantCalculationResultsTest extends TestCase {
     merchantResult.addResult("SuperShip", "739030698069958", true, 7.03, 14.67, 
       "USD", merchantCodeResults);
 
-    assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" + 
+    assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + 
       "<merchant-calculation-results xmlns=\"http://checkout.google.com/schema/2\">" + 
       "<results><result address-id=\"739030698069958\" shipping-name=\"SuperShip\">" + 
-      "<shippable>true</shippable><total-tax currency=\"USD\">7.03</total-tax>" + 
-      "<shipping-rate currency=\"USD\">14.67</shipping-rate>" + 
+      "<shippable>true</shippable><shipping-rate currency=\"USD\">14.67</shipping-rate>" + 
       "<merchant-code-results><coupon-result><valid>true</valid><calculated-amount>" + 
       "5.0</calculated-amount><code>FirstVisitCoupon</code><message>" + 
       "Congratulations! You saved $5.00 on your first visit!</message>" + 
       "</coupon-result><gift-certificate-result><valid>true</valid>" + 
       "<calculated-amount>10.0</calculated-amount><code>GiftCert012345</code>" + 
       "<message>You used your Gift Certificate!</message></gift-certificate-result>" + 
-      "</merchant-code-results></result></results></merchant-calculation-results>", 
+      "</merchant-code-results><total-tax currency=\"USD\">7.03</total-tax></result>" +
+      "</results></merchant-calculation-results>", 
       merchantResult.getXml());
  
   }

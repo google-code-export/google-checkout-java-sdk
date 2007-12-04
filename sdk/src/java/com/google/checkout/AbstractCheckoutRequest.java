@@ -17,10 +17,13 @@
 package com.google.checkout;
 
 
-import com.google.checkout.CheckoutException;
-import com.google.checkout.CheckoutSystemException;
 import com.google.checkout.util.Constants;
 import com.google.checkout.util.Utils;
+
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -29,9 +32,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 /**
  * The parent for all Checkout requests.
  *
@@ -39,7 +39,7 @@ import org.w3c.dom.Element;
  */
 public abstract class AbstractCheckoutRequest {
   
-  protected MerchantInfo mi;
+  protected MerchantInfo merchantInfo;
 
   private final Document document;
   private final Element root;
@@ -47,9 +47,17 @@ public abstract class AbstractCheckoutRequest {
   /**
    * @param merchantInfo The merchant's information
    * @param requestType The request type
+   * 
+   * @throws CheckoutException if the MerchantInfo is null.
+   * @throws DOMException if the requestType is null
    */
-  public AbstractCheckoutRequest(MerchantInfo merchantInfo, String requestType) {
-    this.mi = merchantInfo;
+  public AbstractCheckoutRequest(MerchantInfo merchantInfo, String requestType) 
+    throws CheckoutException {
+    if (merchantInfo == null) {
+      throw new CheckoutException("MerchantInfo cannot be null");
+    }
+      
+    this.merchantInfo = merchantInfo;
     
     document = Utils.newEmptyDocument();
     
@@ -64,7 +72,7 @@ public abstract class AbstractCheckoutRequest {
    * @param document A document that has already been constructed
    */
   public AbstractCheckoutRequest(MerchantInfo merchantInfo, Document document) {
-    this.mi = merchantInfo;
+    this.merchantInfo = merchantInfo;
     this.document = document;
     this.root = document.getDocumentElement();   
   }
@@ -89,7 +97,7 @@ public abstract class AbstractCheckoutRequest {
    * @see com.google.checkout.CheckoutRequest#getPostUrl()
    */
   public String getPostUrl() {
-    return mi.getRequestUrl();
+    return merchantInfo.getRequestUrl();
   }
   
    /**
@@ -117,7 +125,7 @@ public abstract class AbstractCheckoutRequest {
    * 
    * @see CheckoutResponse
    * 
-   * @throws com.google.checkout.exceptions.CheckoutException if the post URL
+   * @throws com.google.checkout.CheckoutException if the post URL
    * for the merchant info was invalid.
    */
   public CheckoutResponse send() throws CheckoutException {
@@ -132,7 +140,7 @@ public abstract class AbstractCheckoutRequest {
       connection.setInstanceFollowRedirects(true);
       connection.setRequestMethod("POST");
       connection.setRequestProperty("Authorization", "Basic "
-          + mi.getHttpAuth());
+          + merchantInfo.getHttpAuth());
       connection
           .setRequestProperty("Host", connection.getURL().getHost());
       

@@ -16,24 +16,40 @@
 
 package com.google.checkout.orderprocessing;
 
-
+import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 
 /**
  * This class contains methods that construct &lt;process-order&gt; API
  * requests.
+ * 
+ * @author Charles Dang (cdang@google.com)
  */
 public class ProcessOrderRequest extends AbstractOrderProcessingRequest {
 
-  public ProcessOrderRequest(MerchantInfo mi) {
-    super(mi, "process-order");
-  }
-
   /**
-   * Constructor which takes an instance of mi and the Google Order Number.
+   * Constructor which takes an instance of MerchantInfo.
+   * 
+   * @param merchantInfo The merchant's information.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
    */
-  public ProcessOrderRequest(MerchantInfo mi, String googleOrderNo) {
-    this(mi);
-    setGoogleOrderNumber(googleOrderNo);
+  public ProcessOrderRequest(MerchantInfo merchantInfo) 
+    throws CheckoutException {
+    super(merchantInfo, "process-order");
+  }
+  
+  /**
+   * Constructor which takes an instance of MerchantInfo.
+   * 
+   * @param merchantInfo The merchant's information.
+   * @param googleOrderNumber The Google order number.
+   * 
+   * @throws CheckoutException if merchantInfo or googleOrderNumber is null.
+   */
+  public ProcessOrderRequest(MerchantInfo merchantInfo, String 
+    googleOrderNumber) throws CheckoutException {
+    this(merchantInfo);
+    setGoogleOrderNumber(googleOrderNumber);
   }
 }

@@ -16,24 +16,40 @@
 
 package com.google.checkout.orderprocessing;
 
+import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 
 /**
  * This class contains methods that construct &lt;authorize-order&gt; API
  * requests.
+ * 
+ * @author Charles Dang (cdang@google.com)
  */
 public class AuthorizeOrderRequest extends AbstractOrderProcessingRequest {
-  public AuthorizeOrderRequest(MerchantInfo mi) {
-    super(mi, "authorize-order");
+  
+  /**
+   * Constructor which takes an instance of MerchantInfo
+   * 
+   * @param merchantInfo The merchant's information
+   * 
+   * @throws CheckoutException if merchantInfo is null
+   */
+  public AuthorizeOrderRequest(MerchantInfo merchantInfo) 
+    throws CheckoutException {
+    super(merchantInfo, "authorize-order");
   }
 
   /**
-   * Constructor which takes an instance of mi and the Google Order Number.
+   * Constructor which takes an instance of MerchantInfo and the Google order 
+   * number.
    * 
-   * @param googleOrderNo The Google Order Number.
+   * @param googleOrderNumber The Google order number.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
    */
-  public AuthorizeOrderRequest(MerchantInfo mi, String googleOrderNo) {
-    this(mi);
-    setGoogleOrderNumber(googleOrderNo);
+  public AuthorizeOrderRequest(MerchantInfo merchantInfo, String 
+    googleOrderNumber) throws CheckoutException {
+    this(merchantInfo);
+    setGoogleOrderNumber(googleOrderNumber);
   }
 }

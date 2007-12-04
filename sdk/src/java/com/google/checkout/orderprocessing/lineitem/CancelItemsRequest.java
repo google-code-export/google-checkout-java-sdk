@@ -16,29 +16,44 @@
 
 package com.google.checkout.orderprocessing.lineitem;
 
-import org.w3c.dom.Element;
-
+import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.orderprocessing.AbstractOrderProcessingRequest;
 import com.google.checkout.util.Utils;
+
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * This class contains methods that construct &lt;cancel-items&gt; API requests.
+ * 
+ * @author Charles Dang (cdang@google.com)
  */
 public class CancelItemsRequest extends AbstractOrderProcessingRequest {
 
-  public CancelItemsRequest(MerchantInfo mi) {
-    super(mi, "cancel-items");
+  /**
+   * Constructor which takes an instance of MerchantInfo.
+   * 
+   * @param merchantInfo The merchant's information.
+   * 
+   * @throws CheckoutException if merchantInfo is null
+   */
+  public CancelItemsRequest(MerchantInfo merchantInfo) throws CheckoutException {
+    super(merchantInfo, "cancel-items");
   }
 
   /**
-   * Constructor which takes an instance of mi and the Google Order Number.
+   * Constructor which takes an instance of MerchantInfo and the Google order 
+   * number.
+   *
+   * @param merchantInfo The merchant's information
+   * @param googleOrderNumber The Google order number.
+   * 
    */
-  public CancelItemsRequest(MerchantInfo mi, String googleOrderNo) {
-
-    this(mi);
-    setGoogleOrderNumber(googleOrderNo);
+  public CancelItemsRequest(MerchantInfo merchantInfo, String googleOrderNumber) 
+    throws CheckoutException {
+    this(merchantInfo);
+    setGoogleOrderNumber(googleOrderNumber);
   }
 
   /**
