@@ -16,8 +16,6 @@
 
 package com.google.checkout;
 
-import com.google.checkout.CheckoutException;
-import com.google.checkout.CheckoutSystemException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -73,7 +71,7 @@ public class GoogleOrder implements Serializable {
    * 
    * @param file The file from which to read the GoogleOrder
    * @return A GoogleOrder containing the data read from file
-   * @throws com.google.checkout.exceptions.CheckoutException if there was an 
+   * @throws com.google.checkout.CheckoutException if there was an 
    * error reading the file
    */
   public static GoogleOrder readFromFile(File file) throws CheckoutException {
@@ -182,7 +180,7 @@ public class GoogleOrder implements Serializable {
   
   /**
    * 
-   * @throws com.google.checkout.exceptions.CheckoutException if the path,
+   * @throws com.google.checkout.CheckoutException if the path,
    * where the file is to be saved, is not valid
    */
   private void save() throws CheckoutException {

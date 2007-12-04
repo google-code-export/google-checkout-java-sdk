@@ -16,13 +16,12 @@
 
 package com.google.checkout;
 
-import com.google.checkout.CheckoutException;
-import java.io.InputStream;
+import com.google.checkout.util.Utils;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.google.checkout.util.Utils;
+import java.io.InputStream;
 
 /**
  * The default implementation of the CheckoutResponse interface.
@@ -33,9 +32,9 @@ import com.google.checkout.util.Utils;
  */
 public class CheckoutResponse {
   
-  private Document document;
+  private final Document document;
   
-  private Element root;
+  private final Element root;
   
   public CheckoutResponse() throws CheckoutException {
     this("");
@@ -45,7 +44,7 @@ public class CheckoutResponse {
    * A constructor which takes the response String.
    * 
    * @param response The response string
-   * @throws com.google.checkout.exceptions.CheckoutException
+   * @throws com.google.checkout.CheckoutException
    */
   public CheckoutResponse(String response) throws CheckoutException {
     document = Utils.newDocumentFromString(response);
@@ -56,7 +55,7 @@ public class CheckoutResponse {
    * A constructor which takes the response as an InputStream.
    * 
    * @param response The response as an InputStream
-   * @throws com.google.checkout.exceptions.CheckoutException
+   * @throws com.google.checkout.CheckoutException
    */
   public CheckoutResponse(InputStream response) throws CheckoutException {
     document = Utils.newDocumentFromInputStream(response);

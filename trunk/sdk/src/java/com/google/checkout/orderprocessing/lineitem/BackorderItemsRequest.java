@@ -16,6 +16,7 @@
 
 package com.google.checkout.orderprocessing.lineitem;
 
+import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.orderprocessing.AbstractOrderProcessingRequest;
 import com.google.checkout.util.Utils;
@@ -26,19 +27,36 @@ import org.w3c.dom.Element;
 /**
  * This class contains methods that construct &lt;backorder-items&gt; API
  * requests.
+ * 
+ * @author Charles Dang (cdang@google.com)
  */
 public class BackorderItemsRequest extends AbstractOrderProcessingRequest {
 
-  public BackorderItemsRequest(MerchantInfo mi) {
-    super(mi, "backorder-items");
+  /**
+   * Constructor which takes an instance of MerchantInfo.
+   * 
+   * @param merchantInfo The merchant's information.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
+   */
+  public BackorderItemsRequest(MerchantInfo merchantInfo) 
+    throws CheckoutException{
+    super(merchantInfo, "backorder-items");
   }
 
   /**
-   * Constructor which takes an instance of mi and the Google Order Number.
+   * Constructor which takes an instance of MerchantInfo and the Google order 
+   * number.
+   * 
+   * @param merchantInfo The merchant's information.
+   * @param googleOrderNumber The Google order number.
+   * 
+   * @throws CheckoutException if merchantInfo or googleOrderNumber is null.
    */
-  public BackorderItemsRequest(MerchantInfo mi, String googleOrderNo) {
-    this(mi);
-    setGoogleOrderNumber(googleOrderNo);
+  public BackorderItemsRequest(MerchantInfo merchantInfo, 
+    String googleOrderNumber) throws CheckoutException {
+    this(merchantInfo);
+    setGoogleOrderNumber(googleOrderNumber);
   }
 
   /**
@@ -64,11 +82,11 @@ public class BackorderItemsRequest extends AbstractOrderProcessingRequest {
   }
 
   /**
-   * Add the merchantItemId which is on backorder.
+   * Add the merchantItemId which is on back order.
    * 
-   * @param merchantItemId
+   * @param merchantItemId The merchant's item id.
    */
-  public void addItem(String merchantItemId) {
+  public void addItem(String merchantItemId) {    
     Document document = getDocument();
     Element root = getRoot();
     

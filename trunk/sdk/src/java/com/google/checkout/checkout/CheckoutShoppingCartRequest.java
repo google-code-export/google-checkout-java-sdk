@@ -44,12 +44,17 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
   private final Element checkoutFlowSupport;
 
   /**
-   * Constructor which takes an instance of mi.
+   * Constructor which takes an instance of merchantInfo.
+   * 
+   * @param merchantInfo The merchant's information.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
    */
-  public CheckoutShoppingCartRequest(MerchantInfo mi) {
-    super(mi, "checkout-shopping-cart");
+  public CheckoutShoppingCartRequest(MerchantInfo merchantInfo) 
+    throws CheckoutException {
+    super(merchantInfo, "checkout-shopping-cart");
     
-    // Document and root should be initialized after calling the super ctor
+    // Document and root should be initialized after calling the super constructor
     Document document = getDocument();
     Element root = getRoot();
     
@@ -65,29 +70,35 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
   }
 
   /**
-   * Constructor which takes an instance of mi and a cart XML.
+   * Constructor which takes an instance of merchatnInfo and a cart XML.
+   * 
+   * @param merchantInfo The merchant's information.
+   * @param cartXml The xml string representation of the shopping cart.
    */
-  public CheckoutShoppingCartRequest(MerchantInfo mi, String cartXml) throws CheckoutException{
-    super(mi, Utils.newDocumentFromString(cartXml));
+  public CheckoutShoppingCartRequest(MerchantInfo merchantInfo, String cartXml) 
+    throws CheckoutException{
+    super(merchantInfo, Utils.newDocumentFromString(cartXml));
     
-    // Document and root should be initialized after caller the super ctor
+    // Document and root should be initialized after caller the super constructor
     Document document = getDocument();
     Element root = getRoot();
     
-    shoppingCart = Utils.findContainerElseCreate(document, root, "shopping-cart");
-    checkoutFlowSupport = Utils.findContainerElseCreate(document, root, "checkout-flow-support");
+    shoppingCart = Utils.findContainerElseCreate(document, root, 
+      "shopping-cart");
+    checkoutFlowSupport = Utils.findContainerElseCreate(document, root, 
+      "checkout-flow-support");
   }
 
   /**
-   * Constructor which takes an instance of mi and the cart expiration.
+   * Constructor which takes an instance of merchantInfo and the cart expiration.
    * 
-   * @param expirationMinutesFromNow The number of minutes before the cart
-   *        should expire.
+   * @param merchantInfo The merchant's information.
+   * @param expirationMinutesFromNow The number of minutes before the cart 
+   * should expire.
    */
-  public CheckoutShoppingCartRequest(MerchantInfo mi,
-      int expirationMinutesFromNow) {
-
-    this(mi);
+  public CheckoutShoppingCartRequest(MerchantInfo merchantInfo,
+    int expirationMinutesFromNow) throws CheckoutException {
+    this(merchantInfo);
     this.setExpirationMinutesFromNow(expirationMinutesFromNow);
   }
 
@@ -95,18 +106,18 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * This method adds a flat-rate shipping method to an order. This method
    * handles flat-rate shipping methods that have shipping restrictions.
    * 
-   * @param name The name of the shipping method. This value will be displayed
-   *        on the Google Checkout order review page.
+   * @param name The name of the shipping method. This value will be displayed 
+   * on the Google Checkout order review page.
    * 
    * @param cost The cost associated with the shipping method.
    * 
-   * @param restrictions A list of country, state or zip code areas where the
-   *        shipping method is either available or unavailable.
+   * @param restrictions A list of country, state or zip code areas where the 
+   * shipping method is either available or unavailable.
    * 
    * @see ShippingRestrictions
    */
   public void addFlatRateShippingMethod(String name, float cost,
-      ShippingRestrictions restrictions) {
+    ShippingRestrictions restrictions) {
 
     Document document = getDocument();
     
@@ -123,7 +134,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
 
     Element price =
         Utils.createNewElementAndSet(document, newShip, "price", cost);
-    price.setAttribute("currency", mi.getCurrencyCode());
+    price.setAttribute("currency", merchantInfo.getCurrencyCode());
 
     if (restrictions != null) {
       Utils.importElements(document, newShip, new Element[] {restrictions
@@ -135,22 +146,21 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * This method adds an item to an order. This method handles items that do not
    * have &lt;merchant-private-item-data&gt; XML blocks associated with them.
    * 
-   * @param name The name of the item. This value corresponds to the value of
-   *        the &lt;item-name&gt; tag in the Checkout API request.
+   * @param name The name of the item. This value corresponds to the value of 
+   * the &lt;item-name&gt; tag in the Checkout API request.
    * 
-   * @param description The description of the item. This value corresponds to
-   *        the value of the &lt;item-description&gt; tag in the Checkout API
-   *        request.
+   * @param description The description of the item. This value corresponds to 
+   * the value of the &lt;item-description&gt; tag in the Checkout API request.
    * 
-   * @param price The price of the item. This value corresponds to the value of
-   *        the &lt;unit-price&gt; tag in the Checkout API request.</param>
+   * @param price The price of the item. This value corresponds to the value of 
+   * the &lt;unit-price&gt; tag in the Checkout API request.
    * 
-   * @param quantity The number of this item that is included in the order. This
-   *        value corresponds to the value of the &lt;quantity&gt; tag in the
-   *        Checkout API request.
+   * @param quantity The number of this item that is included in the order. This 
+   * value corresponds to the value of the &lt;quantity&gt; tag in the
+   * Checkout API request.
    */
-  public void addItem(String name, String description, float price, int quantity) {
-
+  public void addItem(String name, String description, float price, 
+    int quantity) {
     addItem(name, description, price, quantity, null, null, null);
   }
 
@@ -166,7 +176,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    *        request.
    * 
    * @param price The price of the item. This value corresponds to the value of
-   *        the &lt;unit-price&gt; tag in the Checkout API request.</param>
+   *        the &lt;unit-price&gt; tag in the Checkout API request.
    * 
    * @param quantity The number of this item that is included in the order. This
    *        value corresponds to the value of the &lt;quantity&gt; tag in the
@@ -177,7 +187,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    *        &lt;merchant-item-id&gt; tag in the Checkout API request.
    */
   public void addItem(String name, String description, float price,
-      int quantity, String merchantItemID) {
+    int quantity, String merchantItemID) {
     addItem(name, description, price, quantity, merchantItemID, null, null);
   }
 
@@ -193,7 +203,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    *        request.
    * 
    * @param price The price of the item. This value corresponds to the value of
-   *        the &lt;unit-price&gt; tag in the Checkout API request.</param>
+   *        the &lt;unit-price&gt; tag in the Checkout API request.
    * 
    * @param quantity The number of this item that is included in the order. This
    *        value corresponds to the value of the &lt;quantity&gt; tag in the
@@ -205,9 +215,9 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    *        &lt;merchant-private-item-data&gt; tag in the Checkout API request.
    */
   public void addItem(String name, String description, float price,
-      int quantity, Element[] merchantPrivateItemData) {
+    int quantity, Element[] merchantPrivateItemData) {
     addItem(name, description, price, quantity, null, merchantPrivateItemData,
-        null);
+    null);
   }
 
   /**
@@ -222,7 +232,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    *        request.
    * 
    * @param price The price of the item. This value corresponds to the value of
-   *        the &lt;unit-price&gt; tag in the Checkout API request.</param>
+   *        the &lt;unit-price&gt; tag in the Checkout API request.
    * 
    * @param quantity The number of this item that is included in the order. This
    *        value corresponds to the value of the &lt;quantity&gt; tag in the
@@ -257,7 +267,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
         description);
     Element ePrice =
         Utils.createNewElementAndSet(document, item, "unit-price", price);
-    ePrice.setAttribute("currency", mi.getCurrencyCode());
+    ePrice.setAttribute("currency", merchantInfo.getCurrencyCode());
     Utils.createNewElementAndSet(document, item, "quantity", quantity);
     if (merchantItemID != null) {
       Utils.createNewElementAndSet(document, item, "merchant-item-id",
@@ -305,7 +315,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    *        This value is the amount that Gogle Checkout will charge for
    *        shipping if the merchant calculation callback request fails.
    */
-  public void addMerchantCalculatedShippingMethod(String name, float defaultCost) {
+  public void addMerchantCalculatedShippingMethod(String name, float 
+    defaultCost) {
     addMerchantCalculatedShippingMethod(name, defaultCost, null);
   }
 
@@ -342,7 +353,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
 
     Element price =
         Utils.createNewElementAndSet(document, newShip, "price", defaultCost);
-    price.setAttribute("currency", mi.getCurrencyCode());
+    price.setAttribute("currency", merchantInfo.getCurrencyCode());
 
     if (restrictions != null) {
       Utils.importElements(document, newShip, new Element[] {restrictions
@@ -388,7 +399,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
 
     Element price =
         Utils.createNewElementAndSet(document, newShip, "price", defaultCost);
-    price.setAttribute("currency", mi.getCurrencyCode());
+    price.setAttribute("currency", merchantInfo.getCurrencyCode());
 
     if (restrictions != null) {
       Utils.importElements(document, newShip, new Element[] {restrictions
@@ -424,7 +435,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
 
     Element price =
         Utils.createNewElementAndSet(document, newShip, "price", cost);
-    price.setAttribute("currency", mi.getCurrencyCode());
+    price.setAttribute("currency", merchantInfo.getCurrencyCode());
   }
 
   /**
@@ -1016,7 +1027,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @param url The UrlEncoded &lt;parameterized-url&gt; to add to the
    *        collection.
    */
-  public void addParameterizedUrl(String url) throws UnsupportedEncodingException {
+  public void addParameterizedUrl(String url) throws 
+    UnsupportedEncodingException {
     addParameterizedUrl(url, false);
   }
 
@@ -1025,7 +1037,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * to support third party conversion tracking.
    * 
    * @param url The UrlEncoded &lt;parameterized-url&gt; to add to the
-   *        collection.
+   * collection.
    * 
    * @param urlEncode Set to true if you need the url to be URL encoded.
    */
@@ -1040,17 +1052,16 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * party conversion tracking.
    * 
    * @param url The UrlEncoded &lt;parameterized-url&gt; to add to the
-   *        collection.
+   * collection.
    * 
    * @param parameters A collection of UrlParameter objects which define the
-   *        parameters to be added to the URL.
+   * parameters to be added to the URL.
    * 
    * @see UrlParameter
    */
   public void addParameterizedUrl(String url, Collection parameters) 
     throws UnsupportedEncodingException {
     addParameterizedUrl(url, false, parameters);
-
   }
 
   /**
@@ -1067,8 +1078,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * 
    * @see UrlParameter
    */
-  public void addParameterizedUrl(String url, boolean urlEncode, Collection parameters) 
-    throws UnsupportedEncodingException {
+  public void addParameterizedUrl(String url, boolean urlEncode, Collection 
+    parameters) throws UnsupportedEncodingException {
     if (urlEncode) {
       try {
         url = URLEncoder.encode(url, "UTF-8");
@@ -1087,17 +1098,19 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
         Utils.createNewContainer(document, pUrls, "parameterized-url");
     pUrl.setAttribute("url", url);
 
-    Element eParams = Utils.createNewContainer(document, pUrl, "parameters");
-
-    Iterator it = parameters.iterator();
-    UrlParameter param;
-    while (it.hasNext()) {
-      param = (UrlParameter) it.next();
-
-      Element eParam =
-          Utils.createNewContainer(document, eParams, "url-parameter");
-      eParam.setAttribute("name", param.getName());
-      eParam.setAttribute("type", param.getParamType().toString());
+    if (parameters != null) {
+      Element eParams = Utils.createNewContainer(document, pUrl, "parameters");
+  
+      Iterator it = parameters.iterator();
+      UrlParameter param;
+      while (it.hasNext()) {
+        param = (UrlParameter) it.next();
+  
+        Element eParam =
+            Utils.createNewContainer(document, eParams, "url-parameter");
+        eParam.setAttribute("name", param.getName());
+        eParam.setAttribute("type", param.getParamType().toString());
+      }
     }
   }
 
@@ -1107,7 +1120,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @see com.google.checkout.CheckoutRequest#getPostUrl()
    */
   public String getPostUrl() {
-    return mi.getMerchantCheckoutUrl();
+    return merchantInfo.getMerchantCheckoutUrl();
   }
 
   /**
@@ -1242,7 +1255,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
 
     Element priceElement =
         Utils.createNewElementAndSet(document, newShip, "price", price);
-    priceElement.setAttribute("currency", mi.getCurrencyCode());
+    priceElement.setAttribute("currency", merchantInfo.getCurrencyCode());
 
     Utils.createNewElementAndSet(document, newShip, "shipping-company",
         shippingCompany);
@@ -1258,7 +1271,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
     Element fixedCharge =
         Utils.createNewElementAndSet(document, newShip,
             "additional-fixed-charge", additionalFixedCharge);
-    fixedCharge.setAttribute("currency", mi.getCurrencyCode());
+    fixedCharge.setAttribute("currency", merchantInfo.getCurrencyCode());
 
     Utils.createNewElementAndSet(document, newShip,
         "additional-variable-charge-percent", additionalVariableChargePercent);
@@ -1282,31 +1295,30 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * @see Packaging
    * @see ShipFrom
    */
-  public void addShippingPackage(
-      DeliveryAddressCategory deliveryAddressCategory, String heightUnit,
-      float heightValue, String widthUnit, float widthValue, String lengthUnit,
-      float lengthValue, Packaging packaging, ShipFrom shipFrom) {
+  public void addShippingPackage(DeliveryAddressCategory 
+    deliveryAddressCategory, String heightUnit, float heightValue, 
+    String widthUnit, float widthValue, String lengthUnit, float lengthValue, 
+    Packaging packaging, ShipFrom shipFrom) {
     Document document = getDocument();
     
-    Element mcfs =
-        Utils.findContainerElseCreate(document, checkoutFlowSupport,
-            "merchant-checkout-flow-support");
-    Element shippingMethods =
-        Utils.findContainerElseCreate(document, mcfs, "shipping-methods");
+    Element mcfs = Utils.findContainerElseCreate(document, checkoutFlowSupport,
+      "merchant-checkout-flow-support");
+    
+    Element shippingMethods = Utils.findContainerElseCreate(document, mcfs, 
+      "shipping-methods");
 
-    Element ccShip =
-        Utils.findContainerElseCreate(document, shippingMethods,
-            "carrier-calculated-shipping");
+    Element ccShip = Utils.findContainerElseCreate(document, shippingMethods,
+      "carrier-calculated-shipping");
 
     Element shipPackages =
-        Utils.findContainerElseCreate(document, ccShip, "shipping-packages");
+      Utils.findContainerElseCreate(document, ccShip, "shipping-packages");
 
-    Element newPack =
-        Utils.createNewContainer(document, shipPackages, "shipping-package");
+    Element newPack = Utils.createNewContainer(document, shipPackages, 
+      "shipping-package");
 
     if (deliveryAddressCategory != null) {
-      Utils.createNewElementAndSet(document, newPack,
-          "delivery-address-category", deliveryAddressCategory.toString());
+      Utils.createNewElementAndSet(document, newPack, 
+        "delivery-address-category", deliveryAddressCategory.toString());
     }
 
     Element height = Utils.createNewContainer(document, newPack, "height");
@@ -1323,10 +1335,10 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
 
     if (packaging != null) {
       Utils.createNewElementAndSet(document, newPack, "packaging", packaging
-          .toString());
+        .toString());
     }
 
     Utils.importElements(document, newPack, new Element[] {shipFrom
-        .getRootElement()});
+      .getRootElement()});
   }
 }

@@ -22,19 +22,35 @@ import com.google.checkout.MerchantInfo;
 /**
  * This class contains methods that construct &lt;unarchive-order&gt; API
  * requests.
+ * 
+ * @author Charles Dang (cdang@google.com)
  */
 public class UnarchiveOrderRequest extends AbstractOrderProcessingRequest {
 
-  public UnarchiveOrderRequest(MerchantInfo mi) throws CheckoutException {
-    super(mi, "unarchive-order");
+  /**
+   * Constructor which takes an instance of MerchantInfo.
+   * 
+   * @param merchantInfo The merchant's information.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
+   */
+  public UnarchiveOrderRequest(MerchantInfo merchantInfo) 
+    throws CheckoutException {
+    super(merchantInfo, "unarchive-order");
   }
 
   /**
-   * Constructor which takes an instance of mi and the Google Order Number.
+   * Constructor which takes an instance of MerchantInfo and the Google order 
+   * number.
+   * 
+   * @param merchantInfo The merchant's information.
+   * @param googleOrderNumber The Google order number.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
    */
-  public UnarchiveOrderRequest(MerchantInfo mi, String googleOrderNo)
-    throws CheckoutException {
-    this(mi);
-    setGoogleOrderNumber(googleOrderNo);
+  public UnarchiveOrderRequest(MerchantInfo merchantInfo, 
+    String googleOrderNumber) throws CheckoutException {
+    this(merchantInfo);
+    setGoogleOrderNumber(googleOrderNumber);
   }
 }

@@ -16,39 +16,68 @@
 
 package com.google.checkout.orderprocessing;
 
-
+import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
-import com.google.checkout.util.Constants;
 import com.google.checkout.util.Utils;
 
 /**
  * This class contains methods that construct &lt;send-buyer-message&gt; API
  * requests.
+ * 
+ * @author Charles Dang (cdang@google.com)
  */
 public class SendBuyerMessageRequest extends AbstractOrderProcessingRequest {
+  public static final int MESSAGE_STRING_LIMIT = 255;
+  
+  public static final String MESSAGE_ERROR_STRING = "The message string " +
+    "limits have been exceeded. The message cannot exceed " + 
+    MESSAGE_STRING_LIMIT + " characters.";
 
-  public SendBuyerMessageRequest(MerchantInfo mi) {
-    super(mi, "send-buyer-message");
+  /**
+   * Constructor which takes an instance of MerchantInfo.
+   * 
+   * @param merchantInfo The merchant's information
+   * 
+   * @throws CheckoutException if merchantInfo is null.
+   */
+  public SendBuyerMessageRequest(MerchantInfo merchantInfo) 
+    throws CheckoutException {
+    super(merchantInfo, "send-buyer-message");
   }
 
   /**
-   * Constructor which takes an instance of mi, Google Order Number and Message.
+   * Constructor which takes an instance of MerchantInfo, Google order number 
+   * and message.
+   * 
+   * @param merchantInfo The merchant's information.
+   * @param googleOrderNumber The Google order number
+   * @param message The message to send to the buyer.
+   * 
+   * @throws CheckoutException if MerchantInfo is null.
    */
-  public SendBuyerMessageRequest(MerchantInfo mi, String googleOrderNo,
-      String message) {
-    this(mi);
-    setGoogleOrderNumber(googleOrderNo);
+  public SendBuyerMessageRequest(MerchantInfo merchantInfo, 
+    String googleOrderNumber, String message) throws CheckoutException {
+    this(merchantInfo);
+    setGoogleOrderNumber(googleOrderNumber);
     setMessage(message);
   }
 
   /**
-   * Constructor which takes an instance of mi, Google Order Number, Message and
-   * Send Email flag.
+   * Constructor which takes an instance of MerchantInfo, Google order number, 
+   * message and SendEmail flag.
+   *
+   * @param merchantInfo The merchant's information.
+   * @param googleOrderNumber The Google order number.
+   * @param message The message to send the buyer.
+   * @param sendEmail Whether to send an email to buyer.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
    */
-  public SendBuyerMessageRequest(MerchantInfo mi, String googleOrderNo,
-      String message, boolean sendEmail) {
-    this(mi, googleOrderNo, message);
-    setGoogleOrderNumber(googleOrderNo);
+  public SendBuyerMessageRequest(MerchantInfo merchantInfo, String 
+    googleOrderNumber, String message, boolean sendEmail) throws 
+    CheckoutException {
+    this(merchantInfo, googleOrderNumber, message);
+    setGoogleOrderNumber(googleOrderNumber);
     setMessage(message);
     setSendEmail(sendEmail);
   }
@@ -58,20 +87,20 @@ public class SendBuyerMessageRequest extends AbstractOrderProcessingRequest {
    * 
    * @return True or false.
    */
-  public boolean isWithinMessageStringLimits(String message) {
-    int lenStrMessage = message.length();
+  public boolean isWithinMessageStringLimits(String message) 
+    throws CheckoutException {
+    if (message == null) {
+      throw new CheckoutException(MESSAGE_ERROR_STRING);
+    }
 
-    if (lenStrMessage <= Constants.messageStrLimit)
-      return true;
-    else
-      return false;
+    return (message.length() <= MESSAGE_STRING_LIMIT);
   }
 
   /**
    * Return the message which is to be sent to the buyer. This is the value of
    * the &lt;message&gt; tag.
    * 
-   * @return The message.
+   * @return The message to send to the buyer.
    */
   public String getMessage() {
     return Utils.getElementStringValue(getDocument(), getRoot(), "message");
@@ -86,30 +115,34 @@ public class SendBuyerMessageRequest extends AbstractOrderProcessingRequest {
   public boolean isSendEmail() {
     return Utils.getElementBooleanValue(getDocument(), getRoot(), "send-email");
   }
-
+  
   /**
    * Set the message which is to be sent to the customer. This is the value of
-   * the &lt;message&gt; tag.
+   * the &lt;message&gt; tag.  Message will be truncated if it exceeds the 
+   * message string limit. See SendBuyerMessageRequest.MESSAGE_STRING_LIMIT.
    * 
-   * @param message The message.
+   * @param message The message to send to the buyer.
+   * 
+   * @throws CheckoutException if message is null.
    */
-  public void setMessage(String message) {
+  public void setMessage(String message) throws CheckoutException {
     if (!isWithinMessageStringLimits(message)) {
-      message = "";
-      System.err.println(Constants.messageErrorString);
+      message = message.substring(0, MESSAGE_STRING_LIMIT);
     }
 
-    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), "message", message);
+    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), "message", 
+      message);
   }
 
   /**
-   * True if an email is to be sent to the buyer. This is the value of the
-   * &lt;send-email&gt; tag.
+   * Sets the flag which will determine whether an email is sent to the buyer. 
+   * This is the value of the &lt;send-email&gt; tag.
    * 
-   * @param sendEmail The boolean value.
+   * @param sendEmail True if an email is to be sent to the buyer; otherwise 
+   * false.
    */
   public void setSendEmail(boolean sendEmail) {
-    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), "send-email",
-        sendEmail);
+    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), 
+      "send-email", sendEmail);
   }
 }

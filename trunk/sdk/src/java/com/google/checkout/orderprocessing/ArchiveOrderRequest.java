@@ -16,24 +16,38 @@
 
 package com.google.checkout.orderprocessing;
 
+import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 
 /**
  * This class contains methods that construct &lt;archive-order&gt; API
  * requests.
+ * 
+ * @author Charles Dang (cdang@google.com)
  */
 public class ArchiveOrderRequest extends AbstractOrderProcessingRequest {
-  public ArchiveOrderRequest(MerchantInfo mi) {
-    super(mi, "archive-order");
+  
+  /**
+   * Constructor which takes an instance of MerchantInfo.
+   * 
+   * @param merchantInfo The merchant's information.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
+   */
+  public ArchiveOrderRequest(MerchantInfo merchantInfo) throws CheckoutException {
+    super(merchantInfo, "archive-order");
   }
 
   /**
-   * Constructor which takes an instance of mi and Google Order Number.
+   * Constructor which takes an instance of merchantInfo and Google order number.
    * 
-   * @param googleOrderNo The Google Order Number.
+   * @param googleOrderNumber The Google order number.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
    */
-  public ArchiveOrderRequest(MerchantInfo mi, String googleOrderNo) {
-    this(mi);
-    setGoogleOrderNumber(googleOrderNo);
+  public ArchiveOrderRequest(MerchantInfo merchantInfo, String googleOrderNumber) 
+    throws CheckoutException {
+    this(merchantInfo);
+    setGoogleOrderNumber(googleOrderNumber);
   }
 }

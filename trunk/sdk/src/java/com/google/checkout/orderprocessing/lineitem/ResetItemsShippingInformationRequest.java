@@ -18,6 +18,7 @@ package com.google.checkout.orderprocessing.lineitem;
 
 import org.w3c.dom.Element;
 
+import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.orderprocessing.AbstractOrderProcessingRequest;
 import com.google.checkout.util.Utils;
@@ -26,21 +27,37 @@ import org.w3c.dom.Document;
 /**
  * This class contains methods that construct
  * &lt;reset-items-shipping-information&gt; API requests.
+ * 
+ * @author Charles Dang (cdang@google.com)
  */
 public class ResetItemsShippingInformationRequest extends AbstractOrderProcessingRequest {
 
-  public ResetItemsShippingInformationRequest(MerchantInfo mi) {
-    super(mi, "reset-items-shipping-information");
+  /**
+   * Constructor which takes an instance of MerchantInfo.
+   * 
+   * @param merchantInfo The merchant's information.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
+   */
+  public ResetItemsShippingInformationRequest(MerchantInfo merchantInfo) 
+    throws CheckoutException {
+    super(merchantInfo, "reset-items-shipping-information");
   }
 
   /**
-   * Constructor which takes an instance of mi and the Google Order Number.
+   * Constructor which takes an instance of MerchantInfo and the Google order 
+   * number.
+   *    
+   * @param merchantInfo The merchant's information.
+   * @param googleOrderNumber The Google order number
+   * 
+   * @throws CheckoutException if merchantInfo is null.
    */
-  public ResetItemsShippingInformationRequest(MerchantInfo mi,
-      String googleOrderNo) {
+  public ResetItemsShippingInformationRequest(MerchantInfo merchantInfo,
+      String googleOrderNumber) throws CheckoutException {
 
-    this(mi);
-    setGoogleOrderNumber(googleOrderNo);
+    this(merchantInfo);
+    setGoogleOrderNumber(googleOrderNumber);
   }
 
   /**

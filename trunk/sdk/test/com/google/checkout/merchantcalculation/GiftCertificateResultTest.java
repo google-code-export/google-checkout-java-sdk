@@ -33,6 +33,6 @@ public class GiftCertificateResultTest extends TestCase {
     assertEquals(100.50f, result.getCalculatedAmount(), 0); // delta = 0
     assertEquals("USD", result.getCurrency());
     assertEquals("GiftCert012345", result.getCode());
-    assertEquals("Congratulations! You saved $5.00 on your first visit!", result);
+    assertEquals("Congratulations! You saved $5.00 on your first visit!", result.getMessage());
   }
 }

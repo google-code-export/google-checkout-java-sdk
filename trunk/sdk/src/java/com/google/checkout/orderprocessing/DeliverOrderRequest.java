@@ -16,48 +16,74 @@
 
 package com.google.checkout.orderprocessing;
 
-import org.w3c.dom.Element;
-
+import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.Utils;
+
+import org.w3c.dom.Element;
 
 /**
  * This class contains methods that construct &lt;deliver-order&gt; API
  * requests.
+ * 
+ * @author Charles Dang (cdang@google.com)
  */
 public class DeliverOrderRequest extends AbstractOrderProcessingRequest {
 
-  public DeliverOrderRequest(MerchantInfo mi) {
-    super(mi, "deliver-order");
+  /**
+   * Constructor which takes an instance of MerchantInfo.
+   * 
+   * @param merchantInfo The merchant's information.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
+   */
+  public DeliverOrderRequest(MerchantInfo merchantInfo) 
+    throws CheckoutException {
+    super(merchantInfo, "deliver-order");
   }
 
   /**
-   * Constructor which takes an instance of mi and the Google Order Number.
+   * Constructor which takes an instance of MerchantInfo and the Google order 
+   * number.
+   * 
+   * @param merchantInfo The merchant's information.
+   * @param googleOrderNumber The Google order number.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
    */
-  public DeliverOrderRequest(MerchantInfo mi, String googleOrderNo) {
-
-    this(mi);
-    setGoogleOrderNumber(googleOrderNo);
+  public DeliverOrderRequest(MerchantInfo merchantInfo, 
+    String googleOrderNumber) throws CheckoutException {
+    this(merchantInfo);
+    setGoogleOrderNumber(googleOrderNumber);
   }
 
-  /**
-   * Constructor which takes an instance of mi, the Google Order Number, the
-   * Carrier, Tracking Number and the Send Email flag.
-   */
-  public DeliverOrderRequest(MerchantInfo mi, String googleOrderNo,
-      String carrier, String trackingNo, boolean sendEmail) {
 
-    this(mi);
-    setGoogleOrderNumber(googleOrderNo);
+  /**
+   * Constructor which takes an instance of merchantInfo, the Google order 
+   * number, the carrier, tracking number and the whether to send email.
+   *
+   * @param merchantInfo The merchant's information.
+   * @param googleOrderNumber The Google order number.
+   * @param carrier The carrier that will make the delivery.
+   * @param trackingNumber The tracking number of the delivery.
+   * @param sendEmail Whether to notify the buyer.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
+   */
+  public DeliverOrderRequest(MerchantInfo merchantInfo, String googleOrderNumber,
+    String carrier, String trackingNumber, boolean sendEmail) 
+    throws CheckoutException {
+    this(merchantInfo);
+    setGoogleOrderNumber(googleOrderNumber);
     setCarrier(carrier);
-    setTrackingNumber(trackingNo);
+    setTrackingNumber(trackingNumber);
     setSendEmail(sendEmail);
   }
 
   /**
    * Return the carrier String, which is the value of the &lt;carrier&gt; tag.
    * 
-   * @return The carrier String.
+   * @return The carrier that will make the delivery.
    */
   public String getCarrier() {
     Element trackingDataTag =
@@ -70,6 +96,7 @@ public class DeliverOrderRequest extends AbstractOrderProcessingRequest {
    * &lt;tracking-number&gt; tag.
    * 
    * @deprecated Use getTrackingNumber()
+   * 
    * @return The tracking number.
    */
   public String getTrackingNo() {
@@ -79,7 +106,7 @@ public class DeliverOrderRequest extends AbstractOrderProcessingRequest {
         "tracking-number");
   }
   
-    /**
+  /**
    * Return the tracking number, which is the value of the
    * &lt;tracking-number&gt; tag.
    * 
@@ -91,7 +118,6 @@ public class DeliverOrderRequest extends AbstractOrderProcessingRequest {
     return Utils.getElementStringValue(getDocument(), trackingDataTag,
         "tracking-number");
   }
-
 
   /**
    * True if an email is to be sent to the buyer. This is the value of the
@@ -106,7 +132,7 @@ public class DeliverOrderRequest extends AbstractOrderProcessingRequest {
   /**
    * Set the carrier String, which is the value of the &lt;carrier&gt; tag.
    * 
-   * @param carrier The carrier String.
+   * @param carrier The carrier that will make the delivery.
    */
   public void setCarrier(String carrier) {
 
@@ -134,6 +160,7 @@ public class DeliverOrderRequest extends AbstractOrderProcessingRequest {
    * tag.
    * 
    * @deprecated Use setTrackingNumber()
+   * 
    * @param trackingNo The tracking number.
    */
   public void setTrackingNo(String trackingNo) {
@@ -144,14 +171,20 @@ public class DeliverOrderRequest extends AbstractOrderProcessingRequest {
         "tracking-number", trackingNo);
   }
   
-    /**
+  /**
    * Set the tracking number, which is the value of the &lt;tracking-number&gt;
    * tag.
    * 
-   * @param trackingNo The tracking number.
+   * @param trackingNumber The tracking number.
+   * 
+   * @throws CheckoutException if tracking number is null.
    */
-  public void setTrackingNumber(String trackingNumber) {
-
+  public void setTrackingNumber(String trackingNumber) 
+    throws CheckoutException {
+    if (trackingNumber == null) {
+      throw new CheckoutException("Tracking number cannot be null.");
+    }
+    
     Element trackingDataTag =
         Utils.findContainerElseCreate(getDocument(), getRoot(), "tracking-data");
     Utils.findElementAndSetElseCreateAndSet(getDocument(), trackingDataTag,

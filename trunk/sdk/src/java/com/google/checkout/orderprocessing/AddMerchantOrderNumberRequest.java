@@ -16,27 +16,47 @@
 
 package com.google.checkout.orderprocessing;
 
+import com.google.checkout.CheckoutException;
+import com.google.checkout.CheckoutSystemException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.Utils;
 
 /**
  * This class contains methods that construct &lt;add-merchant-order-number&gt;
  * API requests.
+ * 
+ * @author Charles Dang (cdang@google.com)
  */
 public class AddMerchantOrderNumberRequest extends AbstractOrderProcessingRequest {
-  public AddMerchantOrderNumberRequest(MerchantInfo mi) {
-    super(mi, "add-merchant-order-number");
+
+  /**
+   * Constructor which takes an instance of MerchantInfo,
+   * 
+   * @param merchantInfo The merchant's information.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
+   */
+  public AddMerchantOrderNumberRequest(MerchantInfo merchantInfo) 
+  throws CheckoutException {
+    super(merchantInfo, "add-merchant-order-number");
   }
 
   /**
-   * Constructor which takes an instance of mi, a Google Order Number and a
-   * Merchant Order Number.
+   * Constructor which takes an instance of MerchantInfo, a Google order number 
+   * and a Merchant Order Number.
+   * 
+   * @param merchantInfo The merchant's information.
+   * @param googleOrderNumber The Google order number of the request.
+   * @param merchantOrderNumber The merchant's order number.
+   * 
+   * @throws CheckoutException if merchantInfo is null
    */
-  public AddMerchantOrderNumberRequest(MerchantInfo mi, String googleOrderNo,
-      String merchantOrderNo) {
-    this(mi);
-    setGoogleOrderNumber(googleOrderNo);
-    setMerchantOrderNumber(merchantOrderNo);
+  public AddMerchantOrderNumberRequest(MerchantInfo merchantInfo, 
+    String googleOrderNumber, String merchantOrderNumber) 
+    throws CheckoutException {
+    this(merchantInfo);
+    setGoogleOrderNumber(googleOrderNumber);
+    setMerchantOrderNumber(merchantOrderNumber);
   }
 
   /**
@@ -44,6 +64,7 @@ public class AddMerchantOrderNumberRequest extends AbstractOrderProcessingReques
    * &lt;merchant-order-number&gt; tag.
    * 
    * @deprecated Use getMerchantOrderNumber
+   * 
    * @return The Merchant Order Number.
    */
   public String getMerchantOrderNo() {
@@ -65,6 +86,7 @@ public class AddMerchantOrderNumberRequest extends AbstractOrderProcessingReques
    * &lt;merchant-order-number&gt; tag.
    * 
    * @deprecated Use setMerchantOrderNumber
+   * 
    * @param merchantOrderNo The Merchant Order Number.
    */
   public void setMerchantOrderNo(String merchantOrderNo) {
@@ -76,9 +98,14 @@ public class AddMerchantOrderNumberRequest extends AbstractOrderProcessingReques
    * Set the Merchant Order Number, which is the value of the
    * &lt;merchant-order-number&gt; tag.
    * 
-   * @param merchantOrderNo The Merchant Order Number.
+   * @param merchantOrderNumber The Merchant Order Number.
+   * 
+   * @throws CheckoutSystemException if merchantOrderNumber is null.
    */
   public void setMerchantOrderNumber(String merchantOrderNumber) {
+    if (merchantOrderNumber == null) {
+      throw new CheckoutSystemException("MerchantOrderNumber cannot be null");
+    }
     Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(),
         "merchant-order-number", merchantOrderNumber);
   }

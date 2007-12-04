@@ -44,7 +44,7 @@ public class RiskInformationNotificationTest extends TestCase {
   }
   
   public void testGetRiskInfo() {
-    RiskInfo riskInfo = riskNotification.getRiskInfo();
+    RiskInformation riskInfo = riskNotification.getRiskInfo();
     
     assertTrue(riskInfo.isEligibleForProtection());
     verifyBillingAddress(riskInfo.getBillingAddress());

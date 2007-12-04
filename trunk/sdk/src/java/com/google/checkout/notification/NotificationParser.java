@@ -27,7 +27,7 @@ public interface NotificationParser {
   
   /**
    * 
-   * @param xml The xml string to be parsed
+   * @param xmlDocument The xml document to be parsed
    * @return A CheckoutNotification object created by parsing the xml
    */
   public CheckoutNotification parse(Document xmlDocument) 

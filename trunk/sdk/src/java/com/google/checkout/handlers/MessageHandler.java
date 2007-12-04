@@ -23,8 +23,6 @@ import com.google.checkout.MerchantInfo;
  * Common interface to represent a message handler. 
  * All handler classes must extend from this interface.
  * @author inder
- * @throws com.google.checkout.exceptions.CheckoutException if there was an
- * error prcessing the merchant's information
  */
 public interface MessageHandler {
   public String process(MerchantInfo mi, String message)

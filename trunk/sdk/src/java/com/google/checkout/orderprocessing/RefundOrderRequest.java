@@ -18,47 +18,68 @@ package com.google.checkout.orderprocessing;
 
 import org.w3c.dom.Element;
 
+import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
-import com.google.checkout.util.Constants;
 import com.google.checkout.util.Utils;
 
 /**
  * This class contains methods that construct &lt;refund-order&gt; API requests.
+ *  
+ * @author Charles Dang (cdang@google.com)
  */
 public class RefundOrderRequest extends AbstractOrderProcessingRequest {
-
-  public RefundOrderRequest(MerchantInfo mi) {
-    super(mi, "refund-order");
+  public static final int REFUND_STRING_LIMIT = 140;
+  
+  public static final String REFUND_ERROR_STRING = "The refund string limits " +
+    "have been exceeded. The reason and comment cannot exceed " + 
+    REFUND_STRING_LIMIT + " characters.";
+  
+  /**
+   * Constructor which takes an instance of MerchantInfo.
+   * 
+   * @param merchantInfo The merchant's information.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
+   */
+  public RefundOrderRequest(MerchantInfo merchantInfo) 
+    throws CheckoutException {
+    super(merchantInfo, "refund-order");
   }
 
   /**
-   * Constructor which takes an instance of mi, the Google Order Number and the
-   * Reason text.
+   * Constructor which takes an instance of MerchantInfo, the Google order 
+   * number and the reason for the refund.
    * 
-   * @param mi The mi.
-   * @param googleOrderNo The Google Order Number.
-   * @param reason The Reason.
+   * @param merchantInfo The merchant's information.
+   * @param googleOrderNumber The Google order number.
+   * @param reason The reason for the refund.
+   * 
+   * @throws CheckoutException if merchantInfo or reason is null.
    */
-  public RefundOrderRequest(MerchantInfo mi, String googleOrderNo, String reason) {
-    this(mi);
-    setGoogleOrderNumber(googleOrderNo);
+  public RefundOrderRequest(MerchantInfo merchantInfo, String googleOrderNumber, 
+    String reason) throws CheckoutException {
+    this(merchantInfo);
+    setGoogleOrderNumber(googleOrderNumber);
     setReason(reason);
   }
 
   /**
-   * Constructor which takes an instance of mi, the Google Order Number, the
-   * Reason text, the Refund Amount and the Comment.
+   * Constructor which takes an instance of MerchantInfo, the Google order 
+   * number, the reason for the refund, the refund amount and any additional 
+   * comment.
    * 
-   * @param mi The Merchant Constants.
-   * @param googleOrderNo The Google Order Number.
-   * @param reason The Reason.
-   * @param amount The Amount.
-   * @param comment The Comment.
+   * @param merchantInfo The merchant's information.
+   * @param googleOrderNumber The Google order number.
+   * @param reason The reason for the refund.
+   * @param amount The amount to refund the buyer.
+   * @param comment Any additional comment needed.
+   * 
+   * @throws CheckoutException if merchantInfo, reason or comment is null.
    */
-  public RefundOrderRequest(MerchantInfo mi, String googleOrderNo,
-      String reason, float amount, String comment) {
-    this(mi);
-    setGoogleOrderNumber(googleOrderNo);
+  public RefundOrderRequest(MerchantInfo merchantInfo, String googleOrderNumber,
+    String reason, float amount, String comment) throws CheckoutException {
+    this(merchantInfo);
+    setGoogleOrderNumber(googleOrderNumber);
     setReason(reason);
     setAmount(amount);
     setComment(comment);
@@ -66,22 +87,24 @@ public class RefundOrderRequest extends AbstractOrderProcessingRequest {
 
   /**
    * Determine whether the reason and comment are within the string length
-   * limits.
+   * limits. See REFUND_STRING_LIMIT for the maximum length allowed.
    * 
-   * @param reason The Reason.
+   * @param reason The reason for the refund.
+   * @param comment Any additional comment needed.
    * 
-   * @param comment The Comment.
-   * @return True or false.
+   * @return True if the reason and the comment strings are within the allowable
+   * limit; otherwise false.
+   * 
+   * @throws CheckoutException if reason or comment is null.
    */
-  public boolean isWithinRefundStringLimits(String reason, String comment) {
-    int lenStrReason = reason.length();
-    int lenStrComment = comment.length();
-
-    if (lenStrReason <= Constants.refundStrLimit
-        && lenStrComment <= Constants.refundStrLimit)
-      return true;
-    else
-      return false;
+  public boolean isWithinRefundStringLimits(String reason, String comment) 
+    throws CheckoutException {
+    if (reason == null || comment == null) {
+      throw new CheckoutException(REFUND_ERROR_STRING);
+    }
+    
+    return ((reason.length() <= REFUND_STRING_LIMIT) 
+      && (comment.length() <= REFUND_STRING_LIMIT));
   }
 
   /**
@@ -117,38 +140,51 @@ public class RefundOrderRequest extends AbstractOrderProcessingRequest {
    * Set the refund amount, which is value of the &lt;amount&gt; tag.
    * 
    * @param amount The refund amount.
+   * 
+   * @throws CheckoutException if amount <= 0.
    */
-  public void setAmount(float amount) {
+  public void setAmount(float amount) throws CheckoutException {
+    if (amount <= 0) {
+      throw new CheckoutException("Refund amount must be greater than 0.");
+    }
+    
     Element e = Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), 
-        "amount", amount);
-    e.setAttribute("currency", mi.getCurrencyCode());
+      "amount", amount);
+    e.setAttribute("currency", merchantInfo.getCurrencyCode());
   }
 
   /**
-   * Set the refund comment String, which is the value of the &lt;comment&gt;
-   * tag.
+   * Set the refund order comment String, which is the value of the
+   * &lt;comment&gt; tag. Comment will be truncated if it exceeds the refund
+   * string limit. See RefundOrderRequest.REFUND_STRING_LIMIT.
    * 
    * @param comment The refund comment String.
+   * 
+   * @throws CheckoutException if comment is null.
    */
-  public void setComment(String comment) {
+  public void setComment(String comment) throws CheckoutException {
     if (!isWithinRefundStringLimits("", comment)) {
-      comment = "";
-      System.err.println(Constants.refundErrorString);
+      comment = comment.substring(0, REFUND_STRING_LIMIT);
     }
 
-    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), "comment", comment);
+    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), "comment", 
+      comment);
   }
 
   /**
    * Set the refund reason String, which is the value of the &lt;reason&gt; tag.
+   * Reason will be truncated if it exceeds the refund string limit. See 
+   * RefundOrderRequest.REFUND_STRING_LIMIT.
    * 
    * @param reason The refund reason String.
+   * 
+   * @throws CheckoutException if reason is null.
    */
-  public void setReason(String reason) {
+  public void setReason(String reason) throws CheckoutException {
     if (!isWithinRefundStringLimits(reason, "")) {
-      reason = "";
-      System.err.println(Constants.refundErrorString);
+      reason = reason.substring(0, REFUND_STRING_LIMIT);
     }
-    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), "reason", reason);
+    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), "reason", 
+      reason);
   }
 }

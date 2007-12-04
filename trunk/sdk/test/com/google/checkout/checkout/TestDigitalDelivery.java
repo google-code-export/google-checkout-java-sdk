@@ -50,7 +50,6 @@ public class TestDigitalDelivery extends TestCase {
     cart.addItem(item);
 
     CheckoutResponse res = cart.send();
-    System.out.println(res.getXmlPretty());
 
     assertTrue(res.isValidRequest());
     assertEquals(msg.replaceAll("\\s", ""), cart.getXml().replaceAll("\\s", ""));
@@ -78,7 +77,6 @@ public class TestDigitalDelivery extends TestCase {
     cart.addItem(item);
 
     CheckoutResponse res = cart.send();
-    System.out.println(res.getXmlPretty());
 
     assertTrue(res.isValidRequest());
     assertEquals(msg.replaceAll("\\s", ""), cart.getXml().replaceAll("\\s", ""));

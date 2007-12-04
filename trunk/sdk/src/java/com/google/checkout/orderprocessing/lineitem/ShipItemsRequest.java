@@ -18,6 +18,7 @@ package com.google.checkout.orderprocessing.lineitem;
 
 import org.w3c.dom.Element;
 
+import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.orderprocessing.AbstractOrderProcessingRequest;
 import com.google.checkout.util.Utils;
@@ -25,20 +26,36 @@ import org.w3c.dom.Document;
 
 /**
  * This class contains methods that construct &lt;ship-items&gt; API requests.
+ * 
+ * @author Charles Dang (cdang@google.com)
  */
 public class ShipItemsRequest extends AbstractOrderProcessingRequest {
 
-  public ShipItemsRequest(MerchantInfo mi) {
-    super(mi, "ship-items");
+  /**
+   * Constructor which takes an instance of MerchantInfo.
+   * 
+   * @param merchantInfo The merchant's information
+   * 
+   * @throws CheckoutException if merchantInfo is null.
+   */
+  public ShipItemsRequest(MerchantInfo merchantInfo) throws CheckoutException {
+    super(merchantInfo, "ship-items");
   }
 
-  /**
-   * Constructor which takes an instance of mi and the Google Order Number.
-   */
-  public ShipItemsRequest(MerchantInfo mi, String googleOrderNo) {
 
-    this(mi);
-    setGoogleOrderNumber(googleOrderNo);
+  /**
+   * Constructor which takes an instance of MerchantInfo and the Google order 
+   * number.
+   * 
+   * @param merchantInfo The merchant's information.
+   * @param googleOrderNumber The Google order number.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
+   */
+  public ShipItemsRequest(MerchantInfo merchantInfo, String googleOrderNumber) 
+    throws CheckoutException {
+    this(merchantInfo);
+    setGoogleOrderNumber(googleOrderNumber);
   }
 
   /**
@@ -59,20 +76,20 @@ public class ShipItemsRequest extends AbstractOrderProcessingRequest {
    */
   public void setSendEmail(boolean sendEmail) {
 
-    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), "send-email",
-        sendEmail);
+    Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(), 
+      "send-email", sendEmail);
   }
 
   /**
    * Add the item shipping information.
    * 
-   * @param merchantItemId
-   * @param carrier
-   * @param trackingNumber
+   * @param merchantItemId The merchant's item id.
+   * @param carrier The carrier that will ship the items.
+   * @param trackingNumber The tracking number of the order.
    */
 
   public void addItemShippingInformation(String merchantItemId, String carrier,
-      String trackingNumber) {
+    String trackingNumber) {
     addItemShippingInformation(merchantItemId,
         new TrackingData[] {new TrackingData(carrier, trackingNumber)});
   }
@@ -80,13 +97,13 @@ public class ShipItemsRequest extends AbstractOrderProcessingRequest {
   /**
    * Add the item shipping information.
    * 
-   * @param merchantItemId
-   * @param trackingData
+   * @param merchantItemId The merchant's item id.
+   * @param trackingData The tracking data.
    * 
    * @see TrackingData
    */
   public void addItemShippingInformation(String merchantItemId,
-      TrackingData[] trackingData) {
+    TrackingData[] trackingData) {
     Document document = getDocument();
     Element root = getRoot();
     

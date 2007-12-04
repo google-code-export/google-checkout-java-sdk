@@ -16,38 +16,60 @@
 
 package com.google.checkout.orderprocessing;
 
-import org.w3c.dom.Element;
-
+import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.Utils;
 
+import org.w3c.dom.Element;
+
 /**
  * This class contains methods that construct &lt;charge-order&gt; API requests.
+ * 
+ * @author Charles Dang (cdang@google.com)
  */
 public class ChargeOrderRequest extends AbstractOrderProcessingRequest {
 
-  public ChargeOrderRequest(MerchantInfo mi) {
-    super(mi, "charge-order");
+  /**
+   * Constructor which takes an instance of MechantInfo and the Google order
+   * 
+   * @param merchantInfo The merchant's information.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
+   */
+  public ChargeOrderRequest(MerchantInfo merchantInfo) throws CheckoutException {
+    super(merchantInfo, "charge-order");
   }
 
   /**
-   * Constructor which takes an instance of mi and the Google Order Number.
+   * Constructor which takes an instance of merchantInfo and the Google order 
+   * number.
+   * 
+   * @param merchantInfo The merchant's information.
+   * @param googleOrderNumber The Google order number.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
    */
-  public ChargeOrderRequest(MerchantInfo mi, String googleOrderNo) {
-
-    this(mi);
-    setGoogleOrderNumber(googleOrderNo);
+  public ChargeOrderRequest(MerchantInfo merchantInfo, String googleOrderNumber) 
+    throws CheckoutException {
+    this(merchantInfo);
+    setGoogleOrderNumber(googleOrderNumber);
   }
 
   /**
-   * Constructor which takes an instance of mi, the Google Order Number and the
-   * amount to be charged.
+   * Constructor which takes an instance of MerchantInfo, the Google order 
+   * number and the amount to be charged.
+   * 
+   * @param merchantInfo The merchant's information.
+   * @param googleOrderNumber The Google order number.
+   * @param amount The amount to charge.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
    */
-  public ChargeOrderRequest(MerchantInfo mi, String googleOrderNo, float amt) {
-
-    this(mi);
-    setGoogleOrderNumber(googleOrderNo);
-    setAmount(amt);
+  public ChargeOrderRequest(MerchantInfo merchantInfo, String googleOrderNumber, 
+    float amount) throws CheckoutException {
+    this(merchantInfo);
+    setGoogleOrderNumber(googleOrderNumber);
+    setAmount(amount);
   }
 
   /**
@@ -63,10 +85,16 @@ public class ChargeOrderRequest extends AbstractOrderProcessingRequest {
    * Set the charge amount, which is the value of the &lt;amount&gt; tag.
    * 
    * @param amount The charge amount.
+   * 
+   * @throws CheckoutException if amount <= 0.
    */
-  public void setAmount(float amount) {
+  public void setAmount(float amount) throws CheckoutException {
+    if (amount <= 0) {
+      throw new CheckoutException("Charge amount must be greater than 0");
+    }
+    
     Element e = Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(),
         "amount", amount);
-    e.setAttribute("currency", mi.getCurrencyCode());
+    e.setAttribute("currency", merchantInfo.getCurrencyCode());
   }
 }

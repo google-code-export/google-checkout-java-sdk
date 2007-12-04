@@ -389,9 +389,11 @@ public class Utils {
       ret = builder.parse(new InputSource(new StringReader(xmlString)));
     } catch (SAXException ex) {
       throw new CheckoutException("Got the following error when attempting to " +
-        "create new document from input stream." + ex.getMessage());
+        "create new document from the given xml string. Error message: " 
+        + ex.getMessage());
     } catch (IOException ex) {
-      throw new CheckoutSystemException(ex.getMessage());
+      throw new CheckoutSystemException("Error creating new document from the " +
+        "specified string. Error message: " + ex.getMessage());
     }
     
     return ret;
@@ -414,7 +416,8 @@ public class Utils {
       ret = builder.parse(new InputSource(in));
     } catch (SAXException ex) {
       throw new CheckoutException("Got the following error when attempting to " + 
-        "create new document from input stream." + ex.getMessage());
+        "create new document from input stream. Error message: " 
+        + ex.getMessage());
     } catch (IOException ex) {
       throw new CheckoutSystemException("Error creating new document from the " +
         "specified input stream. Error message: " + ex.getMessage());

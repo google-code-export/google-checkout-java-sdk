@@ -17,15 +17,18 @@
 package com.google.checkout.web;
 
 import com.google.checkout.CheckoutException;
-import com.google.checkout.CheckoutSystemException;
 import com.google.checkout.EnvironmentType;
 import com.google.checkout.MerchantInfo;
+import com.google.checkout.CheckoutSystemException;
+import com.google.checkout.util.Utils;
+
+import java.io.InputStream;
+
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
+
 import org.w3c.dom.Document;
-import com.google.checkout.util.Utils;
-import java.io.InputStream;
-import javax.servlet.ServletContext;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -54,12 +57,13 @@ public class ConfigurationListener implements ServletContextListener {
       throw new IllegalArgumentException("web.xml must have "
           + "<checkout-config-file> init parameter!");
     }
+    
     try {
       Document doc = Utils.newDocumentFromInputStream(is);
       context.setAttribute(WebConstants.MERCHANT_INFO_KEY,
         extractMerchantInfo(doc));
     } catch (CheckoutException ex) {
-      throw new CheckoutSystemException(ex.getMessage());
+      throw new CheckoutSystemException("Could not initialize context.");
     }
   }
 
@@ -83,31 +87,38 @@ public class ConfigurationListener implements ServletContextListener {
         Utils.getElementStringValue(doc, miElement, "sandbox-root").trim();
     String productionRoot =
         Utils.getElementStringValue(doc, miElement, "production-root").trim();
-    String checkoutSuffix =
-        Utils.getElementStringValue(doc, miElement, "checkout-suffix").trim();
-    String merchantCheckoutSuffix =
-        Utils.getElementStringValue(doc, miElement, "merchant-checkout-suffix")
+    String checkoutCommand =
+        Utils.getElementStringValue(doc, miElement, "checkout-command").trim();
+    String merchantCheckoutCommand =
+        Utils
+            .getElementStringValue(doc, miElement, "merchant-checkout-command")
             .trim();
-    String requestSuffix =
-        Utils.getElementStringValue(doc, miElement, "request-suffix").trim();
+    String requestCommand =
+        Utils.getElementStringValue(doc, miElement, "request-command").trim();
 
     String checkoutUrl = "";
     String merchantCheckoutUrl = "";
     String requestUrl = "";
 
     if (EnvironmentType.Sandbox.equals(env)) {
-      checkoutUrl = sandboxRoot + "/" + merchantId + "/" + checkoutSuffix;
+      checkoutUrl =
+          sandboxRoot + "/" + checkoutCommand + "/Merchant/" + merchantId;
       merchantCheckoutUrl =
-          sandboxRoot + "/" + merchantId + "/" + merchantCheckoutSuffix;
-      requestUrl = sandboxRoot + "/" + merchantId + "/" + requestSuffix;
+          sandboxRoot + "/" + merchantCheckoutCommand + "/Merchant/"
+              + merchantId;
+      requestUrl =
+          sandboxRoot + "/" + requestCommand + "/Merchant/" + merchantId;
     } else if (EnvironmentType.Production.equals(env)) {
-      checkoutUrl = productionRoot + "/" + merchantId + "/" + checkoutSuffix;
+      checkoutUrl =
+          productionRoot + "/" + checkoutCommand + "/Merchant/" + merchantId;
       merchantCheckoutUrl =
-          productionRoot + "/" + merchantId + "/" + merchantCheckoutSuffix;
-      requestUrl = productionRoot + "/" + merchantId + "/" + requestSuffix;
+          productionRoot + "/" + merchantCheckoutCommand + "/Merchant/"
+              + merchantId;
+      requestUrl =
+          productionRoot + "/" + requestCommand + "/Merchant/" + merchantId;
     } else {
-      throw new RuntimeException("Env must be one of "
-          + EnvironmentType.Sandbox + " or " + EnvironmentType.Production + ".");
+      throw new CheckoutSystemException("Env must be one of "
+        + EnvironmentType.Sandbox + " or " + EnvironmentType.Production + ".");
     }
     return new MerchantInfo(merchantId, merchantKey, env, currencyCode,
         checkoutUrl, merchantCheckoutUrl, requestUrl);

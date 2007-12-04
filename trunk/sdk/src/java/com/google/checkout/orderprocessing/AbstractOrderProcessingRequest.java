@@ -17,57 +17,77 @@
 package com.google.checkout.orderprocessing;
 
 import com.google.checkout.AbstractCheckoutRequest;
+import com.google.checkout.CheckoutException;
+import com.google.checkout.CheckoutSystemException;
 import com.google.checkout.MerchantInfo;
 
 /**
+ * The parent for all order processing requests.
  *
  * @author Charles Dang (cdang@google.com)
  */
-public abstract class AbstractOrderProcessingRequest extends AbstractCheckoutRequest {
+public abstract class AbstractOrderProcessingRequest extends 
+  AbstractCheckoutRequest {
   
-  public AbstractOrderProcessingRequest(MerchantInfo info, String requestType) {
-    super(info, requestType);
+  /**
+   * Constructor which takes in an instance of MerchantInfo.
+   * 
+   * @param merchantInfo The merchant's information.
+   * @param requestType The request type.
+   * 
+   * @throws CheckoutException if merchantInfo is null.
+   */
+  public AbstractOrderProcessingRequest(MerchantInfo merchantInfo, 
+    String requestType) throws CheckoutException {
+    super(merchantInfo, requestType);
   }
   
   /**
-   * Return the Google Order Number, which is the value of the
+   * Return the Google order number, which is the value of the
    * google-order-number attribute on the root tag.
    * 
-   * @deprecated Use getGoogleOrderNumber()
-   * @return The Google Order Number.
+   * @deprecated Use getGoogleOrderNumber().
+   * 
+   * @return The Google order number.
    */
   public String getGoogleOrderNo() {
     return getRoot().getAttribute("google-order-number");
   }
   
-    /**
-   * Return the Google Order Number, which is the value of the
+  /**
+   * Return the Google order number, which is the value of the
    * google-order-number attribute on the root tag.
    * 
-   * @return The Google Order Number.
+   * @return The Google order number.
    */
   public String getGoogleOrderNumber() {
     return getRoot().getAttribute("google-order-number");
   }
   
   /**
-   * Set the Google Order Number, which is the value of the google-order-number
+   * Set the Google order number, which is the value of the google-order-number
    * attribute on the root tag.
    * 
-   * @deprecated Use setGoogleOrderNumber()
-   * @param googleOrderNo The Google Order Number.
+   * @deprecated Use setGoogleOrderNumber().
+   * 
+   * @param googleOrderNo The Google order number.
    */
   public void setGoogleOrderNo(String googleOrderNo) {
     getRoot().setAttribute("google-order-number", googleOrderNo);
   }
   
-    /**
-   * Set the Google Order Number, which is the value of the google-order-number
+  /**
+   * Set the Google order number, which is the value of the google-order-number
    * attribute on the root tag.
    * 
-   * @param googleOrderNo The Google Order Number.
+   * @param googleOrderNumber The Google order number.
+   * 
+   * @throws CheckoutSystemException if the googleOrderNumber is null.
    */
   public void setGoogleOrderNumber(String googleOrderNumber) {
+    if (googleOrderNumber == null) {
+      throw new CheckoutSystemException("GoogleOrderNumber cannot be null");
+    }
     getRoot().setAttribute("google-order-number", googleOrderNumber);
   }
 }

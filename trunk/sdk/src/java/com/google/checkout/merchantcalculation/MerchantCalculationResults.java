@@ -34,11 +34,11 @@ import com.google.checkout.util.Utils;
  */
 public class MerchantCalculationResults {
 
-  private Document document;
+  private final Document document;
 
-  private Element root;
+  private final Element root;
 
-  private Element results;
+  private final Element results;
 
   public MerchantCalculationResults() {
     document = Utils.newEmptyDocument();
@@ -68,46 +68,54 @@ public class MerchantCalculationResults {
       boolean shippable, double totalTaxAmount, double shippingRate, 
       String currency, Collection merchantCodeResults) {
     
-    Element result = Utils.createNewContainer(document, results, "result");
-    
-    result.setAttribute("shipping-name", shippingName);
-    result.setAttribute("address-id", addressId);
-    
-    Utils.createNewElementAndSet(document, result, "shippable", shippable);
-    
+//    Element result = Utils.createNewContainer(document, results, "result");
+//    
+//    result.setAttribute("shipping-name", shippingName);
+//    result.setAttribute("address-id", addressId);
+//    
+//    Utils.createNewElementAndSet(document, result, "shippable", shippable);
+//    
+//    Element tax = Utils.createNewElementAndSet(document, result, "total-tax", 
+//        totalTaxAmount);
+//
+//    tax.setAttribute("currency", currency);
+//    
+//    Element shipping = Utils.createNewElementAndSet(document, result, 
+//        "shipping-rate", shippingRate);
+//    
+//    shipping.setAttribute("currency", currency);
+//
+//    if (merchantCodeResults != null) {
+//      Element codes = Utils.createNewContainer(document, result,
+//          "merchant-code-results");
+//      
+//      Iterator it = merchantCodeResults.iterator();
+//      MerchantCodeResult mcResult;
+//      Element eResult;
+//      
+//      while (it.hasNext()) {
+//        mcResult = (MerchantCodeResult) it.next();
+//        eResult = Utils.createNewContainer(document, codes, mcResult.getType());
+//        
+//        Utils.createNewElementAndSet(document, eResult, "valid", 
+//            mcResult.isValid());
+//  
+//        Utils.createNewElementAndSet(document, eResult, "calculated-amount", 
+//            mcResult.getCalculatedAmount());
+//        
+//        Utils.createNewElementAndSet(document, eResult, "code", 
+//            mcResult.getCode());
+//        
+//        Utils.createNewElementAndSet(document, eResult, "message", 
+//            mcResult.getMessage());
+//      }
+//    }
+    addResult(shippingName, addressId, shippable, shippingRate, currency, merchantCodeResults);
+    Element result = Utils.findElementOrContainer(document, results, "result");
     Element tax = Utils.createNewElementAndSet(document, result, "total-tax", 
-        totalTaxAmount);
-
+    totalTaxAmount);
+  
     tax.setAttribute("currency", currency);
-    
-    Element shipping = Utils.createNewElementAndSet(document, result, 
-        "shipping-rate", shippingRate);
-    
-    shipping.setAttribute("currency", currency);
-
-    Element codes = Utils.createNewContainer(document, result,
-        "merchant-code-results");
-    
-    Iterator it = merchantCodeResults.iterator();
-    MerchantCodeResult mcResult;
-    Element eResult;
-    
-    while (it.hasNext()) {
-      mcResult = (MerchantCodeResult) it.next();
-      eResult = Utils.createNewContainer(document, codes, mcResult.getType());
-      
-      Utils.createNewElementAndSet(document, eResult, "valid", 
-          mcResult.isValid());
-
-      Utils.createNewElementAndSet(document, eResult, "calculated-amount", 
-          mcResult.getCalculatedAmount());
-      
-      Utils.createNewElementAndSet(document, eResult, "code", 
-          mcResult.getCode());
-      
-      Utils.createNewElementAndSet(document, eResult, "message", 
-          mcResult.getMessage());
-    }
   }
 
 /**
@@ -142,25 +150,27 @@ public class MerchantCalculationResults {
     Element codes = Utils.createNewContainer(document, result, 
         "merchant-code-results");
 
-    Iterator it = merchantCodeResults.iterator();
-    MerchantCodeResult mcResult;
-    Element eResult;
-
-    while (it.hasNext()) {
-      mcResult = (MerchantCodeResult) it.next();  
-      eResult = Utils.createNewContainer(document, codes, mcResult.getType());
-
-      Utils.createNewElementAndSet(document, eResult, "valid", 
-          mcResult.isValid());
-      
-      Utils.createNewElementAndSet(document, eResult, "calculated-amount", 
-          mcResult.getCalculatedAmount());
-
-      Utils.createNewElementAndSet(document, eResult, "code", 
-          mcResult.getCode());
-      
-      Utils.createNewElementAndSet(document, eResult, "message", 
-          mcResult.getMessage());
+    if (merchantCodeResults != null) {
+      Iterator it = merchantCodeResults.iterator();
+      MerchantCodeResult mcResult;
+      Element eResult;
+  
+      while (it.hasNext()) {
+        mcResult = (MerchantCodeResult) it.next();  
+        eResult = Utils.createNewContainer(document, codes, mcResult.getType());
+  
+        Utils.createNewElementAndSet(document, eResult, "valid", 
+            mcResult.isValid());
+        
+        Utils.createNewElementAndSet(document, eResult, "calculated-amount", 
+            mcResult.getCalculatedAmount());
+  
+        Utils.createNewElementAndSet(document, eResult, "code", 
+            mcResult.getCode());
+        
+        Utils.createNewElementAndSet(document, eResult, "message", 
+            mcResult.getMessage());
+      }
     }
   }
 

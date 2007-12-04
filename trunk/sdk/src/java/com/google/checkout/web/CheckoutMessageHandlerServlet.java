@@ -121,10 +121,10 @@ public class CheckoutMessageHandlerServlet extends
    * Overrides base class method to load the configuration from web.xml
    * deployment descriptor
    * 
-   * @param mi
-   * @param message
-   * @return
-   * @throws com.google.checkout.exceptions.CheckoutException if there was an
+   * @param mi The merchant information
+   * @param message The checkout message to process
+   * @return The string result from processing the checkout message
+   * @throws CheckoutException if there was an
    * error dispatching the processing the merchant's information
    */
   protected String dispatch(MerchantInfo mi, String message) throws CheckoutException {

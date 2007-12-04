@@ -20,7 +20,7 @@ import com.google.checkout.util.Base64Coder;
 /**
  * This class encapsulates the various merchant specific settings. An instance
  * of this class will be required by most of the other classes in order to
- * properly parameterise the API requests.
+ * properly parameterize the API requests.
  *
  * @author simonjsmith
  * @author inder
@@ -28,27 +28,23 @@ import com.google.checkout.util.Base64Coder;
 public class MerchantInfo implements java.io.Serializable {
   
   private final String merchantId;
-  
   private final String merchantKey;
-  
   private final String env;
-  
   private final String currencyCode;
-  
   private final String checkoutUrl;
-  
   private final String merchantCheckoutUrl;
-  
   private final String requestUrl;
   
-   /*
-    * @param merchantId The Merchant Id.
-    * @param merchantKey The Merchant Key.
-    * @param env The Environment Type.
-    * @param currencyCode The Currency Code.
-    * @param checkoutUrl The Checkout Url
-    * @param merchantCheckoutUrl The Merchant Checkout Url
-    * @param requestUrl The Request Url
+   /**
+    * 
+    * 
+    * @param merchantId The merchant id.
+    * @param merchantKey The merchant key.
+    * @param env The environment type.
+    * @param currencyCode The currency code.
+    * @param checkoutUrl The checkout url
+    * @param merchantCheckoutUrl The merchant checkout url
+    * @param requestUrl The request url
     */
   public MerchantInfo(String merchantId, String merchantKey, String env,
       String currencyCode, String checkoutUrl,

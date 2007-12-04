@@ -16,34 +16,46 @@
 
 package com.google.checkout.orderprocessing;
 
-import org.w3c.dom.Element;
-
+import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.Utils;
+
+import org.w3c.dom.Element;
 
 /**
  * This class contains methods that construct &lt;add-tracking-data&gt; API
  * requests.
+ * 
+ * @author Charles Dang (cdang@google.com)
  */
 public class AddTrackingDataRequest extends AbstractOrderProcessingRequest {
-  public AddTrackingDataRequest(MerchantInfo mi) {
-    super(mi, "add-tracking-data");
+  
+  /**
+   * Constructor which takes an instance of MerchantInfo
+   * 
+   * @param merchantInfo The merchant's information
+   * @throws CheckoutException if the MerchantInfo is null
+   */
+  public AddTrackingDataRequest(MerchantInfo merchantInfo) throws CheckoutException {
+    super(merchantInfo, "add-tracking-data");
   }
 
   /**
-   * Constructor which takes an instance of mi, the Google Order Number, the
-   * Carrier and the Tracking Number
+   * Constructor which takes an instance of MerchantInfo, the Google order 
+   * number, the carrier and the tracking number
    * 
-   * @param googleOrderNo The Google Order Number.
-   * @param carrier The Carrier.
-   * @param trackingNo The Tracking Number.
+   * @param googleOrderNumber The Google order number.
+   * @param carrier The carrier.
+   * @param trackingNumber The tracking number.
+   * 
+   * @throws CheckoutException if merchantInfo is null
    */
-  public AddTrackingDataRequest(MerchantInfo mi, String googleOrderNo,
-      String carrier, String trackingNo) {
-    this(mi);
-    setGoogleOrderNumber(googleOrderNo);
+  public AddTrackingDataRequest(MerchantInfo merchantInfo, String googleOrderNumber,
+      String carrier, String trackingNumber) throws CheckoutException {
+    this(merchantInfo);
+    setGoogleOrderNumber(googleOrderNumber);
     setCarrier(carrier);
-    setTrackingNumber(trackingNo);
+    setTrackingNumber(trackingNumber);
   }
 
   /**
@@ -62,6 +74,7 @@ public class AddTrackingDataRequest extends AbstractOrderProcessingRequest {
    * &lt;tracking-number&gt; tag.
    * 
    * @deprecated Use getTrackingNumber()
+   * 
    * @return The tracking number.
    */
   public String getTrackingNo() {
@@ -85,9 +98,9 @@ public class AddTrackingDataRequest extends AbstractOrderProcessingRequest {
   }
 
   /**
-   * Set the carrier String, which is the value of the &lt;carrier&gt; tag.
+   * Set the carrier string, which is the value of the &lt;carrier&gt; tag.
    * 
-   * @param carrier The carrier String.
+   * @param carrier The carrier string.
    */
   public void setCarrier(String carrier) {
     Element trackingDataTag =
@@ -101,6 +114,7 @@ public class AddTrackingDataRequest extends AbstractOrderProcessingRequest {
    * tag.
    * 
    * @deprecated Use setTrackingNumber()
+   * 
    * @param trackingNo The tracking number.
    */
   public void setTrackingNo(String trackingNo) {
@@ -114,7 +128,7 @@ public class AddTrackingDataRequest extends AbstractOrderProcessingRequest {
    * Set the tracking number, which is the value of the &lt;tracking-number&gt;
    * tag.
    * 
-   * @param trackingNo The tracking number.
+   * @param trackingNumber The tracking number.
    */
   public void setTrackingNumber(String trackingNumber) {
     Element trackingDataTag =
