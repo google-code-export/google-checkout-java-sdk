@@ -3,6 +3,7 @@ package com.google.checkout.checkout;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.google.checkout.CheckoutException;
 import com.google.checkout.util.Utils;
 
 /**
@@ -182,13 +183,21 @@ public class Item {
 
   /**
    * Set the contents of the &lt;merchant-private-item-data&gt; tag as an array
-   * of Elements.
+   * of Elements. If the merchant-private-item-data tag already exists, it will
+   * be replaced with the contents of elements. If the elements are not of type
+   * item-data, a CheckoutException will be thrown.
    * 
    * @param elements The private data Elements.
    * 
    * @see Element
    */
-  public void setMerchantPrivateItemData(Element[] elements) {
+  public void setMerchantPrivateItemData(Element[] elements) throws CheckoutException {   
+    for (int i=0; i<elements.length; ++i) {
+      if (!elements[i].getNodeName().equals("item-data")) {
+        throw new CheckoutException("At least one of the nodes is not item-data");
+      }
+    }
+    
     Element privateData =
       Utils.findElementOrContainer(document, element,
         "merchant-private-item-data");
@@ -196,9 +205,9 @@ public class Item {
     if (privateData != null) {
       element.removeChild(privateData);
     } 
-    else {
-      privateData = document.createElement("merchant-private-item-data");
-    }
+    
+    privateData = document.createElement("merchant-private-item-data");
+    
     Utils.importElements(document, privateData, elements);
     element.appendChild(privateData);
   }
@@ -252,7 +261,7 @@ public class Item {
   public void setItemWeight(float itemWeight) {
     Element unitPrice =
         Utils.findContainerElseCreate(document, element, "item-weight");
-    unitPrice.setAttribute("value", ""+itemWeight);
+    unitPrice.setAttribute("value", Float.toString(itemWeight));
   }
 
   /**
