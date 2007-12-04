@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<some-new-notification xmlns="http://checkout.google.com/schema/2"
+    serial-number="95d44287-12b1-4722-bc56-cfaa73f4c0d1">
+    <google-order-number>841171949013218</google-order-number>
+    <timestamp>2006-03-18T18:25:31</timestamp>
+</some-new-notification>

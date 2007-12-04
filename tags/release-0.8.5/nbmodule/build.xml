@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="com.google.checkout.sdk.nbmodule" default="netbeans" basedir=".">
+    <description>Builds, tests, and runs the project com.google.checkout.sdk.nbmodule.</description>
+    <import file="nbproject/build-impl.xml"/>
+    
+    <property file="build.properties"/>
+
+    <property name="build.dir" value="build"/>
+    <property name="build.classes.dir" value="${build.dir}/classes"/>
+    <property name="sdk.dir.name" value="checkout-sdk-0.8.2"/>
+    <property name="checkout-sdk.home" value="../sdk/build/tmpdist/${sdk.dir.name}"/>
+    <property name="checkout-sdk-zip" value="${sdk.dir.name}.zip"/>
+    <property name="checkout-sdk-dir" value="${build.dir}/${sdk.dir.name}"/>
+    
+    <target name="setup" depends="init">
+      <echo> 
+You will need to run setup target manually before building the nbmodule project, 
+or everytime after running the clean target.
+      </echo>
+      <mkdir dir="${build.classes.dir}/resources"/>
+      <unzip src="${checkout-sdk-zip}" dest="${build.dir}"/>
+      <copy todir="src/resources">
+        <fileset dir="${checkout-sdk.home}/web/WEB-INF/">
+          <include name="checkout-config.xml"/>
+        </fileset>
+      </copy>
+    </target>
+    <target name="all" depends="setup"/>
+</project>
