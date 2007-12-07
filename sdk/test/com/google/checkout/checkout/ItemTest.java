@@ -61,22 +61,29 @@ public class ItemTest extends TestCase {
     itemData[0].setTextContent("Popular item - order more if needed");
     tempItem.setMerchantPrivateItemData(itemData);
     
-    Element [] itemData2 = new Element[1];
+    Element [] itemData2 = new Element[3];
     itemData2[0] = doc.createElement("item-data");
-    
     itemData2[0].setTextContent("NEW Popular item - order more if needed");
+    
+    itemData2[1] = doc.createElement("merchant-product-id");
+    itemData2[1].setTextContent("1234567890");
+    
+    itemData2[2] = doc.createElement("some-new-node");
+    itemData2[2].setTextContent("some text");
+    
     tempItem.setMerchantPrivateItemData(itemData2);
-
+    
     Element [] ret = tempItem.getMerchantPrivateItemData();
     assertNotNull(ret);
-    assertEquals(1, ret.length);
+    assertEquals(3, ret.length);
     
     request.addItem(tempItem);
     assertEquals(
-        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
+        "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" +
         "<checkout-shopping-cart xmlns=\"http://checkout.google.com/schema/2\">" +
         "<shopping-cart><items><item><merchant-private-item-data><item-data>" +
-        "NEW Popular item - order more if needed</item-data>" +
+        "NEW Popular item - order more if needed</item-data><merchant-product-id>" + 
+        "1234567890</merchant-product-id><some-new-node>some text</some-new-node>" +
         "</merchant-private-item-data></item></items></shopping-cart>" +
         "<checkout-flow-support><merchant-checkout-flow-support/>" +
         "</checkout-flow-support></checkout-shopping-cart>", request.getXml());

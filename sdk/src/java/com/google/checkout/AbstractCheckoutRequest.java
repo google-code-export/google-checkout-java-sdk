@@ -20,7 +20,6 @@ package com.google.checkout;
 import com.google.checkout.util.Constants;
 import com.google.checkout.util.Utils;
 
-import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -48,13 +47,11 @@ public abstract class AbstractCheckoutRequest {
    * @param merchantInfo The merchant's information
    * @param requestType The request type
    * 
-   * @throws CheckoutException if the MerchantInfo is null.
-   * @throws DOMException if the requestType is null
+   * @throws IllegalArgumentException if the MerchantInfo is null.
    */
-  public AbstractCheckoutRequest(MerchantInfo merchantInfo, String requestType) 
-    throws CheckoutException {
+  public AbstractCheckoutRequest(MerchantInfo merchantInfo, String requestType) {
     if (merchantInfo == null) {
-      throw new CheckoutException("MerchantInfo cannot be null");
+      throw new IllegalArgumentException("MerchantInfo cannot be null");
     }
       
     this.merchantInfo = merchantInfo;

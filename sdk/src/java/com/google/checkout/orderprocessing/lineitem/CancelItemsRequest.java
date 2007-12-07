@@ -16,7 +16,6 @@
 
 package com.google.checkout.orderprocessing.lineitem;
 
-import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.orderprocessing.AbstractOrderProcessingRequest;
 import com.google.checkout.util.Utils;
@@ -35,10 +34,8 @@ public class CancelItemsRequest extends AbstractOrderProcessingRequest {
    * Constructor which takes an instance of MerchantInfo.
    * 
    * @param merchantInfo The merchant's information.
-   * 
-   * @throws CheckoutException if merchantInfo is null
    */
-  public CancelItemsRequest(MerchantInfo merchantInfo) throws CheckoutException {
+  public CancelItemsRequest(MerchantInfo merchantInfo) {
     super(merchantInfo, "cancel-items");
   }
 
@@ -50,8 +47,7 @@ public class CancelItemsRequest extends AbstractOrderProcessingRequest {
    * @param googleOrderNumber The Google order number.
    * 
    */
-  public CancelItemsRequest(MerchantInfo merchantInfo, String googleOrderNumber) 
-    throws CheckoutException {
+  public CancelItemsRequest(MerchantInfo merchantInfo, String googleOrderNumber) {
     this(merchantInfo);
     setGoogleOrderNumber(googleOrderNumber);
   }

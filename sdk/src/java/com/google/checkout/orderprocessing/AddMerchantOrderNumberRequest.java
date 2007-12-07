@@ -16,7 +16,6 @@
 
 package com.google.checkout.orderprocessing;
 
-import com.google.checkout.CheckoutException;
 import com.google.checkout.CheckoutSystemException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.Utils;
@@ -33,11 +32,8 @@ public class AddMerchantOrderNumberRequest extends AbstractOrderProcessingReques
    * Constructor which takes an instance of MerchantInfo,
    * 
    * @param merchantInfo The merchant's information.
-   * 
-   * @throws CheckoutException if merchantInfo is null.
    */
-  public AddMerchantOrderNumberRequest(MerchantInfo merchantInfo) 
-  throws CheckoutException {
+  public AddMerchantOrderNumberRequest(MerchantInfo merchantInfo) {
     super(merchantInfo, "add-merchant-order-number");
   }
 
@@ -48,12 +44,9 @@ public class AddMerchantOrderNumberRequest extends AbstractOrderProcessingReques
    * @param merchantInfo The merchant's information.
    * @param googleOrderNumber The Google order number of the request.
    * @param merchantOrderNumber The merchant's order number.
-   * 
-   * @throws CheckoutException if merchantInfo is null
    */
   public AddMerchantOrderNumberRequest(MerchantInfo merchantInfo, 
-    String googleOrderNumber, String merchantOrderNumber) 
-    throws CheckoutException {
+    String googleOrderNumber, String merchantOrderNumber) {
     this(merchantInfo);
     setGoogleOrderNumber(googleOrderNumber);
     setMerchantOrderNumber(merchantOrderNumber);

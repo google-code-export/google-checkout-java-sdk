@@ -16,7 +16,6 @@
 
 package com.google.checkout.orderprocessing;
 
-import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.Utils;
 
@@ -37,11 +36,8 @@ public class SendBuyerMessageRequest extends AbstractOrderProcessingRequest {
    * Constructor which takes an instance of MerchantInfo.
    * 
    * @param merchantInfo The merchant's information
-   * 
-   * @throws CheckoutException if merchantInfo is null.
    */
-  public SendBuyerMessageRequest(MerchantInfo merchantInfo) 
-    throws CheckoutException {
+  public SendBuyerMessageRequest(MerchantInfo merchantInfo) {
     super(merchantInfo, "send-buyer-message");
   }
 
@@ -52,11 +48,9 @@ public class SendBuyerMessageRequest extends AbstractOrderProcessingRequest {
    * @param merchantInfo The merchant's information.
    * @param googleOrderNumber The Google order number
    * @param message The message to send to the buyer.
-   * 
-   * @throws CheckoutException if MerchantInfo is null.
    */
   public SendBuyerMessageRequest(MerchantInfo merchantInfo, 
-    String googleOrderNumber, String message) throws CheckoutException {
+    String googleOrderNumber, String message) {
     this(merchantInfo);
     setGoogleOrderNumber(googleOrderNumber);
     setMessage(message);
@@ -70,12 +64,9 @@ public class SendBuyerMessageRequest extends AbstractOrderProcessingRequest {
    * @param googleOrderNumber The Google order number.
    * @param message The message to send the buyer.
    * @param sendEmail Whether to send an email to buyer.
-   * 
-   * @throws CheckoutException if merchantInfo is null.
    */
   public SendBuyerMessageRequest(MerchantInfo merchantInfo, String 
-    googleOrderNumber, String message, boolean sendEmail) throws 
-    CheckoutException {
+    googleOrderNumber, String message, boolean sendEmail) {
     this(merchantInfo, googleOrderNumber, message);
     setGoogleOrderNumber(googleOrderNumber);
     setMessage(message);
@@ -87,10 +78,9 @@ public class SendBuyerMessageRequest extends AbstractOrderProcessingRequest {
    * 
    * @return True or false.
    */
-  public boolean isWithinMessageStringLimits(String message) 
-    throws CheckoutException {
+  public boolean isWithinMessageStringLimits(String message) {
     if (message == null) {
-      throw new CheckoutException(MESSAGE_ERROR_STRING);
+      throw new IllegalArgumentException(MESSAGE_ERROR_STRING);
     }
 
     return (message.length() <= MESSAGE_STRING_LIMIT);
@@ -125,7 +115,7 @@ public class SendBuyerMessageRequest extends AbstractOrderProcessingRequest {
    * 
    * @throws CheckoutException if message is null.
    */
-  public void setMessage(String message) throws CheckoutException {
+  public void setMessage(String message)  {
     if (!isWithinMessageStringLimits(message)) {
       message = message.substring(0, MESSAGE_STRING_LIMIT);
     }

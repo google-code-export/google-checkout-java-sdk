@@ -16,7 +16,6 @@
 
 package com.google.checkout.orderprocessing;
 
-import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.Utils;
 
@@ -37,8 +36,7 @@ public class CancelOrderRequest extends AbstractOrderProcessingRequest {
    * 
    * @param merchantInfo The merchant's information.
    */
-  public CancelOrderRequest(MerchantInfo merchantInfo) 
-    throws CheckoutException {
+  public CancelOrderRequest(MerchantInfo merchantInfo) {
     super(merchantInfo, "cancel-order");
   }
 
@@ -48,11 +46,9 @@ public class CancelOrderRequest extends AbstractOrderProcessingRequest {
    * 
    * @param googleOrderNumber The Google order number.
    * @param reason The reason for the cancellation.
-   * 
-   * @throws CheckoutException if merchantInfo is null.
    */
   public CancelOrderRequest(MerchantInfo merchantInfo, String googleOrderNumber, 
-      String reason) throws CheckoutException {
+      String reason) {
     this(merchantInfo);
     setGoogleOrderNumber(googleOrderNumber);
     setReason(reason);
@@ -69,7 +65,7 @@ public class CancelOrderRequest extends AbstractOrderProcessingRequest {
    * @throws CheckoutException if merchantInfo is null.
    */
   public CancelOrderRequest(MerchantInfo merchantInfo, String googleOrderNo,
-      String reason, String comment) throws CheckoutException {
+      String reason, String comment) {
     this(merchantInfo);
     setGoogleOrderNumber(googleOrderNo);
     setReason(reason);
@@ -89,10 +85,9 @@ public class CancelOrderRequest extends AbstractOrderProcessingRequest {
    * 
    * @throws CheckoutException if reason is null or if comment if null.
    */
-  public boolean isWithinCancelStringLimits(String reason, String comment) 
-    throws CheckoutException {
+  public boolean isWithinCancelStringLimits(String reason, String comment) {
     if (reason == null || comment == null) {
-      throw new CheckoutException(CANCEL_ERROR_STRING);
+      throw new IllegalArgumentException(CANCEL_ERROR_STRING);
     }
 
     return ((reason.length() <= CANCEL_STRING_LIMIT) && 
@@ -125,10 +120,8 @@ public class CancelOrderRequest extends AbstractOrderProcessingRequest {
    * string limit. See CancelOrderRequest.CANCEL_STRING_LIMIT.
    * 
    * @param comment A comment associated with the cancellation.
-   * 
-   * @throws CheckoutException if comment is null.
    */
-  public void setComment(String comment) throws CheckoutException {
+  public void setComment(String comment) {
     if (!isWithinCancelStringLimits("", comment)) {
       comment = comment.substring(0, CANCEL_STRING_LIMIT);
     }
@@ -143,10 +136,8 @@ public class CancelOrderRequest extends AbstractOrderProcessingRequest {
    * string limit. See CancelOrderRequest.CANCEL_STRING_LIMIT.
    * 
    * @param reason The reason for cancellation.
-   * 
-   * @throws CheckoutException if reason is null.
    */
-  public void setReason(String reason) throws CheckoutException {
+  public void setReason(String reason) {
     if (!isWithinCancelStringLimits(reason, "")) {
       reason = reason.substring(0, CANCEL_STRING_LIMIT);
     }

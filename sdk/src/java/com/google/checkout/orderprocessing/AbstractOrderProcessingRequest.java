@@ -17,8 +17,6 @@
 package com.google.checkout.orderprocessing;
 
 import com.google.checkout.AbstractCheckoutRequest;
-import com.google.checkout.CheckoutException;
-import com.google.checkout.CheckoutSystemException;
 import com.google.checkout.MerchantInfo;
 
 /**
@@ -34,11 +32,9 @@ public abstract class AbstractOrderProcessingRequest extends
    * 
    * @param merchantInfo The merchant's information.
    * @param requestType The request type.
-   * 
-   * @throws CheckoutException if merchantInfo is null.
    */
   public AbstractOrderProcessingRequest(MerchantInfo merchantInfo, 
-    String requestType) throws CheckoutException {
+    String requestType) {
     super(merchantInfo, requestType);
   }
   
@@ -82,11 +78,11 @@ public abstract class AbstractOrderProcessingRequest extends
    * 
    * @param googleOrderNumber The Google order number.
    * 
-   * @throws CheckoutSystemException if the googleOrderNumber is null.
+   * @throws IllegalArgumentException if the googleOrderNumber is null.
    */
   public void setGoogleOrderNumber(String googleOrderNumber) {
     if (googleOrderNumber == null) {
-      throw new CheckoutSystemException("GoogleOrderNumber cannot be null");
+      throw new IllegalArgumentException("GoogleOrderNumber cannot be null");
     }
     getRoot().setAttribute("google-order-number", googleOrderNumber);
   }

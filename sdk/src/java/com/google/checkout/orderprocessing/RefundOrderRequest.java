@@ -38,11 +38,8 @@ public class RefundOrderRequest extends AbstractOrderProcessingRequest {
    * Constructor which takes an instance of MerchantInfo.
    * 
    * @param merchantInfo The merchant's information.
-   * 
-   * @throws CheckoutException if merchantInfo is null.
    */
-  public RefundOrderRequest(MerchantInfo merchantInfo) 
-    throws CheckoutException {
+  public RefundOrderRequest(MerchantInfo merchantInfo) {
     super(merchantInfo, "refund-order");
   }
 
@@ -53,11 +50,9 @@ public class RefundOrderRequest extends AbstractOrderProcessingRequest {
    * @param merchantInfo The merchant's information.
    * @param googleOrderNumber The Google order number.
    * @param reason The reason for the refund.
-   * 
-   * @throws CheckoutException if merchantInfo or reason is null.
    */
   public RefundOrderRequest(MerchantInfo merchantInfo, String googleOrderNumber, 
-    String reason) throws CheckoutException {
+    String reason) {
     this(merchantInfo);
     setGoogleOrderNumber(googleOrderNumber);
     setReason(reason);
@@ -97,10 +92,9 @@ public class RefundOrderRequest extends AbstractOrderProcessingRequest {
    * 
    * @throws CheckoutException if reason or comment is null.
    */
-  public boolean isWithinRefundStringLimits(String reason, String comment) 
-    throws CheckoutException {
+  public boolean isWithinRefundStringLimits(String reason, String comment) {
     if (reason == null || comment == null) {
-      throw new CheckoutException(REFUND_ERROR_STRING);
+      throw new IllegalArgumentException(REFUND_ERROR_STRING);
     }
     
     return ((reason.length() <= REFUND_STRING_LIMIT) 
@@ -180,7 +174,7 @@ public class RefundOrderRequest extends AbstractOrderProcessingRequest {
    * 
    * @throws CheckoutException if reason is null.
    */
-  public void setReason(String reason) throws CheckoutException {
+  public void setReason(String reason) {
     if (!isWithinRefundStringLimits(reason, "")) {
       reason = reason.substring(0, REFUND_STRING_LIMIT);
     }

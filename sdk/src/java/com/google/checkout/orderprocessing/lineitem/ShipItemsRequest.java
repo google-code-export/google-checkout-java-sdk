@@ -35,10 +35,8 @@ public class ShipItemsRequest extends AbstractOrderProcessingRequest {
    * Constructor which takes an instance of MerchantInfo.
    * 
    * @param merchantInfo The merchant's information
-   * 
-   * @throws CheckoutException if merchantInfo is null.
    */
-  public ShipItemsRequest(MerchantInfo merchantInfo) throws CheckoutException {
+  public ShipItemsRequest(MerchantInfo merchantInfo) {
     super(merchantInfo, "ship-items");
   }
 
@@ -49,8 +47,6 @@ public class ShipItemsRequest extends AbstractOrderProcessingRequest {
    * 
    * @param merchantInfo The merchant's information.
    * @param googleOrderNumber The Google order number.
-   * 
-   * @throws CheckoutException if merchantInfo is null.
    */
   public ShipItemsRequest(MerchantInfo merchantInfo, String googleOrderNumber) 
     throws CheckoutException {
