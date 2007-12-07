@@ -16,7 +16,6 @@
 
 package com.google.checkout.checkout;
 
-import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.TestUtils;
 
@@ -57,10 +56,20 @@ public class CheckoutShoppingCartRequestTest extends TestCase {
         5.4f, "cm", 400f, "mm", 3000f, Packaging.Box, new ShipFrom());
       
       System.out.println(cartRequest.getXml());
-    } catch (CheckoutException ex) {
+    } catch (IllegalArgumentException ex) {
       fail();
     }
+  }
+  
+  public void testCheckoutShoppingCartRequestWithNullMerchantInfo() {
+    MerchantInfo mi = null;
     
-
+    try {
+      CheckoutShoppingCartRequest cartRequest = 
+        new CheckoutShoppingCartRequest(mi);
+      fail();
+    } catch (IllegalArgumentException ex) {
+      
+    }
   }
 }

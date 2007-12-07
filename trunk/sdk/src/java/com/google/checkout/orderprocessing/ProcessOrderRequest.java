@@ -16,7 +16,6 @@
 
 package com.google.checkout.orderprocessing;
 
-import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 
 /**
@@ -34,8 +33,7 @@ public class ProcessOrderRequest extends AbstractOrderProcessingRequest {
    * 
    * @throws CheckoutException if merchantInfo is null.
    */
-  public ProcessOrderRequest(MerchantInfo merchantInfo) 
-    throws CheckoutException {
+  public ProcessOrderRequest(MerchantInfo merchantInfo) {
     super(merchantInfo, "process-order");
   }
   
@@ -44,11 +42,9 @@ public class ProcessOrderRequest extends AbstractOrderProcessingRequest {
    * 
    * @param merchantInfo The merchant's information.
    * @param googleOrderNumber The Google order number.
-   * 
-   * @throws CheckoutException if merchantInfo or googleOrderNumber is null.
    */
   public ProcessOrderRequest(MerchantInfo merchantInfo, String 
-    googleOrderNumber) throws CheckoutException {
+    googleOrderNumber) {
     this(merchantInfo);
     setGoogleOrderNumber(googleOrderNumber);
   }

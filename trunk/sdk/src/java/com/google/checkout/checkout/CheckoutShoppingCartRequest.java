@@ -47,11 +47,8 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * Constructor which takes an instance of merchantInfo.
    * 
    * @param merchantInfo The merchant's information.
-   * 
-   * @throws CheckoutException if merchantInfo is null.
    */
-  public CheckoutShoppingCartRequest(MerchantInfo merchantInfo) 
-    throws CheckoutException {
+  public CheckoutShoppingCartRequest(MerchantInfo merchantInfo) {
     super(merchantInfo, "checkout-shopping-cart");
     
     // Document and root should be initialized after calling the super constructor
@@ -74,9 +71,12 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * 
    * @param merchantInfo The merchant's information.
    * @param cartXml The xml string representation of the shopping cart.
+   * 
+   * @throws CheckoutException If an xml document cannot be created from the 
+   * cartXml
    */
   public CheckoutShoppingCartRequest(MerchantInfo merchantInfo, String cartXml) 
-    throws CheckoutException{
+    throws CheckoutException {
     super(merchantInfo, Utils.newDocumentFromString(cartXml));
     
     // Document and root should be initialized after caller the super constructor
@@ -97,7 +97,7 @@ public class CheckoutShoppingCartRequest extends AbstractCheckoutRequest {
    * should expire.
    */
   public CheckoutShoppingCartRequest(MerchantInfo merchantInfo,
-    int expirationMinutesFromNow) throws CheckoutException {
+    int expirationMinutesFromNow) {
     this(merchantInfo);
     this.setExpirationMinutesFromNow(expirationMinutesFromNow);
   }

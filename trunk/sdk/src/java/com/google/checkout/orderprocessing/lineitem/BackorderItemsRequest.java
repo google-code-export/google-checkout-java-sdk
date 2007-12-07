@@ -36,11 +36,8 @@ public class BackorderItemsRequest extends AbstractOrderProcessingRequest {
    * Constructor which takes an instance of MerchantInfo.
    * 
    * @param merchantInfo The merchant's information.
-   * 
-   * @throws CheckoutException if merchantInfo is null.
    */
-  public BackorderItemsRequest(MerchantInfo merchantInfo) 
-    throws CheckoutException{
+  public BackorderItemsRequest(MerchantInfo merchantInfo) {
     super(merchantInfo, "backorder-items");
   }
 
@@ -50,11 +47,9 @@ public class BackorderItemsRequest extends AbstractOrderProcessingRequest {
    * 
    * @param merchantInfo The merchant's information.
    * @param googleOrderNumber The Google order number.
-   * 
-   * @throws CheckoutException if merchantInfo or googleOrderNumber is null.
    */
   public BackorderItemsRequest(MerchantInfo merchantInfo, 
-    String googleOrderNumber) throws CheckoutException {
+    String googleOrderNumber) {
     this(merchantInfo);
     setGoogleOrderNumber(googleOrderNumber);
   }

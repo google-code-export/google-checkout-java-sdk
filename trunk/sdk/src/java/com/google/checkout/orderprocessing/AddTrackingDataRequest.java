@@ -16,7 +16,6 @@
 
 package com.google.checkout.orderprocessing;
 
-import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.Utils;
 
@@ -34,9 +33,8 @@ public class AddTrackingDataRequest extends AbstractOrderProcessingRequest {
    * Constructor which takes an instance of MerchantInfo
    * 
    * @param merchantInfo The merchant's information
-   * @throws CheckoutException if the MerchantInfo is null
    */
-  public AddTrackingDataRequest(MerchantInfo merchantInfo) throws CheckoutException {
+  public AddTrackingDataRequest(MerchantInfo merchantInfo) {
     super(merchantInfo, "add-tracking-data");
   }
 
@@ -47,11 +45,9 @@ public class AddTrackingDataRequest extends AbstractOrderProcessingRequest {
    * @param googleOrderNumber The Google order number.
    * @param carrier The carrier.
    * @param trackingNumber The tracking number.
-   * 
-   * @throws CheckoutException if merchantInfo is null
    */
   public AddTrackingDataRequest(MerchantInfo merchantInfo, String googleOrderNumber,
-      String carrier, String trackingNumber) throws CheckoutException {
+      String carrier, String trackingNumber) {
     this(merchantInfo);
     setGoogleOrderNumber(googleOrderNumber);
     setCarrier(carrier);

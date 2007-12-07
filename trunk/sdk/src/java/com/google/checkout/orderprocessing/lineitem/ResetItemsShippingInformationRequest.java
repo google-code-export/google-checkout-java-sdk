@@ -36,11 +36,8 @@ public class ResetItemsShippingInformationRequest extends AbstractOrderProcessin
    * Constructor which takes an instance of MerchantInfo.
    * 
    * @param merchantInfo The merchant's information.
-   * 
-   * @throws CheckoutException if merchantInfo is null.
    */
-  public ResetItemsShippingInformationRequest(MerchantInfo merchantInfo) 
-    throws CheckoutException {
+  public ResetItemsShippingInformationRequest(MerchantInfo merchantInfo) {
     super(merchantInfo, "reset-items-shipping-information");
   }
 
@@ -50,11 +47,9 @@ public class ResetItemsShippingInformationRequest extends AbstractOrderProcessin
    *    
    * @param merchantInfo The merchant's information.
    * @param googleOrderNumber The Google order number
-   * 
-   * @throws CheckoutException if merchantInfo is null.
    */
   public ResetItemsShippingInformationRequest(MerchantInfo merchantInfo,
-      String googleOrderNumber) throws CheckoutException {
+      String googleOrderNumber) {
 
     this(merchantInfo);
     setGoogleOrderNumber(googleOrderNumber);

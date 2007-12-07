@@ -191,13 +191,7 @@ public class Item {
    * 
    * @see Element
    */
-  public void setMerchantPrivateItemData(Element[] elements) throws CheckoutException {   
-    for (int i=0; i<elements.length; ++i) {
-      if (!elements[i].getNodeName().equals("item-data")) {
-        throw new CheckoutException("At least one of the nodes is not item-data");
-      }
-    }
-    
+  public void setMerchantPrivateItemData(Element[] elements) throws CheckoutException {
     Element privateData =
       Utils.findElementOrContainer(document, element,
         "merchant-private-item-data");

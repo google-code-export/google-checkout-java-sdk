@@ -18,7 +18,6 @@ package com.google.checkout.orderprocessing.lineitem;
 
 import org.w3c.dom.Element;
 
-import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.orderprocessing.AbstractOrderProcessingRequest;
 import com.google.checkout.util.Utils;
@@ -35,11 +34,8 @@ public class ReturnItemsRequest extends AbstractOrderProcessingRequest {
    * Constructor which takes an instance of MerchantInfo.
    * 
    * @param merchantInfo The merchant's information.
-   * 
-   * @throws CheckoutException if merchantInfo is null.
    */
-  public ReturnItemsRequest(MerchantInfo merchantInfo) 
-    throws CheckoutException {
+  public ReturnItemsRequest(MerchantInfo merchantInfo) {
     super(merchantInfo, "return-items");
   }
 
@@ -49,11 +45,8 @@ public class ReturnItemsRequest extends AbstractOrderProcessingRequest {
    * 
    * @param merchantInfo The merchant's information.
    * @param googleOrderNumber The Google order number
-   * 
-   * @throws CheckoutException if merchantInfo is null.
    */
-  public ReturnItemsRequest(MerchantInfo merchantInfo, String googleOrderNumber) 
-    throws CheckoutException {
+  public ReturnItemsRequest(MerchantInfo merchantInfo, String googleOrderNumber) {
     this(merchantInfo);
     setGoogleOrderNumber(googleOrderNumber);
   }

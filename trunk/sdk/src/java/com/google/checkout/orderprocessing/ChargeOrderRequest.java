@@ -16,7 +16,6 @@
 
 package com.google.checkout.orderprocessing;
 
-import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.Utils;
 
@@ -33,10 +32,8 @@ public class ChargeOrderRequest extends AbstractOrderProcessingRequest {
    * Constructor which takes an instance of MechantInfo and the Google order
    * 
    * @param merchantInfo The merchant's information.
-   * 
-   * @throws CheckoutException if merchantInfo is null.
    */
-  public ChargeOrderRequest(MerchantInfo merchantInfo) throws CheckoutException {
+  public ChargeOrderRequest(MerchantInfo merchantInfo) {
     super(merchantInfo, "charge-order");
   }
 
@@ -46,11 +43,8 @@ public class ChargeOrderRequest extends AbstractOrderProcessingRequest {
    * 
    * @param merchantInfo The merchant's information.
    * @param googleOrderNumber The Google order number.
-   * 
-   * @throws CheckoutException if merchantInfo is null.
    */
-  public ChargeOrderRequest(MerchantInfo merchantInfo, String googleOrderNumber) 
-    throws CheckoutException {
+  public ChargeOrderRequest(MerchantInfo merchantInfo, String googleOrderNumber) {
     this(merchantInfo);
     setGoogleOrderNumber(googleOrderNumber);
   }
@@ -62,11 +56,9 @@ public class ChargeOrderRequest extends AbstractOrderProcessingRequest {
    * @param merchantInfo The merchant's information.
    * @param googleOrderNumber The Google order number.
    * @param amount The amount to charge.
-   * 
-   * @throws CheckoutException if merchantInfo is null.
    */
   public ChargeOrderRequest(MerchantInfo merchantInfo, String googleOrderNumber, 
-    float amount) throws CheckoutException {
+    float amount) {
     this(merchantInfo);
     setGoogleOrderNumber(googleOrderNumber);
     setAmount(amount);
@@ -85,12 +77,10 @@ public class ChargeOrderRequest extends AbstractOrderProcessingRequest {
    * Set the charge amount, which is the value of the &lt;amount&gt; tag.
    * 
    * @param amount The charge amount.
-   * 
-   * @throws CheckoutException if amount <= 0.
    */
-  public void setAmount(float amount) throws CheckoutException {
+  public void setAmount(float amount) {
     if (amount <= 0) {
-      throw new CheckoutException("Charge amount must be greater than 0");
+      throw new IllegalArgumentException("Charge amount must be greater than 0");
     }
     
     Element e = Utils.findElementAndSetElseCreateAndSet(getDocument(), getRoot(),

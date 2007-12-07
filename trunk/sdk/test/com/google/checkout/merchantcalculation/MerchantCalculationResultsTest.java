@@ -45,7 +45,7 @@ public class MerchantCalculationResultsTest extends TestCase {
     merchantResult.addResult("SuperShip", "739030698069958", true, 7.03, 14.67, 
       "USD", merchantCodeResults);
 
-    assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + 
+    assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" + 
       "<merchant-calculation-results xmlns=\"http://checkout.google.com/schema/2\">" + 
       "<results><result address-id=\"739030698069958\" shipping-name=\"SuperShip\">" + 
       "<shippable>true</shippable><shipping-rate currency=\"USD\">14.67</shipping-rate>" + 

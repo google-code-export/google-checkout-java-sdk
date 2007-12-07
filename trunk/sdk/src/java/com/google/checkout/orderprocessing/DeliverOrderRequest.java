@@ -16,7 +16,6 @@
 
 package com.google.checkout.orderprocessing;
 
-import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.Utils;
 
@@ -34,11 +33,8 @@ public class DeliverOrderRequest extends AbstractOrderProcessingRequest {
    * Constructor which takes an instance of MerchantInfo.
    * 
    * @param merchantInfo The merchant's information.
-   * 
-   * @throws CheckoutException if merchantInfo is null.
    */
-  public DeliverOrderRequest(MerchantInfo merchantInfo) 
-    throws CheckoutException {
+  public DeliverOrderRequest(MerchantInfo merchantInfo) {
     super(merchantInfo, "deliver-order");
   }
 
@@ -48,11 +44,9 @@ public class DeliverOrderRequest extends AbstractOrderProcessingRequest {
    * 
    * @param merchantInfo The merchant's information.
    * @param googleOrderNumber The Google order number.
-   * 
-   * @throws CheckoutException if merchantInfo is null.
    */
   public DeliverOrderRequest(MerchantInfo merchantInfo, 
-    String googleOrderNumber) throws CheckoutException {
+    String googleOrderNumber) {
     this(merchantInfo);
     setGoogleOrderNumber(googleOrderNumber);
   }
@@ -67,12 +61,9 @@ public class DeliverOrderRequest extends AbstractOrderProcessingRequest {
    * @param carrier The carrier that will make the delivery.
    * @param trackingNumber The tracking number of the delivery.
    * @param sendEmail Whether to notify the buyer.
-   * 
-   * @throws CheckoutException if merchantInfo is null.
    */
   public DeliverOrderRequest(MerchantInfo merchantInfo, String googleOrderNumber,
-    String carrier, String trackingNumber, boolean sendEmail) 
-    throws CheckoutException {
+    String carrier, String trackingNumber, boolean sendEmail) {
     this(merchantInfo);
     setGoogleOrderNumber(googleOrderNumber);
     setCarrier(carrier);
@@ -176,13 +167,10 @@ public class DeliverOrderRequest extends AbstractOrderProcessingRequest {
    * tag.
    * 
    * @param trackingNumber The tracking number.
-   * 
-   * @throws CheckoutException if tracking number is null.
    */
-  public void setTrackingNumber(String trackingNumber) 
-    throws CheckoutException {
+  public void setTrackingNumber(String trackingNumber) {
     if (trackingNumber == null) {
-      throw new CheckoutException("Tracking number cannot be null.");
+      throw new IllegalArgumentException("Tracking number cannot be null.");
     }
     
     Element trackingDataTag =
