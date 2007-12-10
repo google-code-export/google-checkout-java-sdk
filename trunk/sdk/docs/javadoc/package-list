@@ -1,0 +1,9 @@
+com.google.checkout
+com.google.checkout.checkout
+com.google.checkout.handlers
+com.google.checkout.merchantcalculation
+com.google.checkout.notification
+com.google.checkout.orderprocessing
+com.google.checkout.orderprocessing.lineitem
+com.google.checkout.util
+com.google.checkout.web
