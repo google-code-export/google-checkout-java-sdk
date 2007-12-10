@@ -1,29 +1,33 @@
-// Copyright 2007 Google Inc. All Rights Reserved.
+package com.google.checkout.samples.samplestore.client;
 
-package com.google.checkout.samples.store.client;
-
+import com.google.checkout.samples.samplestore.client.BaseFeedListener;
+import com.google.checkout.samples.samplestore.client.Category;
+import com.google.checkout.samples.samplestore.client.JSON;
+import com.google.checkout.samples.samplestore.client.Product;
+import com.google.checkout.samples.samplestore.client.ProductBox;
+import com.google.checkout.samples.samplestore.client.ProductList;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.HistoryListener;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Hyperlink;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Map.Entry;
 
 /**
- * Main class for Storefront which displays the screen objects and layout.
- * 
- * @author Simon Lam (simonlam@google.com)
+ * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Store implements EntryPoint, BaseFeedListener, 
-    HistoryListener {
-
+HistoryListener {
   public static final int NUM_ROWS = 4;
   public static final int NUM_COLS = 4;
   
@@ -34,6 +38,9 @@ public class Store implements EntryPoint, BaseFeedListener,
   private HashMap products;
   private Grid grid = new Grid(NUM_ROWS, NUM_COLS);
   
+  /**
+   * This is the entry point method.
+   */
   public void onModuleLoad() {
     feed.registerListener(this);
     feed.fetchProductsFromBase("2828467"); // our test account
@@ -41,7 +48,7 @@ public class Store implements EntryPoint, BaseFeedListener,
     History.addHistoryListener(this);
     initializeMainForm();
   }
-  
+
   /**
    * Initialize the main form's layout and content.
    */
@@ -50,7 +57,7 @@ public class Store implements EntryPoint, BaseFeedListener,
     horzPanel.add(categoryPanel);
     horzPanel.add(grid);
   }
-
+  
   public void updateList(HashMap items) {
     boolean init = false;
     products = items;
@@ -69,7 +76,7 @@ public class Store implements EntryPoint, BaseFeedListener,
       }
     }
   }
-
+  
   public void onHistoryChanged(String historyToken) {
     grid.clear();
     ProductList filteredList = (ProductList) products.get(Category.getCategory(historyToken));
@@ -80,5 +87,4 @@ public class Store implements EntryPoint, BaseFeedListener,
         break;
     }
   }
-
 }

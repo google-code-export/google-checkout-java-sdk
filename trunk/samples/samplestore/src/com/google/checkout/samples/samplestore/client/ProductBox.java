@@ -1,6 +1,6 @@
 // Copyright 2007 Google Inc. All Rights Reserved.
 
-package com.google.checkout.samples.store.client;
+package com.google.checkout.samples.samplestore.client;
 
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FocusPanel;

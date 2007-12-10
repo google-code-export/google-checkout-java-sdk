@@ -1,6 +1,6 @@
 // Copyright 2007 Google Inc. All Rights Reserved.
 
-package com.google.checkout.samples.store.client;
+package com.google.checkout.samples.samplestore.client;
 
 import java.util.HashMap;
 
