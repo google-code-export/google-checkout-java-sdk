@@ -3,7 +3,6 @@ package com.google.checkout.checkout;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.google.checkout.CheckoutException;
 import com.google.checkout.util.Utils;
 
 /**
@@ -184,14 +183,13 @@ public class Item {
   /**
    * Set the contents of the &lt;merchant-private-item-data&gt; tag as an array
    * of Elements. If the merchant-private-item-data tag already exists, it will
-   * be replaced with the contents of elements. If the elements are not of type
-   * item-data, a CheckoutException will be thrown.
+   * be replaced with the contents of elements.
    * 
-   * @param elements The private data Elements.
+   * @param elements The private data elements.
    * 
    * @see Element
    */
-  public void setMerchantPrivateItemData(Element[] elements) throws CheckoutException {
+  public void setMerchantPrivateItemData(Element[] elements) {
     Element privateData =
       Utils.findElementOrContainer(document, element,
         "merchant-private-item-data");
