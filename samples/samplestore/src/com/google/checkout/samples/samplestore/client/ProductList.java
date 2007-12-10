@@ -14,7 +14,7 @@
  * the License.
  ******************************************************************************/
 
-package com.google.checkout.samples.store.client;
+package com.google.checkout.samples.samplestore.client;
 
 import java.util.ArrayList;
 import java.util.Iterator;

@@ -1,3 +1,3 @@
 #!/bin/sh
 APPDIR=`dirname $0`;
-java -XstartOnFirstThread -cp "$APPDIR/src:$APPDIR/bin:/Applications/gwt-1.4.60/gwt-user.jar:/Applications/gwt-1.4.60/gwt-dev-mac.jar" com.google.gwt.dev.GWTShell -out "$APPDIR/www" "$@" com.google.checkout.samples.store.Store/Store.html;
+java  -cp "$APPDIR/src:$APPDIR/bin:/home/cdang/Desktop/gwt-linux-1.4.60/gwt-user.jar:/home/cdang/Desktop/gwt-linux-1.4.60/gwt-dev-linux.jar" com.google.gwt.dev.GWTShell -out "$APPDIR/www" "$@" com.google.checkout.samples.samplestore.Store/Store.html;

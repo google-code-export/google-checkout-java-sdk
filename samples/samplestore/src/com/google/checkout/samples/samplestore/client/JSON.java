@@ -1,6 +1,6 @@
 // Copyright 2007 Google Inc. All Rights Reserved.
 
-package com.google.checkout.samples.store.client;
+package com.google.checkout.samples.samplestore.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.http.client.URL;
@@ -66,6 +66,8 @@ public class JSON {
           (entry.get("g$price") != null ? entry
               .get("g$price").isArray().get(0).isObject().get("$t").toString() : "")
           );
+      
+      
       String category = entry.get("g$item_type").isArray().get(0).isObject()
           .get("$t").toString().split("\"")[1];
       if (map.get(Category.getCategory(category)) == null) {
@@ -83,7 +85,7 @@ public class JSON {
    */
   private native void doFetchURL(JSONResponseHandler handler, String url) /*-{
     window["jsonCallback"] = function(data) {
-      handler.@com.google.checkout.samples.store.client.JSON.JSONResponseHandler::onCompletion(Lcom/google/gwt/core/client/JavaScriptObject;)(data);
+      handler.@com.google.checkout.samples.samplestore.client.JSON.JSONResponseHandler::onCompletion(Lcom/google/gwt/core/client/JavaScriptObject;)(data);
     }
     var elem = document.createElement("script");
     elem.setAttribute("language", "JavaScript");

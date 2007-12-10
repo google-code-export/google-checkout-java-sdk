@@ -1,37 +1,37 @@
 // Copyright 2007 Google Inc. All Rights Reserved.
 
-package com.google.checkout.samples.store.client;
+package com.google.checkout.samples.samplestore.client;
 
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Hyperlink;
 
-/** 
- * Panel that lays out the data in the grid boxes.
+/**
+ * Panel that lays out the data in the popup boxes when rolling over products.
  * 
  * @author Simon Lam (simonlam@google.com)
  */
-public class ProductBoxData extends VerticalPanel {
+public class PopupProductBoxData extends VerticalPanel {
   
   private Product product;
   
-  public ProductBoxData(Product product) {
+  public PopupProductBoxData(Product product) {
     try {
-      this.setStyleName("item");
+      this.setStyleName("popupProductBox");
       this.product = product;
-      if (product.getImageUrl() != "") {
-        Image image = new Image(product.getImageUrl());
-        image.setStyleName("image");
-        this.add(image);
-      }
+      if (product.getImageUrl() != "")
+        this.add(new Image(product.getImageUrl()));
       
       Label title = new Label(product.getTitle());
       title.setStyleName("title");
       this.add(title);
 
-      Label price = new Label(product.getPrice().toString() + "0");
+      Label description = new Label(product.getDescription());
+      description.setStyleName("item-desc");
+      this.add(description);
+      
+      Label price = new Label("$" + product.getPrice().toString());
       price.setStyleName("price");
       this.add(price);
       
