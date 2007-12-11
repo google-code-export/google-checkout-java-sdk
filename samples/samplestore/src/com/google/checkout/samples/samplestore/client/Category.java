@@ -29,11 +29,11 @@ public class Category {
   private final String name;
   private final Collection subCategories;
   
-  private Category(String name) {
+  public Category(String name) {
     this(name, null);
   }
   
-  private Category(String name, List subCategories) {
+  public Category(String name, List subCategories) {
     this.name = name;
     this.subCategories = new ArrayList();
     if (subCategories != null && subCategories.size() > 0) {
@@ -53,6 +53,19 @@ public class Category {
   
   public boolean hasSubCategories() {
     return subCategories != null && subCategories.size() > 0;
+  }
+  
+  public Category getSubCategory(String subCategoryName) {
+    Iterator it = subCategories.iterator();
+    
+    while (it.hasNext()) {
+      Category tempCategory = (Category) it.next();
+      if (tempCategory.getName().equals(subCategoryName)) {
+        return tempCategory;
+      }
+    }
+    
+    return null;
   }
   
   public Collection getSubCategories() {
@@ -83,25 +96,66 @@ public class Category {
     return true;
   }
   
-  private static List list = new ArrayList();
-  private static Category intern(Category category) {
-      int index = list.indexOf(category);
-      if (index >= 0) {
-        return (Category) list.get(index);
-      } else {
-        list.add(category);
-        return category;
+  /**
+   * Adds a sub-category if this category does not contain a sub-category with 
+   * the same name. Otherwise, subCategory will replace the existing sub-category
+   * with the same name.
+   * 
+   * @param subCategory the sub-category to be added
+   */
+  public void addSubCategory(Category subCategory) {
+    Iterator it = subCategories.iterator();
+    
+    boolean subCategoryExists = false;
+    
+    Category tempCategory = null;
+    while (it.hasNext()) {
+      tempCategory = (Category)it.next();
+      
+      if (tempCategory.getName().equals(subCategory.getName())) {
+        subCategoryExists = true;
+        break;
       }
     }
-
-  public static Category getCategory(String name) {
-    return getCategory(name, null);
+    
+    if (!subCategoryExists) {
+      subCategories.add(subCategory);
+    } else {
+      subCategories.remove(tempCategory);
+      subCategories.add(subCategory);
+    }
   }
   
-  public static Category getCategory(String name, List subCategories) {
-    if (name == null || name.trim().equals("")) {
-      return null;
+  public Category getOrCreateSubCategory(String subCategoryName) {
+    Category tempCategory = getSubCategory(subCategoryName);
+    if (tempCategory == null) {
+      tempCategory = new Category(subCategoryName);
+      subCategories.add(tempCategory);
     }
-    return intern(new Category(name, subCategories));
+    
+    return tempCategory;
   }
+  
+//  private static List list = new ArrayList();
+//  
+//  private static Category intern(Category category) {
+//      int index = list.indexOf(category);
+//      if (index >= 0) {
+//        return (Category) list.get(index);
+//      } else {
+//        list.add(category);
+//        return category;
+//      }
+//    }
+//
+//  public static Category getCategory(String name) {
+//    return getCategory(name, null);
+//  }
+//  
+//  public static Category getCategory(String name, List subCategories) {
+//    if (name == null || name.trim().equals("")) {
+//      return null;
+//    }
+//    return intern(new Category(name, subCategories));
+//  }
 }

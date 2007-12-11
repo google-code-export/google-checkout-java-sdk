@@ -2,7 +2,7 @@
 
 package com.google.checkout.samples.samplestore.client;
 
-import java.util.HashMap;
+import com.google.gwt.json.client.JSONObject;
 
 /**
  * Listens for product updates from JSON Base feed.
@@ -10,7 +10,5 @@ import java.util.HashMap;
  * @author Simon Lam (simonlam@google.com)
  */
 public interface BaseFeedListener {
-
-  public void updateList(HashMap items);
-  
+  public void handleResponse(JSONObject jsonObj);
 }
