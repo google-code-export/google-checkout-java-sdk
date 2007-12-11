@@ -9,6 +9,8 @@ package com.google.checkout.samples.samplestore.client;
  */
 public class Product {
 
+  private static final String DEFAULT_IMAGE = "images/no_image.gif";
+  
   private final String id;
   private final String title;
   private final String imageUrl;
@@ -18,11 +20,13 @@ public class Product {
   
   public Product(String id, String title, String imageUrl, String description, 
       String price) {//, String category) {
-    this.id = id;
-    this.title = title.split("\"")[1];
-    this.imageUrl = (imageUrl != "" ? imageUrl.split("\"")[1] : "images/no_image.gif");
-    this.description = description.substring(1,description.length() - 1);
-    this.price = (price != "" ? new Double(price.split("\"")[1].split(" ")[0]) : new Double(1.0));
+    this.id = removeSurroundingQuotes(id);
+    this.title = removeSurroundingQuotes(title);
+    this.imageUrl = (imageUrl != "" ? removeSurroundingQuotes(imageUrl) : 
+        DEFAULT_IMAGE);
+    this.description = removeSurroundingQuotes(description);
+    this.price = (price != "" ? new Double(removeSurroundingQuotes(price)
+        .split(" ")[0]) : new Double(1.0));
     //this.category = category.split("\"")[1];
   }
   
@@ -46,11 +50,23 @@ public class Product {
     return price;
   }
   
+  public String getPriceAsString() {
+    if (price.intValue() == price.doubleValue())
+      return "$" + price + "0";
+    return "$" + price;
+  }
+  
   /*public String getCategory() {
     return category;
   }*/
   
   public String toString() {
     return title + ", " + description + ", " + price;
+  }
+  
+  private String removeSurroundingQuotes(String element) {
+    if (element.charAt(0) == '\"' && element.charAt(element.length() - 1) == '\"')
+      return element.substring(1, element.length() - 2);
+    return element;
   }
 }
