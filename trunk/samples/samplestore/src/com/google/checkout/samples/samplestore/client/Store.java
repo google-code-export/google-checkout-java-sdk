@@ -72,15 +72,15 @@ HistoryListener {
       //navBar.add(new Hyperlink("Home", ""));
       onHistoryChanged("");
       
-      Collection topLevelCategories = 
-        inventory.getRootCategory().getSubCategories();
-      
-      Iterator it = topLevelCategories.iterator();
-      while (it.hasNext()) {
-        Category category = (Category) it.next();
-        Hyperlink link = new Hyperlink(category.getName(), category.getName());
-        categoryPanel.add(link);
-      }
+//      Collection topLevelCategories = 
+//        inventory.getRootCategory().getSubCategories();
+//      
+//      Iterator it = topLevelCategories.iterator();
+//      while (it.hasNext()) {
+//        Category category = (Category) it.next();
+//        Hyperlink link = new Hyperlink(category.getName(), category.getName());
+//        categoryPanel.add(link);
+//      }
     }
   }
   
