@@ -48,13 +48,29 @@ public class Inventory {
   public List getProductsInCategory(Category category) {
     List productList = (List) categoryProducts.get(category);
     
+    if (productList == null) {
+      // Assume we are dealing with the root node since no products should
+      // be located directly under the root node.
+      productList = new ArrayList();
+    }
+    
     if (category.hasSubCategories()) {
       Collection subCategories = category.getSubCategories();
       Iterator it = subCategories.iterator();
       
       while (it.hasNext()) {
         Category subCategory = (Category)it.next();
-        productList.addAll(getProductsInCategory(subCategory));
+        List productsToBeAdded = getProductsInCategory(subCategory);
+        
+        Iterator newProductsIter = productsToBeAdded.iterator();
+        
+        while (newProductsIter.hasNext()) {
+          Product product = (Product)newProductsIter.next();
+          
+          if (!productList.contains(product)) {
+            productList.add(product);
+          }
+        }
       }
     }
     
