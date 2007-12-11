@@ -51,13 +51,16 @@ public class Product {
     int index = displayPrice.indexOf(".");
     
     if (index < 0) {
-      // append a pair of 0's to the end of the price
+      // price is in the form 33
       return "$" + price + ".00";
     } else if (index == 0) {
-      // append a 0 in front of the price
+      // price is in the form .33
       return "$0" + price;
-    } else if (displayPrice.substring(index).length() == 1) {
-      // append a 0 to the end
+    } else if (index == (displayPrice.length() - 1)) {
+      // price is in the form 33.
+      return "$" + price + "00";
+    } else if (displayPrice.substring(index).length() == 2) {
+      // price is in the form 33.3
       return "$" + price + "0";
     } else {
       // append a $ to the beginning
