@@ -31,7 +31,7 @@ public class ProductBoxData extends VerticalPanel {
       title.setStyleName("title");
       this.add(title);
 
-      Label price = new Label(product.getPrice().toString() + "0");
+      Label price = new Label(product.getPriceAsString());
       price.setStyleName("price");
       this.add(price);
       

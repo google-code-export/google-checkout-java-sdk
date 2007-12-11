@@ -31,7 +31,7 @@ public class PopupProductBoxData extends VerticalPanel {
       description.setStyleName("item-desc");
       this.add(description);
       
-      Label price = new Label("$" + product.getPrice().toString());
+      Label price = new Label(product.getPriceAsString());
       price.setStyleName("price");
       this.add(price);
       
