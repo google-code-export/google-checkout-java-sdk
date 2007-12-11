@@ -6,6 +6,6 @@
   <inherits name='com.google.gwt.http.HTTP'/>
 
 	<!-- Specify the app entry point class.                   -->
-	<entry-point class='com.google.checkout.samples.samplestore.client.Store'/>
+	<entry-point class='com.google.checkout.samples.samplestore.client.ui.GridStore'/>
   
 </module>

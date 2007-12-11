@@ -1,10 +1,12 @@
-package com.google.checkout.samples.samplestore.client;
+package com.google.checkout.samples.samplestore.client.ui;
 
 import com.google.checkout.samples.samplestore.client.BaseFeedListener;
 import com.google.checkout.samples.samplestore.client.Category;
 import com.google.checkout.samples.samplestore.client.BaseFeedRetriever;
+import com.google.checkout.samples.samplestore.client.Inventory;
+import com.google.checkout.samples.samplestore.client.JSONParser;
 import com.google.checkout.samples.samplestore.client.Product;
-import com.google.checkout.samples.samplestore.client.ProductBox;
+import com.google.checkout.samples.samplestore.client.ui.widgets.gwt.ProductBox;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.user.client.History;
@@ -28,7 +30,7 @@ import java.util.Map;
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
-public class Store implements EntryPoint, BaseFeedListener, 
+public class IBrowseStore implements EntryPoint, BaseFeedListener, 
 HistoryListener {
   public static final int NUM_ROWS = 4;
   public static final int NUM_COLS = 4;
