@@ -2,7 +2,7 @@
 <project name="dist" default="zip" basedir=".">
   <description>builds the release distribution for this project.</description>
  
-  <property name="release.version" value="0.8.6" />
+  <property name="release.version" value="0.8.7" />
  
   <import file="standalone-build.xml"/>
   
@@ -11,8 +11,13 @@
     <property name="sdkdist.dir" 
               value="${zipdist.dir}/checkout-sdk-${release.version}" />
     <mkdir dir="${sdkdist.dir}" />
+    
     <jar basedir="${build.classes.dir}" 
          zipfile="${sdkdist.dir}/checkout-sdk.jar"/>
+    
+    <jar basedir="src/java"
+         zipfile="${sdkdist.dir}/checkout-sdk-src.jar"/>
+    
     <copy file="docs/index.html" todir="${sdkdist.dir}" />
     <copy file="docs/release-notes.html" todir="${sdkdist.dir}" />
     <copy todir="${sdkdist.dir}">
@@ -53,6 +58,7 @@
         <exclude name="**/nbproject/genfiles.properties" />
       </fileset>
     </copy>
+    
     <mkdir dir="${dist.dir}"/>
     <zip zipfile="${dist.dir}/checkout-sdk-${release.version}.zip" 
          basedir="${zipdist.dir}" />

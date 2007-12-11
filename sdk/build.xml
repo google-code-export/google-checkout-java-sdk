@@ -2,13 +2,14 @@
 <project name="sdk" default="default" basedir=".">
   <description>Builds, tests, and runs the project sdk.</description>
   <import file="nbproject/build-impl.xml" />
-  <property name="release.version" value="0.8.6" />
+  <property name="release.version" value="0.8.7" />
   
   <target name="zip" depends="init,dist,javadoc">
     <property name="zipdist.dir" value="${build.dir}/tmpdist" />
     <property name="sdkdist.dir" value="${zipdist.dir}/checkout-sdk-${release.version}" />
     <mkdir dir="${sdkdist.dir}" />
     <jar basedir="${build.classes.dir}" zipfile="${sdkdist.dir}/checkout-sdk.jar"/>
+    <jar basedir="src/java" zipfile="@{sdkdist.dir}/checkout-sdk-src.jar"/>
     <mkdir dir="${sdkdist.dir}/lib" />
     <copy file="docs/index.html" todir="${sdkdist.dir}" />
     <copy todir="${sdkdist.dir}">
