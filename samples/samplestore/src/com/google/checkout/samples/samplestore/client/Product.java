@@ -66,7 +66,7 @@ public class Product {
   
   private String removeSurroundingQuotes(String element) {
     if (element.charAt(0) == '\"' && element.charAt(element.length() - 1) == '\"')
-      return element.substring(1, element.length() - 2);
+      return element.substring(1, element.length() - 1);
     return element;
   }
 }
