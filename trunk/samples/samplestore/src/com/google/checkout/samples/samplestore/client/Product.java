@@ -15,19 +15,15 @@ public class Product {
   private final String title;
   private final String imageUrl;
   private final String description;
-  private final Double price;
-  //private final String category;
+  private final double price;
   
   public Product(String id, String title, String imageUrl, String description, 
-      String price) {//, String category) {
-    this.id = removeSurroundingQuotes(id);
-    this.title = removeSurroundingQuotes(title);
-    this.imageUrl = (imageUrl != "" ? removeSurroundingQuotes(imageUrl) : 
-        DEFAULT_IMAGE);
-    this.description = removeSurroundingQuotes(description);
-    this.price = (price != "" ? new Double(removeSurroundingQuotes(price)
-        .split(" ")[0]) : new Double(1.0));
-    //this.category = category.split("\"")[1];
+      double price) {
+    this.id = id;
+    this.title = title;
+    this.imageUrl = (imageUrl != "" ? imageUrl : DEFAULT_IMAGE);
+    this.description = description;
+    this.price = price;
   }
   
   public String getId() {
@@ -46,27 +42,30 @@ public class Product {
     return description;
   }
 
-  public Double getPrice() {
+  public double getPrice() {
     return price;
   }
   
   public String getPriceAsString() {
-    if (price.intValue() == price.doubleValue())
+    String displayPrice = String.valueOf(price);
+    int index = displayPrice.indexOf(".");
+    
+    if (index < 0) {
+      // append a pair of 0's to the end of the price
+      return "$" + price + ".00";
+    } else if (index == 0) {
+      // append a 0 in front of the price
+      return "$0" + price;
+    } else if (displayPrice.substring(index).length() == 1) {
+      // append a 0 to the end
       return "$" + price + "0";
-    return "$" + price;
+    } else {
+      // append a $ to the beginning
+      return "$" + price;
+    }
   }
-  
-  /*public String getCategory() {
-    return category;
-  }*/
   
   public String toString() {
     return title + ", " + description + ", " + price;
-  }
-  
-  private String removeSurroundingQuotes(String element) {
-    if (element.charAt(0) == '\"' && element.charAt(element.length() - 1) == '\"')
-      return element.substring(1, element.length() - 1);
-    return element;
   }
 }
