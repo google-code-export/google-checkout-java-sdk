@@ -3,8 +3,9 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/home/cdang/Desktop/gwt-linux-1.4.60/gwt-user.jar"/>
 	<classpathentry kind="var" path="JUNIT_HOME/junit.jar"/>
-	<classpathentry kind="lib" path="/home/cdang/Desktop/gwt-linux-1.4.60/gwt-servlet.jar"/>
+	<classpathentry kind="lib" path="/usr/local/src/gwt-linux-1.4.60/gwt-dev-linux.jar"/>
+	<classpathentry kind="lib" path="/usr/local/src/gwt-linux-1.4.60/gwt-servlet.jar"/>
+	<classpathentry kind="lib" path="/usr/local/src/gwt-linux-1.4.60/gwt-user.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
