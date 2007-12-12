@@ -79,10 +79,9 @@ public class JSONParser {
       Category currCategory = 
         inventory.getRootCategory().getOrCreateSubCategory(currCategoryName);
       
-//      for (int j=1; j <= MAX_SUBCATEGORIES; ++j) {
-      for (char j='a'; ; j++) {
-//        JSONValue subCategory = item.get("g$subCategory" + j);
-        JSONValue subCategory = getJSONValue(item, "g$cat" + j);
+      for (int j=1; j <= MAX_SUBCATEGORIES; ++j) {
+
+        JSONValue subCategory = getJSONValue(item, "g$sub-category-" + j);
         
         if (subCategory == null) {
           break;
