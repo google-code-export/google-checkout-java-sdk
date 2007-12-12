@@ -20,21 +20,11 @@ import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONValue;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
 public class JSONParser {
-  // We need some sort of limit as to the number of sub-categories we allow.
-  // Otherwise, the merchant can specify unlimited sub-categories
-  private static final int MAX_SUBCATEGORIES = 50;
+  // maximum number of nested sub-category levels allowed
+  private static final int MAX_SUBCATEGORY_LEVELS = 50;
   
-  /**
-   * 
-   * @param json
-   * @return Inventory
-   */
-  public static Inventory parseJSON(JSONObject json) {
+  public static Inventory parse(JSONObject json) {
     if (json == null) {
       throw new IllegalArgumentException("json must not be null");
     }
@@ -76,20 +66,20 @@ public class JSONParser {
           parsePrice(convertToString(price)));
       
       String currCategoryName = convertToString(topLevelCategory);
-      Category currCategory = 
-        inventory.getRootCategory().getOrCreateSubCategory(currCategoryName);
+      Category currCategory = inventory.getOrAddTopLevelCategory(currCategoryName);
       
-      for (int j=1; j <= MAX_SUBCATEGORIES; ++j) {
-
+//      Category currCategory = 
+//        inventory.getRootCategory().getOrAddSubCategory(currCategoryName);
+      
+      for (int j = 1; j <= MAX_SUBCATEGORY_LEVELS; j++) {
         JSONValue subCategory = getJSONValue(item, "g$sub-category-" + j);
-        
         if (subCategory == null) {
           break;
         }
         
         currCategoryName = convertToString(subCategory);
         currCategory = 
-          currCategory.getOrCreateSubCategory(currCategoryName);        
+          currCategory.getOrAddSubCategory(currCategoryName);        
       }
       
       // add product to the bottom-most sub-category
@@ -101,13 +91,10 @@ public class JSONParser {
   
   private static double parsePrice(String price) {
     price = price.trim();
-    
     int index = price.indexOf(" ");
-    
     if (index > 0) {
       price = price.substring(0, index);
     }
-    
     return Double.parseDouble(price);
   }
   
@@ -133,17 +120,16 @@ public class JSONParser {
     return tempObj.get("$t");
   }
   
-  private static String convertToString(JSONValue value) {
-    if (value == null) {
+  private static String convertToString(JSONValue jsonVal) {
+    if (jsonVal == null) {
       return "";
     }
-    
-    String ret = value.toString();
-    
-    if (ret.startsWith("\"") && ret.endsWith("\"") && ret.length() > 1) {
-      return ret.substring(1, ret.length() - 1);
+    String str = jsonVal.toString().trim();
+
+    // strip quotes
+    if (str.startsWith("\"") && str.endsWith("\"") && str.length() > 1) {
+      return str.substring(1, str.length() - 1);
     }
-    
-    return ret;
+    return str;
   }
 }
