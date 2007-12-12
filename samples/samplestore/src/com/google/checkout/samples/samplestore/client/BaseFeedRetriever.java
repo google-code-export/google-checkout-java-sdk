@@ -18,15 +18,13 @@ package com.google.checkout.samples.samplestore.client;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.http.client.URL;
-import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /** 
- * Queries base for a customer specific feed of products.
+ * Queries Google Base for a customer specific feed of products.
  * 
  * @author Simon Lam (simonlam@google.com)
  */
@@ -55,12 +53,12 @@ public class BaseFeedRetriever {
     listeners.add(listener);
   }
   
-  public void fetchProductsFromBase(String customerId) {
+  public void fetchProductsFromBase(long customerId) {
     String url = DEFAULT_SEARCH_URL + constructQuery(customerId);
     doFetchURL(new JSONResponseHandler(), url);
   }
   
-  private String constructQuery(String customerId) {
+  private String constructQuery(long customerId) {
     return "&bq=" + URL.encode("[customer id:" + customerId + "]");
   }
   

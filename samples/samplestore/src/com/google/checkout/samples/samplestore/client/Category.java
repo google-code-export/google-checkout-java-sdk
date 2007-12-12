@@ -19,22 +19,27 @@ package com.google.checkout.samples.samplestore.client;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 /**
- * A product category. This data structure supports arbitrary levels of subcategories
+ * A product category. This data structure supports arbitrary levels of sub-categories.
  * @author inder@google.com (Inderjeet Singh)
  */
 public class Category {
   private final String name;
+  private final Category parent;
   private final Collection subCategories;
   
   public Category(String name) {
     this(name, null);
   }
   
-  public Category(String name, List subCategories) {
+  public Category(String name, Category parent) {
+    this(name, parent, null);
+  }
+  
+  public Category(String name, Category parent, Collection subCategories) {
     this.name = name;
+    this.parent = parent;
     this.subCategories = new ArrayList();
     if (subCategories != null && subCategories.size() > 0) {
       Iterator iter = subCategories.iterator();
@@ -51,25 +56,46 @@ public class Category {
     return name;
   }
   
+  public Category getParent() {
+    return parent;
+  }
+
+  public Collection getSubCategories() {
+    return subCategories;
+  }
+  
   public boolean hasSubCategories() {
     return subCategories != null && subCategories.size() > 0;
   }
   
+  /**
+   * If a sub-category with the given name exists, return it. 
+   * Otherwise, return null.
+   */
   public Category getSubCategory(String subCategoryName) {
-    Iterator it = subCategories.iterator();
-    
-    while (it.hasNext()) {
-      Category tempCategory = (Category) it.next();
-      if (tempCategory.getName().equals(subCategoryName)) {
-        return tempCategory;
+    if (hasSubCategories()) {
+      Iterator it = subCategories.iterator();
+      while (it.hasNext()) {
+        Category tempCategory = (Category) it.next();
+        if (tempCategory.getName().equals(subCategoryName)) {
+          return tempCategory;
+        }
       }
     }
-    
     return null;
   }
   
-  public Collection getSubCategories() {
-    return subCategories;
+  /**
+   * If a sub-category with the given name exists, return it. Otherwise, create
+   * a sub-category with the given name and return it.
+   */
+  public Category getOrAddSubCategory(String subCategoryName) {
+    Category category = getSubCategory(subCategoryName);
+    if (category == null) {
+      category = new Category(subCategoryName, this);
+      subCategories.add(category);
+    }
+    return category;
   }
     
   public int hashCode() {
@@ -87,55 +113,44 @@ public class Category {
     if (subCategories.size() != other.subCategories.size()) {
       return false;
     }
-    Iterator iter = subCategories.iterator();
-    while (iter.hasNext()) {
-      if (!other.subCategories.contains(iter.next())) {
+    Iterator it = subCategories.iterator();
+    while (it.hasNext()) {
+      if (!other.subCategories.contains(it.next())) {
         return false;
       }
     }
     return true;
   }
-  
-  /**
-   * Adds a sub-category if this category does not contain a sub-category with 
-   * the same name. Otherwise, subCategory will replace the existing sub-category
-   * with the same name.
-   * 
-   * @param subCategory the sub-category to be added
-   */
-  public void addSubCategory(Category subCategory) {
-    Iterator it = subCategories.iterator();
-    
-    boolean subCategoryExists = false;
-    
-    Category tempCategory = null;
-    while (it.hasNext()) {
-      tempCategory = (Category)it.next();
-      
-      if (tempCategory.getName().equals(subCategory.getName())) {
-        subCategoryExists = true;
-        break;
-      }
-    }
-    
-    if (!subCategoryExists) {
-      subCategories.add(subCategory);
-    } else {
-      subCategories.remove(tempCategory);
-      subCategories.add(subCategory);
-    }
-  }
-  
-  public Category getOrCreateSubCategory(String subCategoryName) {
-    Category tempCategory = getSubCategory(subCategoryName);
-    if (tempCategory == null) {
-      tempCategory = new Category(subCategoryName);
-      subCategories.add(tempCategory);
-    }
-    
-    return tempCategory;
-  }
-  
+
+//  /**
+//   * Adds a sub-category if this category does not contain a sub-category with 
+//   * the same name. Otherwise, subCategory will replace the existing sub-category
+//   * with the same name.
+//   * 
+//   * @param subCategory the sub-category to be added
+//   */
+//  public void addSubCategory(Category subCategory) {
+//    Iterator it = subCategories.iterator();
+//    
+//    boolean subCategoryExists = false;
+//    
+//    Category tempCategory = null;
+//    while (it.hasNext()) {
+//      tempCategory = (Category)it.next();
+//      
+//      if (tempCategory.getName().equals(subCategory.getName())) {
+//        subCategoryExists = true;
+//        break;
+//      }
+//    }
+//    
+//    if (!subCategoryExists) {
+//      subCategories.add(subCategory);
+//    } else {
+//      subCategories.remove(tempCategory);
+//      subCategories.add(subCategory);
+//    }
+//  }  
 //  private static List list = new ArrayList();
 //  
 //  private static Category intern(Category category) {

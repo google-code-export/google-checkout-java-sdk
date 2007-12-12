@@ -20,8 +20,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
-
+import java.util.Map;
 
 /** 
  * Data structure for an inventory of products.
@@ -31,68 +30,76 @@ import java.util.List;
  */
 
 public class Inventory {
-  // <Category, ArrayList>
-  private HashMap categoryProducts;
-//  private List categories;
-  private Category rootCategory;
+  // <Category, Collection>
+  private Map categoryProducts;
+  private Collection topLevelCategories;
   
   public Inventory() {
-    rootCategory =  new Category("root");
     categoryProducts = new HashMap();
+    topLevelCategories = new ArrayList();
   }
   
-  public Category getRootCategory() {
-    return rootCategory;
+  public Collection getAllProducts() {
+    Collection products = new ArrayList();
+    for (Iterator it = topLevelCategories.iterator(); it.hasNext(); ) {
+      Category category = (Category) it.next();
+      products.addAll(getProductsInCategory(category));
+    }
+    return products;
+//    return getProductsInCategory(rootCategory);
   }
   
-  public List getProductsInCategory(Category category) {
-    List productList = (List) categoryProducts.get(category);
+  public Collection getProductsInCategory(Category category) {
+    Collection products = new ArrayList();
     
-    if (productList == null) {
-      // Assume we are dealing with the root node since no products should
-      // be located directly under the root node.
-      productList = new ArrayList();
+    // get products in the given category
+    Collection productsToAdd = (Collection) categoryProducts.get(category);
+    if (productsToAdd != null) {
+      products.addAll(productsToAdd);
     }
     
+    // get products in the given category's sub-categories
     if (category.hasSubCategories()) {
       Collection subCategories = category.getSubCategories();
-      Iterator it = subCategories.iterator();
-      
-      while (it.hasNext()) {
-        Category subCategory = (Category)it.next();
-        List productsToBeAdded = getProductsInCategory(subCategory);
-        
-        Iterator newProductsIter = productsToBeAdded.iterator();
-        
-        while (newProductsIter.hasNext()) {
-          Product product = (Product)newProductsIter.next();
-          
-          if (!productList.contains(product)) {
-            productList.add(product);
-          }
-        }
+      for (Iterator it = subCategories.iterator(); it.hasNext(); ) {
+        Category subCategory = (Category) it.next();
+        productsToAdd = getProductsInCategory(subCategory);
+        products.addAll(productsToAdd);
       }
     }
     
-    return productList;
+    return products;
   }
   
   public void addProduct(Category category, Product product) {
-    if (categoryProducts.get(category) == null) {
-      List products = new ArrayList();
-      products.add(product);
-      
+    Collection products = (Collection) categoryProducts.get(category);
+    if (products == null) {
+      products = new ArrayList();
       categoryProducts.put(category, products);
-    } else {
-      ((List)categoryProducts.get(category)).add(product);
     }
+    products.add(product);
   }
   
-//  public Category getCategory(String categoryName) {
-//    return categories.get(categories.indexOf(categoryName));
-//  }
+  public Collection getTopLevelCategories() {
+    return topLevelCategories;
+  }
   
-//  public void addCategory(Category category) {
-//    
-//  }
+  public Category getTopLevelCategory(String categoryName) {
+    for (Iterator it = topLevelCategories.iterator(); it.hasNext(); ) {
+      Category category = (Category) it.next();
+      if (category.getName().equals(categoryName)) {
+        return category;
+      }
+    }
+    return null;
+  }
+  
+  public Category getOrAddTopLevelCategory(String categoryName) {
+    Category category = getTopLevelCategory(categoryName);
+    if (category == null) {
+      category = new Category(categoryName);
+      topLevelCategories.add(category);
+    }
+    return category;
+  }
 }
