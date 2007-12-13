@@ -22,53 +22,71 @@ import com.google.checkout.samples.samplestore.client.Category;
 import com.google.checkout.samples.samplestore.client.HistoryTokenConverter;
 import com.google.checkout.samples.samplestore.client.Inventory;
 import com.google.checkout.samples.samplestore.client.JSONParser;
-import com.google.checkout.samples.samplestore.client.Product;
-import com.google.checkout.samples.samplestore.client.ui.widgets.gwt.ProductBox;
+import com.google.checkout.samples.samplestore.client.ui.widgets.gwt.CategoryMenu;
+import com.google.checkout.samples.samplestore.client.ui.widgets.gwt.ProductGrid;
+import com.google.checkout.samples.samplestore.client.ui.widgets.gwt.TopPanel;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.HistoryListener;
-import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Hyperlink;
-import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Stack;
-
 /**
- * Entry point classes define <code>onModuleLoad()</code>.
+ * This sample application demonstrates how to construct a simple storefront
+ * that fetches products from Google Base and displays them in a grid display.
+ * 
+ * @author tonylo@google.com (Tony Lo)
  */
 public class GridStore 
     implements EntryPoint, BaseFeedListener, HistoryListener {
-  public static final int NUM_ROWS = 4;
-  public static final int NUM_COLS = 4;
+  
+  private static GridStore singleton;
+  
+  /**
+   * Gets the singleton GridStore instance.
+   */
+  public static GridStore get() {
+    return singleton;
+  }
+  
+  public static final int NUM_ROWS = 5;
+  public static final int NUM_COLS = 3;
   
   public static final long BASE_CUSTOMER_ID = 2828467;      // our test account
 //  public static final long BASE_CUSTOMER_ID = "1161353";  // buy.com
+  
+  public static final String STORE_NAME = "My Store";
   
   private BaseFeedRetriever feed = new BaseFeedRetriever();
   private Inventory inventory;
   private HistoryTokenConverter tokenConverter;
   
-  private VerticalPanel mainPanel = new VerticalPanel();
-  private HorizontalPanel navBar = new HorizontalPanel();
-  private HorizontalPanel horzPanel = new HorizontalPanel();
-  private VerticalPanel categoryPanel = new VerticalPanel();
-  private Grid grid = new Grid(NUM_ROWS, NUM_COLS);
+  private TopPanel topPanel = new TopPanel(STORE_NAME);
+  private CategoryMenu categoryMenu = new CategoryMenu();
+  private VerticalPanel rightPanel = new VerticalPanel();
+  private ProductGrid productGrid = new ProductGrid(NUM_ROWS, NUM_COLS); 
+
+  public Inventory getInventory() {
+    return inventory;
+  }
+  
+  public HistoryTokenConverter getTokenConverter() {
+    return tokenConverter;
+  }
   
   /**
-   * This is the entry point method.
+   * This entry point method.
    */
   public void onModuleLoad() {
+    singleton = this;
+    
     feed.registerListener(this);
     feed.fetchProductsFromBase(BASE_CUSTOMER_ID);
     History.addHistoryListener(this);
+    
     initializeMainForm();
   }
 
@@ -76,16 +94,29 @@ public class GridStore
    * Initialize the main form's layout and content.
    */
   private void initializeMainForm() {
-    RootPanel.get().add(mainPanel);
-    mainPanel.add(navBar);
-    mainPanel.add(horzPanel);
-    horzPanel.add(categoryPanel);
-    horzPanel.add(grid);
+    topPanel.setWidth("100%");
+    rightPanel.add(productGrid);
+    
+    // Create a dock panel that will contain the title and top panel at
+    // the top, the category menu at the right, and the product grid taking
+    // the rest.
+    DockPanel outer = new DockPanel();
+    outer.add(topPanel, DockPanel.NORTH);
+    outer.add(categoryMenu, DockPanel.WEST);
+    outer.add(rightPanel, DockPanel.WEST);
+    outer.setWidth("100%");
+    outer.setSpacing(4);
+    outer.setCellWidth(rightPanel, "100%");
+    
+    Window.setMargin("0px");
+    
+    // Add the outer panel to the RootPanel.
+    RootPanel.get().add(outer);
   }
   
   /**
-   * Handles the response from the call to BaseFeedRetriever.
-   * (currently only called once because there is only one call to Base)
+   * Handles the response from the call to BaseFeedRetriever. This is currently 
+   * only called once since there is only one call to Base.
    */
   public void handleResponse(JSONObject jsonObj) {
     inventory = JSONParser.parse(jsonObj);
@@ -96,82 +127,11 @@ public class GridStore
     }
   }
   
-  public void onHistoryChanged(String historyToken) {
-    Category categorySelected = 
-      tokenConverter.getCategoryFromToken(historyToken);
+  public void onHistoryChanged(String token) {
+    Category categorySelected = tokenConverter.getCategoryFromToken(token);
     
-    // refresh navigation bar
-    loadNavBar(categorySelected);
-
-    // refresh menu
-    loadCategoriesMenu(categorySelected);
-    
-    // refresh products
-    loadProductsGrid(categorySelected);
-  }
-  
-  /**
-   * Refresh the navigation bar
-   */
-  private void loadNavBar(Category category) {
-    navBar.clear();
-    navBar.add(new Hyperlink("All Products", ""));
-    
-    Stack categoryStack = new Stack();
-    while (category != null) {
-      categoryStack.add(category);
-      category = category.getParent();
-    }
-    
-    while (!categoryStack.empty()) {
-      category = (Category) categoryStack.pop();
-      navBar.add(new Label(">"));
-      navBar.add(new Hyperlink(category.getName(), 
-          tokenConverter.getTokenFromCategory(category)));
-    }
-  }
-  
-  /**
-   * Refresh the menu with the sub-categories of the given category
-   */
-  private void loadCategoriesMenu(Category category) {
-    categoryPanel.clear();
-    
-    Collection menuCategories;
-    if (category == null) {
-      menuCategories = inventory.getTopLevelCategories();
-    } else {
-      menuCategories = category.getSubCategories();
-    }
-    
-    if (menuCategories != null) {
-      for (Iterator it = menuCategories.iterator(); it.hasNext(); ) {
-        Category subCategory = (Category) it.next();
-        categoryPanel.add(new Hyperlink(subCategory.getName(), 
-            tokenConverter.getTokenFromCategory(subCategory)));
-      }
-    }
-  }
-  
-  /**
-   * Refresh the products grid
-   */
-  private void loadProductsGrid(Category category) {
-    grid.clear();
-    
-    List products = new ArrayList();
-    if (category == null) {
-      products.addAll(inventory.getAllProducts());
-    } else {
-      products.addAll(inventory.getProductsInCategory(category));
-    }
-    
-    for (int i = 0; i < products.size(); i++) {
-      ProductBox productBox = new ProductBox((Product) products.get(i));
-      grid.setWidget(i / NUM_ROWS, i % NUM_COLS, productBox);
-      if ((i + 1) == NUM_ROWS*NUM_COLS) {
-        break;
-      }
-    }
+    topPanel.setCategory(categorySelected);
+    categoryMenu.setCategory(categorySelected);
+    productGrid.setCategory(categorySelected);
   }
 }

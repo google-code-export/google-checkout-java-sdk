@@ -77,7 +77,7 @@ public class Product {
       // price is in the form 33.3
       return "$" + price + "0";
     } else {
-      // append a $ to the beginning
+      // price is in the form 33.33
       return "$" + price;
     }
   }
