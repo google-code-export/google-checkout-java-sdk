@@ -21,42 +21,38 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Hyperlink;
 
-/** 
- * Panel that lays out the data in the grid boxes.
+/**
+ * Panel that lays out the data in the popup boxes when rolling over products.
  * 
  * @author Simon Lam (simonlam@google.com)
  */
-public class ProductBoxData extends VerticalPanel {
-  
+public class PopupProductBox extends VerticalPanel {
   private Product product;
   
-  public ProductBoxData(Product product) {
-    try {
-      this.setStyleName("item");
-      this.product = product;
-      if (product.getImageUrl() != "") {
-        Image image = new Image(product.getImageUrl());
-        image.setStyleName("image");
-        this.add(image);
-      }
-      
-      Label title = new Label(product.getTitle());
-      title.setStyleName("title");
-      this.add(title);
-
-      Label price = new Label(product.getPriceAsString());
-      price.setStyleName("price");
-      this.add(price);
-      
-      Button addToCart = new Button("Add to Cart");
-      //Hyperlink addToCart = new Hyperlink("Add to Cart", "Recipes");
-      addToCart.setStyleName("google-cart-add");
-      this.add(addToCart);
-   
-    } catch (Exception e) {
-      e.printStackTrace();
+  public PopupProductBox(Product product) {
+    this.setStyleName("popupProductBox");
+    this.product = product;
+    if (product.getImageUrl() != "") {
+      Image image = new Image(product.getImageUrl());
+      this.add(image);
     }
+    
+    Label title = new Label(product.getTitle());
+    title.setStyleName("title");
+    this.add(title);
+
+    Label description = new Label(product.getDescription());
+    description.setStyleName("item-desc");
+    this.add(description);
+    
+    Label price = new Label(product.getPriceAsString());
+    price.setStyleName("price");
+    this.add(price);
+    
+    Button addToCart = new Button("Add to Cart");
+    //Hyperlink addToCart = new Hyperlink("Add to Cart", "Recipes");
+    addToCart.setStyleName("google-cart-add");
+    this.add(addToCart);
   }
 }

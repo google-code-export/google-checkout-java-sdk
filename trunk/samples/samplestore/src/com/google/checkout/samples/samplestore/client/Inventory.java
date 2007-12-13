@@ -23,12 +23,11 @@ import java.util.Iterator;
 import java.util.Map;
 
 /** 
- * Data structure for an inventory of products.
+ * An inventory of products within a set of product categories.
  * 
  * @author Charles Dang (cdang@google.com)
  * @author Tony Lo (tonylo@google.com)
  */
-
 public class Inventory {
   // <Category, Collection>
   private Map categoryProducts;
