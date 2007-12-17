@@ -23,5 +23,5 @@ The jMaki store was originally developed with .jsp pages. However, as of this wr
 = To Do: =
 The following list of tasks should be completed for the Storefront:
 
-- integrate a shopping cart with the sample stores.
-- Finish developing a jMaki sample store. The IBrowseStore should utilize the jMaki widget library (e.g. iBrowser) to display the items to the user.
+* integrate a shopping cart with the sample stores.
+* Finish developing a jMaki sample store. The IBrowseStore should utilize the jMaki widget library (e.g. iBrowser) to display the items to the user.
