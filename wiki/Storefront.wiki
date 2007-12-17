@@ -10,7 +10,7 @@ To use the storefront project, a merchant is expected to download the .war of th
 This store will then be available to the public and users will then be able to browse the merchant's "personal" website. Since the source code will be made available, the merchant will be able to modify the sample store to any degree he or she chooses.
 
 == 2. Uploading to Base ==
-After uploading the .war onto the web server, the merchant will need to upload his or her items to Google Base. After uploading an item, the merchant will need to specify the attributes to indicate the sub-categories an item will appear under. For example, when creating an item for an electronic product "Nintendo Wii", specify "Electronics" for item-type. The item-type tag determines the top-level category of a product. The sub-category attributes, which take the form sub-category-#, determine what sub-categories the item will appear under. For example, specifying "Video Game Consoles" as the value for the attribute "sub-category-1" and "Nintendo" as the value for the attribute "sub-category-2", the Nintendo Wii item will appear in the GridStore under the path Electronics -> Video Game Consoles -> Nintendo.
+After uploading the .war onto the web server, the merchant will need to upload his or her items to Google Base. After uploading an item, the merchant will need to specify the attributes to indicate the sub-categories an item will appear under. For example, when creating an item for an electronic product "Nintendo Wii", specify "Electronics" for item-type. The item-type tag determines the top-level category of a product. The sub-category attributes, which take the form sub-category-#, determine what sub-categories   the item will appear under. For example, specifying "Video Game Consoles" as the value for the attribute "sub-category-1" and "Nintendo" as the value for the attribute "sub-category-2", the Nintendo Wii item will appear in the GridStore under the path Electronics -> Video Game Consoles -> Nintendo.
 
 = B. Developer's Section =
 
@@ -23,5 +23,5 @@ The jMaki store was originally developed with .jsp pages. However, as of this wr
 = To Do: =
 The following list of tasks should be completed for the Storefront:
 
-* integrate a shopping cart with the sample stores.
-* Finish developing a jMaki sample store. The IBrowseStore should utilize the jMaki widget library (e.g. iBrowser) to display the items to the user.
+  * integrate a shopping cart with the sample stores.
+  * Finish developing a jMaki sample store. The IBrowseStore should utilize the jMaki widget library (e.g. iBrowser) to display the items to the user.
