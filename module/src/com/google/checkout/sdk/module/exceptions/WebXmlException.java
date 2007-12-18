@@ -18,20 +18,44 @@ package com.google.checkout.sdk.module.exceptions;
 
 /**
  *
- * @author cdang
+ * @author Charles Dang (cdang@google.com)
  */
 public class WebXmlException extends java.lang.Exception {
   
   /**
-   * Creates a new instance of <code>WriteWebXmlException</code> without detail message.
+   * Creates a new instance of <code>WebXmlException</code> without detail 
+   * message.
    */
   public WebXmlException() {}
 
   /**
-   * Constructs an instance of <code>WriteWebXmlException</code> with the specified detail message.
-   * @param msg the detail message.
+   * Constructs an instance of <code>WebXmlException</code> with the specified 
+   * detail message.
+   * 
+   * @param msg The detail message.
    */
   public WebXmlException(String msg) {
     super(msg);
+  }
+  
+  /**
+   * Constructs an instance of <code>WebXmlException</code> with the specified
+   * detail message.
+   * 
+   * @param msg The detail message.
+   * @param cause The original cause of the exception.
+   */
+  public WebXmlException(String msg, Throwable cause) {
+    super(msg, cause);
+  }
+  
+  /**
+   * Constructs an instance of <code>WebXmlException</code> with the original
+   * cause of the exception.
+   * 
+   * @param cause The original cause of the exception.
+   */
+  public WebXmlException(Throwable cause) {
+    super(cause);
   }
 }

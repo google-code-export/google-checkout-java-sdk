@@ -23,15 +23,38 @@ package com.google.checkout.sdk.module.exceptions;
 public class SamplesJspException extends java.lang.Exception {
  
   /**
-   * Creates a new instance of <code>SamplesJspException</code> without detail message.
+   * Creates a new instance of <code>SamplesJspException</code> without detail 
+   * message.
    */
   public SamplesJspException() {}
 
   /**
-   * Constructs an instance of <code>SamplesJspException</code> with the specified detail message.
-   * @param msg the detail message.
+   * Constructs an instance of <code>SamplesJspException</code> with the 
+   * specified detail message.
+   * 
+   * @param msg The detail message.
    */
   public SamplesJspException(String msg) {
     super(msg);
+  }
+  
+  /**
+   * Constructs an instance of <code>SamplesJspException</code> with the
+   * specified detail message and the original cause of the exception.
+   * 
+   * @param msg The detail message.
+   * @param cause The original cause if the exception.
+   */
+  public SamplesJspException(String msg, Throwable cause) {
+    super(msg, cause);
+  }
+  
+  /**
+   * Constructs an instance of <code>SamplesJspException</code>
+   * 
+   * @param cause The original cause of the exception.
+   */
+  public SamplesJspException(Throwable cause) {
+    super(cause);
   }
 }

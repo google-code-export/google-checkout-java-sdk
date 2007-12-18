@@ -75,7 +75,7 @@ public class Integrator {
     String path = settings.getWebInfDirectory().getPath() +
         "/lib/checkout-sdk.jar";
     File dest = new File(path);
-
+    
     // Write the file
     try {
       CheckoutFileWriter.writeFileFromStream(source, dest);
@@ -96,7 +96,7 @@ public class Integrator {
       CheckoutFileWriter.writeFileFromString(source, dest);
     } 
     catch (IOException ex) {
-      throw new WebXmlException("Could not write web.xml");
+      throw new WebXmlException("Could not write web.xml", ex);
     }
   }
   

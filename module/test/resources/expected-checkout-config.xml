@@ -1,0 +1,25 @@
+<checkout-config>
+  <merchant-info>
+    <merchant-id>1234</merchant-id>
+    <merchant-key>5678</merchant-key>
+    <env>Sandbox</env>
+    <currency-code>USD</currency-code>
+    <sandbox-root>https://sandbox.google.com/checkout/cws/v2/Merchant</sandbox-root>
+    <production-root>https://checkout.google.com/cws/v2/Merchant</production-root>
+    <checkout-command>checkout</checkout-command>
+    <merchant-checkout-command>merchantCheckout</merchant-checkout-command>
+    <request-suffix>request</request-suffix>
+  </merchant-info>
+  <notification-handlers>
+    <notification-handler>
+      <message-type>new-order-notification</message-type>
+      <handler-class>com.google.checkout.handlers.NewOrderNotificationHandler</handler-class>
+    </notification-handler>
+  </notification-handlers>
+  <callback-handlers>
+    <callback-handler>
+      <message-type>merchant-calculation-callback</message-type>
+      <handler-class>com.google.checkout.handlers.MerchantCalculationCallbackHandler</handler-class>
+    </callback-handler>
+  </callback-handlers>
+</checkout-config>

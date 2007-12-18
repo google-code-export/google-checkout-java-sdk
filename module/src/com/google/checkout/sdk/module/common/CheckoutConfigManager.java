@@ -42,9 +42,9 @@ public class CheckoutConfigManager {
   private String currencyCode;
   private String sandboxRoot;
   private String productionRoot;
-  private String checkoutSuffix;
-  private String merchantCheckoutSuffix;
-  private String requestSuffix;
+  private String checkoutCommand;
+  private String merchantCheckoutCommand;
+  private String requestCommand;
   
   // The maps which store the notification and callback handlers
   private HashMap<String, String> notificationHandlers;
@@ -120,16 +120,16 @@ public class CheckoutConfigManager {
     return productionRoot;
   }
 
-  public String getCheckoutSuffix() {
-    return checkoutSuffix;
+  public String getCheckoutCommand() {
+    return checkoutCommand;
   }
 
-  public String getMerchantCheckoutSuffix() {
-    return merchantCheckoutSuffix;
+  public String getMerchantCheckoutCommand() {
+    return merchantCheckoutCommand;
   }
 
-  public String getRequestSuffix() {
-    return requestSuffix;
+  public String getRequestCommand() {
+    return requestCommand;
   }
   
   /*************************************************************************/
@@ -184,9 +184,9 @@ public class CheckoutConfigManager {
       currencyCode = read(merchantInfo, "currency-code");
       sandboxRoot = read(merchantInfo, "sandbox-root");
       productionRoot = read(merchantInfo, "production-root");
-      checkoutSuffix = read(merchantInfo, "checkout-suffix");
-      merchantCheckoutSuffix = read(merchantInfo, "merchant-checkout-suffix");
-      requestSuffix = read(merchantInfo, "request-suffix");
+      checkoutCommand = read(merchantInfo, "checkout-command");
+      merchantCheckoutCommand = read(merchantInfo, "merchant-checkout-command");
+      requestCommand = read(merchantInfo, "request-command");
     }
   }
   
@@ -246,9 +246,9 @@ public class CheckoutConfigManager {
     currencyCode = "USD";
     sandboxRoot = "https://sandbox.google.com/checkout/cws/v2/Merchant";
     productionRoot = "https://checkout.google.com/cws/v2/Merchant";
-    checkoutSuffix = "checkout";
-    merchantCheckoutSuffix = "merchantCheckout";
-    requestSuffix = "request";
+    checkoutCommand = "checkout";
+    merchantCheckoutCommand = "merchantCheckout";
+    requestCommand = "request";
   }
   
   /**
@@ -421,10 +421,10 @@ public class CheckoutConfigManager {
         + "        <currency-code>" + currencyCode + "</currency-code>\n"
         + "        <sandbox-root>" + getSandboxRoot() + "</sandbox-root>\n"
         + "        <production-root>" + getProductionRoot() + "</production-root>\n"
-        + "        <checkout-suffix>" + getCheckoutSuffix() + "</checkout-suffix>\n"
-        + "        <merchant-checkout-suffix>" + getMerchantCheckoutSuffix()
-        + "</merchant-checkout-suffix>\n"
-        + "        <request-suffix>" + getRequestSuffix() + "</request-suffix>\n"
+        + "        <checkout-command>" + getCheckoutCommand() + "</checkout-command>\n"
+        + "        <merchant-checkout-command>" + getMerchantCheckoutCommand()
+        + "</merchant-checkout-command>\n"
+        + "        <request-command>" + getRequestCommand() + "</request-command>\n"
         + "    </merchant-info>\n";
     
     // Notification handlers
