@@ -19,10 +19,14 @@ package com.google.checkout.samples.samplestore.client.ui.widgets.gwt;
 import com.google.checkout.samples.samplestore.client.Category;
 import com.google.checkout.samples.samplestore.client.Product;
 import com.google.checkout.samples.samplestore.client.ui.GridStore;
+import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,43 +39,88 @@ import java.util.List;
  */
 public class ProductGrid extends Composite {
   private VerticalPanel panel = new VerticalPanel();
+  
   private Grid grid;
+  private DockPanel pageLinks = new DockPanel();
+  private HTML prevLink = new HTML("<a href='javascript:;'>< Previous</a>");
+  private HTML nextLink = new HTML("<a href='javascript:;'>Next ></a>");
+  
   private int numRows;
   private int numCols;
+  private int itemsPerPage;
+  private int currPage;
+  
+  private List products;
   
   public ProductGrid(int rows, int columns) {
     numRows = rows;
     numCols = columns;
+    itemsPerPage = rows * columns;
     
     grid = new Grid(rows, columns);
     grid.setStyleName("gridstore-ProductGridGrid");
     grid.setCellSpacing(0);
     grid.setCellPadding(0);
     
+    // Add click listeners for pagination links.
+    prevLink.addClickListener(new ClickListener() {
+      public void onClick(Widget arg0) {
+        setPage(currPage - 1);
+      }
+    });
+    nextLink.addClickListener(new ClickListener() {
+      public void onClick(Widget arg0) {
+        setPage(currPage + 1);
+      }
+    });
+    
+    pageLinks.setStyleName("gridstore-ProductGridPageLinks");
+    pageLinks.setWidth("100%");
+    
     panel.setStyleName("gridstore-ProductGridPanel");
+    panel.setWidth("100%");
     panel.add(grid);
+    panel.add(pageLinks);
     panel.setCellHorizontalAlignment(grid, HorizontalPanel.ALIGN_LEFT);
+    panel.setCellHorizontalAlignment(pageLinks, HorizontalPanel.ALIGN_CENTER);
     initWidget(panel);
   }
   
-  public void setCategory(Category category) {
-    grid.clear();
-    
-    List products = new ArrayList();
+  public void setCategory(Category category) {products = new ArrayList();
     if (category == null) {
       products.addAll(GridStore.get().getInventory().getAllProducts());
     } else {
       products.addAll(GridStore.get().getInventory().getProductsInCategory(category));
     }
     
-    for (int i = 0; i < products.size(); i++) {
-      // Break when grid capacity is reached.
-      if (i >= numRows * numCols) {
+    // Display the first page of products
+    setPage(0);
+  }
+  
+  private void setPage(int page) {
+    grid.clear();
+    pageLinks.clear();
+
+    currPage = page;
+    int startNum = page * itemsPerPage;
+    
+    for (int i = 0; i < itemsPerPage; i++) {
+      // Break when last product is reached.
+      if (startNum + i >= products.size()) {
         break;
       }
-      
-      Product product = (Product) products.get(i);
+      Product product = (Product) products.get(startNum + i);
       addProduct(product, i);
+    }
+    
+    if (startNum > 0) {
+      pageLinks.add(prevLink, DockPanel.WEST);
+      pageLinks.setCellHorizontalAlignment(prevLink, HorizontalPanel.ALIGN_LEFT);
+    }
+    
+    if (startNum + itemsPerPage < products.size()) {
+      pageLinks.add(nextLink, DockPanel.EAST);
+      pageLinks.setCellHorizontalAlignment(nextLink, HorizontalPanel.ALIGN_RIGHT);
     }
   }
   

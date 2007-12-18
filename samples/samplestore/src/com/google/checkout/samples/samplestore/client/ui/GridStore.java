@@ -40,7 +40,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * 
  * @author tonylo@google.com (Tony Lo)
  */
-public class GridStore 
+public class GridStore
     implements EntryPoint, BaseFeedListener, HistoryListener {
   
   private static GridStore singleton;
@@ -55,8 +55,8 @@ public class GridStore
   public static final int NUM_ROWS = 5;
   public static final int NUM_COLS = 3;
   
-  public static final long BASE_CUSTOMER_ID = 2828467;      // our test account
-//  public static final long BASE_CUSTOMER_ID = "1161353";  // buy.com
+//  public static final long BASE_CUSTOMER_ID = 2828467;      // our test account
+  public static final long BASE_CUSTOMER_ID = 1161353;  // buy.com
   
   public static final String STORE_NAME = "My Store";
   

@@ -50,6 +50,10 @@ public class Category {
         }
       }
     }
+    
+    if (parent != null) {
+      parent.addSubCategory(this);
+    }
   }
   
   public String getName() {
@@ -85,6 +89,16 @@ public class Category {
     return null;
   }
   
+  public void addSubCategory(Category subCategory) {
+    Category category = getSubCategory(subCategory.getName());
+    if (category == null) {
+      subCategories.add(subCategory);
+    } else {
+      subCategories.remove(category);
+      subCategories.add(subCategory);
+    }
+  }
+  
   /**
    * If a sub-category with the given name exists, return it. Otherwise, create
    * a sub-category with the given name and return it.
@@ -93,7 +107,7 @@ public class Category {
     Category category = getSubCategory(subCategoryName);
     if (category == null) {
       category = new Category(subCategoryName, this);
-      subCategories.add(category);
+      //subCategories.add(category);
     }
     return category;
   }

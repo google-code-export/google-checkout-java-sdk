@@ -29,7 +29,7 @@ public class CategoryTest extends TestCase {
     
     assertEquals("New Category", category.getName());
     assertNull(category.getParent());
-    assertNull(category.getSubCategories());
+    assertEquals(0, category.getSubCategories().size());
     assertFalse(category.hasSubCategories());
   }
   
@@ -52,7 +52,7 @@ public class CategoryTest extends TestCase {
     category = new Category("New Category", null);
     
     assertEquals("New Category", category.getName());
-    assertNull(category.getSubCategories());
+    assertEquals(0, category.getSubCategories().size());
     assertFalse(category.hasSubCategories());
   }
   
