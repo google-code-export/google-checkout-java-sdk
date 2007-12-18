@@ -96,6 +96,12 @@ a:visited {
 	margin: 0;
 }
 
+.gridstore-ProductGridPageLinks {
+  font-size: 100%;
+  margin: 15px;
+  padding: 10px;
+}
+
 .gridstore-ProductBoxPanel {
   font-size: 80%;
   margin-top: 0;
@@ -121,13 +127,35 @@ a:visited {
   color: #7777cc;
 }
 
-.gridstore-ProductGridPageLinks {
+.gridstore-PopupProductBoxPanel {
+	background-color: #FFF;
   font-size: 100%;
-  margin: 15px;
+  margin-top: 0;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  margin-left: 0;
   padding: 10px;
+  border:1px solid #aad; /*#EFEFEF;*/
+  width: 250px;
+  height: 300px;
 }
 
-.gridstore-PopupProductBox {
+.gridstore-PopupProductBoxTitlePanel {
+  background-color: #e5ecf9;
+  padding: 3px;
+}
+
+.gridstore-PopupProductBoxImage {
+  margin: 5px;
+}
+
+.gridstore-PopupProductBoxPrice {
+  font-weight: bold;
+}
+
+.gridstore-PopupProductBoxCartLink a {
+  text-decoration: underline;
+  color: #7777cc;
 }
 
 /*

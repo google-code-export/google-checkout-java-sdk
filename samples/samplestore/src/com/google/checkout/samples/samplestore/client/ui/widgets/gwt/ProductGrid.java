@@ -45,7 +45,7 @@ public class ProductGrid extends Composite {
   private HTML prevLink = new HTML("<a href='javascript:;'>< Previous</a>");
   private HTML nextLink = new HTML("<a href='javascript:;'>Next ></a>");
   
-  private int numRows;
+//  private int numRows;
   private int numCols;
   private int itemsPerPage;
   private int currPage;
@@ -53,7 +53,7 @@ public class ProductGrid extends Composite {
   private List products;
   
   public ProductGrid(int rows, int columns) {
-    numRows = rows;
+//    numRows = rows;
     numCols = columns;
     itemsPerPage = rows * columns;
     
@@ -90,7 +90,8 @@ public class ProductGrid extends Composite {
     if (category == null) {
       products.addAll(GridStore.get().getInventory().getAllProducts());
     } else {
-      products.addAll(GridStore.get().getInventory().getProductsInCategory(category));
+      products.addAll(
+          GridStore.get().getInventory().getProductsInCategory(category));
     }
     
     // Display the first page of products
@@ -115,12 +116,14 @@ public class ProductGrid extends Composite {
     
     if (startNum > 0) {
       pageLinks.add(prevLink, DockPanel.WEST);
-      pageLinks.setCellHorizontalAlignment(prevLink, HorizontalPanel.ALIGN_LEFT);
+      pageLinks.setCellHorizontalAlignment(
+          prevLink, HorizontalPanel.ALIGN_LEFT);
     }
     
     if (startNum + itemsPerPage < products.size()) {
       pageLinks.add(nextLink, DockPanel.EAST);
-      pageLinks.setCellHorizontalAlignment(nextLink, HorizontalPanel.ALIGN_RIGHT);
+      pageLinks.setCellHorizontalAlignment(
+          nextLink, HorizontalPanel.ALIGN_RIGHT);
     }
   }
   

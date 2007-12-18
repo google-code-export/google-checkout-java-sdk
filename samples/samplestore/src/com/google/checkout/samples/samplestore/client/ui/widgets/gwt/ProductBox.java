@@ -17,12 +17,16 @@
 package com.google.checkout.samples.samplestore.client.ui.widgets.gwt;
 
 import com.google.checkout.samples.samplestore.client.Product;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LoadListener;
+import com.google.gwt.user.client.ui.MouseListenerAdapter;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -33,14 +37,17 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ProductBox extends Composite {
 
-//  private static final int LOAD_DELAY = 200;
+  private static final int LOAD_DELAY = 200;
   private static final int MAX_IMAGE_WIDTH = 200;
   private static final int MAX_IMAGE_HEIGHT = 125;
   
-//  private PopupPanel popup = new PopupPanel();
-//  private FocusPanel popupFocusPanel = new FocusPanel();
+  private PopupPanel popup = new PopupPanel();
+  private FocusPanel popupFocusPanel = new FocusPanel();
   
   private VerticalPanel panel = new VerticalPanel();
+  private FocusPanel outer = new FocusPanel();
+  
+  private Timer loadTimer;
   
   public ProductBox(Product product) {
     if (product == null) {
@@ -68,32 +75,34 @@ public class ProductBox extends Composite {
 
     panel.setStyleName("gridstore-ProductBoxPanel");
     panel.setSpacing(2);
-    initWidget(panel);
     
-//    popupFocusPanel.add(new PopupProductBox(product));
-//    
-//    // The pop-up panel that appears when hovering over
-//    // the product box.
-//    popup.add(popupFocusPanel);
-//    
-//    this.addMouseListener(new MouseListenerAdapter() {
-//      public void onMouseEnter(final Widget sender) {
-//        loadTimer = new Timer() {
-//          public void run() {
-//            popup.setPopupPosition(sender.getAbsoluteLeft() - 25, sender
-//                .getAbsoluteTop() - 25);
-//            popup.show();
-//          }
-//        };
-//        loadTimer.schedule(LOAD_DELAY);
-//      }
-//    });
-//
-//    popupFocusPanel.addMouseListener(new MouseListenerAdapter() {
-//      public void onMouseLeave(Widget sender) {
-//        popup.hide();
-//      }
-//    });
+    popupFocusPanel.add(new PopupProductBox(product));
+    
+    // The pop-up panel that appears when hovering over
+    // the product box.
+    popup.add(popupFocusPanel);
+    
+    outer.addMouseListener(new MouseListenerAdapter() {
+      public void onMouseEnter(final Widget sender) {
+        loadTimer = new Timer() {
+          public void run() {
+            popup.setPopupPosition(sender.getAbsoluteLeft() - 25, sender
+                .getAbsoluteTop() - 25);
+            popup.show();
+          }
+        };
+        loadTimer.schedule(LOAD_DELAY);
+      }
+    });
+
+    popupFocusPanel.addMouseListener(new MouseListenerAdapter() {
+      public void onMouseLeave(Widget sender) {
+        popup.hide();
+      }
+    });
+    
+    outer.add(panel);
+    initWidget(outer);
   }
 
   private Image getProductImage(Product p) {
