@@ -35,9 +35,11 @@
             </file>
         </folder>
     </folder>
+    <!--
     <folder name="org-netbeans-api-project-libraries">
         <folder name="Libraries">
             <file name="CheckoutModule.xml" url="CheckoutModule.xml"/>
         </folder>
     </folder>
+    -->
 </filesystem>
