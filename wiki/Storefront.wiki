@@ -1,3 +1,5 @@
+#summary A brief description of the Storefront project
+
 = Introduction =
 
 The sample store project is intended to be a prototype for the user-front end of Google's Storefront project. In a nutshell, Google's Storefront project is intended to bring together all of Google's technologies for the purpose of an online store with Google Checkout being the core technology.
