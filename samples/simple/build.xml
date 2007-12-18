@@ -19,8 +19,10 @@
     <import file="nbproject/build-impl.xml"/>
 
     <property file="build.properties"/>
-    <property name="checkout-sdk.home" value="../.."/>
-    
+    <property name="tmpdist.dir" value="../.."/>
+    <property file="../../sdk/sdk.properties"/>
+    <property name="checkout-sdk.home" value="${tmpdist.dir}/checkout-sdk-${release.version}"/> 
+ 
     <target name="-pre-compile" depends="init">
       <copy file="${checkout-sdk.home}/checkout-sdk.jar" 
             todir="${build.web.dir}/WEB-INF/lib"/>
