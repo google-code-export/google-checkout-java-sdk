@@ -19,7 +19,6 @@ package com.google.checkout.sdk.module.handlermanager;
 import com.google.checkout.sdk.module.common.CheckoutConfigManager;
 import com.google.checkout.sdk.module.common.CheckoutFileWriter;
 import com.google.checkout.sdk.module.exceptions.HandlerCreationException;
-import com.google.checkout.sdk.module.handlermanager.HandlerCreationData;
 
 import java.io.File;
 import java.io.IOException;

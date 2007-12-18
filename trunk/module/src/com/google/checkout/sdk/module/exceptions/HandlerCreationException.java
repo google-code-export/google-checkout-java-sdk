@@ -23,15 +23,39 @@ package com.google.checkout.sdk.module.exceptions;
 public class HandlerCreationException extends java.lang.Exception {
   
   /**
-   * Creates a new instance of <code>HandlerCreationException</code> without detail message.
+   * Creates a new instance of <code>HandlerCreationException</code> without 
+   * detail message.
    */
   public HandlerCreationException() {}
   
   /**
-   * Constructs an instance of <code>HandlerCreationException</code> with the specified detail message.
-   * @param msg the detail message.
+   * Constructs an instance of <code>HandlerCreationException</code> with the 
+   * specified detail message.
+   *
+   * @param msg The detail message.
    */
   public HandlerCreationException(String msg) {
     super(msg);
+  }
+  
+  /**
+   * Constructs an instance of <code>HandlerCreationException</code> with the 
+   * specified detail message.
+   * 
+   * @param msg The detail message.
+   * @param cause The original cause of the exception.
+   */
+  public HandlerCreationException(String msg, Throwable cause) {
+    super(msg, cause);
+  }
+  
+  /**
+   * Constructs an instance of <code>HandlerCreationException</code> with the
+   * specified detail message.
+   * 
+   * @param cause The original cause of the exception.
+   */
+  public HandlerCreationException(Throwable cause) {
+    super(cause);
   }
 }

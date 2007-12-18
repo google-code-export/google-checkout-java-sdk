@@ -19,6 +19,10 @@ package com.google.checkout.sdk.module.integrationwizard;
 import com.google.checkout.sdk.module.common.CheckoutConfigManager;
 import java.io.File;
 
+/**
+ * 
+ * @author Charles Dang (cdang@google.com)
+ */
 public class Settings {
   // Project panel
   private File webInfDirectory;

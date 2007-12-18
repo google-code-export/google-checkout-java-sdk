@@ -18,20 +18,44 @@ package com.google.checkout.sdk.module.exceptions;
 
 /**
  *
- * @author cdang
+ * @author Charles Dang (cdang@google.com)
  */
 public class CheckoutConfigException extends java.lang.Exception {
   
   /**
-   * Creates a new instance of <code>CheckoutConfigException</code> without detail message.
+   * Creates a new instance of <code>CheckoutConfigException</code> without 
+   * detail message.
    */
   public CheckoutConfigException() {}
   
   /**
-   * Constructs an instance of <code>CheckoutConfigException</code> with the specified detail message.
-   * @param msg the detail message.
+   * Constructs an instance of <code>CheckoutConfigException</code> with the 
+   * specified detail message.
+   * 
+   * @param msg The detail message.
    */
   public CheckoutConfigException(String msg) {
     super(msg);
+  }
+  
+  /**
+   * Constructs an instance of <code>CheckoutConfigException</code> with the
+   * specified detail message and the original cause of the exception.
+   * 
+   * @param msg The detail message.
+   * @param cause The original cause of the exception.
+   */
+  public CheckoutConfigException(String msg, Throwable cause) {
+    super(msg, cause);
+  }
+  
+  /**
+   * Constructs an instance of <code>CheckoutConfigException</code> with the
+   * original cause of the exception.
+   * 
+   * @param cause The original cause of the exception.
+   */
+  public CheckoutConfigException(Throwable cause) {
+    super(cause);
   }
 }
