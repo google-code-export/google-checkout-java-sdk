@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="dist" default="zip" basedir=".">
   <description>builds the release distribution for this project.</description>
- 
-  <property name="release.version" value="0.8.7" />
+  <!--<property name="release.version" value="0.8.7" />-->
  
   <import file="standalone-build.xml"/>
   
@@ -10,7 +9,7 @@
     <property name="zipdist.dir" value="${build.dir}/tmpdist" />
     <property name="sdkdist.dir" 
               value="${zipdist.dir}/checkout-sdk-${release.version}" />
-    <mkdir dir="${sdkdist.dir}" />
+    <mkdir dir="${sdkdist.dir}"/>
     
     <jar basedir="${build.classes.dir}" 
          zipfile="${sdkdist.dir}/checkout-sdk.jar"/>
