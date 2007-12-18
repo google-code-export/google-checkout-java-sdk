@@ -35,7 +35,7 @@ public class BaseFeedRetriever {
    * JSON result were as a result of requesting the following URL:
    */
   private static String DEFAULT_SEARCH_URL =  
-      "http://www.google.com/base/feeds/snippets?max-results=17&alt=json-in-script&callback=jsonCallback";
+      "http://www.google.com/base/feeds/snippets?max-results=100&alt=json-in-script&callback=jsonCallback";
   
   private List listeners = new ArrayList();
   
