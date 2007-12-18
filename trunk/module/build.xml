@@ -34,15 +34,15 @@
     <mkdir dir="${build.dir}"/>            
     <javac srcdir="src" destdir="${build.dir}" 
            classpath="${build.classpath}" source="1.5" target="1.5"/>
+    <copy todir="src/resources">
+      <fileset dir="${checkout-sdk.home}/web/WEB-INF/">
+        <include name="checkout-config.xml"/>
+      </fileset>
+    </copy>
     <copy todir="${build.dir}/resources">
       <fileset dir="src/resources">
         <include name="*.txt" />
         <include name="*.xml"/>
-      </fileset>
-    </copy>
-    <copy todir="src/resources">
-      <fileset dir="${checkout-sdk.home}/web/WEB-INF/">
-        <include name="checkout-config.xml"/>
       </fileset>
     </copy>
   </target>
