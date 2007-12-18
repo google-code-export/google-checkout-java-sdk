@@ -4,6 +4,7 @@
   
   <target name="init">
     <property file="build.properties"/>
+    <property file="sdk.properties"/>
     <property name="build.dir" value="build"/>
     <property name="build.web.dir" value="${build.dir}/web"/>
     <property name="build.classes.dir" 
