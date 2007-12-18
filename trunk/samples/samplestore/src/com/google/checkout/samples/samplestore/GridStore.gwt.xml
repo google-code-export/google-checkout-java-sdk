@@ -5,7 +5,7 @@
 	<inherits name='com.google.gwt.json.JSON'/>
   <inherits name='com.google.gwt.http.HTTP'/>
 
-	<!-- Specify the app entry point class.                   -->
+	<!-- Specify the app entry point class.                  -->
 	<entry-point class='com.google.checkout.samples.samplestore.client.ui.GridStore'/>
   <stylesheet src="GridStore-default.css"/>
   <servlet path="/propertiesReader" class="com.google.checkout.samples.samplestore.server.ProjectPropertiesReaderImpl"/>
