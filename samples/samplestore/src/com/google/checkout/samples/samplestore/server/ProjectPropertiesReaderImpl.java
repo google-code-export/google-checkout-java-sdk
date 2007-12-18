@@ -46,6 +46,6 @@ public class ProjectPropertiesReaderImpl extends RemoteServiceServlet
     if (nl.getLength() == 0) {
       return null;
     }
-    return nl.item(0).getNodeValue();
+    return nl.item(0).getTextContent();
   }
 }

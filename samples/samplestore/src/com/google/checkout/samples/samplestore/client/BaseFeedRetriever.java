@@ -16,9 +16,12 @@
 
 package com.google.checkout.samples.samplestore.client;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,15 +32,36 @@ import java.util.List;
  * @author Simon Lam (simonlam@google.com)
  */
 public class BaseFeedRetriever {
-  
   /**
    * Default URL to use to fetch JSON objects. Note that the contents of this
    * JSON result were as a result of requesting the following URL:
    */
-  private static String DEFAULT_SEARCH_URL =  
-      "http://www.google.com/base/feeds/snippets?max-results=100&alt=json-in-script&callback=jsonCallback";
+  private static String DEFAULT_SEARCH_URL = "";
+//      "http://www.google.com/base/feeds/snippets?max-results=17&alt=json-in-script&callback=jsonCallback";
   
   private List listeners = new ArrayList();
+  
+  public BaseFeedRetriever() {
+    ProjectPropertiesReaderAsync propertiesReader = 
+      (ProjectPropertiesReaderAsync)GWT.create(ProjectPropertiesReader.class);
+    
+    ServiceDefTarget endpoint = (ServiceDefTarget) propertiesReader;
+    String moduleRelativeURL = GWT.getModuleBaseURL() + "propertiesReader";
+    endpoint.setServiceEntryPoint(moduleRelativeURL);
+    
+
+    AsyncCallback jsonFeedCallback = new AsyncCallback() {
+      public void onSuccess(Object result) {
+        DEFAULT_SEARCH_URL = result.toString();
+      }
+      
+      public void onFailure(Throwable caught) {
+        throw new RuntimeException("Unable to find json-feed to retrieve items", caught);
+      }
+    };
+    
+    propertiesReader.getProjectPropertyValue("json-feed", jsonFeedCallback);
+  }
   
   private class JSONResponseHandler {
     public void onCompletion(JavaScriptObject response) {

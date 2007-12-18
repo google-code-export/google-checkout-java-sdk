@@ -63,7 +63,7 @@ public class GridStore
   public static long BASE_CUSTOMER_ID;      // 2828467 our test account
 //  public static final long BASE_CUSTOMER_ID = "1161353";  // buy.com
 
-  public static final String STORE_NAME = "My Store";
+  public static String STORE_NAME = "My Store";
   
   private BaseFeedRetriever feed = new BaseFeedRetriever();
   private Inventory inventory;
@@ -83,34 +83,38 @@ public class GridStore
   }
   
   private GridStore() {
-    // (1) Create the client proxy. Note that although you are creating the 
-    // service interface proper, you cast the result to the asynchronous 
-    // version of the interface. The cast is always safe because the generated
-    // proxy implements the asynchronous interface automatically.
    ProjectPropertiesReaderAsync propertiesReader = 
      (ProjectPropertiesReaderAsync)GWT.create(ProjectPropertiesReader.class);
    
-   // (2) Specify the URL at which our service implementation is running.
-   // Note that the target URL must reside on the same domain and port from 
-   // which the host page was served.
    ServiceDefTarget endpoint = (ServiceDefTarget) propertiesReader;
    String moduleRelativeURL = GWT.getModuleBaseURL() + "propertiesReader";
    endpoint.setServiceEntryPoint(moduleRelativeURL);
    
-   // (3) Create an asynchronous callback to handle the result.
-   AsyncCallback callback = new AsyncCallback() {
+
+   AsyncCallback customerIdCallback = new AsyncCallback() {
      public void onSuccess(Object result) {
        BASE_CUSTOMER_ID = Long.parseLong(result.toString());
+       feed.fetchProductsFromBase(BASE_CUSTOMER_ID);
      }
      
      public void onFailure(Throwable caught) {
-       throw new RuntimeException("Unable to find available products");
+       throw new RuntimeException("Unable to find available products", caught);
      }
    };
    
-   // (4) Make the call. Control flow will continue immediately and later
-   // 'callback' will be invoked when the RPC completes
-   propertiesReader.getProjectPropertyValue("base-customer-id", callback);
+   AsyncCallback storeTitleCallback = new AsyncCallback() {
+     public void onSuccess(Object result) {
+       STORE_NAME = result.toString();
+       topPanel.setTitle(STORE_NAME);
+     }
+     
+     public void onFailure(Throwable caught) {
+       throw new RuntimeException("Unable to find store name", caught);
+     }
+   };
+   
+   propertiesReader.getProjectPropertyValue("base-customer-id", customerIdCallback);
+   propertiesReader.getProjectPropertyValue("store-name", storeTitleCallback);
   }
   
   /**
@@ -120,9 +124,10 @@ public class GridStore
     singleton = this;
     
     feed.registerListener(this);
-    feed.fetchProductsFromBase(BASE_CUSTOMER_ID);
-    History.addHistoryListener(this);
-    
+    if (BASE_CUSTOMER_ID != 0) {
+      feed.fetchProductsFromBase(BASE_CUSTOMER_ID);
+    }
+    History.addHistoryListener(this);    
     initializeMainForm();
   }
 
