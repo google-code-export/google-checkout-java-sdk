@@ -105,7 +105,7 @@ a:visited {
   padding: 10px;
   border:1px solid #ddd; /*#EFEFEF;*/
   width: 200px;
-  height: 230px;
+  height: 250px;
 }
 
 .gridstore-ProductBoxImage {
@@ -119,6 +119,12 @@ a:visited {
 .gridstore-ProductBoxCartLink a {
 	text-decoration: underline;
   color: #7777cc;
+}
+
+.gridstore-ProductGridPageLinks {
+  font-size: 100%;
+  margin: 15px;
+  padding: 10px;
 }
 
 .gridstore-PopupProductBox {
