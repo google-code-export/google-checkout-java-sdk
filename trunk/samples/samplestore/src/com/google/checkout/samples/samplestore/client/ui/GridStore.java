@@ -22,14 +22,19 @@ import com.google.checkout.samples.samplestore.client.Category;
 import com.google.checkout.samples.samplestore.client.HistoryTokenConverter;
 import com.google.checkout.samples.samplestore.client.Inventory;
 import com.google.checkout.samples.samplestore.client.JSONParser;
+import com.google.checkout.samples.samplestore.client.ProjectPropertiesReader;
+import com.google.checkout.samples.samplestore.client.ProjectPropertiesReaderAsync;
 import com.google.checkout.samples.samplestore.client.ui.widgets.gwt.CategoryMenu;
 import com.google.checkout.samples.samplestore.client.ui.widgets.gwt.ProductGrid;
 import com.google.checkout.samples.samplestore.client.ui.widgets.gwt.TopPanel;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.HistoryListener;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -55,9 +60,9 @@ public class GridStore
   public static final int NUM_ROWS = 5;
   public static final int NUM_COLS = 3;
   
-//  public static final long BASE_CUSTOMER_ID = 2828467;      // our test account
-  public static final long BASE_CUSTOMER_ID = 1161353;  // buy.com
-  
+  public static long BASE_CUSTOMER_ID;      // 2828467 our test account
+//  public static final long BASE_CUSTOMER_ID = "1161353";  // buy.com
+
   public static final String STORE_NAME = "My Store";
   
   private BaseFeedRetriever feed = new BaseFeedRetriever();
@@ -75,6 +80,37 @@ public class GridStore
   
   public HistoryTokenConverter getTokenConverter() {
     return tokenConverter;
+  }
+  
+  private GridStore() {
+    // (1) Create the client proxy. Note that although you are creating the 
+    // service interface proper, you cast the result to the asynchronous 
+    // version of the interface. The cast is always safe because the generated
+    // proxy implements the asynchronous interface automatically.
+   ProjectPropertiesReaderAsync propertiesReader = 
+     (ProjectPropertiesReaderAsync)GWT.create(ProjectPropertiesReader.class);
+   
+   // (2) Specify the URL at which our service implementation is running.
+   // Note that the target URL must reside on the same domain and port from 
+   // which the host page was served.
+   ServiceDefTarget endpoint = (ServiceDefTarget) propertiesReader;
+   String moduleRelativeURL = GWT.getModuleBaseURL() + "propertiesReader";
+   endpoint.setServiceEntryPoint(moduleRelativeURL);
+   
+   // (3) Create an asynchronous callback to handle the result.
+   AsyncCallback callback = new AsyncCallback() {
+     public void onSuccess(Object result) {
+       BASE_CUSTOMER_ID = Long.parseLong(result.toString());
+     }
+     
+     public void onFailure(Throwable caught) {
+       throw new RuntimeException("Unable to find available products");
+     }
+   };
+   
+   // (4) Make the call. Control flow will continue immediately and later
+   // 'callback' will be invoked when the RPC completes
+   propertiesReader.getProjectPropertyValue("base-customer-id", callback);
   }
   
   /**

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<properties>
+  <base-customer-id>2828467</base-customer-id>
+  <store-name>My Store</store-name>
+  <!--<xml-feed value="http://www.google.com/base/feeds/snippets?max-results=17&alt=json-in-script&callback=jsonCallback"/>-->
+  <logo></logo>
+  <theme></theme>
+</properties>
