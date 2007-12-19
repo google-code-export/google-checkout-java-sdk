@@ -16,6 +16,8 @@
 
 package com.google.checkout.samples.samplestore.client;
 
+import com.google.gwt.http.client.URL;
+
 /** 
  * Class for generating and interpreting history tokens.
  * 
@@ -40,6 +42,7 @@ public class HistoryTokenConverter {
   }
   
   public Category getCategoryFromToken(String token) {
+    token = URL.decodeComponent(token);
     String[] categoryHierarchy = token.split(";");
     
     if (categoryHierarchy.length == 0) {

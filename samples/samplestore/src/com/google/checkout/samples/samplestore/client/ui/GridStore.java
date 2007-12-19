@@ -93,7 +93,7 @@ public class GridStore
 
    AsyncCallback customerIdCallback = new AsyncCallback() {
      public void onSuccess(Object result) {
-       BASE_CUSTOMER_ID = Long.parseLong(result.toString());
+       BASE_CUSTOMER_ID = Long.parseLong((String)result);
        feed.fetchProductsFromBase(BASE_CUSTOMER_ID);
      }
      
