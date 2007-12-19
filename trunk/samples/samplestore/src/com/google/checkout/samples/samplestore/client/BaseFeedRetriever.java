@@ -36,31 +36,12 @@ public class BaseFeedRetriever {
    * Default URL to use to fetch JSON objects. Note that the contents of this
    * JSON result were as a result of requesting the following URL:
    */
-  private static String DEFAULT_SEARCH_URL = "";
-//      "http://www.google.com/base/feeds/snippets?max-results=17&alt=json-in-script&callback=jsonCallback";
+  private static String DEFAULT_SEARCH_URL = "http://www.google.com/base/feeds/snippets?max-results=17&alt=json-in-script&callback=jsonCallback";
   
   private List listeners = new ArrayList();
   
   public BaseFeedRetriever() {
-    ProjectPropertiesReaderAsync propertiesReader = 
-      (ProjectPropertiesReaderAsync)GWT.create(ProjectPropertiesReader.class);
-    
-    ServiceDefTarget endpoint = (ServiceDefTarget) propertiesReader;
-    String moduleRelativeURL = GWT.getModuleBaseURL() + "propertiesReader";
-    endpoint.setServiceEntryPoint(moduleRelativeURL);
-    
 
-    AsyncCallback jsonFeedCallback = new AsyncCallback() {
-      public void onSuccess(Object result) {
-        DEFAULT_SEARCH_URL = result.toString();
-      }
-      
-      public void onFailure(Throwable caught) {
-        throw new RuntimeException("Unable to find json-feed to retrieve items", caught);
-      }
-    };
-    
-    propertiesReader.getProjectPropertyValue("json-feed", jsonFeedCallback);
   }
   
   private class JSONResponseHandler {
