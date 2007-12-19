@@ -1,0 +1,10 @@
+@import "GridStore-default.css";
+
+.gridstore-TopPanelHeader {
+  color: #990000;
+}
+
+.gridstore-TopPanelNavBar {
+  border-top-color: #990000;
+  background-color: #FF6666;
+}

@@ -1,13 +1,13 @@
 body {
-	background-color: #fff;
-	color: #000;
-	font-family: Arial, Verdana, Helvetica, sans-serif;
-	font-size: small;
-	margin: 8px 0px 8px 0px;
+  background-color: #fff;
+  color: #000;
+  font-family: Arial, Verdana, Helvetica, sans-serif;
+  font-size: small;
+  margin: 8px 0px 8px 0px;
 }
 
 a { 
-	color: #00c;
+  color: #00c;
 }
 
 a:visited {
@@ -16,11 +16,11 @@ a:visited {
 
 .gridstore-TopPanelHeader {
   font-size: 120%;
-  color: #990000;
+  color: #6189d4;
 }
 
 .gridstore-TopPanelHeaderBar {
-	margin: 10px;
+  margin: 10px;
 }
 
 .gridstore-TopPanelNavLinks {
@@ -34,8 +34,8 @@ a:visited {
 .gridstore-TopPanelNavBar {
   border-top-width: 1px;
   border-top-style: solid;
-  border-top-color: #990000;
-  background-color: #FF6666;
+  border-top-color: #3366cc;
+  background-color: #e5ecf9;
   width: 100%;
 }
 
@@ -47,21 +47,21 @@ a:visited {
 }
 
 .gridstore-CategoryMenuPanel {
-	font-size: 80%;
-	width: 175px;
-	border: 1px solid #ddd;
-	padding-top: 8px;
-	padding-right: 8px;
-	padding-bottom: 8px;
-	padding-left: 8px;
-	margin-top: 5px;
-	margin-right: 5px;
-	margin-bottom: 20px;
-	margn-left: 5px;
+  font-size: 80%;
+  width: 175px;
+  border: 1px solid #ddd;
+  padding-top: 8px;
+  padding-right: 8px;
+  padding-bottom: 8px;
+  padding-left: 8px;
+  margin-top: 5px;
+  margin-right: 5px;
+  margin-bottom: 20px;
+  margn-left: 5px;
 }
 
 .gridstore-CategoryMenuPanel a {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 .gridstore-CategoryMenuPanel a:visited {
@@ -69,8 +69,8 @@ a:visited {
 }
 
 .gridstore-CategoryMenuPanel a:hover {
-	/*color: #cc6600;*/
-	text-decoration: underline;
+  /*color: #cc6600;*/
+  text-decoration: underline;
 }
 
 .gridstore-CategoryMenuLinkPanel a {
@@ -78,8 +78,8 @@ a:visited {
 }
 
 .gridstore-CategoryMenuHeader {
-	font-size: 94%;
-	font-weight: bold;
+  font-size: 94%;
+  font-weight: bold;
   margin-bottom: 10px;
 }
 
@@ -92,8 +92,14 @@ a:visited {
 }
 
 .gridstore-ProductGridGrid {
-	padding: 0;
-	margin: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.gridstore-ProductGridPageLinks {
+  font-size: 100%;
+  margin: 15px;
+  padding: 10px;
 }
 
 .gridstore-ProductBoxPanel {
@@ -105,11 +111,11 @@ a:visited {
   padding: 10px;
   border:1px solid #ddd; /*#EFEFEF;*/
   width: 200px;
-  height: 230px;
+  height: 250px;
 }
 
 .gridstore-ProductBoxImage {
-	margin: 5px;
+  margin: 5px;
 }
 
 .gridstore-ProductBoxPrice {
@@ -117,11 +123,39 @@ a:visited {
 }
 
 .gridstore-ProductBoxCartLink a {
-	text-decoration: underline;
+  text-decoration: underline;
   color: #7777cc;
 }
 
-.gridstore-PopupProductBox {
+.gridstore-PopupProductBoxPanel {
+  background-color: #FFF;
+  font-size: 100%;
+  margin-top: 0;
+  margin-right: 15px;
+  margin-bottom: 15px;
+  margin-left: 0;
+  padding: 10px;
+  border:1px solid #aad; /*#EFEFEF;*/
+  width: 250px;
+  height: 300px;
+}
+
+.gridstore-PopupProductBoxTitlePanel {
+  background-color: #e5ecf9;
+  padding: 3px;
+}
+
+.gridstore-PopupProductBoxImage {
+  margin: 5px;
+}
+
+.gridstore-PopupProductBoxPrice {
+  font-weight: bold;
+}
+
+.gridstore-PopupProductBoxCartLink a {
+  text-decoration: underline;
+  color: #7777cc;
 }
 
 /*
