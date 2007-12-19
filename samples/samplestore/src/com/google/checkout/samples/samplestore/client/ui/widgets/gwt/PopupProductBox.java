@@ -22,10 +22,8 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.LoadListener;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Panel that lays out the data in the popup boxes when rolling over products.
@@ -34,17 +32,13 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class PopupProductBox extends Composite {
 
-  private static final int MAX_IMAGE_WIDTH = 200;
-  private static final int MAX_IMAGE_HEIGHT = 125;  
-
   private VerticalPanel panel = new VerticalPanel();
   
-  public PopupProductBox(Product product) {
+  public PopupProductBox(Product product, Image image) {
     if (product == null) {
       return;
     }
 
-    Image image = getProductImage(product);
     if (image != null) {
       panel.add(image);
       panel.setCellHorizontalAlignment(image, HorizontalPanel.ALIGN_CENTER);
@@ -52,7 +46,6 @@ public class PopupProductBox extends Composite {
     
     HTML titleLink = 
       new HTML("<a href='javascript:;'>" + product.getTitle() + "</a>");
-    //panel.add(titleLink);
     
     SimplePanel titlePanel = new SimplePanel();
     titlePanel.add(titleLink);
@@ -76,51 +69,5 @@ public class PopupProductBox extends Composite {
     panel.setStyleName("gridstore-PopupProductBoxPanel");
     panel.setSpacing(2);
     initWidget(panel);
-
   }
-  
-  private Image getProductImage(Product p) {
-    if (p.getImageUrl() == "") {
-      return null;
-    }
-    
-    Image image = new Image(p.getImageUrl());
-    image.setStyleName("gridstore-PopupProductBoxImage");
-    image.setVisible(false);
-    
-    // A LoadListener is used because the image size
-    // is only retrievable after the image loads.
-    image.addLoadListener(new LoadListener() {
-    
-      public void onLoad(Widget widget) {
-        Image image = (Image) widget;
-        
-        // Scale down image size.
-        int width = image.getWidth();
-        int height = image.getHeight();
-        if (width > MAX_IMAGE_WIDTH) {
-          double scaleFactor = ((double) MAX_IMAGE_WIDTH / width);
-          height *= scaleFactor;
-          //height = (new Double(height * scaleFactor)).intValue();
-          width = MAX_IMAGE_WIDTH;
-        }
-        if (height > MAX_IMAGE_HEIGHT) {
-          double scaleFactor = ((double) MAX_IMAGE_HEIGHT / height);
-          //width = (new Double(width * scaleFactor)).intValue();
-          width *= scaleFactor;
-          height = MAX_IMAGE_HEIGHT;
-        }
-        image.setWidth(width + "px");
-        image.setHeight(height + "px");
-        image.setVisible(true);
-      }
-    
-      public void onError(Widget image) {
-        //image.setVisible(false);
-      }
-      
-    });
-    
-    return image;
-  }  
 }

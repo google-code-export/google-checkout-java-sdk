@@ -17,14 +17,12 @@
 package com.google.checkout.samples.samplestore.client.ui.widgets.gwt;
 
 import com.google.checkout.samples.samplestore.client.Product;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.LoadListener;
 import com.google.gwt.user.client.ui.MouseListenerAdapter;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -37,7 +35,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class ProductBox extends Composite {
 
-  private static final int LOAD_DELAY = 200;
+//  private static final int LOAD_DELAY = 200;
   private static final int MAX_IMAGE_WIDTH = 200;
   private static final int MAX_IMAGE_HEIGHT = 125;
   
@@ -47,7 +45,7 @@ public class ProductBox extends Composite {
   private VerticalPanel panel = new VerticalPanel();
   private FocusPanel outer = new FocusPanel();
   
-  private Timer loadTimer;
+//  private Timer loadTimer;
   
   public ProductBox(Product product) {
     if (product == null) {
@@ -76,7 +74,8 @@ public class ProductBox extends Composite {
     panel.setStyleName("gridstore-ProductBoxPanel");
     panel.setSpacing(2);
     
-    popupFocusPanel.add(new PopupProductBox(product));
+    Image popupImage = getProductImage(product);
+    popupFocusPanel.add(new PopupProductBox(product, popupImage));
     
     // The pop-up panel that appears when hovering over
     // the product box.
@@ -84,14 +83,14 @@ public class ProductBox extends Composite {
     
     outer.addMouseListener(new MouseListenerAdapter() {
       public void onMouseEnter(final Widget sender) {
-        //loadTimer = new Timer() {
-          //public void run() {
+//        loadTimer = new Timer() {
+//          public void run() {
             popup.setPopupPosition(sender.getAbsoluteLeft() - 25, sender
                 .getAbsoluteTop() - 25);
             popup.show();
-          //}
-        //};
-        //loadTimer.schedule(LOAD_DELAY);
+//          }
+//        };
+//        loadTimer.schedule(LOAD_DELAY);
       }
     });
 
@@ -110,42 +109,60 @@ public class ProductBox extends Composite {
       return null;
     }
     
+    // Prefetch image so that we know its size and can then scale it.
+    Image.prefetch(p.getImageUrl());
+    
     Image image = new Image(p.getImageUrl());
     image.setStyleName("gridstore-ProductBoxImage");
-    image.setVisible(false);
     
-    // A LoadListener is used because the image size
-    // is only retrievable after the image loads.
-    image.addLoadListener(new LoadListener() {
+    // Scale the image based on max width and max height.
+    int width = image.getWidth();
+    int height = image.getHeight();
+    if (width > MAX_IMAGE_WIDTH) {
+      double scaleFactor = ((double) MAX_IMAGE_WIDTH / width);
+      height *= scaleFactor;
+      width = MAX_IMAGE_WIDTH;
+    }
+    if (height > MAX_IMAGE_HEIGHT) {
+      double scaleFactor = ((double) MAX_IMAGE_HEIGHT / height);
+      width *= scaleFactor;
+      height = MAX_IMAGE_HEIGHT;
+    }
+    image.setWidth(width + "px");
+    image.setHeight(height + "px");
     
-      public void onLoad(Widget widget) {
-        Image image = (Image) widget;
-        
-        // Scale down image size.
-        int width = image.getWidth();
-        int height = image.getHeight();
-        if (width > MAX_IMAGE_WIDTH) {
-          double scaleFactor = ((double) MAX_IMAGE_WIDTH / width);
-          height *= scaleFactor;
-          //height = (new Double(height * scaleFactor)).intValue();
-          width = MAX_IMAGE_WIDTH;
-        }
-        if (height > MAX_IMAGE_HEIGHT) {
-          double scaleFactor = ((double) MAX_IMAGE_HEIGHT / height);
-          //width = (new Double(width * scaleFactor)).intValue();
-          width *= scaleFactor;
-          height = MAX_IMAGE_HEIGHT;
-        }
-        image.setWidth(width + "px");
-        image.setHeight(height + "px");
-        image.setVisible(true);
-      }
-    
-      public void onError(Widget image) {
-        //image.setVisible(false);
-      }
-      
-    });
+//    image.setVisible(false);
+//    
+//    // A LoadListener is used because the image size
+//    // is only retrievable after the image loads.
+//    image.addLoadListener(new LoadListener() {
+//    
+//      public void onLoad(Widget widget) {
+//        Image image = (Image) widget;
+//        
+//        // Scale down image size.
+//        int width = image.getWidth();
+//        int height = image.getHeight();
+//        if (width > MAX_IMAGE_WIDTH) {
+//          double scaleFactor = ((double) MAX_IMAGE_WIDTH / width);
+//          height *= scaleFactor;
+//          width = MAX_IMAGE_WIDTH;
+//        }
+//        if (height > MAX_IMAGE_HEIGHT) {
+//          double scaleFactor = ((double) MAX_IMAGE_HEIGHT / height);
+//          width *= scaleFactor;
+//          height = MAX_IMAGE_HEIGHT;
+//        }
+//        image.setWidth(width + "px");
+//        image.setHeight(height + "px");
+//        image.setVisible(true);
+//      }
+//    
+//      public void onError(Widget image) {
+////        image.setVisible(false);
+//      }
+//      
+//    });
     
     return image;
   }
