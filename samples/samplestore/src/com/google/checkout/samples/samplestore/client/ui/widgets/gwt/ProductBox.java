@@ -76,7 +76,7 @@ public class ProductBox extends Composite {
     panel.setStyleName("gridstore-ProductBoxPanel");
     panel.setSpacing(2);
     
-    //popupFocusPanel.add(new PopupProductBox(product));
+    popupFocusPanel.add(new PopupProductBox(product));
     
     // The pop-up panel that appears when hovering over
     // the product box.
@@ -84,14 +84,14 @@ public class ProductBox extends Composite {
     
     outer.addMouseListener(new MouseListenerAdapter() {
       public void onMouseEnter(final Widget sender) {
-        loadTimer = new Timer() {
-          public void run() {
+        //loadTimer = new Timer() {
+          //public void run() {
             popup.setPopupPosition(sender.getAbsoluteLeft() - 25, sender
                 .getAbsoluteTop() - 25);
             popup.show();
-          }
-        };
-        loadTimer.schedule(LOAD_DELAY);
+          //}
+        //};
+        //loadTimer.schedule(LOAD_DELAY);
       }
     });
 

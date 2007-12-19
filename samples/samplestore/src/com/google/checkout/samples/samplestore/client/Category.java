@@ -124,7 +124,7 @@ public class Category {
     if (!name.equals(other.getName())) {
       return false;
     } 
-    if (subCategories.size() != other.subCategories.size()) {
+    /*if (subCategories.size() != other.subCategories.size()) {
       return false;
     }
     Iterator it = subCategories.iterator();
@@ -132,7 +132,11 @@ public class Category {
       if (!other.subCategories.contains(it.next())) {
         return false;
       }
+    }*/
+    if (!parent.equals(((Category) o).getParent())) {
+      return false;
     }
+      
     return true;
   }
 
