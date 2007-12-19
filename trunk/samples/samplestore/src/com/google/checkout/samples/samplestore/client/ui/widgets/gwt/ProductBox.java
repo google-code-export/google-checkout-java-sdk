@@ -76,7 +76,7 @@ public class ProductBox extends Composite {
     panel.setStyleName("gridstore-ProductBoxPanel");
     panel.setSpacing(2);
     
-    popupFocusPanel.add(new PopupProductBox(product));
+    //popupFocusPanel.add(new PopupProductBox(product));
     
     // The pop-up panel that appears when hovering over
     // the product box.
