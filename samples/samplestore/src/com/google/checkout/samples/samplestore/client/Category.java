@@ -29,14 +29,35 @@ public class Category {
   private final Category parent;
   private final Collection subCategories;
   
+  /**
+   * Constructs an instance of Category with the given name.
+   * 
+   * @param name The Category name.
+   */
   public Category(String name) {
     this(name, null);
   }
   
+  /**
+   * Constructs an instance of Category with a given parent. This category will
+   * become a sub-category under parent.
+   * 
+   * @param name The category name.
+   * @param parent The parent of this Category object.
+   */
   public Category(String name, Category parent) {
     this(name, parent, null);
   }
   
+  /**
+   * Constructs an instance of Category with a given parent and sub-categories.
+   * This category will become a sub-category under parent and the sub-categories
+   * passed in will become the sub-categories of this Category object.
+   * 
+   * @param name The Category name.
+   * @param parent The parent of this Category object.
+   * @param subCategories The sub-categories of this Category object.
+   */
   public Category(String name, Category parent, Collection subCategories) {
     this.name = name;
     this.parent = parent;
@@ -75,6 +96,8 @@ public class Category {
   /**
    * If a sub-category with the given name exists, return it. 
    * Otherwise, return null.
+   * 
+   * @param subCategoryName The name of the sub-category to be retrieved.
    */
   public Category getSubCategory(String subCategoryName) {
     if (hasSubCategories()) {
@@ -89,6 +112,11 @@ public class Category {
     return null;
   }
   
+  /**
+   * Adds a sub-category to this Category object with the given name.
+   * 
+   * @param subCategory The name of the sub-category to be added.
+   */
   public void addSubCategory(Category subCategory) {
     Category category = getSubCategory(subCategory.getName());
     if (category == null) {
@@ -102,6 +130,9 @@ public class Category {
   /**
    * If a sub-category with the given name exists, return it. Otherwise, create
    * a sub-category with the given name and return it.
+   * 
+   * @param subCategoryName The name of the sub-category to be retrieved or 
+   * added.
    */
   public Category getOrAddSubCategory(String subCategoryName) {
     Category category = getSubCategory(subCategoryName);

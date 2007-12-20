@@ -5,7 +5,6 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import java.io.File;
@@ -15,11 +14,19 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+/**
+ * 
+ * @author Charles Dang (cdang@google.com)
+ */
 public class ProjectPropertiesReaderImpl extends RemoteServiceServlet 
   implements ProjectPropertiesReader {
   
   private Document document;
   
+  /**
+   * Default constructor. Parses the GridStore.xml for the Google Base customer
+   * info.
+   */
   public ProjectPropertiesReaderImpl() {
     DocumentBuilderFactory factory = null;
     DocumentBuilder builder = null;
@@ -40,6 +47,13 @@ public class ProjectPropertiesReaderImpl extends RemoteServiceServlet
     }
   }
   
+  /**
+   * Retrieves the value corresponding to the propertyName from the GridStore.xml
+   * 
+   * @param propertyName The propertyName who's value is requested.
+   * 
+   * @return The value corresponding to propertyName in the GridStore.xml
+   */
   public String getProjectPropertyValue(String propertyName) {
     NodeList nl = 
       document.getDocumentElement().getElementsByTagName(propertyName);

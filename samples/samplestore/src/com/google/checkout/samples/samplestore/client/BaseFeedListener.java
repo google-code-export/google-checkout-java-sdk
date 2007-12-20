@@ -24,5 +24,13 @@ import com.google.gwt.json.client.JSONObject;
  * @author Simon Lam (simonlam@google.com)
  */
 public interface BaseFeedListener {
+  
+  /**
+   * Handles the data retrieved from Google Base given by the Base Feed
+   * Retriever.
+   * 
+   * @param jsonObj Contains the information of the response from 
+   * BaseFeedRetriever.
+   */
   public void handleResponse(JSONObject jsonObj);
 }
