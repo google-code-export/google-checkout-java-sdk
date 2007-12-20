@@ -21,30 +21,35 @@ import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONValue;
 
 public class JSONParser {
-  // maximum number of nested sub-category levels allowed
+  
+  // Maximum number of nested sub-category levels allowed.
   private static final int MAX_SUBCATEGORY_LEVELS = 50;
   
-  public static Inventory parse(JSONObject json) {
-    if (json == null) {
-      throw new IllegalArgumentException("json must not be null");
+  /**
+   * Parses a product feed and returns an inventory
+   * containing all the products and product categories.
+   * 
+   * @param jsonFeed The product feed.
+   * @return The inventory containing all the products and categories.
+   */
+  public static Inventory parse(JSONObject jsonFeed) {
+    if (jsonFeed == null) {
+      throw new IllegalArgumentException("jsonObj cannot be null.");
     }
     
-    JSONValue feed = json.get("feed");
-    
-    if (feed == null || 
-        feed.isObject() == null || 
-        feed.isObject().get("entry") == null ||
-        feed.isObject().get("entry").isArray() == null) {
+    JSONValue feed = jsonFeed.get("feed");
+    if (!isFeedValid(feed)) {
       return null;
     }
-    
+
+    Inventory inventory = new Inventory();
     JSONArray items = feed.isObject().get("entry").isArray();
     
-    Inventory inventory = new Inventory();
-    
+    // Loop through the set of items (products).
     for (int i = 0; i < items.size(); ++i) {
       JSONObject item = items.get(i).isObject();
       
+      // Skip item if it's null.
       if (item == null) {
         continue;
       }
@@ -56,6 +61,7 @@ public class JSONParser {
       JSONValue price = getJSONValue(item, "g$price");
       JSONValue topLevelCategory = getJSONValue(item, "g$item_type");
       
+      // Skip item if any required field is missing.
       if (id == null || name == null || price == null || 
         topLevelCategory == null) {
         continue;
@@ -68,27 +74,34 @@ public class JSONParser {
       String currCategoryName = convertToString(topLevelCategory);
       Category currCategory = inventory.getOrAddTopLevelCategory(currCategoryName);
       
-//      Category currCategory = 
-//        inventory.getRootCategory().getOrAddSubCategory(currCategoryName);
-      
+      // Parse sub-categories
       for (int j = 1; j <= MAX_SUBCATEGORY_LEVELS; j++) {
         JSONValue subCategory = getJSONValue(item, "g$sub-category-" + j);
+        
+        // Break when there are no more sub-categories.
         if (subCategory == null) {
           break;
         }
         
         currCategoryName = convertToString(subCategory);
+        // Add the sub-category as a child of the previous sub-category
         currCategory = 
           currCategory.getOrAddSubCategory(currCategoryName);        
       }
       
-      // add product to the bottom-most sub-category
+      // Add product to the bottom-most sub-category.
       inventory.addProduct(currCategory, p);
     }
     
     return inventory;
   }
   
+  /**
+   * Helper method that parses a price string and returns its
+   * numeric value.
+   * 
+   * NOTE: We are not dealing with currency at this point.
+   */
   private static double parsePrice(String price) {
     price = price.trim();
     int index = price.indexOf(" ");
@@ -98,28 +111,39 @@ public class JSONParser {
     return Double.parseDouble(price);
   }
   
+  private static boolean isFeedValid(JSONValue feed) {
+    return !(feed == null || 
+        feed.isObject() == null || 
+        feed.isObject().get("entry") == null ||
+        feed.isObject().get("entry").isArray() == null);
+  }
+  
+  /**
+   * Helper method that parses the given JSON object and returns the
+   * value for the given tag name.
+   */
   private static JSONValue getJSONValue(JSONObject obj, String tagName) {
     JSONValue tempValue = obj.get(tagName);
-    
     if (tempValue == null) {
       return null;
     }
     
     JSONObject tempObj = tempValue.isObject();
-    
     if (tempObj == null) {
       JSONArray tempArray = tempValue.isArray();
-      
       if (tempArray == null) {
         return null;
       }
-      
       return tempArray.get(0).isObject().get("$t");
     }
     
     return tempObj.get("$t");
   }
   
+  /**
+   * Helper method that converts a JSON value to a string by removing
+   * surrounding whitespace and quotes.
+   */
   private static String convertToString(JSONValue jsonVal) {
     if (jsonVal == null) {
       return "";

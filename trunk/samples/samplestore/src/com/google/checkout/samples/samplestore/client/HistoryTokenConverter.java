@@ -25,30 +25,43 @@ import com.google.gwt.http.client.URL;
  */
 public class HistoryTokenConverter {
   private final Inventory inventory;
-  
+
   public HistoryTokenConverter(Inventory inventory) {
     this.inventory = inventory;
   }
-  
+
+  /**
+   * Given a category, generate a history token string that uniquely 
+   * identifies it within the inventory.
+   * 
+   * @param category The category for which to generate a history token.
+   * @return The history token string.
+   */
   public String getTokenFromCategory(Category category) {
     String token = "";
-    
+
     while (category != null) {
       token = category.getName() + ";" + token;
       category = category.getParent();
     }
-    
+
     return token;
   }
-  
+
+  /**
+   * Given a history token, return the category that the token represents, or
+   * null if the category does not exist in the inventory.
+   * 
+   * @param token The history token string.
+   */
   public Category getCategoryFromToken(String token) {
     token = URL.decodeComponent(token);
     String[] categoryHierarchy = token.split(";");
-    
+
     if (categoryHierarchy.length == 0) {
       return null;
     }
-    
+
     Category category = inventory.getTopLevelCategory(categoryHierarchy[0]);
     for (int i = 1; i < categoryHierarchy.length; i++) {
       if (category == null) {
@@ -56,7 +69,7 @@ public class HistoryTokenConverter {
       }
       category = category.getSubCategory(categoryHierarchy[i]);     
     }
-    
+
     return category;
   }
 }
