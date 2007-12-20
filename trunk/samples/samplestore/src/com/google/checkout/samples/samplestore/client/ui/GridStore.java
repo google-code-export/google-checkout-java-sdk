@@ -98,7 +98,7 @@ public class GridStore
      }
      
      public void onFailure(Throwable caught) {
-       throw new RuntimeException("Unable to find available products", caught);
+       caught.printStackTrace();
      }
    };
    
@@ -109,12 +109,12 @@ public class GridStore
      }
      
      public void onFailure(Throwable caught) {
-       throw new RuntimeException("Unable to find store name", caught);
+       caught.printStackTrace();
      }
    };
    
    propertiesReader.getProjectPropertyValue("base-customer-id", customerIdCallback);
-   propertiesReader.getProjectPropertyValue("store-name", storeTitleCallback);
+//   propertiesReader.getProjectPropertyValue("store-name", storeTitleCallback);
   }
   
   /**
