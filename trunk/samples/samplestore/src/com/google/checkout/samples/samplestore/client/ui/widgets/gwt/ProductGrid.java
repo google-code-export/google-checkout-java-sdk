@@ -52,6 +52,11 @@ public class ProductGrid extends Composite {
   
   private List products;
   
+  /**
+   * 
+   * @param rows The number of rows to display 
+   * @param columns
+   */
   public ProductGrid(int rows, int columns) {
 //    numRows = rows;
     numCols = columns;
@@ -98,6 +103,10 @@ public class ProductGrid extends Composite {
     setPage(0);
   }
   
+  /**
+   * 
+   * @param page
+   */
   private void setPage(int page) {
     grid.clear();
     pageLinks.clear();
@@ -127,6 +136,11 @@ public class ProductGrid extends Composite {
     }
   }
   
+  /**
+   * 
+   * @param product
+   * @param productNum
+   */
   private void addProduct(Product product, int productNum) {
     ProductBox productBox = new ProductBox(product);
     

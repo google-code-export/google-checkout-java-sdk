@@ -16,18 +16,17 @@
 
 package com.google.checkout.samples.samplestore.client;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.http.client.URL;
 import com.google.gwt.json.client.JSONObject;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /** 
- * Queries Google Base for a customer specific feed of products.
+ * Queries Google Base for a customer specific feed of products. After querying
+ * GoogleBase, BaseFeedRetriever will pass all BaseFeedListeners registered
+ * with this instance the JSONObject corresponding to the response it received.
  * 
  * @author Simon Lam (simonlam@google.com)
  */
@@ -36,13 +35,13 @@ public class BaseFeedRetriever {
    * Default URL to use to fetch JSON objects. Note that the contents of this
    * JSON result were as a result of requesting the following URL:
    */
-  private static String DEFAULT_SEARCH_URL = "http://www.google.com/base/feeds/snippets?max-results=17&alt=json-in-script&callback=jsonCallback";
+  private static String DEFAULT_SEARCH_URL = 
+    "http://www.google.com/base/feeds/snippets?max-results=17&alt=json-in-script&callback=jsonCallback";
   
+  /**
+   * Objects that will want to handle the data retrieved from Google Base.
+   */
   private List listeners = new ArrayList();
-  
-  public BaseFeedRetriever() {
-
-  }
   
   private class JSONResponseHandler {
     public void onCompletion(JavaScriptObject response) {
@@ -54,21 +53,45 @@ public class BaseFeedRetriever {
     }
   }
   
+  /**
+   * Registers a BaseFeedListener with the BaseFeedRetriever.
+   * 
+   * @param listener The BaseFeedListener to register.
+   */
   public void registerListener(BaseFeedListener listener) {
     listeners.add(listener);
   }
   
+  /**
+   * Retrieves the products from Google Base corresponding to the items we 
+   * would like to query.
+   * 
+   * @param customerId The Google Base Customer Id corresponding to the items 
+   * we want to query.
+   */
   public void fetchProductsFromBase(long customerId) {
     String url = DEFAULT_SEARCH_URL + constructQuery(customerId);
     doFetchURL(new JSONResponseHandler(), url);
   }
   
+  /**
+   * Appends to the URL the customer id whose items we would like to query.
+   * 
+   * @param customerId The Google Base Customer Id corresponding to the items
+   * we want to query.
+   *   
+   * @return The URL with the Google Base customer info appended to the query
+   * string.
+   */
   private String constructQuery(long customerId) {
     return "&bq=" + URL.encode("[customer id:" + customerId + "]");
   }
   
   /**
-   * Fetch the requested URL.
+   * Fetch the requested URL from Google Base.
+   *  
+   * @param handler The handler to call once the call has completed.
+   * @param url The URL where the items will be retrieved.
    */
   private native void doFetchURL(JSONResponseHandler handler, String url) /*-{
     window["jsonCallback"] = function(data) {

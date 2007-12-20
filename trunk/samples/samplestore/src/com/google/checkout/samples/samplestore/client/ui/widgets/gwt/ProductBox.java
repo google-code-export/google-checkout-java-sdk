@@ -47,6 +47,9 @@ public class ProductBox extends Composite {
   
 //  private Timer loadTimer;
   
+  /**
+   * 
+   */
   public ProductBox(Product product) {
     if (product == null) {
       return;

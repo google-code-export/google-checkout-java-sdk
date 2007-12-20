@@ -64,6 +64,10 @@ public class TopPanel extends Composite {
     initWidget(outer);
   }
   
+  /**
+   * 
+   * @param category
+   */
   public void setCategory(Category category) {
     navLinks.clear();
     
@@ -93,6 +97,9 @@ public class TopPanel extends Composite {
     }
   }
   
+  /**
+   * 
+   */
   private void addLinkSeparator() {
     Label arrow = new Label(">");
     
