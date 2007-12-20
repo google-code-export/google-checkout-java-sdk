@@ -35,8 +35,6 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Simon Lam (simonlam@google.com)
  */
 public class ProductBox extends Composite {
-
-//  private static final int LOAD_DELAY = 200;
   private static final int MAX_IMAGE_WIDTH = 200;
   private static final int MAX_IMAGE_HEIGHT = 125;
   
@@ -51,30 +49,36 @@ public class ProductBox extends Composite {
   private VerticalPanel panel = new VerticalPanel();
   private FocusPanel outer = new FocusPanel();
   
-//  private Timer loadTimer;
+  private Image productImage;
+  private Image popupProductImage;
   
-  /**
-   * 
-   */
   public ProductBox(Product product) {
     if (product == null) {
       return;
     }
     
-    Image image = getProductImage(product);
-    if (image != null) {
-      panel.add(image);
-      panel.setCellHorizontalAlignment(image, HorizontalPanel.ALIGN_CENTER);
+    // The product image in the pop-up box. We initialize it here
+    // because getProductImage() may use it.
+    popupProductImage = new Image(product.getImageUrl());
+    
+    // The product image.
+    productImage = getProductImage(product);
+    if (productImage != null) {
+      panel.add(productImage);
+      panel.setCellHorizontalAlignment(productImage, HorizontalPanel.ALIGN_CENTER);
     }
     
+    // The product title.
     HTML titleLink = 
       new HTML("<a href='javascript:;'>" + product.getTitle() + "</a>");
     panel.add(titleLink);
 
+    // The product price.
     Label price = new Label(product.getPriceAsString());
     price.setStyleName("gridstore-ProductBoxPrice");
     panel.add(price);
 
+    // The "Add to Cart" link.
     HTML cartLink = 
       new HTML("<a href='javascript:;'>Add to Cart</a>");
     cartLink.setStyleName("gridstore-ProductBoxCartLink");
@@ -82,9 +86,9 @@ public class ProductBox extends Composite {
 
     panel.setStyleName("gridstore-ProductBoxPanel");
     panel.setSpacing(2);
-    
-    Image popupImage = getProductImage(product);
-    popupFocusPanel.add(new PopupProductBox(product, popupImage));
+
+    popupProductImage.setStyleName("gridstore-ProductBoxImage");
+    popupFocusPanel.add(new PopupProductBox(product, popupProductImage));
     
     // The pop-up panel that appears when hovering over
     // the product box.
@@ -92,14 +96,9 @@ public class ProductBox extends Composite {
     
     outer.addMouseListener(new MouseListenerAdapter() {
       public void onMouseEnter(final Widget sender) {
-//        loadTimer = new Timer() {
-//          public void run() {
-            popup.setPopupPosition(sender.getAbsoluteLeft() - POPUP_OFFSET_LEFT, 
-                sender.getAbsoluteTop() - POPUP_OFFSET_TOP);
-            popup.show();
-//          }
-//        };
-//        loadTimer.schedule(LOAD_DELAY);
+        popup.setPopupPosition(sender.getAbsoluteLeft() - POPUP_OFFSET_LEFT, 
+            sender.getAbsoluteTop() - POPUP_OFFSET_TOP);
+        popup.show();
       }
     });
 
@@ -113,32 +112,17 @@ public class ProductBox extends Composite {
     initWidget(outer);
   }
 
+  /*
+   * Helper method for retrieving the product image and resizing it for
+   * proper display.
+   */
   private Image getProductImage(Product p) {
     if (p.getImageUrl() == "") {
       return null;
     }
     
-//    // Prefetch image so that we know its size and can then scale it.
-//    Image.prefetch(p.getImageUrl());
-//    
     Image image = new Image(p.getImageUrl());
     image.setStyleName("gridstore-ProductBoxImage");
-//    
-//    // Scale the image based on max width and max height.
-//    int width = image.getWidth();
-//    int height = image.getHeight();
-//    if (width > MAX_IMAGE_WIDTH) {
-//      double scaleFactor = ((double) MAX_IMAGE_WIDTH / width);
-//      height *= scaleFactor;
-//      width = MAX_IMAGE_WIDTH;
-//    }
-//    if (height > MAX_IMAGE_HEIGHT) {
-//      double scaleFactor = ((double) MAX_IMAGE_HEIGHT / height);
-//      width *= scaleFactor;
-//      height = MAX_IMAGE_HEIGHT;
-//    }
-//    image.setWidth(width + "px");
-//    image.setHeight(height + "px");
     
     image.setVisible(false);
     
@@ -165,10 +149,16 @@ public class ProductBox extends Composite {
         image.setWidth(width + "px");
         image.setHeight(height + "px");
         image.setVisible(true);
+
+        // Set the popup image's size to be same as this image.
+        if (popupProductImage != null) {
+          popupProductImage.setWidth(width + "px");
+          popupProductImage.setHeight(height + "px");
+        }
       }
-    
-      public void onError(Widget image) {
-//        image.setVisible(false);
+
+      public void onError(Widget widget) {
+        widget.setVisible(false);
       }
       
     });

@@ -33,6 +33,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class PopupProductBox extends Composite {
 
   private VerticalPanel panel = new VerticalPanel();
+  private Image productImage;
   
   public PopupProductBox(Product product, Image image) {
     if (product == null) {
