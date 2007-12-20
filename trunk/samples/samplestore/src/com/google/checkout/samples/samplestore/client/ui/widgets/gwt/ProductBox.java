@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.LoadListener;
 import com.google.gwt.user.client.ui.MouseListenerAdapter;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -38,6 +39,11 @@ public class ProductBox extends Composite {
 //  private static final int LOAD_DELAY = 200;
   private static final int MAX_IMAGE_WIDTH = 200;
   private static final int MAX_IMAGE_HEIGHT = 125;
+  
+  // Absolute position offset of a popup product box 
+  // relative its associated product box.
+  private static final int POPUP_OFFSET_LEFT = 25;
+  private static final int POPUP_OFFSET_TOP = 25;
   
   private PopupPanel popup = new PopupPanel();
   private FocusPanel popupFocusPanel = new FocusPanel();
@@ -88,8 +94,8 @@ public class ProductBox extends Composite {
       public void onMouseEnter(final Widget sender) {
 //        loadTimer = new Timer() {
 //          public void run() {
-            popup.setPopupPosition(sender.getAbsoluteLeft() - 25, sender
-                .getAbsoluteTop() - 25);
+            popup.setPopupPosition(sender.getAbsoluteLeft() - POPUP_OFFSET_LEFT, 
+                sender.getAbsoluteTop() - POPUP_OFFSET_TOP);
             popup.show();
 //          }
 //        };
@@ -112,60 +118,60 @@ public class ProductBox extends Composite {
       return null;
     }
     
-    // Prefetch image so that we know its size and can then scale it.
-    Image.prefetch(p.getImageUrl());
-    
+//    // Prefetch image so that we know its size and can then scale it.
+//    Image.prefetch(p.getImageUrl());
+//    
     Image image = new Image(p.getImageUrl());
     image.setStyleName("gridstore-ProductBoxImage");
+//    
+//    // Scale the image based on max width and max height.
+//    int width = image.getWidth();
+//    int height = image.getHeight();
+//    if (width > MAX_IMAGE_WIDTH) {
+//      double scaleFactor = ((double) MAX_IMAGE_WIDTH / width);
+//      height *= scaleFactor;
+//      width = MAX_IMAGE_WIDTH;
+//    }
+//    if (height > MAX_IMAGE_HEIGHT) {
+//      double scaleFactor = ((double) MAX_IMAGE_HEIGHT / height);
+//      width *= scaleFactor;
+//      height = MAX_IMAGE_HEIGHT;
+//    }
+//    image.setWidth(width + "px");
+//    image.setHeight(height + "px");
     
-    // Scale the image based on max width and max height.
-    int width = image.getWidth();
-    int height = image.getHeight();
-    if (width > MAX_IMAGE_WIDTH) {
-      double scaleFactor = ((double) MAX_IMAGE_WIDTH / width);
-      height *= scaleFactor;
-      width = MAX_IMAGE_WIDTH;
-    }
-    if (height > MAX_IMAGE_HEIGHT) {
-      double scaleFactor = ((double) MAX_IMAGE_HEIGHT / height);
-      width *= scaleFactor;
-      height = MAX_IMAGE_HEIGHT;
-    }
-    image.setWidth(width + "px");
-    image.setHeight(height + "px");
+    image.setVisible(false);
     
-//    image.setVisible(false);
-//    
-//    // A LoadListener is used because the image size
-//    // is only retrievable after the image loads.
-//    image.addLoadListener(new LoadListener() {
-//    
-//      public void onLoad(Widget widget) {
-//        Image image = (Image) widget;
-//        
-//        // Scale down image size.
-//        int width = image.getWidth();
-//        int height = image.getHeight();
-//        if (width > MAX_IMAGE_WIDTH) {
-//          double scaleFactor = ((double) MAX_IMAGE_WIDTH / width);
-//          height *= scaleFactor;
-//          width = MAX_IMAGE_WIDTH;
-//        }
-//        if (height > MAX_IMAGE_HEIGHT) {
-//          double scaleFactor = ((double) MAX_IMAGE_HEIGHT / height);
-//          width *= scaleFactor;
-//          height = MAX_IMAGE_HEIGHT;
-//        }
-//        image.setWidth(width + "px");
-//        image.setHeight(height + "px");
-//        image.setVisible(true);
-//      }
-//    
-//      public void onError(Widget image) {
-////        image.setVisible(false);
-//      }
-//      
-//    });
+    // A LoadListener is used because the image size
+    // is only retrievable after the image loads.
+    image.addLoadListener(new LoadListener() {
+    
+      public void onLoad(Widget widget) {
+        Image image = (Image) widget;
+        
+        // Scale down image size.
+        int width = image.getWidth();
+        int height = image.getHeight();
+        if (width > MAX_IMAGE_WIDTH) {
+          double scaleFactor = ((double) MAX_IMAGE_WIDTH / width);
+          height *= scaleFactor;
+          width = MAX_IMAGE_WIDTH;
+        }
+        if (height > MAX_IMAGE_HEIGHT) {
+          double scaleFactor = ((double) MAX_IMAGE_HEIGHT / height);
+          width *= scaleFactor;
+          height = MAX_IMAGE_HEIGHT;
+        }
+        image.setWidth(width + "px");
+        image.setHeight(height + "px");
+        image.setVisible(true);
+      }
+    
+      public void onError(Widget image) {
+//        image.setVisible(false);
+      }
+      
+    });
     
     return image;
   }
