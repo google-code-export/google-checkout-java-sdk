@@ -83,39 +83,27 @@ public class GridStore
   }
   
   private GridStore() {
-   ProjectPropertiesReaderAsync propertiesReader = 
-     (ProjectPropertiesReaderAsync)GWT.create(ProjectPropertiesReader.class);
+    ProjectPropertiesReaderAsync propertiesReader = 
+      (ProjectPropertiesReaderAsync)GWT.create(ProjectPropertiesReader.class);
    
-   ServiceDefTarget endpoint = (ServiceDefTarget) propertiesReader;
-   String moduleRelativeURL = GWT.getModuleBaseURL() + "propertiesReader";
-   endpoint.setServiceEntryPoint(moduleRelativeURL);
+    ServiceDefTarget endpoint = (ServiceDefTarget) propertiesReader;
+    String moduleRelativeURL = GWT.getModuleBaseURL() + "propertiesReader";
+    endpoint.setServiceEntryPoint(moduleRelativeURL);
    
 
-   AsyncCallback customerIdCallback = new AsyncCallback() {
-     public void onSuccess(Object result) {
-       BASE_CUSTOMER_ID = Long.parseLong((String)result);
-       feed.fetchProductsFromBase(BASE_CUSTOMER_ID);
-       onModuleLoad();
-     }
+    AsyncCallback customerIdCallback = new AsyncCallback() {
+      public void onSuccess(Object result) {
+        BASE_CUSTOMER_ID = Long.parseLong((String)result);
+        feed.fetchProductsFromBase(BASE_CUSTOMER_ID);
+        onModuleLoad();
+      }
      
-     public void onFailure(Throwable caught) {
-       caught.printStackTrace();
-     }
-   };
+      public void onFailure(Throwable caught) {
+        caught.printStackTrace();
+      }
+    };
    
-   AsyncCallback storeTitleCallback = new AsyncCallback() {
-     public void onSuccess(Object result) {
-       STORE_NAME = result.toString();
-       topPanel.setTitle(STORE_NAME);
-     }
-     
-     public void onFailure(Throwable caught) {
-       caught.printStackTrace();
-     }
-   };
-   
-   propertiesReader.getProjectPropertyValue("base-customer-id", customerIdCallback);
-//   propertiesReader.getProjectPropertyValue("store-name", storeTitleCallback);
+    propertiesReader.getProjectPropertyValue("base-customer-id", customerIdCallback);
   }
   
   /**
