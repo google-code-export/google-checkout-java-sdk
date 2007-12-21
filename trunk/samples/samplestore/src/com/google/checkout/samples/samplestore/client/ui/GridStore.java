@@ -22,6 +22,7 @@ import com.google.checkout.samples.samplestore.client.Category;
 import com.google.checkout.samples.samplestore.client.HistoryTokenConverter;
 import com.google.checkout.samples.samplestore.client.Inventory;
 import com.google.checkout.samples.samplestore.client.JSONParser;
+import com.google.checkout.samples.samplestore.client.ProjectProperties;
 import com.google.checkout.samples.samplestore.client.ProjectPropertiesReader;
 import com.google.checkout.samples.samplestore.client.ProjectPropertiesReaderAsync;
 import com.google.checkout.samples.samplestore.client.ui.widgets.gwt.CategoryMenu;
@@ -60,16 +61,18 @@ public class GridStore
   public static final int NUM_ROWS = 5;
   public static final int NUM_COLS = 3;
   
-  public static long BASE_CUSTOMER_ID = 2828467;      // 2828467 our test account
+  public static long baseCustomerId;            // 2828467 our test account
 //  public static final long BASE_CUSTOMER_ID = "1161353";  // buy.com
 
-  public static String STORE_NAME = "My Store";
+  public static String storeName = "My Store";
+  
+  private ProjectProperties properties;
   
   private BaseFeedRetriever feed = new BaseFeedRetriever();
   private Inventory inventory;
   private HistoryTokenConverter tokenConverter;
   
-  private TopPanel topPanel = new TopPanel(STORE_NAME);
+  private TopPanel topPanel = new TopPanel(storeName);
   private CategoryMenu categoryMenu = new CategoryMenu();
   private VerticalPanel rightPanel = new VerticalPanel();
   private ProductGrid productGrid = new ProductGrid(NUM_ROWS, NUM_COLS); 
@@ -91,10 +94,12 @@ public class GridStore
     endpoint.setServiceEntryPoint(moduleRelativeURL);
    
 
-    AsyncCallback customerIdCallback = new AsyncCallback() {
+    AsyncCallback projectPropertiesCallback = new AsyncCallback() {
       public void onSuccess(Object result) {
-        BASE_CUSTOMER_ID = Long.parseLong((String)result);
-        feed.fetchProductsFromBase(BASE_CUSTOMER_ID);
+        properties = (ProjectProperties)result;
+        feed.fetchProductsFromBase(properties.getBaseCustomerId(), 
+          properties.getMaxResults());
+        topPanel.setStoreTitle(properties.getStoreName());
         onModuleLoad();
       }
      
@@ -103,7 +108,7 @@ public class GridStore
       }
     };
    
-    propertiesReader.getProjectPropertyValue("base-customer-id", customerIdCallback);
+    propertiesReader.getProjectProperties(projectPropertiesCallback);
   }
   
   /**
@@ -113,10 +118,11 @@ public class GridStore
     singleton = this;
     
     feed.registerListener(this);
-    if (BASE_CUSTOMER_ID != 0) {
-      feed.fetchProductsFromBase(BASE_CUSTOMER_ID);
+    if (baseCustomerId != 0) {
+      feed.fetchProductsFromBase(properties.getBaseCustomerId(), 
+        properties.getMaxResults());
     } 
-    History.addHistoryListener(this);    
+    History.addHistoryListener(this);
     initializeMainForm();
   }
 
