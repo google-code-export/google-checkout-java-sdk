@@ -49,8 +49,10 @@
   </target>
   
   <target name="clean">
-    <delete includeEmptyDirs="true" dir="${web.dir}">
-      <exclude name="${web.xml}"/>
+    <delete includeEmptyDirs="true">
+      <fileset dir="${web.dir}">
+        <exclude name="**/web.xml"/>
+      </fileset>
     </delete>
   </target>
 </project>
