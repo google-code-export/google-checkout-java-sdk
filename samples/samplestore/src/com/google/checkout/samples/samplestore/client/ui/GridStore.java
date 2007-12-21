@@ -60,7 +60,7 @@ public class GridStore
   public static final int NUM_ROWS = 5;
   public static final int NUM_COLS = 3;
   
-  public static long BASE_CUSTOMER_ID;      // 2828467 our test account
+  public static long BASE_CUSTOMER_ID = 2828467;      // 2828467 our test account
 //  public static final long BASE_CUSTOMER_ID = "1161353";  // buy.com
 
   public static String STORE_NAME = "My Store";
@@ -95,6 +95,7 @@ public class GridStore
      public void onSuccess(Object result) {
        BASE_CUSTOMER_ID = Long.parseLong((String)result);
        feed.fetchProductsFromBase(BASE_CUSTOMER_ID);
+       onModuleLoad();
      }
      
      public void onFailure(Throwable caught) {
@@ -126,7 +127,7 @@ public class GridStore
     feed.registerListener(this);
     if (BASE_CUSTOMER_ID != 0) {
       feed.fetchProductsFromBase(BASE_CUSTOMER_ID);
-    }
+    } 
     History.addHistoryListener(this);    
     initializeMainForm();
   }
