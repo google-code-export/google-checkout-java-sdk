@@ -1,27 +1,28 @@
 <project name="Storefront" basedir=".">
-  <property file="build.properties"/>
-  <property file="${user.home}/build.properties"/>
+<property file="build.properties"/>
+<property file="${user.home}/build.properties"/>
 
-  <property name="web.dir" value="www"/>
-  <property name="src.dir" value="src"/>
-  <property name="domain.dir" value="com.google.checkout.samples.samplestore.${store.name}"/>
-  <property name="web-inf.dir" value="${web.dir}/${domain.dir}/WEB-INF"/>
-  <property name="lib.dir" value="${web-inf.dir}/lib"/>
-  <property name="web.xml" value="${web-inf.dir}/web.xml"/>
-  <property name="war.name" value="Storefront.war"/>
-  <property name="war.path" value="${web.dir}/${domain.dir}/${war.name}"/>
-  
-  <target name="setup">
-    <copy todir="${lib.dir}">
-      <fileset dir="${gwt.home}">
-        <include name="gwt-servlet.jar"/>
-      </fileset>
-    </copy>
-  </target>
-  
-  <target name="buildWar">
-    <!-- build the jar file into the lib.dir directory -->
-    <jar jarfile="${lib.dir}/${war.name}">
+<property name="web.dir" value="www"/>
+<property name="src.dir" value="src"/>
+<property name="domain.dir" value="com.google.checkout.samples.samplestore.${store.name}"/>
+<property name="web-inf.dir" value="${web.dir}/${domain.dir}/WEB-INF"/>
+<property name="lib.dir" value="${web-inf.dir}/lib"/>
+<property name="web.xml" value="${web-inf.dir}/web.xml"/>
+<property name="war.name" value="Storefront.war"/>
+<property name="jar.name" value="Storefront.jar"/>
+<property name="war.path" value="${web.dir}/${domain.dir}/${war.name}"/>
+
+<target name="setup">
+<copy todir="${lib.dir}">
+<fileset dir="${gwt.home}">
+<include name="gwt-servlet.jar"/>
+</fileset>
+</copy>
+</target>
+
+<target name="buildWar">
+<!-- build the jar file into the lib.dir directory -->
+<jar jarfile="${lib.dir}/${jar.name}">
       <fileset dir=".">
         <include name="bin/com/google/checkout/samples/samplestore/**/*.class"/>
         <include name="src/com/google/checkout/samples/samplestore/**/*"/>
