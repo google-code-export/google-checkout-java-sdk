@@ -35,8 +35,10 @@ public class BaseFeedRetriever {
    * Default URL to use to fetch JSON objects. Note that the contents of this
    * JSON result were as a result of requesting the following URL:
    */
-  private static String DEFAULT_SEARCH_URL = 
-    "http://www.google.com/base/feeds/snippets?max-results=17&alt=json-in-script&callback=jsonCallback";
+//  private static String DEFAULT_SEARCH_URL = 
+//    "http://www.google.com/base/feeds/snippets?max-results=17&alt=json-in-script&callback=jsonCallback";
+
+  private static String searchUrl = "http://www.google.com/base/feeds/snippets?";
   
   /**
    * Objects that will want to handle the data retrieved from Google Base.
@@ -69,9 +71,27 @@ public class BaseFeedRetriever {
    * @param customerId The Google Base Customer Id corresponding to the items 
    * we want to query.
    */
-  public void fetchProductsFromBase(long customerId) {
-    String url = DEFAULT_SEARCH_URL + constructQuery(customerId);
+  public void fetchProductsFromBase(long customerId, int maxResults) {
+    String url = searchUrl + constructMaxResults(maxResults) + appendJsonInfo() 
+      + constructQuery(customerId);
     doFetchURL(new JSONResponseHandler(), url);
+  }
+  
+  /**
+   * 
+   * @param maxResults
+   * @return
+   */
+  private String constructMaxResults(int maxResults) {
+    return "max-results=" + maxResults; 
+  }
+  
+  /**
+   * 
+   * @return
+   */
+  private String appendJsonInfo() {
+    return "&alt=json-in-script&callback=jsonCallback";
   }
   
   /**

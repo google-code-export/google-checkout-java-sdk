@@ -44,7 +44,7 @@ public class IBrowseStore
    * This is the entry point method.
    */
   public void onModuleLoad() {
-    feed.fetchProductsFromBase(BASE_CUSTOMER_ID);
+//    feed.fetchProductsFromBase(BASE_CUSTOMER_ID);
     RootPanel.get().add(mainPanel);
     
 //    iBrowser = new IBrowse(600,600);

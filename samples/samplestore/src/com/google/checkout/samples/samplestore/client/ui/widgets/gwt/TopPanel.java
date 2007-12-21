@@ -38,9 +38,11 @@ public class TopPanel extends Composite {
   
   private Hyperlink topLink = new Hyperlink("All Products", "");
   
+  private Label header;
+  
   public TopPanel(String title) {
     // The page header containing the name of the store.
-    Label header = new Label(title);
+    header = new Label(title);
     header.setStyleName("gridstore-TopPanelHeader");
     
     // The header bar containing the header.
@@ -62,6 +64,10 @@ public class TopPanel extends Composite {
     outer.add(navBar);
     
     initWidget(outer);
+  }
+  
+  public void setStoreTitle(String name) {
+    header.setText(name);
   }
   
   /**

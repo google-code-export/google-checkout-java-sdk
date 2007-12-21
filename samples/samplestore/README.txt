@@ -55,7 +55,9 @@ ant setup
 
 This step copies the gwt-servlet.jar to your www/com.google.checkout.samples.samplestore.${store.name}
 
-2.Change the color scheme of the sample store.
+2. Edit merchant specific information. 
+
+Change the color scheme of the sample store.
  
 Navigate to the "src/com/google/checkout/samples/samplestore" dir.
 Open up the ${store.name}.gwt.xml corresponding to the store you want to build in
@@ -65,6 +67,9 @@ your favorite text editor. Edit the line with the stylesheet tag:
 You can change the 'src' attribute to point to any of the styles found under
 "src/com/google/checkout/samples/samplestore/public/style". Simply have the 'src'
 attribute point to 'style/*.css'.
+
+Navigate to the "src/com/google/checkout/samples/samplestore/server". Edit the GridStore.xml with your
+favorite text editor. Enter the information for your sample store.
 
 3. Compiling the store.
 
@@ -80,3 +85,6 @@ ant buildWar
 
 Run the following command from the project's root directory:
 ant deploy
+
+This step will copy the newly created .war file to your web server's 
+webapp directory.
