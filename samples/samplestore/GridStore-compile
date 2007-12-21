@@ -1,3 +1,10 @@
 #!/bin/sh
 APPDIR=`dirname $0`;
-java  -cp "$APPDIR/src:$APPDIR/bin:/usr/local/src/gwt-linux-1.4.61/gwt-user.jar:/usr/local/src/gwt-linux-1.4.61/gwt-dev-linux.jar" com.google.gwt.dev.GWTCompiler -out "$APPDIR/www" "$@" com.google.checkout.samples.samplestore.GridStore;
+
+#get the location of the gwt home from the build.properties file
+GWT_HOME=`grep '^gwt.home' build.properties | cut -d = -f 2`; 
+
+#get the platform specific jar containing GWT compiler from the build.properties
+GWT_PLATFORM=`grep '^gwt.platform.jar' build.properties | cut -d = -f 2`;
+
+java  -cp "$APPDIR/src:$APPDIR/bin:$GWT_HOME/gwt-user.jar:$GWT_HOME/$GWT_PLATFORM" com.google.gwt.dev.GWTCompiler -out "$APPDIR/www" "$@" com.google.checkout.samples.samplestore.GridStore;

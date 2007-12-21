@@ -1,0 +1,55 @@
+<project name="Storefront" basedir=".">
+  <property file="build.properties"/>
+  <property file="${user.home}/build.properties"/>
+
+  <property name="web.dir" value="www"/>
+  <property name="src.dir" value="src"/>
+  <property name="domain.dir" value="com.google.checkout.samples.samplestore.${store.name}"/>
+  <property name="lib.dir" value="${web.dir}/${domain.dir}/WEB-INF/lib"/>
+  <property name="web.xml" value="${lib.dir}/web.xml"/>
+  <property name="war.name" value="Storefront.war"/>
+  <property name="war.path" value="${web.dir}/${domain.dir}/${war.name}"/>
+  
+  <target name="setup">
+    <copy todir="${lib.dir}">
+      <fileset dir="${gwt.home}">
+        <include name="gwt-servlet.jar"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="buildWar">
+    <!-- build the jar file into the lib.dir directory -->
+    <jar jarfile="${lib.dir}/${war.name}">
+      <fileset dir=".">
+        <include name="bin/com/google/checkout/samples/samplestore/**/*.class"/>
+        <include name="src/com/google/checkout/samples/samplestore/**/*"/>
+      </fileset>
+    </jar>
+    
+    <!--  build the .war file: package everything under the 
+          ${web.dir}/${domain.dir} directory -->
+    <war warfile="${war.path}" webxml="${web.xml}">
+      <fileset dir="${web.dir}/${domain.dir}" includes="**/*"/>
+    </war>
+  </target>
+  
+  <target name="deploy" depends="check-java">
+    <copy file="${war.path}" todir="${java.autodeploy.dir}"/>
+  </target>
+  
+  <target name="check-java" description="Check for java autodeploy">
+    <fail unless="java.autodeploy.dir">
+      Property java.autodeploy.dir not specified. Please copy 
+      'build.properties.sample' to 'YOUR_HOME_DIRECTORY/build.properties'
+      and specify the java.autodeploy.dir to the directory where your
+      container's autodeploy directory...
+    </fail>
+  </target>
+  
+  <target name="clean">
+    <delete includeEmptyDirs="true" dir="${web.dir}">
+      <exclude name="${web.xml}"/>
+    </delete>
+  </target>
+</project>
