@@ -5,8 +5,9 @@
   <property name="web.dir" value="www"/>
   <property name="src.dir" value="src"/>
   <property name="domain.dir" value="com.google.checkout.samples.samplestore.${store.name}"/>
-  <property name="lib.dir" value="${web.dir}/${domain.dir}/WEB-INF/lib"/>
-  <property name="web.xml" value="${lib.dir}/web.xml"/>
+  <property name="web-inf.dir" value="${web.dir}/${domain.dir}/WEB-INF"/>
+  <property name="lib.dir" value="${web-inf.dir}/lib"/>
+  <property name="web.xml" value="${web-inf.dir}/web.xml"/>
   <property name="war.name" value="Storefront.war"/>
   <property name="war.path" value="${web.dir}/${domain.dir}/${war.name}"/>
   
