@@ -2,14 +2,16 @@
 <property file="build.properties"/>
 <property file="${user.home}/build.properties"/>
 
+  <property name="release.version" value="0.1"/>
   <property name="web.dir" value="www"/>
   <property name="src.dir" value="src"/>
   <property name="domain.dir" value="com.google.checkout.samples.samplestore.${store.name}"/>
   <property name="web-inf.dir" value="${web.dir}/${domain.dir}/WEB-INF"/>
   <property name="lib.dir" value="${web-inf.dir}/lib"/>
   <property name="web.xml" value="${web-inf.dir}/web.xml"/>
-  <property name="war.name" value="Storefront.war"/>
-  <property name="jar.name" value="Storefront.jar"/>
+  <property name="war.name" value="storefront-${release.version}.war"/>
+  <property name="jar.name" value="storefront-${release.version}.jar"/>
+  <property name="zip.name" value="storefront-${release.version}.zip"/>
   <property name="war.path" value="${web.dir}/${domain.dir}/${war.name}"/>
   
   <target name="setup">
@@ -54,18 +56,32 @@
     </delete>
   </target>
 	
-	<target name="build-and-deploy">
-	  <antcall target="clean"/>
-		<antcall target="setup"/>
-		<java classpath="src:bin:${gwt.home}/gwt-user.jar:${gwt.home}/${gwt.platform.jar}"
-		                classname="com.google.gwt.dev.GWTCompiler"
-		                fork="true">
-		                <arg value="-out"/>
-		                <arg value="www"/>
-		                <arg value="${domain.dir}"/>
-		</java>
-		<antcall target="build-war"/>
-		<antcall target="deploy"/>
-	</target>
-	
+  <target name="build-and-deploy">
+    <antcall target="clean"/>
+	<antcall target="setup"/>
+	<java classpath="src:bin:${gwt.home}/gwt-user.jar:${gwt.home}/${gwt.platform.jar}"
+			classname="com.google.gwt.dev.GWTCompiler"
+			fork="true">
+			<arg value="-out"/>
+			<arg value="www"/>
+			<arg value="${domain.dir}"/>
+	</java>
+	<antcall target="build-war"/>
+	<antcall target="deploy"/>
+  </target>
+
+  <target name="zip">
+    <move file="build.properties.sample" tofile="build.properties"/>
+    <zip destfile="${zip.name}">
+      <zipfileset dir="." prefix="storefront">
+        <include name="README.txt"/>
+        <include name="build.properties"/>
+        <include name="build.xml"/>  
+      </zipfileset>
+      <zipfileset dir="." includes="bin/**/*" prefix="storefront"/>
+      <zipfileset dir="." includes="src/**/*" prefix="storefront"/>
+      <zipfileset dir="." includes="www/com.google.checkout.samples.samplestore.GridStore/WEB-INF/web.xml" prefix="storefront"/>
+    </zip> 
+    <move file="build.properties" tofile="build.properties.sample"/>
+  </target>
 </project>
