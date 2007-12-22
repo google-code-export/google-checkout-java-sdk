@@ -86,29 +86,7 @@ public class GridStore
   }
   
   private GridStore() {
-    ProjectPropertiesReaderAsync propertiesReader = 
-      (ProjectPropertiesReaderAsync)GWT.create(ProjectPropertiesReader.class);
-   
-    ServiceDefTarget endpoint = (ServiceDefTarget) propertiesReader;
-    String moduleRelativeURL = GWT.getModuleBaseURL() + "propertiesReader";
-    endpoint.setServiceEntryPoint(moduleRelativeURL);
-   
 
-    AsyncCallback projectPropertiesCallback = new AsyncCallback() {
-      public void onSuccess(Object result) {
-        properties = (ProjectProperties)result;
-        feed.fetchProductsFromBase(properties.getBaseCustomerId(), 
-          properties.getMaxResults());
-        topPanel.setStoreTitle(properties.getStoreName());
-        onModuleLoad();
-      }
-     
-      public void onFailure(Throwable caught) {
-        caught.printStackTrace();
-      }
-    };
-   
-    propertiesReader.getProjectProperties(projectPropertiesCallback);
   }
   
   /**
@@ -118,12 +96,36 @@ public class GridStore
     singleton = this;
     
     feed.registerListener(this);
-    if (baseCustomerId != 0) {
+    if (properties != null) {
       feed.fetchProductsFromBase(properties.getBaseCustomerId(), 
         properties.getMaxResults());
-    } 
+    } else {
+      ProjectPropertiesReaderAsync propertiesReader = 
+        (ProjectPropertiesReaderAsync)GWT.create(ProjectPropertiesReader.class);
+     
+      ServiceDefTarget endpoint = (ServiceDefTarget) propertiesReader;
+      String moduleRelativeURL = GWT.getModuleBaseURL() + "propertiesReader";
+      endpoint.setServiceEntryPoint(moduleRelativeURL);
+     
+
+      AsyncCallback projectPropertiesCallback = new AsyncCallback() {
+        public void onSuccess(Object result) {
+          properties = (ProjectProperties)result;
+          feed.fetchProductsFromBase(properties.getBaseCustomerId(), 
+            properties.getMaxResults());
+          topPanel.setStoreTitle(properties.getStoreName());
+          initializeMainForm();
+        }
+       
+        public void onFailure(Throwable caught) {
+          caught.printStackTrace();
+        }
+      };
+     
+      propertiesReader.getProjectProperties(projectPropertiesCallback);
+    }
     History.addHistoryListener(this);
-    initializeMainForm();
+//    initializeMainForm();
   }
 
   /**
