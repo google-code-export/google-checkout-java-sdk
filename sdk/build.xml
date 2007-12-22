@@ -14,6 +14,7 @@
     <copy file="docs/index.html" todir="${sdkdist.dir}" />
     <copy todir="${sdkdist.dir}">
       <fileset dir=".">
+        <include name="LICENSE"/>
         <include name="web/**"/>
       </fileset>      
     </copy>
