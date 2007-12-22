@@ -74,7 +74,7 @@ favorite text editor. Enter the information for your sample store.
 3. Compiling the store.
 
 Run the following command from the project's root directory:
-sh GridStore-compile
+GridStore-compile
 
 4. Building the web application (.war file)
 

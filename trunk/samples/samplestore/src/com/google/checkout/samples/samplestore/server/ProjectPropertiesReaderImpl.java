@@ -48,10 +48,12 @@ public class ProjectPropertiesReaderImpl extends RemoteServiceServlet
     DocumentBuilderFactory factory = null;
     DocumentBuilder builder = null;
 
+    
     try {
       factory = DocumentBuilderFactory.newInstance();
       builder = factory.newDocumentBuilder();
-      document = builder.parse(new File("src/com/google/checkout/samples/samplestore/server/GridStore.xml"));
+      document = builder.parse(getClass().getClassLoader().getResourceAsStream("com/google/checkout/samples/samplestore/server/GridStore.xml"));
+      
     } catch (ParserConfigurationException ex) {
       throw new RuntimeException("Could not create new empty document.");
     } catch (SAXException ex) {
