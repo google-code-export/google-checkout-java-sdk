@@ -18,3 +18,15 @@ After uploading the .war onto the web server, the merchant will need to upload h
 
 == 1. !GridStore sample ==
 The !GridStore is a sample store written with GWT to display the items (that a merchant can upload to Base), in a grid format similar to the way Product Search (see www.google.com/products) displays its items, using the widgets GWT has made available. The !GridStore currently supports arbitrary levels of nesting.
+
+=== i. !Customization ===
+You can change the color scheme of the sample store by following these steps.
+
+Navigate to the "src/com/google/checkout/samples/samplestore" dir.
+Open up the ${store.name}.gwt.xml corresponding to the store you want to build in
+your favorite text editor. Edit the line with the stylesheet tag:
+  e.g. <stylesheet src="style/GridStore-default.css"/>
+
+You can change the 'src' attribute to point to any of the styles found under
+"src/com/google/checkout/samples/samplestore/public/style". Simply have the 'src'
+attribute point to 'style/*.css'.
