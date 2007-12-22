@@ -1,0 +1,59 @@
+Google Storefront Example
+<br />-------------------------
+<br />
+<br />Please read the Storefront Wiki Page (http://code.google.com/p/google-checkout-java-sdk/wiki/Storefront)
+<br />before continuing.
+<br />
+<br />The following steps will demonstrate how to build the Google Storefront
+<br />sample store.
+<br />
+<br />-+
+<br />&nbsp;|
+<br />&nbsp;+-src
+<br />&nbsp;|&nbsp; |
+<br />&nbsp;|&nbsp; +-com/google/checkout/samples/samplestore
+<br />&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+<br />&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-client
+<br />&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+<br />&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-public
+<br />&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+<br />&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-server
+<br />&nbsp;|
+<br />&nbsp;+-www
+<br />&nbsp;&nbsp;&nbsp; |
+<br />&nbsp;&nbsp;&nbsp; +-com.google.checkout.samples.samplestore.GridStore
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-WEB-INF
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |
+<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; +-lib
+<br />&nbsp;
+<br />A. Setup
+<br />&nbsp;These examples require:
+<br />&nbsp;&nbsp; i. a recent version of GWT (1.4.61 or later). Find GWT at http://code.google.com/webtoolkit/download.html
+<br />&nbsp;&nbsp; ii. a recent version of ant (1.6 or later). Find ant at: http://ant.apache.org
+<br />&nbsp;
+<br />&nbsp;There are a number of properties which you'll need to set to customize your
+<br />&nbsp;build environment. These properties need to be set in a file called build.properties
+<br />&nbsp;in your home directory or in the project's root directory. There build.properties
+<br />&nbsp;file in the base directory of this source tree, you are expected to modify it.
+<br />&nbsp;
+<br />&nbsp;You will need to set the gwt.home and gwt.platform.jar properties. gwt.home needs
+<br />&nbsp;to point at the directory where you have installed the GWT and gwt.platform.jar
+<br />&nbsp;should refer to the name of the jar file (not including path) which contains the
+<br />&nbsp;GWT compiler (on Mac this is gwt-dev-mac.jar). The jar file is located in the
+<br />&nbsp;top directory of the GWT Software Developer Kit.
+<br />&nbsp;
+<br />&nbsp;You will also need to set the store.name to the type of store you would like to build.
+<br />&nbsp;Currently, only one store exists: this store is the GridStore.
+<br />
+<br />B. Building the sample online store as a war.
+<br />
+<br />1. Edit merchant specific information.
+<br />
+<br />Navigate to the "src/com/google/checkout/samples/samplestore/server". Edit the GridStore.xml with your
+<br />favorite text editor. Enter your customer specific information for your sample store.
+<br />
+<br />2. Run ant from the root directory.
+<br />
+<br />You should now be able to see your Storefront on your local server.
+<br />&nbsp;

@@ -1,88 +1,73 @@
-<project name="Storefront" basedir="." default="build-and-deploy">
-<property file="build.properties"/>
-<property file="${user.home}/build.properties"/>
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="storefront" basedir="." default="run">
+  <property file="build.properties" />
 
-  <property name="release.version" value="0.1"/>
-  <property name="web.dir" value="www"/>
-  <property name="src.dir" value="src"/>
-  <property name="domain.dir" value="com.google.checkout.samples.samplestore.${store.name}"/>
-  <property name="web-inf.dir" value="${web.dir}/${domain.dir}/WEB-INF"/>
-  <property name="lib.dir" value="${web-inf.dir}/lib"/>
-  <property name="web.xml" value="${web-inf.dir}/web.xml"/>
-  <property name="war.name" value="storefront-${release.version}.war"/>
-  <property name="jar.name" value="storefront-${release.version}.jar"/>
-  <property name="zip.name" value="storefront-${release.version}.zip"/>
-  <property name="war.path" value="${web.dir}/${domain.dir}/${war.name}"/>
-  
-  <target name="setup">
+  <target name="init">
+    <property name="web.dir" value="www" />
+    <property name="src.dir" value="src" />
+    <property name="dist.dir" value="dist" />
+    
+    <property name="domain.dir" value="com.google.checkout.samples.samplestore.${store.name}" />
+    <property name="web-inf.dir" value="${web.dir}/${domain.dir}/WEB-INF" />
+    <property name="lib.dir" value="${web-inf.dir}/lib" />
+    <property name="web.xml" value="${web-inf.dir}/web.xml" />
+    <property name="war.name" value="store.war" />
+    <property name="jar.name" value="store.jar" />
+    <property name="war.path" value="${dist.dir}/${war.name}" />
+  </target>
+
+  <target name="setup" depends="init">
     <copy todir="${lib.dir}">
       <fileset dir="${gwt.home}">
-        <include name="gwt-servlet.jar"/>
+        <include name="gwt-servlet.jar" />
       </fileset>
     </copy>
   </target>
-  
-  <target name="build-war">
-    <!-- build the jar file into the lib.dir directory -->
-    <jar jarfile="${lib.dir}/${jar.name}">
-      <fileset dir="bin"/>
-    </jar>
-    
-    <!--  build the .war file: package everything under the 
-          ${web.dir}/${domain.dir} directory -->
-    <war warfile="${war.path}" webxml="${web.xml}">
-      <fileset dir="${web.dir}/${domain.dir}" includes="**/*"/>
-    </war>
-  </target>
-  
-  <target name="deploy" depends="check-java">
-    <copy file="${war.path}" todir="${java.autodeploy.dir}"/>
-  </target>
-  
-  <target name="check-java" description="Check for java autodeploy">
-    <fail unless="java.autodeploy.dir">
-      Property java.autodeploy.dir not specified. Please copy 
-      'build.properties.sample' to 'YOUR_HOME_DIRECTORY/build.properties'
-      and specify the java.autodeploy.dir to the directory where your
-      container's autodeploy directory...
-    </fail>
-  </target>
-  
-  <target name="clean">
-    <delete includeEmptyDirs="true">
-      <fileset dir="${web.dir}">
-        <exclude name="**/web.xml"/>
-      </fileset>
-    </delete>
-  </target>
-	
-  <target name="build-and-deploy">
-    <antcall target="clean"/>
-	<antcall target="setup"/>
-	<java classpath="src:bin:${gwt.home}/gwt-user.jar:${gwt.home}/${gwt.platform.jar}"
-			classname="com.google.gwt.dev.GWTCompiler"
-			fork="true">
-			<arg value="-out"/>
-			<arg value="www"/>
-			<arg value="${domain.dir}"/>
-	</java>
-	<antcall target="build-war"/>
-	<antcall target="deploy"/>
+
+  <target name="compile" depends="init">
+    <java classpath="src:bin:${gwt.home}/gwt-user.jar:${gwt.home}/${gwt.platform.jar}"
+          classname="com.google.gwt.dev.GWTCompiler"
+          fork="true">
+      <arg value="-out" />
+      <arg value="www" />
+      <arg value="${domain.dir}" />
+    </java>
   </target>
 
-  <target name="zip">
-    <move file="build.properties.sample" tofile="build.properties"/>
-    <zip destfile="${zip.name}">
-      <zipfileset dir="." prefix="storefront">
-        <include name="README.txt"/>
-        <include name="LICENSE"/>
-        <include name="build.properties"/>
-        <include name="build.xml"/>  
-      </zipfileset>
-      <zipfileset dir="." includes="bin/**/*" prefix="storefront"/>
-      <zipfileset dir="." includes="src/**/*" prefix="storefront"/>
-      <zipfileset dir="." includes="www/com.google.checkout.samples.samplestore.GridStore/WEB-INF/web.xml" prefix="storefront"/>
-    </zip> 
-    <move file="build.properties" tofile="build.properties.sample"/>
+  <target name="war" depends="init">
+    <!-- build the jar file into the lib.dir directory -->
+    <jar jarfile="${lib.dir}/${jar.name}">
+      <fileset dir="bin" />
+    </jar>
+
+    <mkdir dir="${dist.dir}"/>
+    <!-- package everything under the ${web.dir}/${domain.dir} directory -->
+    <war warfile="${war.path}" webxml="${web.xml}">
+      <fileset dir="${web.dir}/${domain.dir}" includes="**/*" />
+    </war>
   </target>
+
+  <target name="deploy" depends="init,check-java">
+    <copy file="${war.path}" todir="${java.autodeploy.dir}" />
+  </target>
+
+  <target name="check-java" description="Check for java autodeploy" depends="init">
+    <fail unless="java.autodeploy.dir">
+      Property java.autodeploy.dir not specified in build.properties. Please edit 
+      build.properties and specify the java.autodeploy.dir to the directory where 
+      your container's autodeploy directory...
+    </fail>
+  </target>
+
+  <target name="clean" depends="init">
+    <delete includeEmptyDirs="true">
+      <fileset dir="${web.dir}">
+        <exclude name="**/web.xml" />
+      </fileset>
+    </delete>
+    <delete dir="${dist.dir}"/>
+  </target>
+
+  <target name="dist" depends="init,compile,war"/>  
+  <target name="run" depends="init,clean,setup,dist,deploy"/>
 </project>
