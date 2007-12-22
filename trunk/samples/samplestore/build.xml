@@ -1,4 +1,4 @@
-<project name="Storefront" basedir=".">
+<project name="Storefront" basedir="." default="build-and-deploy">
 <property file="build.properties"/>
 <property file="${user.home}/build.properties"/>
 
@@ -20,7 +20,7 @@
     </copy>
   </target>
   
-  <target name="buildWar">
+  <target name="build-war">
     <!-- build the jar file into the lib.dir directory -->
     <jar jarfile="${lib.dir}/${jar.name}">
       <fileset dir="bin"/>
@@ -53,4 +53,19 @@
       </fileset>
     </delete>
   </target>
+	
+	<target name="build-and-deploy">
+	  <antcall target="clean"/>
+		<antcall target="setup"/>
+		<java classpath="src:bin:${gwt.home}/gwt-user.jar:${gwt.home}/${gwt.platform.jar}"
+		                classname="com.google.gwt.dev.GWTCompiler"
+		                fork="true">
+		                <arg value="-out"/>
+		                <arg value="www"/>
+		                <arg value="${domain.dir}"/>
+		</java>
+		<antcall target="build-war"/>
+		<antcall target="deploy"/>
+	</target>
+	
 </project>
