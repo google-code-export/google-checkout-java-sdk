@@ -3,48 +3,58 @@
   <property file="build.properties" />
 
   <target name="init">
-    <property name="web.dir" value="www" />
     <property name="src.dir" value="src" />
-    <property name="dist.dir" value="dist" />
-    
-    <property name="domain.dir" value="com.google.checkout.samples.samplestore.${store.name}" />
-    <property name="web-inf.dir" value="${web.dir}/${domain.dir}/WEB-INF" />
-    <property name="lib.dir" value="${web-inf.dir}/lib" />
-    <property name="web.xml" value="${web-inf.dir}/web.xml" />
-    <property name="war.name" value="store.war" />
-    <property name="jar.name" value="store.jar" />
-    <property name="war.path" value="${dist.dir}/${war.name}" />
-  </target>
+    <property name="src.web.dir" value="web" />
 
-  <target name="setup" depends="init">
-    <copy todir="${lib.dir}">
-      <fileset dir="${gwt.home}">
-        <include name="gwt-servlet.jar" />
-      </fileset>
-    </copy>
+    <property name="dist.dir" value="dist" />
+    <property name="build.dir" value="build" />
+    <property name="build.web.dir" value="${build.dir}/web" />
+    <property name="build.lib.dir" value="${build.dir}/web/WEB-INF/lib" />
+    <property name="build.classes.dir" value="${build.dir}/web/WEB-INF/classes" />
+
+    <property name="domain.dir" value="com.google.checkout.samples.samplestore.${store.name}" />
+    <property name="war.path" value="${dist.dir}/store.war" />
+    <property name="project.classpath"
+              value="src:bin:${build.classes.dir}:lib/gwt-user.jar:${gwt.home}/${gwt.platform.jar}" />
   </target>
 
   <target name="compile" depends="init">
-    <java classpath="src:bin:${gwt.home}/gwt-user.jar:${gwt.home}/${gwt.platform.jar}"
-          classname="com.google.gwt.dev.GWTCompiler"
-          fork="true">
+    <mkdir dir="${build.classes.dir}" />
+    <javac classpath="${project.classpath}" srcdir="src" destdir="${build.classes.dir}" />
+    <!-- copy resources -->
+    <copy todir="${build.classes.dir}">
+      <fileset dir="src">
+        <exclude name="**/*.java" />
+      </fileset>
+    </copy>
+    <java classpath="${project.classpath}" classname="com.google.gwt.dev.GWTCompiler" fork="true">
       <arg value="-out" />
-      <arg value="www" />
+      <arg value="${build.dir}" />
       <arg value="${domain.dir}" />
     </java>
+    <copy todir="${build.web.dir}">
+      <fileset dir="${build.dir}/${domain.dir}"/>
+    </copy>
   </target>
 
   <target name="war" depends="init">
-    <!-- build the jar file into the lib.dir directory -->
-    <jar jarfile="${lib.dir}/${jar.name}">
-      <fileset dir="bin" />
-    </jar>
+    <mkdir dir="${build.lib.dir}" />
+    <copy todir="${build.lib.dir}">
+      <fileset dir="lib">
+        <include name="gwt-servlet.jar" />
+        <include name="gwt-user.jar" />
+      </fileset>
+    </copy>
 
-    <mkdir dir="${dist.dir}"/>
-    <!-- package everything under the ${web.dir}/${domain.dir} directory -->
-    <war warfile="${war.path}" webxml="${web.xml}">
-      <fileset dir="${web.dir}/${domain.dir}" includes="**/*" />
-    </war>
+    <jar jarfile="${build.lib.dir}/store.jar">
+      <fileset dir="${build.classes.dir}" />
+    </jar>
+    
+    <copy todir="${build.web.dir}/WEB-INF">
+      <fileset dir="${src.web.dir}/${domain.dir}/WEB-INF" />
+    </copy>
+    <mkdir dir="${dist.dir}" />
+    <jar jarfile="${war.path}" basedir="${build.web.dir}" />
   </target>
 
   <target name="deploy" depends="init,check-java">
@@ -60,14 +70,10 @@
   </target>
 
   <target name="clean" depends="init">
-    <delete includeEmptyDirs="true">
-      <fileset dir="${web.dir}">
-        <exclude name="**/web.xml" />
-      </fileset>
-    </delete>
-    <delete dir="${dist.dir}"/>
+    <delete dir="${build.dir}" />
+    <delete dir="${dist.dir}" />
   </target>
 
-  <target name="dist" depends="init,compile,war"/>  
-  <target name="run" depends="init,clean,setup,dist,deploy"/>
+  <target name="dist" depends="init,compile,war" />
+  <target name="run" depends="init,clean,dist,deploy" />
 </project>
