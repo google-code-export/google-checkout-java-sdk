@@ -75,6 +75,7 @@
     <zip destfile="${zip.name}">
       <zipfileset dir="." prefix="storefront">
         <include name="README.txt"/>
+        <include name="LICENSE"/>
         <include name="build.properties"/>
         <include name="build.xml"/>  
       </zipfileset>
