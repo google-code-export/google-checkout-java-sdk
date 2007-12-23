@@ -28,6 +28,9 @@
       </fileset>
     </copy>
     <java classpath="${project.classpath}" classname="com.google.gwt.dev.GWTCompiler" fork="true">
+      <arg value="-style"/>
+      <!-- -style options: OBF: Obfuscated, PRETTY: readble, DETAILED: very verbose -->
+      <arg value="PRETTY" /> 
       <arg value="-out" />
       <arg value="${build.dir}" />
       <arg value="${domain.dir}" />
@@ -42,16 +45,16 @@
     <copy todir="${build.lib.dir}">
       <fileset dir="lib">
         <include name="gwt-servlet.jar" />
-        <include name="gwt-user.jar" />
       </fileset>
     </copy>
+    <copy todir="${build.lib.dir}" file="${gwt.home}/${gwt.platform.jar}"/>
 
     <jar jarfile="${build.lib.dir}/store.jar">
       <fileset dir="${build.classes.dir}" />
     </jar>
     
     <copy todir="${build.web.dir}/WEB-INF">
-      <fileset dir="${src.web.dir}/${domain.dir}/WEB-INF" />
+      <fileset dir="${src.web.dir}/WEB-INF" />
     </copy>
     <mkdir dir="${dist.dir}" />
     <jar jarfile="${war.path}" basedir="${build.web.dir}" />
