@@ -1,7 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app>
-  <display-name>Google Storefront</display-name>
+  <display-name>Sample Store</display-name>
 
+  <!-- servlet>
+    <servlet-name>shell</servlet-name>
+    <servlet-class>com.google.gwt.dev.shell.GWTShellServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>shell</servlet-name>
+    <url-pattern>/*</url-pattern>
+  </servlet-mapping-->
+  
   <servlet>
     <servlet-name>ProjectPropertiesReader</servlet-name>
     <servlet-class>

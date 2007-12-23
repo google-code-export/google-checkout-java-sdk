@@ -3,7 +3,7 @@
 <!--  <base-customer-id>1161353</base-customer-id>-->
   <base-customer-id>2828467</base-customer-id>
   <store-name>My Sample Store</store-name>
-  <!--<json-feed>http://www.google.com/base/feeds/snippets?max-results=100&amp;alt=json-in-script&amp;callback=jsonCallback</json-feed>-->
+  <json-feed>http://www.google.com/base/feeds/snippets?max-results=100&amp;alt=json-in-script&amp;callback=jsonCallback</json-feed>
   <max-results>100</max-results>
   <logo>images/checkout_logo.gif</logo>
   <rows>4</rows>
