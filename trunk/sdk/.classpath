@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src/java"/>
 	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="src" path="beta"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="lib" path="build/classes"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>

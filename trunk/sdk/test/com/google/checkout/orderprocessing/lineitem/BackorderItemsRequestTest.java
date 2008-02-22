@@ -16,7 +16,6 @@
 
 package com.google.checkout.orderprocessing.lineitem;
 
-import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.TestUtils;
 
@@ -29,26 +28,23 @@ import junit.framework.TestCase;
 public class BackorderItemsRequestTest extends TestCase {
   private MerchantInfo mi;
   private BackorderItemsRequest request;
-  
+
   public void setUp() {
     mi = TestUtils.createMockMerchantInfo();
-    
-    try {
-      request = new BackorderItemsRequest(mi, "841171949013218");
-    } catch (CheckoutException ex) {
-      fail();
-    }
+
+    request = new BackorderItemsRequest(mi, "841171949013218");
   }
-  
+
   public void testGetXml() {
-    String msg = TestUtils.readMessage(
-      "/com/google/checkout/orderprocessing/lineitem/backorder-items-sample.xml");
-    
+    String msg =
+        TestUtils
+            .readMessage("/com/google/checkout/orderprocessing/lineitem/backorder-items-sample.xml");
+
     request.addItem("A1");
     request.addItem("B2");
     request.setSendEmail(false);
 
-    assertEquals(msg.replaceAll("\\s", ""), request.getXml()
-      .replaceAll("\\s", ""));
+    assertEquals(msg.replaceAll("\\s", ""), request.getXml().replaceAll("\\s",
+        ""));
   }
 }

@@ -16,6 +16,7 @@
 
 package com.google.checkout.checkout;
 
+import com.google.checkout.CheckoutResponse;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.TestUtils;
 
@@ -71,5 +72,67 @@ public class CheckoutShoppingCartRequestTest extends TestCase {
     } catch (IllegalArgumentException ex) {
       
     }
+  }
+  
+  //Make sure issue 50 is fixed.
+  //http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=50
+  public void testCheckoutShoppingCartWithLargeNumberOfItems() {
+      MerchantInfo mi = TestUtils.createMockMerchantInfo();
+      
+      try {
+        CheckoutShoppingCartRequest cartRequest = 
+          new CheckoutShoppingCartRequest(mi);
+        
+        cartRequest.addItem("Test Item", "Test Item", 10f, 10000);
+        
+        CheckoutResponse res = cartRequest.send();
+        assertTrue(res.isValidRequest());
+        
+        System.out.println(cartRequest.getXml());
+      } catch (Exception ex) {
+        fail();
+      }
+    }
+  
+  //Make sure issue 52 is fixed.
+  //http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=52
+  public void testAddParameterizedUrl() {
+    MerchantInfo mi = TestUtils.createMockMerchantInfo();
+    
+    try {
+      CheckoutShoppingCartRequest cartRequest = 
+        new CheckoutShoppingCartRequest(mi);
+      
+      cartRequest.addItem("Test Item", "Test Item", 10f, 1);
+      cartRequest.addParameterizedUrl("http://www.google.com");
+      
+      CheckoutResponse res = cartRequest.send();
+      assertTrue(res.isValidRequest());
+      
+      System.out.println(cartRequest.getXml());
+    } catch (Exception ex) {
+      fail();
+    }
+  }  
+  
+  public void testGoodUntilDate() {    MerchantInfo mi = TestUtils.createMockMerchantInfo();
+  
+  try {
+    CheckoutShoppingCartRequest cartRequest = 
+      new CheckoutShoppingCartRequest(mi);
+    
+    cartRequest.addItem("Test Item", "Test Item", 10f, 1);
+    cartRequest.setExpirationMinutesFromNow(10);
+    System.out.println(cartRequest.getXml());
+    
+    CheckoutResponse res = cartRequest.send();
+    System.out.println(res.getXmlPretty());
+    
+    assertTrue(res.isValidRequest());
+  } catch (Exception ex) {
+    ex.printStackTrace();
+    fail();
+  }
+    
   }
 }

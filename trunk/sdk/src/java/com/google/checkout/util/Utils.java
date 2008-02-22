@@ -18,6 +18,7 @@ package com.google.checkout.util;
 
 import com.google.checkout.CheckoutException;
 import com.google.checkout.CheckoutSystemException;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -29,12 +30,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.TimeZone;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -56,8 +57,6 @@ import javax.xml.transform.stream.StreamSource;
  */
 
 public class Utils {
-
-  public static NumberFormat integerFormat = NumberFormat.getIntegerInstance();
 
   public static Document newEmptyDocument() {
     DocumentBuilderFactory factory = null;
@@ -146,8 +145,7 @@ public class Utils {
 
   public static Element findElementAndSetElseCreateAndSet(Document document,
       Element parent, String child, int value) {
-    return findElementAndSetElseCreateAndSet(document, parent, child,
-        integerFormat.format(value));
+    return findElementAndSetElseCreateAndSet(document, parent, child, ""+value);
   }
 
   public static Element createNewElementAndSet(Document document,
@@ -175,8 +173,7 @@ public class Utils {
 
   public static Element createNewElementAndSet(Document document,
       Element parent, String childElement, int childValue) {
-    return createNewElementAndSet(document, parent, childElement, integerFormat
-        .format(childValue));
+    return createNewElementAndSet(document, parent, childElement, ""+childValue);
   }
 
   public static Element createNewElementAndSet(Document document,
@@ -427,10 +424,19 @@ public class Utils {
   }
 
   private static SimpleDateFormat sdf =
-      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-
+      new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+  
+  //Ugh, ISO8601 Date formatting is quite ugly...
   public static Date parseDate(String date) throws CheckoutException {
     try {
+      if (date.endsWith("Z")) {
+        date = date.substring(0, date.length() - 1) + "+00:00";       
+      }
+      //remove the ":" in the timezone offset.
+      if (":".equals(date.substring(date.length()-3, date.length()-2))) {
+        date = date.substring(0, date.length()-3) + date.substring(date.length()-2, date.length());
+      }
+            
       return sdf.parse(date);
     } catch (ParseException ex) {
       throw new CheckoutException("Could not parse date: " + date + 
@@ -442,6 +448,11 @@ public class Utils {
     if (date == null) {
       return "null";
     }
-    return sdf.format(date);
+    
+    TimeZone tz = TimeZone.getTimeZone( "UTC" );
+    sdf.setTimeZone( tz );
+    String ret = sdf.format(date);
+    
+    return ret.substring(0, ret.length()-5)+"Z";
   }
 }

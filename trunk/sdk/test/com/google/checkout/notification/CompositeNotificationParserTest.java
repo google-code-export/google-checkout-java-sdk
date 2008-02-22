@@ -18,12 +18,16 @@ package com.google.checkout.notification;
 
 
 import com.google.checkout.util.TestUtils;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import junit.framework.TestCase;
 import org.w3c.dom.Document;
 
 /**
- *
+ * 
  * @author Charles Dang (cdang@google.com)
  */
 public class CompositeNotificationParserTest extends TestCase {
@@ -31,15 +35,15 @@ public class CompositeNotificationParserTest extends TestCase {
   private String notificationMsg;
   private CheckoutNotification notification;
   private ArrayList notificationTypes;
-  
+
   public void setUp() {
     compositeNotificationParser = new CompositeNotificationParser();
     notificationMsg = "";
     notificationTypes = new ArrayList();
-    
+
     addNotificationTypes();
   }
-  
+
   private void addNotificationTypes() {
     notificationTypes.add("new-order-notification");
     notificationTypes.add("risk-information-notification");
@@ -49,16 +53,18 @@ public class CompositeNotificationParserTest extends TestCase {
     notificationTypes.add("chargeback-amount-notification");
     notificationTypes.add("authorization-amount-notification");
   }
-  
+
   /**
    * Testing parse() for NotificationParsers of existing types
    */
   public void testParseExistingNotifications() {
-    CompositeNotificationParser.registerDefaultNotificationParsers(compositeNotificationParser);
-    try {      
-      for (int i=0; i < notificationTypes.size(); ++i) {
-        String type = (String)notificationTypes.get(i);
-        notificationMsg = TestUtils.readMessage("/resources/" + type + "-sample.xml");
+    CompositeNotificationParser
+        .registerDefaultNotificationParsers(compositeNotificationParser);
+    try {
+      for (int i = 0; i < notificationTypes.size(); ++i) {
+        String type = (String) notificationTypes.get(i);
+        notificationMsg =
+            TestUtils.readMessage("/resources/" + type + "-sample.xml");
         notification = compositeNotificationParser.parse(notificationMsg);
         assertEquals(notification.getType(), type);
       }
@@ -66,7 +72,7 @@ public class CompositeNotificationParserTest extends TestCase {
       fail();
     }
   }
-  
+
   /**
    * Testing parse() for NotificationParsers of non-existing type
    */
@@ -74,14 +80,14 @@ public class CompositeNotificationParserTest extends TestCase {
     // test some-new-notification will cause factory to throw exception since a
     // parser has not been registered with it.
     try {
-      notificationMsg = TestUtils.readMessage(
-        "/resources/some-new-notification-sample.xml");
+      notificationMsg =
+          TestUtils.readMessage("/resources/some-new-notification-sample.xml");
       notification = compositeNotificationParser.parse(notificationMsg);
     } catch (CheckoutParserException ex) {
       // parse correctly threw an UnknownNotificationException
       return;
     }
-    
+
     fail("Test did not throw an UnknownNotificationException");
   }
 
@@ -90,18 +96,28 @@ public class CompositeNotificationParserTest extends TestCase {
    */
   public void testRegister() {
     try {
-      compositeNotificationParser.register("some-new-notification", new NotificationParser() {
-        public CheckoutNotification parse(Document document) {
-           return new SomeNewNotification(document);
-        }
-      });
-      
-      notificationMsg = TestUtils.readMessage(
-        "/resources/some-new-notification-sample.xml");
+      compositeNotificationParser.register("some-new-notification",
+          new NotificationParser() {
+            public CheckoutNotification parse(Document document) {
+              return new SomeNewNotification(document);
+            }
+          });
+
+      notificationMsg =
+          TestUtils.readMessage("/resources/some-new-notification-sample.xml");
       notification = compositeNotificationParser.parse(notificationMsg);
       assertEquals(notification.getType(), "some-new-notification");
     } catch (CheckoutParserException ex) {
       fail();
     }
+  }
+
+  public void testIsSerializable() throws IOException {
+
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    ObjectOutputStream oos = new ObjectOutputStream(out);
+    oos.writeObject(notification);
+    oos.close();
+    assertTrue(out.toByteArray().length > 0);
   }
 }

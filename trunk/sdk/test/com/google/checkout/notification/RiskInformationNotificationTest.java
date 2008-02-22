@@ -24,28 +24,32 @@ import junit.framework.TestCase;
 
 import org.w3c.dom.Document;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 public class RiskInformationNotificationTest extends TestCase {
   private String riskNotificationMessage;
-  
+
   private RiskInformationNotification riskNotification;
-  
+
   public void setUp() {
-    riskNotificationMessage = TestUtils
-      .readMessage("/resources/risk-information-notification-sample.xml");
-    
+    riskNotificationMessage =
+        TestUtils
+            .readMessage("/resources/risk-information-notification-sample.xml");
+
     try {
-      Document doc = 
-        Utils.newDocumentFromString(riskNotificationMessage);
-      
+      Document doc = Utils.newDocumentFromString(riskNotificationMessage);
+
       riskNotification = new RiskInformationNotification(doc);
     } catch (CheckoutException ex) {
       fail();
     }
   }
-  
+
   public void testGetRiskInfo() {
     RiskInformation riskInfo = riskNotification.getRiskInfo();
-    
+
     assertTrue(riskInfo.isEligibleForProtection());
     verifyBillingAddress(riskInfo.getBillingAddress());
     assertEquals("Y", riskInfo.getAvsResponse());
@@ -54,7 +58,7 @@ public class RiskInformationNotificationTest extends TestCase {
     assertEquals("10.11.12.13", riskInfo.getIpAddress());
     assertEquals(6, riskInfo.getBuyerAccountAge());
   }
-  
+
   private void verifyBillingAddress(Address billingAddress) {
     assertEquals("John Smith", billingAddress.getContactName());
     assertEquals("johnsmith@example.com", billingAddress.getEmail());
@@ -63,5 +67,14 @@ public class RiskInformationNotificationTest extends TestCase {
     assertEquals("CA", billingAddress.getRegion());
     assertEquals("94141", billingAddress.getPostalCode());
     assertEquals("US", billingAddress.getCountryCode());
+  }
+
+  public void testIsSerializable() throws IOException {
+
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    ObjectOutputStream oos = new ObjectOutputStream(out);
+    oos.writeObject(riskNotification);
+    oos.close();
+    assertTrue(out.toByteArray().length > 0);
   }
 }

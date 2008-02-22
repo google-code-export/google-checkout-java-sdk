@@ -24,50 +24,64 @@ import junit.framework.TestCase;
 
 import org.w3c.dom.Document;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 public class OrderStateChangeNotificationTest extends TestCase {
   private String orderStateChangeNotificationMessage;
-  
+
   private OrderStateChangeNotification orderStateChangeNotification;
-  
+
   public void setUp() {
-    orderStateChangeNotificationMessage = TestUtils
-      .readMessage("/resources/order-state-change-notification-sample.xml");
-    
+    orderStateChangeNotificationMessage =
+        TestUtils
+            .readMessage("/resources/order-state-change-notification-sample.xml");
+
     try {
-      Document doc = 
-        Utils.newDocumentFromString(orderStateChangeNotificationMessage);
-      
+      Document doc =
+          Utils.newDocumentFromString(orderStateChangeNotificationMessage);
+
       orderStateChangeNotification = new OrderStateChangeNotification(doc);
     } catch (CheckoutException ex) {
       fail();
     }
   }
-  
+
   public void testGetNewFulfillmentOrderState() {
-    FulfillmentOrderState state = 
-      orderStateChangeNotification.getNewFulfillmentOrderState();
-    
+    FulfillmentOrderState state =
+        orderStateChangeNotification.getNewFulfillmentOrderState();
+
     assertEquals("NEW", state.toString());
   }
-  
+
   public void testGetNewFinancialOrderState() {
-    FinancialOrderState state = 
-      orderStateChangeNotification.getNewFinancialOrderState();
-    
+    FinancialOrderState state =
+        orderStateChangeNotification.getNewFinancialOrderState();
+
     assertEquals("CHARGING", state.toString());
   }
-  
+
   public void testGetPreviousFulfillmentOrderState() {
-    FulfillmentOrderState state = 
-      orderStateChangeNotification.getPreviousFulfillmentOrderState();
-    
+    FulfillmentOrderState state =
+        orderStateChangeNotification.getPreviousFulfillmentOrderState();
+
     assertEquals("NEW", state.toString());
   }
-  
+
   public void testGetPreviousFinancialOrderState() {
-    FinancialOrderState state = 
-      orderStateChangeNotification.getPreviousFinancialOrderState();
-    
+    FinancialOrderState state =
+        orderStateChangeNotification.getPreviousFinancialOrderState();
+
     assertEquals("CHARGEABLE", state.toString());
+  }
+
+  public void testIsSerializable() throws IOException {
+
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    ObjectOutputStream oos = new ObjectOutputStream(out);
+    oos.writeObject(orderStateChangeNotification);
+    oos.close();
+    assertTrue(out.toByteArray().length > 0);
   }
 }
