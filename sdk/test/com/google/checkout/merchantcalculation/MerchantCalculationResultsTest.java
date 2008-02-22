@@ -21,53 +21,56 @@ import java.util.Collection;
 import junit.framework.TestCase;
 
 /**
- *
+ * 
  * @author Charles Dang (cdang@google.com)
  */
 public class MerchantCalculationResultsTest extends TestCase {
-  
+
   public void testMerchantCalculationResultsWithMerchantCodeResults() {
 
-    MerchantCalculationResults merchantResult = new MerchantCalculationResults();
-    
+    MerchantCalculationResults merchantResult =
+        new MerchantCalculationResults();
+
     Collection merchantCodeResults = new ArrayList();
 
-    CouponResult tempCoupon = new CouponResult(true, 5.00f, "USD", 
-      "FirstVisitCoupon",
-      "Congratulations! You saved $5.00 on your first visit!");
-    merchantCodeResults.add(tempCoupon); 
+    CouponResult tempCoupon =
+        new CouponResult(true, 5.00f, "USD", "FirstVisitCoupon",
+            "Congratulations! You saved $5.00 on your first visit!");
+    merchantCodeResults.add(tempCoupon);
 
-    GiftCertificateResult tempCertificate = new GiftCertificateResult(true, 
-      10.00f, "USD", "GiftCert012345", "You used your Gift Certificate!");
+    GiftCertificateResult tempCertificate =
+        new GiftCertificateResult(true, 10.00f, "USD", "GiftCert012345",
+            "You used your Gift Certificate!");
     merchantCodeResults.add(tempCertificate);
 
     // first result
-    merchantResult.addResult("SuperShip", "739030698069958", true, 7.03, 14.67, 
-      "USD", merchantCodeResults);
+    merchantResult.addResult("SuperShip", "739030698069958", true, 7.03, 14.67,
+        "USD", merchantCodeResults);
 
-    assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" + 
-      "<merchant-calculation-results xmlns=\"http://checkout.google.com/schema/2\">" + 
-      "<results><result address-id=\"739030698069958\" shipping-name=\"SuperShip\">" + 
-      "<shippable>true</shippable><shipping-rate currency=\"USD\">14.67</shipping-rate>" + 
-      "<merchant-code-results><coupon-result><valid>true</valid><calculated-amount>" + 
-      "5.0</calculated-amount><code>FirstVisitCoupon</code><message>" + 
-      "Congratulations! You saved $5.00 on your first visit!</message>" + 
-      "</coupon-result><gift-certificate-result><valid>true</valid>" + 
-      "<calculated-amount>10.0</calculated-amount><code>GiftCert012345</code>" + 
-      "<message>You used your Gift Certificate!</message></gift-certificate-result>" + 
-      "</merchant-code-results><total-tax currency=\"USD\">7.03</total-tax></result>" +
-      "</results></merchant-calculation-results>", 
-      merchantResult.getXml());
- 
+    assertEquals(
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
+            + "<merchant-calculation-results xmlns=\"http://checkout.google.com/schema/2\">"
+            + "<results><result address-id=\"739030698069958\" shipping-name=\"SuperShip\">"
+            + "<shippable>true</shippable><shipping-rate currency=\"USD\">14.67</shipping-rate>"
+            + "<merchant-code-results><coupon-result><valid>true</valid><calculated-amount>"
+            + "5.0</calculated-amount><code>FirstVisitCoupon</code><message>"
+            + "Congratulations! You saved $5.00 on your first visit!</message>"
+            + "</coupon-result><gift-certificate-result><valid>true</valid>"
+            + "<calculated-amount>10.0</calculated-amount><code>GiftCert012345</code>"
+            + "<message>You used your Gift Certificate!</message></gift-certificate-result>"
+            + "</merchant-code-results><total-tax currency=\"USD\">7.03</total-tax></result>"
+            + "</results></merchant-calculation-results>", merchantResult
+            .getXml());
+
   }
-  
+
   public void testAddResultWithNullMerchantCodeResults() {
-    MerchantCalculationResults merchantResult = 
-     new MerchantCalculationResults();
-        
-    merchantResult.addResult("SuperShip", "739030698069958", true, 5.5, 7.25, 
-      "USD", null);
-    merchantResult.addResult("SuperShip", "739030698069958", true, 5.5, "USD", 
-      null);
+    MerchantCalculationResults merchantResult =
+        new MerchantCalculationResults();
+
+    merchantResult.addResult("SuperShip", "739030698069958", true, 5.5, 7.25,
+        "USD", null);
+    merchantResult.addResult("SuperShip", "739030698069958", true, 5.5, "USD",
+        null);
   }
 }

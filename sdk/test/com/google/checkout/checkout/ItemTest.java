@@ -79,7 +79,7 @@ public class ItemTest extends TestCase {
     
     request.addItem(tempItem);
     assertEquals(
-        "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>" +
+        "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
         "<checkout-shopping-cart xmlns=\"http://checkout.google.com/schema/2\">" +
         "<shopping-cart><items><item><merchant-private-item-data><item-data>" +
         "NEW Popular item - order more if needed</item-data><merchant-product-id>" + 

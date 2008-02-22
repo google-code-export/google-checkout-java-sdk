@@ -24,6 +24,10 @@ import junit.framework.TestCase;
 
 import org.w3c.dom.Document;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 /**
  * 
  * @author (Charles Dang) cdang@google.com
@@ -31,11 +35,12 @@ import org.w3c.dom.Document;
 public class ChargeAmountNotificationTest extends TestCase {
   private String chargeNotificationMessage;
   private ChargeAmountNotification chargeNotification;
-  
+
   public void setUp() {
-    chargeNotificationMessage = TestUtils
-      .readMessage("/resources/charge-amount-notification-sample.xml");
-    
+    chargeNotificationMessage =
+        TestUtils
+            .readMessage("/resources/charge-amount-notification-sample.xml");
+
     try {
       Document doc = Utils.newDocumentFromString(chargeNotificationMessage);
       chargeNotification = new ChargeAmountNotification(doc);
@@ -43,20 +48,29 @@ public class ChargeAmountNotificationTest extends TestCase {
       fail();
     }
   }
-  
+
   public void testGetLatestChargeAmount() {
-    assertEquals(226.06f, chargeNotification.getLatestChargeAmount(), 0);    
+    assertEquals(226.06f, chargeNotification.getLatestChargeAmount(), 0);
   }
-  
+
   public void testGetLatestPromotionChargeAmount() {
     assertEquals(10.00f, chargeNotification.getLatestPromotionChargeAmount(), 0);
   }
-  
+
   public void testGetTotalChargeAmount() {
     assertEquals(226.06f, chargeNotification.getTotalChargeAmount(), 0);
   }
-  
+
   public void testGetCyrrencyCode() {
     assertEquals("USD", chargeNotification.getCurrencyCode());
+  }
+
+  public void testIsSerializable() throws IOException {
+
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    ObjectOutputStream oos = new ObjectOutputStream(out);
+    oos.writeObject(chargeNotification);
+    oos.close();
+    assertTrue(out.toByteArray().length > 0);
   }
 }

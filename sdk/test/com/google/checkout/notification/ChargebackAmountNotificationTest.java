@@ -24,6 +24,10 @@ import junit.framework.TestCase;
 
 import org.w3c.dom.Document;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 /**
  * 
  * @author (Charles Dang) cdang@google.com
@@ -31,11 +35,12 @@ import org.w3c.dom.Document;
 public class ChargebackAmountNotificationTest extends TestCase {
   private String chargebackNotificationMessage;
   private ChargebackAmountNotification chargebackNotification;
-  
+
   public void setUp() {
-    chargebackNotificationMessage = TestUtils.
-      readMessage("/resources/chargeback-amount-notification-sample.xml");
-    
+    chargebackNotificationMessage =
+        TestUtils
+            .readMessage("/resources/chargeback-amount-notification-sample.xml");
+
     try {
       Document doc = Utils.newDocumentFromString(chargebackNotificationMessage);
       chargebackNotification = new ChargebackAmountNotification(doc);
@@ -43,21 +48,30 @@ public class ChargebackAmountNotificationTest extends TestCase {
       fail();
     }
   }
-  
+
   public void testGetLatestChargebackAmount() {
     assertEquals(226.06f, chargebackNotification.getLatestChargebackAmount(), 0);
   }
-  
+
   public void testGetLatestPromotionChargebackAmount() {
     assertEquals(10.0f, chargebackNotification
-      .getLatestPromotionChargebackAmount(), 0);
+        .getLatestPromotionChargebackAmount(), 0);
   }
-  
+
   public void testGetTotalChargebackAmount() {
     assertEquals(226.06f, chargebackNotification.getTotalChargebackAmount(), 0);
   }
-  
+
   public void testGetCurrencyCode() {
     assertEquals("USD", chargebackNotification.getCurrencyCode());
+  }
+
+  public void testIsSerializable() throws IOException {
+
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    ObjectOutputStream oos = new ObjectOutputStream(out);
+    oos.writeObject(chargebackNotification);
+    oos.close();
+    assertTrue(out.toByteArray().length > 0);
   }
 }

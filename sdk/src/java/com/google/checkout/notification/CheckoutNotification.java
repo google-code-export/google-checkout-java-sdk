@@ -19,6 +19,7 @@ package com.google.checkout.notification;
 import com.google.checkout.CheckoutException;
 import com.google.checkout.util.Utils;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.w3c.dom.Document;
@@ -30,10 +31,10 @@ import org.w3c.dom.Element;
  * @author simonjsmith
  * 
  */
-public abstract class CheckoutNotification {
+public abstract class CheckoutNotification implements Serializable {
 
-  private Document document;
-  private Element root;
+  private final Document document;
+  private final Element root;
 
   /**
    * Takes a document that contains info on the notification

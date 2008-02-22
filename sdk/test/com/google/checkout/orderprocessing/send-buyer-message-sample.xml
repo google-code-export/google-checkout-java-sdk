@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <send-buyer-message xmlns="http://checkout.google.com/schema/2" 
     google-order-number="841171949013218">
     <message>You saved $10.00 with this gift certificate.</message>

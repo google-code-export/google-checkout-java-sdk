@@ -24,34 +24,47 @@ import junit.framework.TestCase;
 
 import org.w3c.dom.Document;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 public class RefundAmountNotificationTest extends TestCase {
   private String refundNotificationMessage;
-  
+
   private RefundAmountNotification refundNotification;
-  
+
   public void setUp() {
-    refundNotificationMessage = TestUtils
-      .readMessage("/resources/refund-amount-notification-sample.xml");
-    
+    refundNotificationMessage =
+        TestUtils
+            .readMessage("/resources/refund-amount-notification-sample.xml");
+
     try {
-      Document doc = 
-        Utils.newDocumentFromString(refundNotificationMessage);
-      
+      Document doc = Utils.newDocumentFromString(refundNotificationMessage);
+
       refundNotification = new RefundAmountNotification(doc);
     } catch (CheckoutException ex) {
       fail();
     }
   }
-  
+
   public void testGetLatestRefundAmount() {
     assertEquals(226.06f, refundNotification.getLatestRefundAmount(), 0);
   }
-  
+
   public void testGetTotalRefundAmount() {
     assertEquals(226.06f, refundNotification.getTotalRefundAmount(), 0);
   }
-  
+
   public void testGetCurrencyCode() {
     assertEquals("USD", refundNotification.getCurrencyCode());
+  }
+
+  public void testIsSerializable() throws IOException {
+
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    ObjectOutputStream oos = new ObjectOutputStream(out);
+    oos.writeObject(refundNotification);
+    oos.close();
+    assertTrue(out.toByteArray().length > 0);
   }
 }
