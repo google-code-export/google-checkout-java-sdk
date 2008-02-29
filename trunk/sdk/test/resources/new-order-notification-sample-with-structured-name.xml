@@ -10,6 +10,10 @@
 		<region>CA</region>
 		<postal-code>94141</postal-code>
 		<country-code>US</country-code>
+		<structured-name>
+            <first-name>John</first-name>
+            <last-name>Smith</last-name>
+		</structured-name> 
 	</buyer-shipping-address>
 	<buyer-billing-address>
 		<contact-name>Bill Hu</contact-name>
@@ -19,6 +23,10 @@
 		<region>CA</region>
 		<postal-code>94043</postal-code>
 		<country-code>US</country-code>
+		<structured-name>
+            <first-name>John</first-name>
+            <last-name>Smith</last-name>
+		</structured-name> 
 	</buyer-billing-address>
 	<buyer-id>294873009217523</buyer-id>
 	<fulfillment-order-state>NEW</fulfillment-order-state>
@@ -32,7 +40,9 @@
 			<item>
 				<merchant-item-id>GGLAA1453</merchant-item-id>
 				<item-name>Dry Food Pack</item-name>
-				<item-description>One pack of nutritious dried food for emergencies.</item-description>
+				<item-description>
+					One pack of nutritious dried food for emergencies.
+				</item-description>
 				<quantity>1</quantity>
 				<tax-table-selector>food</tax-table-selector>
 				<unit-price currency="USD">4.99</unit-price>
@@ -40,11 +50,15 @@
 			<item>
 				<merchant-item-id>MGS2GBMP3</merchant-item-id>
 				<item-name>Megasound 2GB MP3 Player</item-name>
-				<item-description>This portable MP3 player stores 500 songs.</item-description>
+				<item-description>
+					This portable MP3 player stores 500 songs.
+				</item-description>
 				<quantity>1</quantity>
 				<unit-price currency="USD">179.99</unit-price>
 				<merchant-private-item-data>
-					<merchant-product-id>1234567890</merchant-product-id>
+					<merchant-product-id>
+						1234567890
+					</merchant-product-id>
 				</merchant-private-item-data>
 			</item>
 		</items>
@@ -55,14 +69,20 @@
 			<coupon-adjustment>
 				<applied-amount currency="USD">5.00</applied-amount>
 				<code>FirstVisitCoupon</code>
-				<calculated-amount currency="USD">5.00</calculated-amount>
+				<calculated-amount currency="USD">
+					5.00
+				</calculated-amount>
 				<message>You saved $5.00 for your first visit!</message>
 			</coupon-adjustment>
 			<gift-certificate-adjustment>
 				<applied-amount currency="USD">10.00</applied-amount>
 				<code>GiftCert12345</code>
-				<calculated-amount currency="USD">10.00</calculated-amount>
-				<message>You saved $10.00 with this gift certificate!</message>
+				<calculated-amount currency="USD">
+					10.00
+				</calculated-amount>
+				<message>
+					You saved $10.00 with this gift certificate!
+				</message>
 			</gift-certificate-adjustment>
 		</merchant-codes>
 		<total-tax currency="USD">11.05</total-tax>

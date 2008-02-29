@@ -179,4 +179,24 @@ public class NewOrderNotificationTest extends TestCase {
     oos.close();
     assertTrue(out.toByteArray().length > 0);
   }
+  
+  public void testStructuredName() {
+    String newOrderNotificationMessage2 = TestUtils.readMessage("/resources/new-order-notification-sample-with-structured-name.xml");
+
+  try {
+    Document doc = Utils.newDocumentFromString(newOrderNotificationMessage2);
+
+    NewOrderNotification newOrderNotification2 = new NewOrderNotification(doc);
+    StructuredName ship = newOrderNotification2.getBuyerShippingAddress().getStructuredName();
+    StructuredName bill = newOrderNotification2.getBuyerBillingAddress().getStructuredName();
+    
+    assertEquals(ship.getFirstName(), "John");
+    assertEquals(ship.getLastName(), "Smith");
+    assertEquals(bill.getFirstName(), "John");
+    assertEquals(ship.getLastName(), "Smith"); 
+    
+  } catch (CheckoutException ex) {
+    fail();
+  }
+  }
 }
