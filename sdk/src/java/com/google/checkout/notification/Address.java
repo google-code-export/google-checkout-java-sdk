@@ -113,4 +113,18 @@ public class Address {
   public String getRegion() {
     return Utils.getElementStringValue(document, element, "region");
   }
+  
+  /**
+   * @return the structured name
+   */
+  public StructuredName getStructuredName() {
+    Element structuredName =
+        Utils.findElementOrContainer(document, element, "structured-name");
+    
+    if (structuredName != null) {
+      return new StructuredName(document, structuredName);
+    }
+    
+    return null;
+  } 
 }
