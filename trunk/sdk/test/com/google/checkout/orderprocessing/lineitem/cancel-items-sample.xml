@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cancel-items xmlns="http://checkout.google.com/schema/2"
   google-order-number="841171949013218">
+    <reason>This is a reason.</reason>
+    <comment>This is a comment.</comment>
     <item-ids>
         <item-id>
             <merchant-item-id>A1</merchant-item-id>
