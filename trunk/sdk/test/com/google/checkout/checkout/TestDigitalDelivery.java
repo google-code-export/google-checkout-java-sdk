@@ -19,10 +19,13 @@ package com.google.checkout.checkout;
 import com.google.checkout.CheckoutException;
 import com.google.checkout.CheckoutResponse;
 import com.google.checkout.MerchantInfo;
-import com.google.checkout.util.TestUtils;
 import com.google.checkout.notification.NewOrderNotification;
+import com.google.checkout.util.TestUtils;
+import com.google.checkout.util.Utils;
 
 import junit.framework.TestCase;
+
+import org.w3c.dom.Document;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -31,10 +34,6 @@ public class TestDigitalDelivery extends TestCase {
 
   public void testDigitalSubmit1() throws CheckoutException {
     MerchantInfo mi = TestUtils.createMockMerchantInfo();
-    String msg =
-        TestUtils
-            .readMessage("/com/google/checkout/checkout/digital-sample-1.xml");
-
     CheckoutShoppingCartRequest cart = new CheckoutShoppingCartRequest(mi);
     Item item = new Item();
     item.setItemName("Super Software 5000");
@@ -52,15 +51,18 @@ public class TestDigitalDelivery extends TestCase {
     CheckoutResponse res = cart.send();
 
     assertTrue(res.isValidRequest());
-    assertEquals(msg.replaceAll("\\s", ""), cart.getXml().replaceAll("\\s", ""));
+
+    String expectedXmlMsg =
+        TestUtils
+            .readMessage("/com/google/checkout/checkout/digital-sample-1.xml");
+    Document expectedDoc = Utils.newDocumentFromString(expectedXmlMsg);
+    
+    assertEquals(Utils.documentToString(expectedDoc).replaceAll("\\s", ""),
+        cart.getXml().replaceAll("\\s", ""));
   }
 
   public void testDigitalSubmit2() throws CheckoutException {
     MerchantInfo mi = TestUtils.createMockMerchantInfo();
-    String msg =
-        TestUtils
-            .readMessage("/com/google/checkout/checkout/digital-sample-2.xml");
-
     CheckoutShoppingCartRequest cart = new CheckoutShoppingCartRequest(mi);
     Item item = new Item();
     item.setItemName("Super Software 5000");
@@ -79,7 +81,14 @@ public class TestDigitalDelivery extends TestCase {
     CheckoutResponse res = cart.send();
 
     assertTrue(res.isValidRequest());
-    assertEquals(msg.replaceAll("\\s", ""), cart.getXml().replaceAll("\\s", ""));
+
+    String expectedXmlMsg =
+        TestUtils
+            .readMessage("/com/google/checkout/checkout/digital-sample-2.xml");
+    Document expectedDoc = Utils.newDocumentFromString(expectedXmlMsg);
+    
+    assertEquals(Utils.documentToString(expectedDoc).replaceAll("\\s", ""),
+        cart.getXml().replaceAll("\\s", ""));
   }
 
   public void testDigitalNon1() throws CheckoutException {

@@ -16,10 +16,14 @@
 
 package com.google.checkout.orderprocessing;
 
+import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.TestUtils;
+import com.google.checkout.util.Utils;
 
 import junit.framework.TestCase;
+
+import org.w3c.dom.Document;
 
 /**
  * 
@@ -33,17 +37,18 @@ public class AddTrackingDataRequestTest extends TestCase {
     mi = TestUtils.createMockMerchantInfo();
   }
 
-  public void testAddTrackingDataRequestConstructor() {
+  public void testAddTrackingDataRequestConstructor() throws CheckoutException {
     request =
         new AddTrackingDataRequest(mi, "841171949013218", "UPS MI",
             "Z5498W45987123684");
-
-    String msg =
+    assertEquals("Z5498W45987123684", request.getTrackingNumber());
+    
+    String expectedXmlMsg =
         TestUtils
             .readMessage("/com/google/checkout/orderprocessing/add-tracking-data-sample.xml");
-
-    assertEquals("Z5498W45987123684", request.getTrackingNumber());
-    assertEquals(msg.replaceAll("\\s", ""), request.getXml().replaceAll("\\s",
-        ""));
+    Document expectedDoc = Utils.newDocumentFromString(expectedXmlMsg);
+    
+    assertEquals(Utils.documentToString(expectedDoc).replaceAll("\\s", ""),
+        request.getXml().replaceAll("\\s", ""));
   }
 }

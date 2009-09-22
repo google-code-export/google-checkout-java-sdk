@@ -19,8 +19,11 @@ package com.google.checkout.orderprocessing;
 import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.TestUtils;
+import com.google.checkout.util.Utils;
 
 import junit.framework.TestCase;
+
+import org.w3c.dom.Document;
 
 /**
  * 
@@ -38,12 +41,13 @@ public class AddMerchantOrderNumberRequestTest extends TestCase {
     throws CheckoutException {
     request = new AddMerchantOrderNumberRequest(mi, "841171949013218", 
         "841171949013218");
-    
-    String msg = TestUtils.readMessage(
-    "/com/google/checkout/orderprocessing/add-merchant-order-number-sample.xml");
-    
     assertEquals("841171949013218", request.getMerchantOrderNumber());
-    assertEquals(msg.replaceAll("\\s", ""), request.getXml()
-        .replaceAll("\\s", ""));
+    
+    String expectedXmlMsg = TestUtils.readMessage(
+    "/com/google/checkout/orderprocessing/add-merchant-order-number-sample.xml");
+    Document expectedDoc = Utils.newDocumentFromString(expectedXmlMsg);
+    
+    assertEquals(Utils.documentToString(expectedDoc).replaceAll("\\s", ""),
+        request.getXml().replaceAll("\\s", ""));
   }
 }

@@ -19,8 +19,11 @@ package com.google.checkout.orderprocessing;
 import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.TestUtils;
+import com.google.checkout.util.Utils;
 
 import junit.framework.TestCase;
+
+import org.w3c.dom.Document;
 
 public class DeliverOrderRequestTest extends TestCase {
 
@@ -29,10 +32,11 @@ public class DeliverOrderRequestTest extends TestCase {
     DeliverOrderRequest request = new DeliverOrderRequest(mi,
         "841171949013218", "UPS MI", "Z5498W45987123684", true); 
     
-    String msg = TestUtils.readMessage(
+    String expectedXmlMsg = TestUtils.readMessage(
     "/com/google/checkout/orderprocessing/deliver-order-sample.xml");
-  
-    assertEquals(msg.replaceAll("\\s", ""), request.getXml()
-      .replaceAll("\\s", ""));
+    Document expectedDoc = Utils.newDocumentFromString(expectedXmlMsg);
+    
+    assertEquals(Utils.documentToString(expectedDoc).replaceAll("\\s", ""),
+        request.getXml().replaceAll("\\s", ""));
   }
 }

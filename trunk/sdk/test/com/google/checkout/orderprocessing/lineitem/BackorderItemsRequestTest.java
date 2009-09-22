@@ -16,10 +16,14 @@
 
 package com.google.checkout.orderprocessing.lineitem;
 
+import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.TestUtils;
+import com.google.checkout.util.Utils;
 
 import junit.framework.TestCase;
+
+import org.w3c.dom.Document;
 
 /**
  * 
@@ -35,16 +39,17 @@ public class BackorderItemsRequestTest extends TestCase {
     request = new BackorderItemsRequest(mi, "841171949013218");
   }
 
-  public void testGetXml() {
-    String msg =
-        TestUtils
-            .readMessage("/com/google/checkout/orderprocessing/lineitem/backorder-items-sample.xml");
-
+  public void testGetXml() throws CheckoutException {
     request.addItem("A1");
     request.addItem("B2");
     request.setSendEmail(false);
 
-    assertEquals(msg.replaceAll("\\s", ""), request.getXml().replaceAll("\\s",
-        ""));
+    String expectedXmlMsg =
+        TestUtils
+            .readMessage("/com/google/checkout/orderprocessing/lineitem/backorder-items-sample.xml");
+    Document expectedDoc = Utils.newDocumentFromString(expectedXmlMsg);
+    
+    assertEquals(Utils.documentToString(expectedDoc).replaceAll("\\s", ""),
+        request.getXml().replaceAll("\\s", ""));
   }
 }
