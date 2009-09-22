@@ -19,8 +19,11 @@ package com.google.checkout.orderprocessing;
 import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.TestUtils;
+import com.google.checkout.util.Utils;
 
 import junit.framework.TestCase;
+
+import org.w3c.dom.Document;
 
 public class RefundOrderRequestTest extends TestCase {
   
@@ -29,10 +32,11 @@ public class RefundOrderRequestTest extends TestCase {
     RefundOrderRequest request = new RefundOrderRequest(mi, "841171949013218", 
         "Failed risk check", 129.43f, "Refund processed by Bob Smith");
     
-    String msg = TestUtils.readMessage(
+    String expectedXmlMsg = TestUtils.readMessage(
     "/com/google/checkout/orderprocessing/refund-order-sample.xml");
-  
-    assertEquals(msg.replaceAll("\\s", ""), request.getXml()
-      .replaceAll("\\s", ""));
+    Document expectedDoc = Utils.newDocumentFromString(expectedXmlMsg);
+    
+    assertEquals(Utils.documentToString(expectedDoc).replaceAll("\\s", ""),
+        request.getXml().replaceAll("\\s", ""));
   }
 }

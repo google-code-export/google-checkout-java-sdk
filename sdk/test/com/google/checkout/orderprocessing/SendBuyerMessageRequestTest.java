@@ -19,8 +19,11 @@ package com.google.checkout.orderprocessing;
 import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.TestUtils;
+import com.google.checkout.util.Utils;
 
 import junit.framework.TestCase;
+
+import org.w3c.dom.Document;
 
 public class SendBuyerMessageRequestTest extends TestCase {
   
@@ -29,10 +32,11 @@ public class SendBuyerMessageRequestTest extends TestCase {
     SendBuyerMessageRequest request = new SendBuyerMessageRequest(mi, "841171949013218", 
       "You saved $10.00 with this gift certificate.", true);
     
-    String msg = TestUtils.readMessage(
+    String expectedXmlMsg = TestUtils.readMessage(
     "/com/google/checkout/orderprocessing/send-buyer-message-sample.xml");
-  
-    assertEquals(msg.replaceAll("\\s", ""), request.getXml()
-      .replaceAll("\\s", ""));
+    Document expectedDoc = Utils.newDocumentFromString(expectedXmlMsg);
+    
+    assertEquals(Utils.documentToString(expectedDoc).replaceAll("\\s", ""),
+        request.getXml().replaceAll("\\s", ""));    
   }
 }

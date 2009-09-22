@@ -16,9 +16,13 @@
 
 package com.google.checkout.merchantcalculation;
 
+import com.google.checkout.CheckoutException;
+import com.google.checkout.util.Utils;
+
+import junit.framework.TestCase;
+
 import java.util.ArrayList;
 import java.util.Collection;
-import junit.framework.TestCase;
 
 /**
  * 
@@ -26,7 +30,7 @@ import junit.framework.TestCase;
  */
 public class MerchantCalculationResultsTest extends TestCase {
 
-  public void testMerchantCalculationResultsWithMerchantCodeResults() {
+  public void testMerchantCalculationResultsWithMerchantCodeResults() throws CheckoutException {
 
     MerchantCalculationResults merchantResult =
         new MerchantCalculationResults();
@@ -47,7 +51,7 @@ public class MerchantCalculationResultsTest extends TestCase {
     merchantResult.addResult("SuperShip", "739030698069958", true, 7.03, 14.67,
         "USD", merchantCodeResults);
 
-    assertEquals(
+    assertEquals(Utils.documentToString(Utils.newDocumentFromString(
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
             + "<merchant-calculation-results xmlns=\"http://checkout.google.com/schema/2\">"
             + "<results><result address-id=\"739030698069958\" shipping-name=\"SuperShip\">"
@@ -59,8 +63,8 @@ public class MerchantCalculationResultsTest extends TestCase {
             + "<calculated-amount>10.0</calculated-amount><code>GiftCert012345</code>"
             + "<message>You used your Gift Certificate!</message></gift-certificate-result>"
             + "</merchant-code-results><total-tax currency=\"USD\">7.03</total-tax></result>"
-            + "</results></merchant-calculation-results>", merchantResult
-            .getXml());
+            + "</results></merchant-calculation-results>")),
+            merchantResult.getXml());
 
   }
 

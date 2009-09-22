@@ -78,7 +78,7 @@ public class ItemTest extends TestCase {
     assertEquals(3, ret.length);
     
     request.addItem(tempItem);
-    assertEquals(
+    assertEquals(Utils.documentToString(Utils.newDocumentFromString(
         "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" +
         "<checkout-shopping-cart xmlns=\"http://checkout.google.com/schema/2\">" +
         "<shopping-cart><items><item><merchant-private-item-data><item-data>" +
@@ -86,7 +86,8 @@ public class ItemTest extends TestCase {
         "1234567890</merchant-product-id><some-new-node>some text</some-new-node>" +
         "</merchant-private-item-data></item></items></shopping-cart>" +
         "<checkout-flow-support><merchant-checkout-flow-support/>" +
-        "</checkout-flow-support></checkout-shopping-cart>", request.getXml());
+        "</checkout-flow-support></checkout-shopping-cart>")),
+        request.getXml());
   }
   
   public void testItemNodeNames() {

@@ -19,8 +19,11 @@ package com.google.checkout.orderprocessing;
 import com.google.checkout.CheckoutException;
 import com.google.checkout.MerchantInfo;
 import com.google.checkout.util.TestUtils;
+import com.google.checkout.util.Utils;
 
 import junit.framework.TestCase;
+
+import org.w3c.dom.Document;
 
 public class ArchiveOrderRequestTest extends TestCase {
   
@@ -28,10 +31,11 @@ public class ArchiveOrderRequestTest extends TestCase {
     MerchantInfo mi = TestUtils.createMockMerchantInfo();
     ArchiveOrderRequest request = new ArchiveOrderRequest(mi, "841171949013218");
     
-    String msg = TestUtils.readMessage(
+    String expectedXmlMsg = TestUtils.readMessage(
       "/com/google/checkout/orderprocessing/archive-order-sample.xml");
+    Document expectedDoc = Utils.newDocumentFromString(expectedXmlMsg);
     
-    assertEquals(msg.replaceAll("\\s", ""), request.getXml()
-        .replaceAll("\\s", ""));
+    assertEquals(Utils.documentToString(expectedDoc).replaceAll("\\s", ""),
+        request.getXml().replaceAll("\\s", ""));
   }
 }
