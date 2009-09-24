@@ -199,7 +199,7 @@ public class Utils {
       return "";
     }
 
-    return n.getNodeValue();
+    return n.getNodeValue().trim();
   }
 
   public static boolean getElementBooleanValue(Document document,
