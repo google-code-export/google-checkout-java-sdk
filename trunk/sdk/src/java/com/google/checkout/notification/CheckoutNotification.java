@@ -19,11 +19,11 @@ package com.google.checkout.notification;
 import com.google.checkout.CheckoutException;
 import com.google.checkout.util.Utils;
 
-import java.io.Serializable;
-import java.util.Date;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * This class is the parent for all the notification classes.
@@ -66,6 +66,7 @@ public abstract class CheckoutNotification implements Serializable {
    * @deprecated User getGoogleOrderNumber()
    * @return The Google Order Number.
    */
+  @Deprecated
   public String getGoogleOrderNo() {
     return Utils.getElementStringValue(document, root, "google-order-number");
   }
@@ -112,7 +113,7 @@ public abstract class CheckoutNotification implements Serializable {
    * @return The XML request String.
    */
   public String getXml() {    
-    return Utils.documentToString(document);
+    return Utils.nodeToString(document);
   }
 
   /**

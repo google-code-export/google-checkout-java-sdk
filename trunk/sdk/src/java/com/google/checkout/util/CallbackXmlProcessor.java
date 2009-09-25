@@ -23,17 +23,19 @@ import com.google.checkout.handlers.MerchantCallbackHandler;
 import com.google.checkout.handlers.MessageHandler;
 import com.google.checkout.merchantcalculation.MerchantCalculationCallback;
 import com.google.checkout.merchantcalculation.MerchantCalculationResults;
-import java.util.HashMap;
+
 import org.w3c.dom.Document;
+
+import java.util.HashMap;
 
 /**
  *
  * @author Charles Dang
  */
 public class CallbackXmlProcessor implements CheckoutXmlProcessor {
-  private MerchantCallbackHandler handler;
-  private MerchantInfo merchantInfo;
-  private HashMap oldTypeCallbackHandlers;
+  private final MerchantCallbackHandler handler;
+  private final MerchantInfo merchantInfo;
+  private final HashMap oldTypeCallbackHandlers;
   
   // TODO(cdang) where to assign the merchantInfo?
   
@@ -64,7 +66,7 @@ public class CallbackXmlProcessor implements CheckoutXmlProcessor {
           (MessageHandler)oldTypeCallbackHandlers.get(callback.getType());
         
         if (oldTypeHandler != null) {
-          oldTypeHandler.process(merchantInfo, Utils.documentToString(xmlDocument));
+          oldTypeHandler.process(merchantInfo, Utils.nodeToString(xmlDocument));
         } 
       } else if (handler != null) {
         results = handler.handle(merchantInfo, callback);

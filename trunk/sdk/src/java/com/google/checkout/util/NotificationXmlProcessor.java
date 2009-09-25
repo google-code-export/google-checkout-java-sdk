@@ -25,18 +25,20 @@ import com.google.checkout.handlers.NotificationHandler;
 import com.google.checkout.notification.CheckoutNotification;
 import com.google.checkout.notification.CheckoutParserException;
 import com.google.checkout.notification.NotificationParser;
-import java.util.HashMap;
+
 import org.w3c.dom.Document;
+
+import java.util.HashMap;
 
 /**
  *
  * @author Charles Dang (cdang@google.com)
  */
 public class NotificationXmlProcessor implements CheckoutXmlProcessor {
-  private NotificationParser parser;
-  private NotificationHandler handler;
-  private MerchantInfo merchantInfo;
-  private HashMap oldTypeNotificationHandlers;
+  private final NotificationParser parser;
+  private final NotificationHandler handler;
+  private final MerchantInfo merchantInfo;
+  private final HashMap oldTypeNotificationHandlers;
   
   // TODO(cdang) where to assign merchantInfo
   
@@ -71,7 +73,7 @@ public class NotificationXmlProcessor implements CheckoutXmlProcessor {
         (MessageHandler)oldTypeNotificationHandlers.get(notification.getType());
       
         if (oldTypeHandler != null) {
-          oldTypeHandler.process(merchantInfo, Utils.documentToString(xmlDocument));
+          oldTypeHandler.process(merchantInfo, Utils.nodeToString(xmlDocument));
         } 
       } else if (handler != null) {
         handler.handle(merchantInfo, notification);

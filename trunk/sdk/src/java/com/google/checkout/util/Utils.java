@@ -341,15 +341,7 @@ public class Utils {
   
 
   public static String documentToString(Document document) {
-    try {
-      TransformerFactory tf = TransformerFactory.newInstance();
-      Transformer trans = tf.newTransformer();
-      StringWriter sw = new StringWriter();
-      trans.transform(new DOMSource(document), new StreamResult(sw));
-      return sw.toString();
-    } catch (TransformerException ex) {
-      throw new CheckoutSystemException("Unable to convert document to string");
-    }
+    return nodeToString(document);
   }
 
   public static String documentToStringPretty(Document document) {    
