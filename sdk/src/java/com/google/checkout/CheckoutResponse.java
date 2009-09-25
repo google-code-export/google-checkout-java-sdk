@@ -116,7 +116,7 @@ public class CheckoutResponse {
    * @return The XML response String.
    */
   public String getXml() {    
-    return Utils.documentToString(document);
+    return Utils.nodeToString(document);
   }
   
   /**

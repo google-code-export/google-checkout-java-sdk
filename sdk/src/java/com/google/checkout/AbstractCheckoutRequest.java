@@ -103,7 +103,7 @@ public abstract class AbstractCheckoutRequest {
    * @return The XML request String.
    */
   public String getXml() {
-    return Utils.documentToString(document);
+    return Utils.nodeToString(document);
   }
 
   /**

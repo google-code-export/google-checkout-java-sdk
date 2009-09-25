@@ -16,14 +16,14 @@
 
 package com.google.checkout.merchantcalculation;
 
-import java.util.Collection;
-import java.util.Iterator;
+import com.google.checkout.util.Constants;
+import com.google.checkout.util.Utils;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import com.google.checkout.util.Constants;
-import com.google.checkout.util.Utils;
+import java.util.Collection;
+import java.util.Iterator;
 
 /**
  * This class encapsulates the &lt;merchant-calculation-callback&gt; message
@@ -189,7 +189,7 @@ public class MerchantCalculationResults {
   * @return The XML String.
   */
   public String getXml() {
-    return Utils.documentToString(document);
+    return Utils.nodeToString(document);
   }
 
   /**
