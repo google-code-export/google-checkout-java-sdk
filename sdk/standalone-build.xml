@@ -19,7 +19,7 @@
     <javac srcdir="src" destdir="${build.classes.dir}" debug="true" debuglevel="source,lines,vars"
            classpath="${build.classpath}" source="1.5" target="1.5"/>
     <copy todir="${build.classes.dir}">
-      <fileset dir="src/java">
+      <fileset dir="src/main/java">
         <include name="**/*.xsl" />
       </fileset>
     </copy>
@@ -43,7 +43,7 @@
 
   <target name="javadoc" depends="init,compile">
   	<mkdir dir="${javadoc.dir}"/>
-    <javadoc sourcepath="src/java" destdir="${javadoc.dir}" 
+    <javadoc sourcepath="src/main/java" destdir="${javadoc.dir}" 
              classpath="${build.classpath}"
              packagenames="com.google.*" 
              Windowtitle="Google Java Checkout SDK API"

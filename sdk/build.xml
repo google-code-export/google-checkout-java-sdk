@@ -9,7 +9,7 @@
     <property name="sdkdist.dir" value="${zipdist.dir}/checkout-sdk-${release.version}" />
     <mkdir dir="${sdkdist.dir}" />
     <jar basedir="${build.classes.dir}" zipfile="${sdkdist.dir}/checkout-sdk.jar"/>
-    <jar basedir="src/java" zipfile="@{sdkdist.dir}/checkout-sdk-src.jar"/>
+    <jar basedir="src/main/java" zipfile="@{sdkdist.dir}/checkout-sdk-src.jar"/>
     <mkdir dir="${sdkdist.dir}/lib" />
     <copy file="docs/index.html" todir="${sdkdist.dir}" />
     <copy todir="${sdkdist.dir}">
@@ -34,6 +34,7 @@
         <exclude name="**/dist/**" />
         <exclude name="**/nbproject/private/**" />
         <exclude name="**/nbproject/genfiles.properties" />
+        <exclude name="**/target/**" />
       </fileset>
     </copy>
     <copy todir="${sdkdist.dir}/samples">
