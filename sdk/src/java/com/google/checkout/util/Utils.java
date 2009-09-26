@@ -327,6 +327,12 @@ public class Utils {
     return e;
   }
   
+  /**
+   * Return a string representation of an org.w3c.dom.Node.
+   * 
+   * @param node The XML node.
+   * @return The string representation of the XML doc.
+   */
   public static String nodeToString(Node node) {
     try {
       TransformerFactory tf = TransformerFactory.newInstance();
@@ -339,7 +345,14 @@ public class Utils {
     }
   }
   
-
+  /**
+   * Return a string representation of an org.w3c.dom.Document.
+   * 
+   * @param document The XML document.
+   * @deprecated Use {@link #nodeToString(Node)} instead.
+   * @return The string representation of the XML doc.
+   */
+  @Deprecated
   public static String documentToString(Document document) {
     return nodeToString(document);
   }
