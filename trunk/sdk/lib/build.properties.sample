@@ -1,5 +1,0 @@
-# Change tomcat.home to point to your installation of tomcat
-# Or change servlet-api-jar.path to a suitable path if you 
-# want to use a different application server
-tomcat.home=c:/apache-tomcat-6.0.13
-servlet-api-jar.path=${tomcat.home}/lib/servlet-api.jar
