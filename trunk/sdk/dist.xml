@@ -14,7 +14,7 @@
     <jar basedir="${build.classes.dir}" 
          zipfile="${sdkdist.dir}/checkout-sdk.jar"/>
     
-    <jar basedir="src/java"
+    <jar basedir="src/main/java"
          zipfile="${sdkdist.dir}/checkout-sdk-src.jar"/>
     
     <copy file="docs/index.html" todir="${sdkdist.dir}" />
