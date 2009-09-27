@@ -13,7 +13,7 @@ First download and install *Eclipse Europa Java EE Developer Edition*. Then star
 Using a plugin to integrate Maven and SCM support into Eclipse can make the experience quite a bit better. If you have [http://m2eclipse.sonatype.org/ M2Eclipse] and [http://subclipse.tigris.org/ Subclipse] installed, you can just checkout the project within Eclipse like so.
   # Select File -> New -> Project... menu option.
   # Select Maven -> Checkout Maven Projects from SCM from the project wizard list.
-  # For SCM URL, enter "svn" in the drop down and "http://google-checkout-java-sdk.googlecode.com/svn/trunk/" in the textbox and click "Finish".
+  # For SCM URL, enter "svn" in the drop down and "http://google-checkout-java-sdk.googlecode.com/svn/trunk/" in the textbox and click "Finish". Keep in mind that you will need to use the https URL from [http://code.google.com/p/google-checkout-java-sdk/source/checkout here] if you want be able to commit changes from your working copy.
   # The code will be checked out into a subdirectory of your workspace directory called maven.${number} where ${number} is just some number. The project will be loaded into Eclipse and you'll be ready to go. You will probably have to generate the API docs as described below from the command line.
 
 = Generate javadoc API documentation =
