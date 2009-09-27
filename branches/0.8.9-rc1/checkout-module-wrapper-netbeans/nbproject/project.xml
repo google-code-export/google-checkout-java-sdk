@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://www.netbeans.org/ns/project/1">
+    <type>org.netbeans.modules.apisupport.project</type>
+    <configuration>
+        <data xmlns="http://www.netbeans.org/ns/nb-module-project/3">
+            <code-name-base>com.google.checkout.sdk.module</code-name-base>
+            <suite-component/>
+            <module-dependencies/>
+            <public-packages>
+                <package>com.google.checkout.sdk.module.common</package>
+                <package>com.google.checkout.sdk.module.exceptions</package>
+                <package>com.google.checkout.sdk.module.handlermanager</package>
+                <package>com.google.checkout.sdk.module.integrationwizard</package>
+            </public-packages>
+            <class-path-extension>
+                <runtime-relative-path>ext/module.jar</runtime-relative-path>
+                <binary-origin>release/modules/ext/module.jar</binary-origin>
+            </class-path-extension>
+        </data>
+    </configuration>
+</project>

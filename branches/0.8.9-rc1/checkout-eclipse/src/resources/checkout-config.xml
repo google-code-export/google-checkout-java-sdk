@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright (C) 2007 Google Inc.
+ 
+ Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ use this file except in compliance with the License. You may obtain a copy of
+ the License at
+ 
+ http://www.apache.org/licenses/LICENSE-2.0
+ 
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ License for the specific language governing permissions and limitations under
+ the License.
+
+ Author     : Inderjeet Singh (inder@google.com)
+  Description:
+      This document describes the mapping of notification message types to the 
+      handlers that process them. If you would like to change the default 
+      behavior on receiving a message, change the target-class for the message.
+-->
+
+<checkout-config>
+  <merchant-info>
+    <merchant-id>812318588721976</merchant-id>
+    <merchant-key>c1YAeK6wMizfJ6BmZJG9Fg</merchant-key>
+    <env>Sandbox</env>
+    <currency-code>USD</currency-code>
+    <sandbox-root>
+      https://sandbox.google.com/checkout/cws/v2/Merchant
+    </sandbox-root>
+    <production-root>
+      https://checkout.google.com/cws/v2/Merchant
+    </production-root>
+    <checkout-suffix>checkout</checkout-suffix>
+    <merchant-checkout-suffix>merchantCheckout</merchant-checkout-suffix>
+    <request-suffix>request</request-suffix>
+  </merchant-info>
+  
+  <notification-handlers>
+    <notification-handler>
+      <message-type>
+        new-order-notification
+      </message-type>
+      <handler-class>
+        com.google.checkout.handlers.NewOrderNotificationHandler
+      </handler-class>    
+    </notification-handler>
+    <notification-handler>
+      <message-type>
+        risk-information-notification
+      </message-type>
+      <handler-class>
+        com.google.checkout.handlers.RiskInformationNotificationHandler
+      </handler-class>    
+    </notification-handler>
+    <notification-handler>
+      <message-type>
+        order-state-change-notification
+      </message-type>
+      <handler-class>
+        com.google.checkout.handlers.OrderStateChangeNotificationHandler
+      </handler-class>    
+    </notification-handler>
+    <notification-handler>
+      <message-type>
+        charge-amount-notification
+      </message-type>
+      <handler-class>
+        com.google.checkout.handlers.ChargeAmountNotificationHandler
+      </handler-class>    
+    </notification-handler>
+    <notification-handler>
+      <message-type>
+        refund-amount-notification
+      </message-type>
+      <handler-class>
+        com.google.checkout.handlers.RefundAmountNotificationHandler
+      </handler-class>    
+    </notification-handler>
+    <notification-handler>
+      <message-type>
+        chargeback-amount-notification
+      </message-type>
+      <handler-class>
+        com.google.checkout.handlers.ChargebackAmountNotificationHandler
+      </handler-class>    
+    </notification-handler>
+    <notification-handler>
+      <message-type>
+        authorization-amount-notification
+      </message-type>
+      <handler-class>
+        com.google.checkout.handlers.AuthorizationAmountNotificationHandler
+      </handler-class>    
+    </notification-handler>
+  </notification-handlers>
+  <callback-handlers>
+    <callback-handler>
+      <message-type>
+        merchant-calculation-callback
+      </message-type>
+      <handler-class>
+        com.google.checkout.handlers.MerchantCalculationCallbackHandler
+      </handler-class>    
+    </callback-handler>
+  </callback-handlers>
+</checkout-config>
