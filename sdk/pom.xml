@@ -26,6 +26,21 @@
   	<system>Google Code</system>
   	<url>http://code.google.com/p/google-checkout-java-sdk/issues/list</url>
   </issueManagement>
+  <developers>
+  	<developer>
+  		<name>Warren Turkal</name>
+  		<organization>Google, Inc.</organization>
+  		<roles>
+  			<role>Lead Maintainer</role>
+  		</roles>
+  	</developer>
+  	<developer>
+  		<name>Shabsi Walfish</name>
+  		<organization>Google, Inc.</organization>
+  	</developer>
+  </developers>
+  <contributors>
+  </contributors>
   <scm>
   	<connection>scm:svn:http://google-checkout-java-sdk.googlecode.com/svn/trunk/</connection>
   	<developerConnection>scm:svn:https://google-checkout-java-sdk.googlecode.com/svn/trunk/</developerConnection>
@@ -52,4 +67,13 @@
       </plugin>
     </plugins>
   </build>
+  <reporting>
+  	<plugins>
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+  			<artifactId>maven-javadoc-plugin</artifactId>
+  			<version>2.6</version>
+  		</plugin>
+  	</plugins>
+  </reporting>
 </project>
