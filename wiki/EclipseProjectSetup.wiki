@@ -1,10 +1,10 @@
 #summary Instructions for setting up Eclipse project for checkout SDK
 
-= Adding Subversion Support in Eclipse =
+=Adding Subversion Support in Eclipse=
 
 First download and install [http://eclipse.org/ Eclipse]. Then start eclipse, and create a new workspace. Then follow the [http://subclipse.tigris.org/servlets/ProjectProcess?pageID=p4wYuA Subclipse installation instructions] to install Subclipse.
 
-= Use eclipse to make changes to the SDK =
+=Use eclipse to make changes to the SDK=
   # checkout sdk code to a directory
   # goto the sdk subdirectory
   # run *mvn eclipse:eclipse*
@@ -14,21 +14,20 @@ Using a plugin to integrate Maven and SCM support into Eclipse can make the expe
   # Select File -> New -> Project... menu option.
   # Select Maven -> Checkout Maven Projects from SCM from the project wizard list.
   # For SCM URL, enter "svn" in the drop down and "http://google-checkout-java-sdk.googlecode.com/svn/trunk/" in the textbox and click "Finish". Keep in mind that you will need to use the https URL from [http://code.google.com/p/google-checkout-java-sdk/source/checkout here] if you want be able to commit changes from your working copy.
-  # The code will be checked out into a subdirectory of your workspace directory called maven.${number} where ${number} is just some number. The project will be loaded into Eclipse and you'll be ready to go. You will probably have to generate the API docs as described below from the command line.
+  # The code will be checked out into a subdirectory of your workspace directory called maven.${number} where ${number} is just some number. The project will be loaded into Eclipse and you'll be ready to go.
 
-= Generate javadoc API documentation =
+=Generate javadoc API documentation on Command Line=
   # checkout code to a directory
   # change to the sdk subdirectory
   # run *mvn javadoc:javadoc* (only javadoc) or *mvn site* (all package information)
   # look in the target/site/apidocs directory for the generated docs
-  # If you are using Eclipse, you may want to set the target/site/apidocs as the projects javadoc directory.
 
-= Creating Checkout SDK =
+=Creating Checkout SDK .jar File=
   # go into the sdk project directory
   # type *mvn package*
   # look for the jar in the target subdirectory
 
-= Old instructions for 0.8.8 and before =
+=Old instructions for 0.8.8 and before=
   # Start Eclipse, and select "SVN repository Exploring" perspective in Window | Open Perspective | Other
   # Right click in the "SVN Repository" tab, and select New | Repository Location
   # For Url, use https://google-checkout-java-sdk.googlecode.com/svn/trunk/, and press "Finish"
@@ -45,5 +44,5 @@ Using a plugin to integrate Maven and SCM support into Eclipse can make the expe
   # Congratulations, you now have the Checkout SDK project setup with Eclipse. 
   # To run the SDK, right click on the google-checkout-java-sdk node, select "Run As" | "Run On Server"
 
-== Other Notes ==
+==Other Notes==
   # If you still encounter errors, right-click on the google-checkout-java-sdk node and select "Properties...". Select Java Build Path on the left, and then select the tab Libraries, and ensure that Apache Tomcat v6.0 is one of the libraries.  This includes necessary jars at "<APACHE_HOME_DIR>/lib" like the servlet-api.jar.  If its not there, then you can select "Add Library..." from the same menu.  Then select "Server Runtime" and then Apache Tomcat v6.0
