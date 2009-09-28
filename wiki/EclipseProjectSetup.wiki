@@ -1,5 +1,9 @@
 #summary Instructions for setting up Eclipse project for checkout SDK
 
+=Obtaining Apache Maven=
+
+On Ubuntu or Debian, you can install the *maven2* package by typing `aptitude install maven2` at the command line.
+
 =Adding Subversion Support in Eclipse=
 
 First download and install [http://eclipse.org/ Eclipse]. Then start eclipse, and create a new workspace. Then follow the [http://subclipse.tigris.org/servlets/ProjectProcess?pageID=p4wYuA Subclipse installation instructions] to install Subclipse.
@@ -7,7 +11,7 @@ First download and install [http://eclipse.org/ Eclipse]. Then start eclipse, an
 =Use eclipse to make changes to the SDK=
   # checkout sdk code to a directory
   # goto the sdk subdirectory
-  # run *mvn eclipse:eclipse*
+  # run `mvn eclipse:eclipse`
   # import the project into eclipse
 
 Using a plugin to integrate Maven and SCM support into Eclipse can make the experience quite a bit better. If you have [http://m2eclipse.sonatype.org/ M2Eclipse] and [http://subclipse.tigris.org/ Subclipse] installed, you can just checkout the project within Eclipse like so.
@@ -19,12 +23,12 @@ Using a plugin to integrate Maven and SCM support into Eclipse can make the expe
 =Generate javadoc API documentation on Command Line=
   # checkout code to a directory
   # change to the sdk subdirectory
-  # run *mvn javadoc:javadoc* (only javadoc) or *mvn site* (all package information)
+  # run `mvn javadoc:javadoc` (only javadoc) or `mvn site` (all package information)
   # look in the target/site/apidocs directory for the generated docs
 
 =Creating Checkout SDK .jar File=
   # go into the sdk project directory
-  # type *mvn package*
+  # type `mvn package`
   # look for the jar in the target subdirectory
 
 =Old instructions for 0.8.8 and before=
