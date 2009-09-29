@@ -14,7 +14,7 @@ First download and install [http://eclipse.org/ Eclipse]. Then start eclipse, an
   # run `mvn eclipse:eclipse`
   # import the project into eclipse
 
-Using a plugin to integrate Maven and SCM support into Eclipse can make the experience quite a bit better. If you have [http://m2eclipse.sonatype.org/ M2Eclipse] and [http://subclipse.tigris.org/ Subclipse] installed, you can just checkout the project within Eclipse like so.
+Using a plugin to integrate Maven and SCM support into Eclipse can make the experience quite a bit better. If you have [http://maven.apache.org/eclipse-plugin.html Maven support in Eclipse] and [http://subclipse.tigris.org/ Subclipse] installed, you can just checkout the project within Eclipse like so.
   # Select File -> New -> Project... menu option.
   # Select Maven -> Checkout Maven Projects from SCM from the project wizard list.
   # For SCM URL, enter "svn" in the drop down and "http://google-checkout-java-sdk.googlecode.com/svn/trunk/" in the textbox and click "Finish". Keep in mind that you will need to use the https URL from [http://code.google.com/p/google-checkout-java-sdk/source/checkout here] if you want be able to commit changes from your working copy.
