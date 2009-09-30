@@ -1,6 +1,0 @@
-Manifest-Version: 1.0
-OpenIDE-Module: com.google.checkout.sdk.nbmodule
-OpenIDE-Module-Layer: com/google/checkout/sdk/nbmodule/layer.xml
-OpenIDE-Module-Localizing-Bundle: com/google/checkout/sdk/nbmodule/Bundle.properties
-OpenIDE-Module-Specification-Version: 0.5.1
-Class-Path: libs/module.jar
