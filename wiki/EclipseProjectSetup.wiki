@@ -20,6 +20,8 @@ Using a plugin to integrate Maven and SCM support into Eclipse can make the expe
   # For SCM URL, enter "svn" in the drop down and "http://google-checkout-java-sdk.googlecode.com/svn/trunk/" in the textbox and click "Finish". Keep in mind that you will need to use the https URL from [http://code.google.com/p/google-checkout-java-sdk/source/checkout here] if you want be able to commit changes from your working copy.
   # The code will be checked out into a subdirectory of your workspace directory called maven.${number} where ${number} is just some number. The project will be loaded into Eclipse and you'll be ready to go.
 
+Of the Eclipse plugins, I have found that [http://eclipse.org/m2e/ M2Eclipse] works better with this project than Eclipse IAM (formerly Q4E) right now. Eclipse IAM doesn't seem to understand the resource directories that hold the non-java resource files.
+
 =Generate javadoc API documentation on Command Line=
   # checkout code to a directory
   # change to the sdk subdirectory
