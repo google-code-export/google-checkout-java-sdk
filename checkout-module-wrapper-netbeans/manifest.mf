@@ -1,5 +1,0 @@
-Manifest-Version: 1.0
-OpenIDE-Module: com.google.checkout.sdk.module
-OpenIDE-Module-Localizing-Bundle: com/google/checkout/sdk/module/Bundle.properties
-OpenIDE-Module-Specification-Version: 1.0
-
