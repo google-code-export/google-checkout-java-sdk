@@ -1,0 +1,84 @@
+
+.ibrowser {
+	overflow:hidden;
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+.indicatorIcon {
+    cursor:pointer;
+    z-index:14;
+    opacity: .99;
+}
+.infopaneMaximizeIcon {
+    cursor:pointer;
+    z-index:14;
+    opacity: .99;
+}
+.imagePane {
+    position: absolute;
+    border-width:1px;
+    border-style:solid;
+    border-color:black;
+    background:#404040;
+}
+.ttile {
+    position: absolute;
+    top:0px;
+    left:0px;
+    cursor:pointer;
+    border: solid 1px #000000
+    visibility:hidden;
+    z-index:3;
+    opacity: .99;
+}
+.infopane {
+    visibility: hidden;
+    z-index:2;
+    position: absolute;
+    border: solid 1px; #000000;
+    background:#000000;
+    opacity: .65;
+}
+.infopaneDescription {
+    color:white;
+    font-size:12px;
+}
+.infopaneShortDescription {
+    color:white;
+    font-size:12px;
+}
+.infopaneDetailsIcon {
+	margin-top: 2px;
+    vertical-align:top;
+    align:right;
+}
+.infopaneTitle {
+    width: 95%;
+    color:white;
+    font-size:16px;
+}
+.imagePane {
+	border-width:1px;
+	border-style:solid;
+    border-color:black;
+    background:#404040;
+}
+.tile {
+    position: absolute;
+    top:0px;
+    left:0px;
+    cursor:pointer;
+  	border-width:1px;
+	border-style:solid;
+    border-color:black;  
+    visibility:hidden;
+    z-index:3;
+	opacity: .99;
+}
+.scrollButton {
+	cursor:pointer;
+  	position: absolute;
+ 	z-index:11;
+  	opacity: .99;
+}
