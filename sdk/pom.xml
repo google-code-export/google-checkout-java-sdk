@@ -4,7 +4,7 @@
   <groupId>com.google.checkout</groupId>
   <artifactId>checkout-sdk</artifactId>
   <packaging>jar</packaging>
-  <version>0.8.9-pre</version>
+  <version>0.8.9</version>
   <name>checkout-sdk</name>
   <licenses>
     <license>
