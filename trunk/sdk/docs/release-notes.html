@@ -4,6 +4,16 @@
   </head>
   
   <body>
+    
+    <h3>Changes from 0.8.9 to 2.5.0</h3>
+    <ol>
+      <li>Rewrote most of the SDK, making it easier to use and maintain.</li>
+      <li>Domain objects are now generated from Checkout's XSD, so they will be more complete and will stay up to date with new features.</li>
+      <li>Use builder pattern to build and post commands to Checkout.</li>
+      <li>Simple, extensible framework for receiving notifications.</li>
+      <li>This change is not backwards compatible, so we will keep the 0.8.9 branch around.</li>
+    </ol>
+
     <h3>Changes from 0.8.7 to 0.8.8</h3>
     <ol>
       <li>Added timezone support for cart expiration as per <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=48">Issue 48</a></li>

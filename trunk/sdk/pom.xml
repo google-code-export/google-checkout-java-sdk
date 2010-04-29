@@ -4,7 +4,7 @@
   <groupId>com.google.checkout</groupId>
   <artifactId>checkout-sdk</artifactId>
   <packaging>jar</packaging>
-  <version>0.8.9-pre</version>
+  <version>2.5.0</version>
   <name>checkout-sdk</name>
   <licenses>
     <license>
@@ -34,14 +34,14 @@
   </issueManagement>
   <developers>
   	<developer>
-  		<name>Warren Turkal</name>
+  		<name>Peng Ying</name>
   		<organization>Google, Inc.</organization>
   		<roles>
   			<role>Lead Maintainer</role>
   		</roles>
   	</developer>
   	<developer>
-  		<name>Shabsi Walfish</name>
+  		<name>Igor Ginzburg</name>
   		<organization>Google, Inc.</organization>
   	</developer>
   </developers>
@@ -63,8 +63,8 @@
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.0.2</version>
         <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
+          <source>1.6</source>
+          <target>1.6</target>
         </configuration>
       </plugin>
       <plugin>
