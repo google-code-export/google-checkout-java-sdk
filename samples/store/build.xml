@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project name="store" default="default" basedir=".">
-    <description>Builds, tests, and runs the project store.</description>
-    <import file="nbproject/build-impl.xml"/>
-    
-    <target name="-post-compile" depends="init">
-      <copy file="src/conf/struts.xml" todir="${build.classes.dir}"/>
-    </target>
-</project>
