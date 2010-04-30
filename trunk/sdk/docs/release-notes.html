@@ -1,0 +1,105 @@
+<html>
+  <head>
+    <h2>Google Checkout Java SDK - Release Notes</h2>
+  </head>
+  
+  <body>
+    
+    <h3>Changes from 0.8.9 to 2.5.0</h3>
+    <ol>
+      <li>Rewrote most of the SDK, making it easier to use and maintain.</li>
+      <li>Domain objects are now generated from Checkout's XSD, so they will be more complete and will stay up to date with new features.</li>
+      <li>Use builder pattern to build and post commands to Checkout.</li>
+      <li>Simple, extensible framework for receiving notifications.</li>
+      <li>This change is not backwards compatible, so we will keep the 0.8.9 branch around.</li>
+    </ol>
+
+    <h3>Changes from 0.8.7 to 0.8.8</h3>
+    <ol>
+      <li>Added timezone support for cart expiration as per <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=48">Issue 48</a></li>
+      <li>Fixed quantity formatting issue as per <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=50">Issue 50</a></li>
+      <li>CheckoutNotification is not Serializable, see <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=51">Issue 51</a></li>
+      <li>Fixed addParameterURL NullPointerException, see <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=52">Issue 52</a></li>
+      <li>Added support for structured name as per <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=53">Issue 53</a></li>
+      <li>Added reason and comment to CancelItemsRequest, see <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=54">Issue 54</a></li>
+      <li>Cleaned up the unit tests a bit.</li>
+    </ol>
+
+    <h3>Changes from 0.8.6 to 0.8.7</h3>
+    <ol>
+      <li>Fixed Issue 33 <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=33">Issue 33</a></li>
+    </ol>
+    
+    <h3>Changes from 0.8.5 to 0.8.6</h3>
+    <ol>
+      <li>Fixed Issue 31 <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=31">Issue 31</a></li>
+      <li>Fixed Issue 32 <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=32">Issue 32</a></li>
+    </ol>
+
+    <h3>Changes from 0.8.4 to 0.8.5</h3>
+    <ol>
+      <li>Fixed Issue 25 <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=25">Issue 25</a></li>
+      <li>Fixed Issue 28 <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=28">Issue 28</a></li>
+      <li>Fixed Issue 30<a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=30">Issue 30</a></li>
+    </ol>
+
+    <h3>Changes from 0.8.3 to 0.8.4</h3>
+    <ol>
+      <li>Added a NotificationFactory as per <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=20">Issue 20</a></li>
+      <li>Improving exception handling as per <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=21">Issue 21</a></li>
+      <li>Addressed naming convention and added object astraction layer to better represent XML schema as per <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=22">Issue 22</a></li>
+    </ol>
+
+    <h3>Changes from 0.8.2 to 0.8.3</h3>
+    <ol>
+      <li>0.8.2 actually did not fix  <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=13">issue 13</a>.  This is now resolved.</li>
+    </ol>
+
+    <h3>Changes from 0.8.1 to 0.8.2</h3>
+    <ol>
+      <li>Another fix relating to <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=13">issue 13</a></li>
+      <li>Log invalid URL as requested in <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=12">issue 12</a></li>
+      <li>Add support for &lt;tax-areas&gt; tag.</li>
+    </ol>
+
+    <h3>Changes from 0.8 to 0.8.1</h3>
+    <ol>
+      <li>Fixed float formatting bug as per <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=13">issue 13</a></li>
+      <li>Added support for the new URL scheme as per <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=14">issue 14</a></li>
+    </ol>
+    
+    <h3>Changes from 0.7.1 to 0.8</h3>
+    <ol>
+      <li>Added support for Digital Delivery</li>
+      <li>Added support for Line Item Shipping as per <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=7">issue 7</a></li>
+      <li>Added support for Carrier Calculated Shipping</li>
+      <li>Changed Shopping Cart Builder JSP so that Cart XML is editable</li>
+    </ol>
+    
+    <h3>Changes from 0.7 to 0.7.1</h3>
+    <ol>
+      <li>Fixed <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=3">issue 3</a>: Missing indent.xsl file in the checkout-sdk.jar file.</li>
+      <li>Fixed <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=4">issue 4</a>: Access to 'document' variables in CheckoutShoppingCartRequest and MerchantCalculationResults classes.</li>
+      <li>Fixed <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=6">issue 5</a>: Broken class references in the web.xml file.</li>
+    </ol>
+
+    <h3>Changes from 0.6 to 0.7</h3>
+    <ol>
+      <li>Added support for Address Filters</li>
+      <li>Fixed <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=1&can=1">issue 1</a>: Sandbox URL hardcoded in DeliverOrderRequest.java.</li>
+      <li>Fixed <a href="http://code.google.com/p/google-checkout-java-sdk/issues/detail?id=2">issue 2</a>: <span class="h3">Special characters aren't UTF-8 encoded</span>.</li>
+    </ol>
+
+    <h3>Changes from 0.6 to 0.5</h3>
+    <ol>
+      <li>Added a new sample called <span style="font-style: italic;">simple</span>.</li>
+      <li>Changed the package names for all the handlers.</li>
+    </ol>
+
+    <h3>Changes in 0.5</h3>
+    <ol>
+      <li>Initial creation of the project and handlers based framework.</li>
+      <li>Created NetBeans and Eclipse projects.</li>
+    </ol>
+  </body>
+</html>
