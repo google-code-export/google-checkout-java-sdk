@@ -23,17 +23,16 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * Given a key object, returns a unique lock object for the set of objects that
  * are equal (in the {@link #equals(Object)} sense) to it. This allows
- * synchronization on objects received across the wire. 
- * 
-*
+ * synchronization on objects received across the wire.
+ *
  */
 public class Uniquifier<K> {
   private final ConcurrentMap<K, Lock> elements;
-  
+
   public Uniquifier() {
     elements = new ConcurrentHashMap<K, Lock>();
   }
-  
+
   /**
    * @param key The object whose equality class should be detected.
    * @return The unique lock for the equality class corresponding to {@code key}.

@@ -48,12 +48,11 @@ import java.math.BigDecimal;
  * purchase by listening for notifications, which
  * {@link ApiContext#handleNotification(com.google.checkout.sdk.notifications.BaseNotificationDispatcher)}
  * can help with.
- * 
-*
+ *
  * @see ApiContext#cartPoster()
  */
 public class CartPoster {
-  
+
   private final ApiContext apiContext;
 
   CartPoster(ApiContext apiContext) {
@@ -66,7 +65,7 @@ public class CartPoster {
   public CheckoutShoppingCartBuilder makeCart() {
     return new CheckoutShoppingCartBuilder(this);
   }
-  
+
   /**
    * Post Cart object to Google Checkout.
    * @param cart The Checkout Shopping Cart object.
@@ -85,7 +84,7 @@ public class CartPoster {
    * <p>A helper for constructing and sending Checkout Shopping Carts to Google
    * Checkout. An example of use:
    * <code>
-   * ApiContext apiContext = new ApiContext(...); 
+   * ApiContext apiContext = new ApiContext(...);
    * CheckoutRedirect redirect =
    *    apiContext.cartPoster().makeCart() // creates a CheckoutShoppingCartBuilder
    *        .addItem(
@@ -120,7 +119,7 @@ public class CartPoster {
    * {@link CheckoutShoppingCart} manually, ignoring this class.</p>
    * <p>It is an error to invoke any methods on this class after {@link #build()}
    * or {@link #buildAndPost()} have been invoked.</p>
-   * 
+   *
    * @see CartPoster#makeCart()
    */
   public static final class CheckoutShoppingCartBuilder {
@@ -128,14 +127,14 @@ public class CartPoster {
     private ShoppingCart shoppingCart;
     private OrderProcessingSupport orderProcessingSupport;
     private boolean hasBeenBuilt;
-    
+
     CheckoutShoppingCartBuilder(CartPoster cartPoster) {
       this.cartPoster = cartPoster;
       this.shoppingCart = new ShoppingCart();
       this.hasBeenBuilt = false;
       shoppingCart.setItems(new Items());
     }
-    
+
     /**
      * Adds a line-item to be purchased.
      * @return This builder.
@@ -172,7 +171,7 @@ public class CartPoster {
       shoppingCart.getItems().getItem().add(item);
       return this;
     }
-    
+
     /**
      * Create -- but do not post! -- the constructed cart. After this method is
      * invoked, you may not use this Builder anymore.
@@ -188,7 +187,7 @@ public class CartPoster {
       checkoutShoppingCart.setOrderProcessingSupport(orderProcessingSupport);
       return checkoutShoppingCart;
     }
-    
+
 
     /**
      * Posts the constructed cart to Google Checkout. This is implemented as

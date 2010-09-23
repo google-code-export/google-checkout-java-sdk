@@ -44,15 +44,14 @@ import javax.xml.bind.JAXBElement;
 
 /**
  * Implements {@link OrderCommands}.
- * 
-*
+ *
  */
 class OrderCommandsImpl implements OrderCommands {
-  
+
   private final ApiContext apiContext;
   private final String googleOrderNumber;
   private final Boolean sendEmails;
-  
+
   public OrderCommandsImpl(ApiContext apiContext, String googleOrderNumber) {
     this(apiContext, googleOrderNumber, null);
   }
@@ -72,7 +71,7 @@ class OrderCommandsImpl implements OrderCommands {
     cancelOrder.setReason(reason);
     return postCommand(cancelOrder.toJAXB()).getOrderStateChangeNotification();
   }
-  
+
   @Override
   public RefundAmountNotification refundOrder(
       String reason) throws CheckoutException {
@@ -137,7 +136,7 @@ class OrderCommandsImpl implements OrderCommands {
   public ChargeAmountNotification chargeAndShipOrder() throws CheckoutException {
     return chargeAndShipOrder(null, (TrackingDataBuilder)null);
   }
-  
+
   @Override
   public ChargeAmountNotification chargeAndShipOrder(
       double amount) throws CheckoutException {
@@ -150,13 +149,13 @@ class OrderCommandsImpl implements OrderCommands {
       BigDecimal bigDecimal) throws CheckoutException {
     return chargeAndShipOrder(bigDecimal, (TrackingDataBuilder)null);
   }
-  
+
   @Override
   public ChargeAmountNotification chargeAndShipOrder(
       TrackingDataBuilder shipping) throws CheckoutException {
     return chargeAndShipOrder(null, shipping);
   }
-  
+
   @Override
   public ChargeAmountNotification chargeAndShipOrder(
       double amount, TrackingDataBuilder shipping) throws CheckoutException {
@@ -186,7 +185,7 @@ class OrderCommandsImpl implements OrderCommands {
       ItemShippingInformationBuilder shipping) throws CheckoutException {
     return chargeAndShipOrder(amount, shipping, null);
   }
-  
+
   private ChargeAmountNotification chargeAndShipOrder(
       BigDecimal amount, ItemShippingInformationBuilder itemShipping, TrackingDataBuilder orderShipping)
         throws CheckoutException {
@@ -210,7 +209,7 @@ class OrderCommandsImpl implements OrderCommands {
     }
     return postCommand(chargeShipRequest.toJAXB()).getChargeAmountNotification();
   }
-  
+
   @Override
   public void shipItems(ItemShippingInformationBuilder shipping)
       throws CheckoutException {
@@ -224,27 +223,27 @@ class OrderCommandsImpl implements OrderCommands {
     shipItemsRequest.setSendEmail(sendEmails);
     postCommand(shipItemsRequest.toJAXB());
   }
-  
+
   @Override
   public void archiveOrder() {
     ArchiveOrderRequest archiveOrderRequest = new ArchiveOrderRequest();
     archiveOrderRequest.setGoogleOrderNumber(googleOrderNumber);
     postCommand(archiveOrderRequest.toJAXB());
   }
-  
+
   @Override
   public void unarchiveOrder() {
     UnarchiveOrderRequest unarchiveOrderRequest = new UnarchiveOrderRequest();
     unarchiveOrderRequest.setGoogleOrderNumber(googleOrderNumber);
     postCommand(unarchiveOrderRequest.toJAXB());
   }
-  
+
   @Override
   public OrderSummary getOrderSummary() {
     return apiContext.reportsRequester().requestOrderSummaries(
         Collections.singletonList(googleOrderNumber)).get(0);
   }
-  
+
   class ItemCommandsImpl implements ItemCommands {
 
     private final OrderCommandsImpl commandPoster;
@@ -305,7 +304,7 @@ class OrderCommandsImpl implements OrderCommands {
       commandPoster.shipItems(shippingBuilder);
     }
   }
-  
+
   protected RequestReceivedResponse postCommand(JAXBElement<?> command) {
     return (RequestReceivedResponse) apiContext.postCommand(
         CommandType.ORDER_PROCESSING, command);

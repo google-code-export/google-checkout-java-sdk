@@ -23,8 +23,7 @@ import java.util.concurrent.locks.Lock;
 
 /**
  * Test the Uniquifier class.
- * 
-*
+ *
  */
 public class UniquifierTest extends TestCase {
   public void testUnequalObjects() {
@@ -45,7 +44,7 @@ public class UniquifierTest extends TestCase {
     Lock lockb = uniquifier.getLock(b);
     assertSame(locka, lockb);
   }
-  
+
   protected int get1234() {
     return 1234;
   }

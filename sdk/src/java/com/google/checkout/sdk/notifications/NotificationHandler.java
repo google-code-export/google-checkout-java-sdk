@@ -40,7 +40,6 @@ import javax.servlet.http.HttpServletResponse;
  *   }
  * }
  * </code>
-*
  */
 public class NotificationHandler extends BaseNotificationHandler {
   private static final String SERIAL_NUMBER_PARAMETER = "serial-number";

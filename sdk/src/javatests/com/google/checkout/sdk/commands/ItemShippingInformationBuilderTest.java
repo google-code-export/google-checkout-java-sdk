@@ -23,7 +23,6 @@ import junit.framework.TestCase;
 import java.util.List;
 
 /**
-*
  */
 public class ItemShippingInformationBuilderTest extends TestCase {
 
@@ -35,10 +34,10 @@ public class ItemShippingInformationBuilderTest extends TestCase {
     assertEquals("merchantItemId", build.get(0).getItemId().getMerchantItemId());
     List<TrackingData> trackingData = build.get(0).getTrackingDataList().getTrackingData();
     assertEquals(1, trackingData.size());
-    assertEquals("c", trackingData.get(0).getCarrier());    
+    assertEquals("c", trackingData.get(0).getCarrier());
     assertEquals("tn", trackingData.get(0).getTrackingNumber());
   }
-  
+
   public void testBuilderManyItems() {
     ItemShippingInformationBuilder builder = new ItemShippingInformationBuilder();
     builder.addShipping("mid1", new TrackingDataBuilder().addTrackingData("c1", "tn1"));
@@ -51,13 +50,13 @@ public class ItemShippingInformationBuilderTest extends TestCase {
     List<ItemShippingInformation> build = builder.build();
     ItemShippingInformation elem = null;
     assertEquals(3, build.size());
-    
+
     elem = build.get(0);
     assertEquals("mid1", elem.getItemId().getMerchantItemId());
     assertEquals(1, elem.getTrackingDataList().getTrackingData().size());
     assertEquals("c1", getTrackingData(elem, 0).getCarrier());
     assertEquals("tn1", getTrackingData(elem, 0).getTrackingNumber());
-    
+
     elem = build.get(1);
     assertEquals("mid2", elem.getItemId().getMerchantItemId());
     assertEquals(2, elem.getTrackingDataList().getTrackingData().size());
@@ -65,7 +64,7 @@ public class ItemShippingInformationBuilderTest extends TestCase {
     assertEquals("tn2a", getTrackingData(elem, 0).getTrackingNumber());
     assertEquals("c2b", getTrackingData(elem, 1).getCarrier());
     assertEquals("tn2b", getTrackingData(elem, 1).getTrackingNumber());
-    
+
     elem = build.get(2);
     assertEquals("mid1", elem.getItemId().getMerchantItemId());
     assertEquals(2, elem.getTrackingDataList().getTrackingData().size());
@@ -77,5 +76,5 @@ public class ItemShippingInformationBuilderTest extends TestCase {
 
   private TrackingData getTrackingData(ItemShippingInformation elem, int tdIndex) {
     return elem.getTrackingDataList().getTrackingData().get(tdIndex);
-  }  
+  }
 }

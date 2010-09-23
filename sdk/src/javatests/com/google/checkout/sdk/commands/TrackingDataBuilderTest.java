@@ -22,7 +22,6 @@ import junit.framework.TestCase;
 import java.util.List;
 
 /**
-*
  */
 public class TrackingDataBuilderTest extends TestCase {
   public void testBuilderOnce() {
@@ -33,7 +32,7 @@ public class TrackingDataBuilderTest extends TestCase {
     assertEquals("carrier1", build.get(0).getCarrier());
     assertEquals("trackingNumber1", build.get(0).getTrackingNumber());
   }
-  
+
   public void testBuilderTwice() {
     TrackingDataBuilder builder = new TrackingDataBuilder();
     builder.addTrackingData("carrier1", "trackingNumber1");
@@ -45,13 +44,13 @@ public class TrackingDataBuilderTest extends TestCase {
     assertEquals("carrier2", build.get(1).getCarrier());
     assertEquals("trackingNumber2", build.get(1).getTrackingNumber());
   }
-  
+
   public void testBuilderNone() {
     TrackingDataBuilder builder = new TrackingDataBuilder();
     List<TrackingData> build = builder.build();
     assertEquals(0, build.size());
   }
-  
+
   public void testBuilderInternalCarrierNulls() {
     TrackingDataBuilder builder = new TrackingDataBuilder();
     builder.addTrackingData("carrier", null);

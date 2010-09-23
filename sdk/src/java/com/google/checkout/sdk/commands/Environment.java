@@ -18,14 +18,13 @@ package com.google.checkout.sdk.commands;
 /**
  * An implementation of EnvironmentInterface that builds itself
  * from format strings.
- * 
+ *
  * Use the constants {@link #PRODUCTION} and {@link #SANDBOX} for the
  * appropriate environments. Since merchant ID and merchant key values are
  * different in these environments, it's a good idea to reference this class
  * only when you are creating an {@link ApiContext}, since then you can ensure
  * that all three (id, key, and environment) match.
- * 
-*
+ *
  */
 public class Environment implements EnvironmentInterface {
   /**
@@ -36,7 +35,7 @@ public class Environment implements EnvironmentInterface {
       "https://checkout.google.com/api/checkout/v2/merchantCheckout/Merchant/%s",
       "https://checkout.google.com/api/checkout/v2/request/Merchant/%s",
       "https://checkout.google.com/api/checkout/v2/reports/Merchant/%s");
-  
+
   /**
    * The test Checkout environment. This environment does not authenticate
    * credit cards, does not charge anyone, and cannot generate real revenue.
@@ -68,7 +67,7 @@ public class Environment implements EnvironmentInterface {
     this.orderProcessingUrlFormatString = postPurchaseUrlFormatString;
     this.reportsUrlFormatString = reportsUrlFormatString;
   }
-  
+
   /**
    * You should never have to directly invoke this method. Instead, it's used
    * by {@link ApiContext}'s helper objects to, ultimately, communicate with

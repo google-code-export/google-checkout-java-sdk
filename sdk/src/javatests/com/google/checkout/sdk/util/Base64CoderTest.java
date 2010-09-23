@@ -21,8 +21,7 @@ import junit.framework.TestCase;
 
 /**
  * Tests Base64 encoding utilities.
- * 
-*
+ *
  */
 public class Base64CoderTest extends TestCase {
   private final String CURRENCIES = "$\t\u00A3\n\u00A5\u20AC";

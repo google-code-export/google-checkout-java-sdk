@@ -31,18 +31,17 @@ import javax.servlet.http.HttpServletResponse;
  * can go forward at a time (ie, very basic transactions).</p>
  * <p>This does not persist across JVM invocations since it's in memory, and so
  * shouldn't be used in production systems.</p>
- * 
-*
+ *
  */
 public class InMemoryNotificationDispatcher extends BaseNotificationDispatcher {
   public static final Uniquifier<String> STATIC_UNIQUIFIER = new Uniquifier<String>();
   public static final ConcurrentMap<String, String> STATIC_SUCCESSFULLY_HANDLED =
       new ConcurrentHashMap<String, String>();
-  
+
   private final Uniquifier<String> uniquifier;
   private final ConcurrentMap<String, String> successfullyHandled;
   private Lock lock;
-  
+
   /**
    * Creates an InMemory dispatcher to handle the given request using the static uniquifier
    * and successfully handled map.
@@ -50,7 +49,7 @@ public class InMemoryNotificationDispatcher extends BaseNotificationDispatcher {
   public InMemoryNotificationDispatcher(HttpServletRequest request, HttpServletResponse response) {
     this(STATIC_UNIQUIFIER, STATIC_SUCCESSFULLY_HANDLED, request, response);
   }
-  
+
   public InMemoryNotificationDispatcher(
       Uniquifier<String> uniquifier, ConcurrentMap<String, String> successfullyHandled,
       HttpServletRequest request, HttpServletResponse response) {
@@ -66,7 +65,7 @@ public class InMemoryNotificationDispatcher extends BaseNotificationDispatcher {
     lock = uniquifier.getLock(serialNumber);
     lock.lock();
   }
-  
+
   @Override
   public boolean hasAlreadyHandled(String serialNumber, OrderSummary orderSummary,
       Notification notification) throws Exception {
@@ -85,7 +84,7 @@ public class InMemoryNotificationDispatcher extends BaseNotificationDispatcher {
       throws Exception {
     lock.unlock();
   }
-  
+
   @Override
   public void rollBackTransaction(String serialNumber, OrderSummary orderSummary,
       Notification notification) throws Exception {

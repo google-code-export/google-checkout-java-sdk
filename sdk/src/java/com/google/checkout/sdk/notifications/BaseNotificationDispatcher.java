@@ -80,7 +80,6 @@ import javax.servlet.http.HttpServletResponse;
  * }
  * </code>
  * </p>
-*
  */
 public abstract class BaseNotificationDispatcher {
   final HttpServletRequest request;

@@ -38,8 +38,7 @@ import java.util.List;
  * <p>All methods except for {@link #itemCommands} methods will actually take
  * action against Google Checkout before they return, and will return any
  * response Checkout makes.</p>
- * 
-*
+ *
  */
 public interface OrderCommands {
 
@@ -66,13 +65,13 @@ public interface OrderCommands {
    */
   RefundAmountNotification refundOrder(
       String reason) throws CheckoutException;
-  
+
   /**
    * @see #refundOrder(String, BigDecimal)
    */
   RefundAmountNotification refundOrder(
       String reason, double amount) throws CheckoutException;
-  
+
   /**
    * Refund the specified amount (which must be less than or equal to the
    * currently charged amount) of an order.
@@ -93,13 +92,13 @@ public interface OrderCommands {
    * @throws CheckoutException If underlying communication throws an exception.
    */
   ChargeAmountNotification chargeAndShipOrder() throws CheckoutException;
-  
+
   /**
    * @see #chargeAndShipOrder(BigDecimal)
    */
   ChargeAmountNotification chargeAndShipOrder(
       double amount) throws CheckoutException;
-  
+
   /**
    * Charge an order in the specified amount -- which must be less than or equal
    * to the total value of the order minus the currently charged amount -- and
@@ -114,7 +113,7 @@ public interface OrderCommands {
 
   /**
    * Entirely charge an order and mark all items in it as shipped using the
-   * specified tracking data. 
+   * specified tracking data.
    * @param shipping The package tracking data.
    * @return The XML object representing this change, which can be used to learn
    *    fee information.
@@ -122,7 +121,7 @@ public interface OrderCommands {
    */
   ChargeAmountNotification chargeAndShipOrder(
       TrackingDataBuilder shipping) throws CheckoutException;
-  
+
   /**
    * @see #chargeAndShipOrder(BigDecimal, TrackingDataBuilder)
    */
@@ -132,7 +131,7 @@ public interface OrderCommands {
   /**
    * Charge an order in the specified amount -- which must be less than or equal
    * to the total value of the order minus the currently charged amount -- and
-   * mark all items in it as shipped using the specified tracking data. 
+   * mark all items in it as shipped using the specified tracking data.
    * @param amount The amount to charge.
    * @param shipping The package tracking data.
    * @return The XML object representing this change, which can be used to learn
@@ -153,13 +152,13 @@ public interface OrderCommands {
    */
   ChargeAmountNotification chargeAndShipOrder(
       ItemShippingInformationBuilder shipping) throws CheckoutException;
-  
+
   /**
    * @see #chargeAndShipOrder(BigDecimal, ItemShippingInformationBuilder)
    */
   ChargeAmountNotification chargeAndShipOrder(
       double amount, ItemShippingInformationBuilder shipping) throws CheckoutException;
-  
+
   /**
    * Charge an order in the specified amount -- which must be less than or equal
    * to the total value of the order minus the currently charged amount -- and
@@ -174,7 +173,7 @@ public interface OrderCommands {
   ChargeAmountNotification chargeAndShipOrder(
       BigDecimal amount, ItemShippingInformationBuilder shipping) throws CheckoutException;
 
-  
+
   /**
    * Requests an additional auth of an order. <i>This method only appears to be
    * synchronous!</i> It returns after communicating with Google Checkout, but
@@ -186,7 +185,7 @@ public interface OrderCommands {
    * @throws CheckoutException If underlying communication throws an exception.
    */
   void authorizeOrder() throws CheckoutException;
-  
+
   /**
    * Mark specified items as shipped according to the
    * {@link ItemShippingInformationBuilder}. This may leave some items unshipped.
@@ -209,7 +208,7 @@ public interface OrderCommands {
    * @throws CheckoutException If underlying communication throws an exception.
    */
   void unarchiveOrder() throws CheckoutException;
-  
+
   /**
    * Convenience method. This will fetch the Order Summary element for this
    * order, equivalent to {@link ReportsRequester#requestNotification(String)}.
@@ -235,7 +234,7 @@ public interface OrderCommands {
    * @throws CheckoutException If underlying communication throws an exception.
    */
   ItemCommands itemCommands(String... itemIds) throws CheckoutException;
-  
+
   /**
    * Returns an {@link ItemCommands} object for this order and the specified
    * merchant item ids.
@@ -266,18 +265,17 @@ public interface OrderCommands {
    * {@link OrderCommands#shipItems}. If you wish to ship individual items each
    * with their own tracking data, consider the latter, as it is more expressive.
    * </p>
-   * 
-  *
+   *
    * @see OrderCommands#itemCommands
    */
   public static interface ItemCommands {
-    
+
     /**
      * @param reason Why the items are being canceled
      * @throws CheckoutException If underlying communication throws an exception.
      */
     void cancelItems(String reason) throws CheckoutException;
-    
+
     /**
      * @throws CheckoutException If underlying communication throws an exception.
      */

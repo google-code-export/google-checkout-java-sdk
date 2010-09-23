@@ -27,7 +27,7 @@ import java.util.List;
  * Builder object for List{ItemShippingInformation}. This allows you to inform
  * Google Checkout of item-level shipping orders, allowing your buyers to see
  * shipping information on a per-item basis.
- * 
+ *
  * Shouldn't be reused, isn't threadsafe, etc; its intended use is in
  * {@link OrderCommands#chargeAndShipOrder(ItemShippingInformationBuilder)}
  * where it can be used as:
@@ -37,9 +37,8 @@ import java.util.List;
  * commandPoster.postChargeOrder(new ShippingInformationBuilder()
  *     .addShipping("itemId",
  *         new TrackingDataBuilder().addShipping("USPS", "1234")));
- * </code> 
- * 
-*
+ * </code>
+ *
  */
 public class ItemShippingInformationBuilder {
   private final List<ItemShippingInformation> shippingDatas = new ArrayList<ItemShippingInformation>();
@@ -57,10 +56,10 @@ public class ItemShippingInformationBuilder {
     trackingDataList.getTrackingData().addAll(build);
     shippingInformation.setTrackingDataList(trackingDataList);
     shippingDatas.add(shippingInformation);
-    
+
     return this;
   }
-  
+
   List<ItemShippingInformation> build() {
     return shippingDatas;
   }

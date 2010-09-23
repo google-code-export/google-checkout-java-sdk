@@ -28,8 +28,7 @@ import javax.xml.bind.JAXBElement;
 
 /**
  * Makes and posts Google Checkout report requests.
- * 
-*
+ *
  */
 public class ReportsRequester {
 
@@ -74,12 +73,12 @@ public class ReportsRequester {
     OrderSummaryRequest.OrderNumbers orderNumbers = new OrderSummaryRequest.OrderNumbers();
     orderNumbers.getGoogleOrderNumber().addAll(googleOrderNumbers);
     request.setOrderNumbers(orderNumbers);
-    
+
     OrderSummaryResponse response = (OrderSummaryResponse)postRequest(request.toJAXB());
-    
+
     return response.getOrderSummaries().getOrderSummary();
   }
-  
+
   protected Object postRequest(JAXBElement<?> request) {
     return apiContext.postCommand(CommandType.REPORTS, request);
   }

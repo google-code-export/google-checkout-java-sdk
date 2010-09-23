@@ -23,15 +23,14 @@ import java.text.MessageFormat;
 /**
  * Signal that an unexpected (exceptional) response was received from a remote
  * server.
- * 
-*
+ *
  */
 public class HttpUrlException extends CheckoutException {
   private final URL toUrl;
   private final int responseCode;
   private final Object triedToSend;
-  private final Object responseMessage;  
-  
+  private final Object responseMessage;
+
   public HttpUrlException(URL toUrl, int responseCode, Object sent, Object received, Throwable causedBy) {
     super(causedBy);
     this.toUrl = toUrl;
@@ -45,16 +44,16 @@ public class HttpUrlException extends CheckoutException {
     return MessageFormat.format(Utils.SEND_AND_RECEIVE_DEBUGGING_STRING,
         responseCode, toUrl, triedToSend, responseMessage);
   }
-  
+
   public int getCode() {
     return responseCode;
   }
-  
+
   public String getSent() {
     return triedToSend.toString();
   }
 
   public String getResponse() {
     return responseMessage.toString();
-  }  
+  }
 }

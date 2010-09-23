@@ -37,8 +37,7 @@ import javax.xml.bind.JAXBElement;
  * The integration between a merchant's system and Google Checkout. This class
  * holds configuration parameters (Merchant Id, Merchant Key, etc), and knows
  * how to formulate and post Google Checkout API commands using these values.
- * 
-*
+ *
  */
 public class ApiContext {
 
@@ -46,7 +45,7 @@ public class ApiContext {
   protected final String merchantId;
   protected final String merchantKey;
   protected final String currencyCode;
-  
+
   /**
    * Creates a new ApiContext.
    * @param environment The environment, such as {@link Environment#SANDBOX} or
@@ -68,7 +67,7 @@ public class ApiContext {
     this.merchantKey = merchantKey;
     this.currencyCode = currencyCode;
   }
-  
+
   /**
    * @return The merchantId as passed in the constructor.
    */
@@ -89,11 +88,11 @@ public class ApiContext {
   public String getMerchantCurrencyCode() {
     return this.currencyCode;
   }
-  
+
   public EnvironmentInterface getEnvironment() {
     return this.environment;
   }
-  
+
   /**
    * @return A helper object for posting server-to-server shopping carts to
    *    Google Checkout given this configuration. Buyers can then purchase these
@@ -124,7 +123,7 @@ public class ApiContext {
   public OrderCommands noEmailsOrderCommands(String googleOrderNumber) {
     return new OrderCommandsImpl(this, googleOrderNumber, false);
   }
-  
+
   /**
    * @return A helper object for fetching notifications and events for this
    *    configuration.
@@ -132,11 +131,11 @@ public class ApiContext {
   public ReportsRequester reportsRequester() {
     return new ReportsRequester(this);
   }
-  
+
   /**
    * <p>Uses the given notification dispatcher to handle a notification POST for
    * Checkout.  Can handle XML, HTML and serial-number notifications.</p>
-   * 
+   *
    * <p>To handle notifications, extend the {@link BaseNotificationDispatcher}
    * class with your business-specific logic.  Then, in a {@code Servlet} that's
    * handling the {@code POST} from Checkout, pass in a new instance of your
@@ -145,7 +144,7 @@ public class ApiContext {
    * public class MyServlet extends HttpServlet {
    *   public void doPost(HttpServletRequest request, HttpServletResponse response) {
    *     apiContext.handleNotification(
-   *          new MyNotificationDispatcher(request, response)); 
+   *          new MyNotificationDispatcher(request, response));
    *   }
    * }
    * </code>
@@ -155,17 +154,17 @@ public class ApiContext {
    * to Checkout notifications with an acknowledgment message.</p>
    * @param notificationDispatcher A new instance of an object which handles
    *    business logic and possibly transactional logic in response to
-   *    Google Checkout notifications. 
+   *    Google Checkout notifications.
    * @throws CheckoutException if the {@code notificationDispatcher} methods
    *    throw an exception. Importantly, this method will not throw any
    *    exceptions at all if there is an error while responding to Google
-   *    Checkout after handling the notification. 
+   *    Checkout after handling the notification.
    */
   public void handleNotification(
       BaseNotificationDispatcher notificationDispatcher) throws CheckoutException {
     new NotificationHandler(this).handleNotification(notificationDispatcher);
   }
-  
+
   /**
    * @return The contents of the Authorization header line for a correctly
    *    authenticated Google Checkout command. These take the form
@@ -178,30 +177,30 @@ public class ApiContext {
         new StringBuffer(getMerchantId()).append(":").append(getMerchantKey())
         .toString());
   }
-  
+
   /**
    * @param auth An authorization header.
-   * @return If {@link #getHttpAuth} would return the equivalent value.  
+   * @return If {@link #getHttpAuth} would return the equivalent value.
    */
   public boolean isValidAuth(String auth) {
     return getHttpAuth().equals(auth);
   }
-  
+
   /**
    * @param value The amount of Money in question; 1.0 is 1 unit of whichever
    *    currency {@link #getMerchantCurrencyCode()} reveals.
    *    {@code makeMoney(new BigDecimal("0.01"))} represents 1 US cent, for
-   *    instance. 
+   *    instance.
    * @return A Money object of the correct {@code value}.
    */
   public Money makeMoney(BigDecimal value) {
     Money money = new Money();
     money.setCurrency(getMerchantCurrencyCode());
     money.setValue(Utils.normalize(value));
-    
+
     return money;
   }
-  
+
   /**
    * Creates a Money object for use in other commands. This is a helper for
    * tests: real, production systems should not use {@code double} values for
@@ -209,7 +208,7 @@ public class ApiContext {
    * Consider using {@link #makeMoney(BigDecimal)} instead.
    * @param value The amount of Money in question; 1.0 is 1 unit of whichever
    *    currency {@link #getMerchantCurrencyCode()} reveals.
-   *    {@code makeMoney(0.01)} represents 1 US cent, for instance. 
+   *    {@code makeMoney(0.01)} represents 1 US cent, for instance.
    * @return A Money object of the correct {@code value}.
    */
   public Money makeMoney(double value) {
@@ -263,7 +262,7 @@ public class ApiContext {
     }
     return connection;
   }
-  
+
   /**
    * Does the actual act of opening a connection. Particularly for
    * testing, this method may be overridden to not use real URL objects, but

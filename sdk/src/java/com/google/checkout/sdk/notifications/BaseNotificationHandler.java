@@ -37,13 +37,12 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Superclass for notification handling: contains useful utilities, but no
  * public methods.
- * 
-*
+ *
  */
 class BaseNotificationHandler {
   protected static final Logger logger =
     Logger.getLogger(NotificationHandler.class.getName());
-  
+
   /**
    * Calls one of the onFooNotification() methods on the given dispatcher.
    */
@@ -74,12 +73,12 @@ class BaseNotificationHandler {
       dispatchUnknownNotification(notification, orderSummary, dispatcher);
     }
   }
-  
+
   protected void dispatchUnknownNotification(Notification notification, OrderSummary orderSummary,
       BaseNotificationDispatcher dispatcher) throws Exception {
     throw new CheckoutException("Unrecognized notification type " + notification);
   }
-  
+
   /**
    * Sends a NotificationAcknowledgment with the given serial number.
    * @throws Exception if the acknowledgment could not be sent.
@@ -88,9 +87,9 @@ class BaseNotificationHandler {
       Notification notification, HttpServletRequest request) throws Exception {
     NotificationAcknowledgment ack = new NotificationAcknowledgment();
     ack.setSerialNumber(serialNumber);
-    
+
     Utils.toXML(ack.toJAXB(), response.getOutputStream());
-    
+
     logger.log(Level.INFO,
         "Sent response ack:\n" + Utils.SEND_AND_RECEIVE_DEBUGGING_STRING,
         new Object[]{200, request.getRemoteAddr(), notification, ack});

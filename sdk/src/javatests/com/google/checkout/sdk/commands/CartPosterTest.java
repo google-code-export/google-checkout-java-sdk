@@ -26,8 +26,7 @@ import java.util.List;
 
 /**
  * Tests for creating Google Checkout shopping carts.
- * 
-*
+ *
  */
 public class CartPosterTest extends AbstractCommandTestCase {
   public void testCartPosterDoublePrice() {
@@ -51,7 +50,7 @@ public class CartPosterTest extends AbstractCommandTestCase {
      assertEquals(10.0, item.getUnitPrice().getValue().doubleValue());
      assertEquals(1, item.getQuantity());
   }
-  
+
   public void testCartPosterBignumPrice() {
     CheckoutShoppingCart checkoutShoppingCart =
       apiContext().cartPoster()
@@ -74,34 +73,34 @@ public class CartPosterTest extends AbstractCommandTestCase {
         item.getUnitPrice().getValue().doubleValue());
     assertEquals(1, item.getQuantity());
   }
-  
+
   public final String REDIRECT_URL = "http://checkout.google.com/redirect";
-  
+
   public void testBuildAndPost() {
     TestingApiContext apiContext = apiContext(
         "<checkout-redirect xmlns=\"http://checkout.google.com/schema/2\" serial-number=\"123456\"><redirect-url>" +
           REDIRECT_URL +
         "</redirect-url></checkout-redirect>");
-    
+
     String redirectUrl = apiContext.cartPoster()
       .makeCart()
       .addItem("itemName", "itemDescription", BigDecimal.valueOf(10.0), 1)
       .buildAndPost().getRedirectUrl();
-   
+
     assertEquals(REDIRECT_URL, redirectUrl);
-    
+
     assertTrue(apiContext.getOutput().contains("checkout-shopping-cart"));
     assertTrue(apiContext.getOutput().contains("itemName"));
     assertTrue(apiContext.getOutput().contains("itemDescription"));
     assertTrue(apiContext.getOutput().contains("<unit-price currency=\"XXX\">10</unit-price>"));
   }
-  
+
   public void testCartPosterMultipleBuilds() {
     CheckoutShoppingCartBuilder builder =
       apiContext().cartPoster()
         .makeCart()
         .addItem("itemName", "itemDescription", BigDecimal.valueOf(10.0), 1);
-    
+
     builder.build();
     try {
       builder.build();
