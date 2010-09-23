@@ -34,8 +34,7 @@ import java.net.URL;
  * Base test for all Command classes. Because the builder hierarchy is rooted
  * at the ApiContext, this provides one set up for a pretend merchant in a
  * pretend environment (easily testable!); it also disables actual network traffic.
- * 
-*
+ *
  */
 public class AbstractCommandTestCase extends TestCase {
   protected static final String BASE64_ENCODED_ID_AND_KEY =
@@ -61,7 +60,7 @@ public class AbstractCommandTestCase extends TestCase {
         new ByteArrayOutputStream(),
         new ByteArrayInputStream(new byte[0]));
   }
-  
+
   protected TestingApiContext apiContext(String input) {
     try {
       return new TestingApiContext(
@@ -73,7 +72,7 @@ public class AbstractCommandTestCase extends TestCase {
       throw new RuntimeException(e);
     }
   }
-  
+
   protected static class TestingApiContext extends ApiContext {
     protected final InputStream input;
     protected final ByteArrayOutputStream output;
@@ -90,7 +89,7 @@ public class AbstractCommandTestCase extends TestCase {
       this.output = new ByteArrayOutputStream();
       this.error = new ByteArrayInputStream(new byte[0]);
     }
-    
+
     public TestingApiContext(Environment environment,
         InputStream input, ByteArrayOutputStream output, InputStream error) {
       super(environment, "merchantId", "merchantKey", TEST_CURRENCY_CODE);
@@ -98,7 +97,7 @@ public class AbstractCommandTestCase extends TestCase {
       this.output = output;
       this.error = error;
     }
-    
+
     public String getOutput() {
       try {
         return output.toString("utf-8");
@@ -143,27 +142,27 @@ public class AbstractCommandTestCase extends TestCase {
     public synchronized void connect() {
       this.connected = true;
     }
-    
+
     @Override
     public synchronized void addRequestProperty(String key, String value) {
       super.addRequestProperty(key, value);
     }
-    
+
     @Override
     public synchronized InputStream getErrorStream() {
       return errorStream;
     }
-    
+
     @Override
     public synchronized InputStream getInputStream() {
       return inputStream;
     }
-    
+
     @Override
     public synchronized OutputStream getOutputStream() {
       return outputStream;
     }
-    
+
     @Override
     public int getResponseCode() {
       return 200;

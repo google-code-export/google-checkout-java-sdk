@@ -25,8 +25,7 @@ import java.io.ByteArrayOutputStream;
 
 /**
  * Tests for fetching data about Google Checkout orders.
- * 
-*
+ *
  */
 public class ReportsRequesterTest extends AbstractCommandTestCase {
   private static String DATE_STRING = "2007-03-19T15:06:29.051Z";
@@ -57,13 +56,13 @@ public class ReportsRequesterTest extends AbstractCommandTestCase {
         + "    <serial-number>c821426e-7caa-4d51-9b2e-48ef7ecd6423</serial-number>\n"
         + "</notification-history-request>\n", output.toString("utf-8"));
 
-    
+
     // textually identical to the XML EXAMPLE_NOTIFICATION string.
     assertEquals("841171949013218", oscn.getGoogleOrderNumber());
     assertEquals(FinancialOrderState.CHARGING, oscn.getNewFinancialOrderState());
     assertEquals(FinancialOrderState.CHARGEABLE, oscn.getPreviousFinancialOrderState());
     assertEquals(FulfillmentOrderState.NEW, oscn.getNewFulfillmentOrderState());
     assertEquals(FulfillmentOrderState.NEW, oscn.getPreviousFulfillmentOrderState());
-    assertEquals(DATE_STRING, oscn.getTimestamp().toXMLFormat());    
+    assertEquals(DATE_STRING, oscn.getTimestamp().toXMLFormat());
   }
 }

@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (C) 2007 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -47,7 +47,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 /**
  * Various XML utilities.
  *
-*
  * @version 1.1 - ksim - March 6th, 2007 - Added functions regarding streaming
  * @version 1.2 - ksim - March 10th, 2007 - Added functions regarding DOM
  *          manipulation
@@ -74,7 +73,7 @@ public class Utils {
       throw new RuntimeException(e);
     }
   }
-  
+
   public static ObjectFactory objectFactory() {
     return new ObjectFactory();
   }
@@ -152,7 +151,7 @@ public class Utils {
       socket.disconnect();
     }
   }
-  
+
   public static String slurp(InputStream from) throws IOException {
     if (from == null) {
       return "";
@@ -169,16 +168,16 @@ public class Utils {
     } while (read>=0);
     return out.toString();
   }
-  
+
   public static String getDateString(XMLGregorianCalendar date) {
     if (date == null) {
       return "null";
     }
-    
+
     TimeZone tz = TimeZone.getTimeZone("UTC");
     sdf.setTimeZone(tz);
     String ret = sdf.format(date);
-    
+
     return ret.substring(0, ret.length() - 5) + "Z";
   }
 
@@ -198,13 +197,13 @@ public class Utils {
     }
     return !mimeType.toLowerCase().contains(XML_MIME_TYPE);
   }
-  
-  public static ItemId makeItemId(String itemId) { 
+
+  public static ItemId makeItemId(String itemId) {
     ItemId id = new ItemId();
     id.setMerchantItemId(itemId);
     return id;
   }
-  
+
   public static BigDecimal normalize(BigDecimal value) {
     value = value.stripTrailingZeros();
     if (value.scale() < 0) {
@@ -229,7 +228,7 @@ public class Utils {
         possibleUnderlying = e;
       }
       slurp = "<Error reading cause of error>";
-    }    
+    }
     try {
       responseCode = hurlc.getResponseCode();
     } catch (IOException e) {

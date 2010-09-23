@@ -29,17 +29,16 @@ import javax.servlet.http.HttpServletResponse;
  * assumptions about your table or column layouts; therefore, you must override
  * {@link #hasAlreadyHandled} and {@link #rememberSerialNumber} with code
  * specific to your needs.</p>
- * 
-*
+ *
  * @see BaseNotificationDispatcher
  */
 public abstract class JDBCNotificationDispatcher extends BaseNotificationDispatcher {
 
   private final Connection databaseConnection;
-  
+
   private Integer transactionIsolation = null;
   private Boolean autoCommit = null;
-  
+
   protected JDBCNotificationDispatcher(
       HttpServletRequest request, HttpServletResponse response,
       Connection databaseConnection) {
@@ -75,7 +74,7 @@ public abstract class JDBCNotificationDispatcher extends BaseNotificationDispatc
       databaseConnection.setAutoCommit(autoCommit);
     }
   }
-  
+
   protected Connection getConnection() {
     return databaseConnection;
   }

@@ -20,14 +20,13 @@ package com.google.checkout.sdk.commands;
  * your system might maintain. You should not have to implement this interface
  * yourself; you should use the constants {@code Enviornment.PRODUCTION} or
  * {@code Enviornment.SANDBOX}.
- * 
+ *
  * @see Environment
- * 
-*
+ *
  */
 public interface EnvironmentInterface {
   String getUrl(CommandType command, String merchantId);
-  
+
   /**
    * One of Google Checkout's communication channels. Each "channel" (the word
    * is not intended to refer to any specific technology) has a separate URL,

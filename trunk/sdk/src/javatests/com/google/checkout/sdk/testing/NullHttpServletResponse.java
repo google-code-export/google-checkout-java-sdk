@@ -25,8 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Easily overridable servlet response for testing.
- * 
-*
+ *
  */
 public class NullHttpServletResponse implements HttpServletResponse {
 
@@ -74,21 +73,21 @@ public class NullHttpServletResponse implements HttpServletResponse {
   }
 
   /**
-   * @throws IOException  
+   * @throws IOException
    */
   @Override
   public void sendError(int sc) throws IOException {
   }
 
   /**
-   * @throws IOException  
+   * @throws IOException
    */
   @Override
   public void sendError(int sc, String msg) throws IOException {
   }
 
   /**
-   * @throws IOException  
+   * @throws IOException
    */
   @Override
   public void sendRedirect(String location) throws IOException {
@@ -116,7 +115,7 @@ public class NullHttpServletResponse implements HttpServletResponse {
   }
 
   /**
-   * @throws IOException  
+   * @throws IOException
    */
   @Override
   public void flushBuffer() throws IOException {
@@ -143,7 +142,7 @@ public class NullHttpServletResponse implements HttpServletResponse {
   }
 
   /**
-   * @throws IOException  
+   * @throws IOException
    */
   @Override
   public ServletOutputStream getOutputStream() throws IOException {
@@ -151,7 +150,7 @@ public class NullHttpServletResponse implements HttpServletResponse {
   }
 
   /**
-   * @throws IOException  
+   * @throws IOException
    */
   @Override
   public PrintWriter getWriter() throws IOException {

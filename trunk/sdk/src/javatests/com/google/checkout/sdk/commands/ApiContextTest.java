@@ -21,8 +21,7 @@ import com.google.checkout.sdk.testing.AbstractCommandTestCase;
  * Test ApiContextImpl core behaviors. Though it does generate builders itself,
  * tests for them shouldn't go in this file: They are more appropriate in the
  * individual test cases for those builders.
- * 
-*
+ *
  */
 public class ApiContextTest extends AbstractCommandTestCase {
 
@@ -30,11 +29,11 @@ public class ApiContextTest extends AbstractCommandTestCase {
     String httpAuth = apiContext().getHttpAuth();
     assertEquals("Basic " + BASE64_ENCODED_ID_AND_KEY, httpAuth);
   }
-  
+
   public void testIsValidAuthWithRealAuth() throws Exception {
     assertTrue(apiContext().isValidAuth("Basic " + BASE64_ENCODED_ID_AND_KEY));
   }
-  
+
   public void testIsValidAuthWithInvalidAuth() throws Exception {
     assertFalse(apiContext().isValidAuth("Basic: foo"));
     assertFalse(apiContext().isValidAuth(null));

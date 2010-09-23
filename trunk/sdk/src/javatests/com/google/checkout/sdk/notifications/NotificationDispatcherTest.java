@@ -1,12 +1,12 @@
 /*******************************************************************************
  * Copyright (C) 2009 Google Inc.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not
  * use this file except in compliance with the License. You may obtain a copy of
  * the License at
- * 
+ *
  * http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
  * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
@@ -35,8 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Test the notification dispatcher's locking behavior.
- * 
-*
+ *
  */
 public class NotificationDispatcherTest extends AbstractCommandTestCase {
   private static final String SERIAL_NUMBER = "85f54628-538a-44fc-8605-ae62364f6c72";
@@ -145,7 +144,7 @@ public class NotificationDispatcherTest extends AbstractCommandTestCase {
         fail();
         return null;
       }
-      
+
       @Override
       public ServletInputStream getInputStream() throws IOException {
         final ByteArrayInputStream bais = new ByteArrayInputStream(
@@ -167,7 +166,7 @@ public class NotificationDispatcherTest extends AbstractCommandTestCase {
           public void write(int b) {
             baos.write(b);
           }
-        }; 
+        };
       }
     };
     HistoricalNotificationDispatcher dispatcher =

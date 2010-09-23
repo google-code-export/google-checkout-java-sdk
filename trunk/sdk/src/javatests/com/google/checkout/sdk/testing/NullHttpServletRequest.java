@@ -31,8 +31,7 @@ import javax.servlet.http.HttpSession;
 
 /**
  * Easily overridable servlet request for testing.
- * 
-*
+ *
  */
 public class NullHttpServletRequest implements HttpServletRequest {
 
@@ -188,7 +187,7 @@ public class NullHttpServletRequest implements HttpServletRequest {
   }
 
   /**
-   * @throws IOException  
+   * @throws IOException
    */
   @Override
   public ServletInputStream getInputStream() throws IOException {
@@ -246,7 +245,7 @@ public class NullHttpServletRequest implements HttpServletRequest {
   }
 
   /**
-   * @throws IOException  
+   * @throws IOException
    */
   @Override
   public BufferedReader getReader() throws IOException {
@@ -308,7 +307,7 @@ public class NullHttpServletRequest implements HttpServletRequest {
   }
 
   /**
-   * @throws UnsupportedEncodingException  
+   * @throws UnsupportedEncodingException
    */
   @Override
   public void setCharacterEncoding(String env) throws UnsupportedEncodingException {

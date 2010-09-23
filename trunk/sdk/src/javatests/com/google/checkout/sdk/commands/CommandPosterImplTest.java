@@ -32,13 +32,12 @@ import javax.xml.bind.JAXBElement;
 
 /**
  * Tests for postpurchase processing Google Checkout orders.
- * 
-*
+ *
  */
 public class CommandPosterImplTest extends AbstractCommandTestCase {
   private OrderCommands commandPoster;
   private List<JAXBElement<?>> commands;
-  
+
   @Override
   protected void setUp() throws Exception {
     super.setUp();
@@ -46,37 +45,37 @@ public class CommandPosterImplTest extends AbstractCommandTestCase {
     commandPoster = new CommandPosterImplTester(
         apiContext(), "googleOrderNumber", null, commands);
   }
-  
+
   public void testChargeAllShipAll() {
     commandPoster.chargeAndShipOrder();
     assertEquals(1, commands.size());
     ChargeAndShipOrderRequest chargeShipRequest =
-      (ChargeAndShipOrderRequest) commands.get(0).getValue(); 
+      (ChargeAndShipOrderRequest) commands.get(0).getValue();
     assertEquals("googleOrderNumber", chargeShipRequest.getGoogleOrderNumber());
     // charge everything
     assertEquals(null, chargeShipRequest.getAmount());
     // ship everything
     assertEquals(null, chargeShipRequest.getTrackingDataList());
   }
-  
+
   public void testChargeSomeShipAll() {
     commandPoster.chargeAndShipOrder(5.00);
     assertEquals(1, commands.size());
     ChargeAndShipOrderRequest chargeShipRequest =
-      (ChargeAndShipOrderRequest) commands.get(0).getValue(); 
+      (ChargeAndShipOrderRequest) commands.get(0).getValue();
     assertEquals("googleOrderNumber", chargeShipRequest.getGoogleOrderNumber());
     assertEquals("XXX", chargeShipRequest.getAmount().getCurrency());
     assertEquals(5.00, chargeShipRequest.getAmount().getValue().doubleValue());
     assertEquals(null, chargeShipRequest.getTrackingDataList());
   }
-  
+
   public void testChargeAllShipWithTrackingData() {
     commandPoster.chargeAndShipOrder(5.00,
         new TrackingDataBuilder().addTrackingData("carrier", "trackingNumber"));
     assertEquals(1, commands.size());
     ChargeAndShipOrderRequest chargeShipRequest =
-      (ChargeAndShipOrderRequest) commands.get(0).getValue(); 
-    
+      (ChargeAndShipOrderRequest) commands.get(0).getValue();
+
     assertEquals("googleOrderNumber", chargeShipRequest.getGoogleOrderNumber());
     assertEquals(5.00, chargeShipRequest.getAmount().getValue().doubleValue());
     List<TrackingData> trackingDatas = chargeShipRequest.getTrackingDataList().getTrackingData();
@@ -131,7 +130,7 @@ public class CommandPosterImplTest extends AbstractCommandTestCase {
     assertEquals(Boolean.FALSE, backorderItemsRequest.isSendEmail());
     assertEquals("googleOrderNumber", backorderItemsRequest.getGoogleOrderNumber());
     assertEquals(1, backorderItemsRequest.getItemIds().getItemId().size());
-    assertEquals("itemId", backorderItemsRequest.getItemIds().getItemId().get(0).getMerchantItemId());  
+    assertEquals("itemId", backorderItemsRequest.getItemIds().getItemId().get(0).getMerchantItemId());
   }
 
   public void testNoEmailCancelItems() {
@@ -147,7 +146,7 @@ public class CommandPosterImplTest extends AbstractCommandTestCase {
     assertEquals(1, cancelItemsRequest.getItemIds().getItemId().size());
     assertEquals("itemId", cancelItemsRequest.getItemIds().getItemId().get(0).getMerchantItemId());
   }
-  
+
   public void testNoEmailReturnItems() {
     OrderCommands tester = new CommandPosterImplTester(
         apiContext(), "googleOrderNumber", false, commands);
@@ -158,9 +157,9 @@ public class CommandPosterImplTest extends AbstractCommandTestCase {
     assertEquals(Boolean.FALSE, returnItemsRequest.isSendEmail());
     assertEquals("googleOrderNumber", returnItemsRequest.getGoogleOrderNumber());
     assertEquals(1, returnItemsRequest.getItemIds().getItemId().size());
-    assertEquals("itemId", returnItemsRequest.getItemIds().getItemId().get(0).getMerchantItemId());  
+    assertEquals("itemId", returnItemsRequest.getItemIds().getItemId().get(0).getMerchantItemId());
   }
-  
+
   public void testNoEmailShipItems() {
     OrderCommands tester = new CommandPosterImplTester(
         apiContext(), "googleOrderNumber", false, commands);
@@ -182,11 +181,11 @@ public class CommandPosterImplTest extends AbstractCommandTestCase {
       assertEquals("tn", trackingDataList.get(0).getTrackingNumber());
     }
   }
-  
+
   private TrackingData getTrackingData(List<ItemShippingInformation> itemShippingInformation, int index) {
     return itemShippingInformation.get(0).getTrackingDataList().getTrackingData().get(index);
   }
-  
+
   private final class CommandPosterImplTester extends OrderCommandsImpl {
     private final List<JAXBElement<?>> triedToSend;
 
@@ -196,7 +195,7 @@ public class CommandPosterImplTest extends AbstractCommandTestCase {
       super(apiContext, googleOrderNumber, sendEmail);
       this.triedToSend = triedToSend;
     }
-    
+
     @Override
     protected RequestReceivedResponse postCommand(JAXBElement<?> command) {
       triedToSend.add(command);

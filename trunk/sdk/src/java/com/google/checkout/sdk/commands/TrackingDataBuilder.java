@@ -26,7 +26,7 @@ import java.util.List;
  * orders. It isn't per-item, for that, see {@link ItemShippingInformationBuilder},
  * but if there's only one item in the cart or you do not use merchant item ids,
  * this is generally good enough.
- * 
+ *
  * Shouldn't be reused, isn't threadsafe, etc; its intended use is in
  * {@link OrderCommands#chargeAndShipOrder(TrackingDataBuilder)}
  * where it can be used as:
@@ -36,24 +36,23 @@ import java.util.List;
  * ...
  * commandPoster.postChargeOrder(new TrackingDataBuilder()
  *     addShipping("USPS", "1234"));
- * </code> 
+ * </code>
 
- * 
-*
+ *
  */
 public class TrackingDataBuilder {
-  
+
   private final List<TrackingData> trackingDatas = new ArrayList<TrackingData>();
-  
+
   public TrackingDataBuilder addTrackingData(String carrier, String trackingNumber) {
     TrackingData trackingData = new TrackingData();
     trackingData.setCarrier(carrier);
     trackingData.setTrackingNumber(trackingNumber);
     trackingDatas.add(trackingData);
-    
+
     return this;
   }
-  
+
   List<TrackingData> build() {
     return trackingDatas;
   }

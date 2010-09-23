@@ -25,17 +25,16 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Uses a JDBC-enabled database for transactionality.
- * 
+ *
  * It assumes that there is a table with a column that contains the String
  * serial numbers as sent by Checkout, and whose other columns (if any) are
  * nullable; upon successful handling of a notification, this table has that
  * notification's serial number row INSERTed, null for the other columns.
- * 
+ *
  * Because this loads serailNumberTableName rows for update, this will correctly
  * handle a repeated notification from Checkout, which may happen if responses
  * are not sufficiently timely.
- * 
-*
+ *
  */
 public class NamedDatabaseNotificationDispatcher extends JDBCNotificationDispatcher {
   private final String serialNumberTableName;

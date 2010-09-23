@@ -27,8 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Purely for tests, extends the InMemoryNotificationDispatcher to keep on itself
  * a log of all calls made.
- * 
-*
+ *
  */
 public class HistoricalNotificationDispatcher extends InMemoryNotificationDispatcher {
   private final List<DispatcherHistoryElement> history;
@@ -36,13 +35,13 @@ public class HistoricalNotificationDispatcher extends InMemoryNotificationDispat
     super(request, response);
     history = new ArrayList<DispatcherHistoryElement>();
   }
-  
+
   public List<DispatcherHistoryElement> getHistory() {
     synchronized(history) {
       return history;
     }
   }
-  
+
   @Override
   public void startTransaction(String serialNumber, OrderSummary orderSummary,
       Notification notification) throws Exception {
@@ -52,7 +51,7 @@ public class HistoricalNotificationDispatcher extends InMemoryNotificationDispat
     history.add(new DispatcherHistoryElement(serialNumber, "startTransaction",
         before, after));
   }
-  
+
   @Override
   public boolean hasAlreadyHandled(String serialNumber, OrderSummary orderSummary,
       Notification notification) throws Exception {
@@ -61,7 +60,7 @@ public class HistoricalNotificationDispatcher extends InMemoryNotificationDispat
         hasAlreadyHandled, hasAlreadyHandled));
     return hasAlreadyHandled;
   }
-  
+
   @Override
   public void rememberSerialNumber(String serialNumber, OrderSummary orderSummary,
       Notification notification) throws Exception {
@@ -71,7 +70,7 @@ public class HistoricalNotificationDispatcher extends InMemoryNotificationDispat
     history.add(new DispatcherHistoryElement(serialNumber, "rememberSerialNumber",
         before, after));
   }
-  
+
   @Override
   public void commitTransaction(String serialNumber, OrderSummary orderSummary,
       Notification notification) throws Exception {
@@ -104,7 +103,7 @@ public class HistoricalNotificationDispatcher extends InMemoryNotificationDispat
       this.oldState = oldState;
       this.newState = newState;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
       if (this == obj) {
@@ -119,7 +118,7 @@ public class HistoricalNotificationDispatcher extends InMemoryNotificationDispat
           && (this.oldState == that.oldState)
           && (this.newState == that.newState);
     }
-    
+
     @Override
     public int hashCode() {
       int hash = 1;
@@ -129,7 +128,7 @@ public class HistoricalNotificationDispatcher extends InMemoryNotificationDispat
       hash = hash * 31 + (newState ? 1 : 0);
       return hash;
     }
-    
+
     @Override
     public String toString() {
       return new StringBuilder("DispatcherHistoryElement(")
@@ -138,7 +137,7 @@ public class HistoricalNotificationDispatcher extends InMemoryNotificationDispat
           .append(stateString(oldState)).append("->")
           .append(stateString(newState)).append(")").toString();
     }
-    
+
     private String stateString(boolean state) {
       return state ? "complete" : "incomplete";
     }

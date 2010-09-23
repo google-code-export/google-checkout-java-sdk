@@ -22,18 +22,17 @@ import javax.xml.datatype.XMLGregorianCalendar;
 /**
  * Common interface implemented by all Google Checkout notifications.
  *
-*
  */
 public interface Notification {
   String getGoogleOrderNumber();
   void setGoogleOrderNumber(String googleOrderNumber);
-  
+
   OrderSummary getOrderSummary();
   void setOrderSummary(OrderSummary orderSummary);
-  
+
   String getSerialNumber();
   void setSerialNumber(String serialNumber);
-  
+
   XMLGregorianCalendar getTimestamp();
   void setTimestamp(XMLGregorianCalendar value);
 }
